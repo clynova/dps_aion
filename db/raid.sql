@@ -34,16 +34,25 @@ select ji.*,
   (select count(*) from muertes m where m.enc = ji.enc and m.nombre = ji.nombre and m.t_ms >= 0) deaths
 from ji;
 
--- Muertes del grupo, con el golpe más fuerte recibido en los 5 s anteriores
-create or replace temp table de as
-select it.intento, m.orden, m.nombre, m.t_ms,
-  coalesce(nullif(m.habilidad, 0)::varchar, '') habilidad,
-  case when m.npc = (select npc from r) then 'jefe' when coalesce(m.npc, 0) <> 0 then m.npc::varchar else '' end origen,
-  coalesce((select max(x.dano) from recibido x
-            where x.enc = m.enc and x.t_ms between m.t_ms - 5000 and m.t_ms + 50
-              and x.objetivo = (select max_by(j.entidad, j.entidad) from jugadores j where j.enc = m.enc and j.nombre = m.nombre)), 0) golpe_max
+-- Muertes del grupo, con el golpe más fuerte recibido en los 5 s anteriores. También: vida (% del máximo) 5 s y
+-- 1 s antes (la última lectura hasta ese momento; 100 si aún no había ninguna) y el daño y la curación recibidos en esos 5 s.
+create or replace temp table de0 as
+select it.intento, m.enc, m.orden, m.nombre, m.t_ms, m.habilidad hab, m.npc,
+  (select max_by(j.entidad, j.entidad) from jugadores j where j.enc = m.enc and j.nombre = m.nombre) ent
 from it join muertes m on m.enc = it.enc
 where m.t_ms >= 0 and m.nombre in (select nombre from grupo where raid = getvariable('slug'));
+create or replace temp table de as
+select intento, orden, nombre, t_ms,
+  coalesce(nullif(hab, 0)::varchar, '') habilidad,
+  case when npc = (select npc from r) then 'jefe' when coalesce(npc, 0) <> 0 then npc::varchar else '' end origen,
+  coalesce((select max(x.dano) from recibido x where x.enc = de0.enc and x.t_ms between de0.t_ms - 5000 and de0.t_ms + 50 and x.objetivo = de0.ent), 0) golpe_max,
+  coalesce((select arg_max(100 * v.vida / v.vida_max, v.t_ms) from vida v
+            where v.enc = de0.enc and v.entidad = de0.ent and v.vida_max > 0 and v.t_ms <= de0.t_ms - 5000), 100) vida_5s,
+  coalesce((select arg_max(100 * v.vida / v.vida_max, v.t_ms) from vida v
+            where v.enc = de0.enc and v.entidad = de0.ent and v.vida_max > 0 and v.t_ms <= de0.t_ms - 1000), 100) vida_1s,
+  coalesce((select sum(x.dano) from recibido x where x.enc = de0.enc and x.t_ms between de0.t_ms - 5000 and de0.t_ms + 50 and x.objetivo = de0.ent), 0) dano_5s,
+  coalesce((select sum(c.cantidad) from curaciones c where c.enc = de0.enc and c.t_ms between de0.t_ms - 5000 and de0.t_ms and c.objetivo = de0.ent), 0) cura_5s
+from de0;
 
 -- Intentos
 create or replace temp table iv as
@@ -87,6 +96,47 @@ from pi join golpes g on g.enc = pi.enc and g.dueno = pi.entidad and g.objetivo 
 create or replace temp table dtk as
 select pi.nombre, x.habilidad, sum(x.dano) dano, count(*) golpes, max(x.dano) maximo
 from pi join recibido x on x.enc = pi.enc and x.objetivo = pi.entidad group by all;
+
+-- Apoyo: curación por habilidad (a cualquiera), a quién del grupo cura, escudos puestos y lo que absorbieron
+create or replace temp table dcu as
+select pi.nombre, c.habilidad, sum(c.cantidad) cantidad, count(*) golpes
+from pi join curaciones c on c.enc = pi.enc and c.dueno = pi.entidad group by all;
+create or replace temp table dco as
+select pi.nombre, o.nombre objetivo, sum(c.cantidad) cantidad
+from pi join curaciones c on c.enc = pi.enc and c.dueno = pi.entidad join ji o on o.enc = c.enc and o.entidad = c.objetivo group by all;
+create or replace temp table des as
+select pi.nombre, e.habilidad, sum(e.cantidad) cantidad
+from pi join escudos e on e.enc = pi.enc and e.dueno = pi.entidad group by all;
+create or replace temp table ap as
+select nombre,
+  coalesce((select sum(cantidad) from dcu where dcu.nombre = p.nombre), 0) curacion,
+  coalesce((select sum(cantidad) from des where des.nombre = p.nombre), 0) escudos,
+  coalesce((select sum(a.cantidad) from pi join absorciones a on a.enc = pi.enc and a.dueno = pi.entidad where pi.nombre = p.nombre), 0) absorbido
+from (select distinct nombre from pi) p;
+
+-- Supervivencia: golpes recibidos y mitigados (bloqueo, parada…), ataques evitados (fallos de los npcs contra él),
+-- curación y escudo recibidos, resurrecciones y % del tiempo vivo por debajo del 30 % de vida
+create or replace temp table smi as
+select pi.nombre, x.mitigacion, count(*) n
+from pi join recibido x on x.enc = pi.enc and x.objetivo = pi.entidad where x.mitigacion is not null group by all;
+create or replace temp table sev as
+select pi.nombre, f.resultado, count(*) n
+from pi join fallos f on f.enc = pi.enc and f.objetivo = pi.entidad
+where not exists (select 1 from ji o where o.enc = f.enc and o.entidad = f.dueno) group by all;
+create or replace temp table svd as   -- tramos entre lecturas de vida, dentro del intento
+select pi.nombre, v.vida, v.vida_max,
+  least(coalesce(lead(v.t_ms) over (partition by v.enc, v.entidad order by v.t_ms), pi.dur * 1000), pi.dur * 1000) - greatest(v.t_ms, 0) ms
+from pi join vida v on v.enc = pi.enc and v.entidad = pi.entidad
+where v.t_ms <= pi.dur * 1000;
+create or replace temp table sv as
+select nombre,
+  coalesce((select sum(golpes) from dtk where dtk.nombre = p.nombre), 0) golpes,
+  coalesce((select sum(c.cantidad) from pi join curaciones c on c.enc = pi.enc and c.objetivo = pi.entidad where pi.nombre = p.nombre), 0) cura_recibida,
+  coalesce((select sum(a.cantidad) from pi join absorciones a on a.enc = pi.enc and a.objetivo = pi.entidad where pi.nombre = p.nombre), 0) escudo_recibido,
+  (select count(*) from pi join resurrecciones x on x.enc = pi.enc and x.nombre = pi.nombre and x.t_ms >= 0 where pi.nombre = p.nombre) resurrecciones,
+  (select sum(dur) * 1000 from pi where pi.nombre = p.nombre) - coalesce((select sum(ms) from svd where svd.nombre = p.nombre and vida <= 0 and ms > 0), 0) vivo_ms,
+  coalesce((select sum(ms) from svd where svd.nombre = p.nombre and vida > 0 and vida < 0.3 * vida_max and ms > 0), 0) bajo30_ms
+from (select distinct nombre from pi) p;
 
 select json_object(
   'meta', json_object(
@@ -138,6 +188,22 @@ select json_object(
           'golpe_max', rd(maximo)) order by dano desc, habilidad))
         from (select * from dtk where dtk.nombre = jv.jugador order by dano desc, habilidad limit 8)), '[]'::json),
       'muertes', coalesce((select to_json(list(json_object('intento', intento, 't', rd(t_ms / 1000), 'habilidad', habilidad,
-          'origen', origen, 'golpe_max', rd(golpe_max)) order by intento, orden)) from de where de.nombre = jv.jugador), '[]'::json)
+          'origen', origen, 'golpe_max', rd(golpe_max), 'vida_5s', rd(vida_5s), 'vida_1s', rd(vida_1s),
+          'dano_5s', rd(dano_5s), 'cura_5s', rd(cura_5s)) order by intento, orden)) from de where de.nombre = jv.jugador), '[]'::json),
+      'apoyo', (select json_object('curacion', rd(ap.curacion), 'escudos', rd(ap.escudos), 'absorbido', rd(ap.absorbido),
+          'cura_hab', coalesce((select to_json(list(json_object('habilidad', habilidad::varchar, 'cantidad', rd(cantidad),
+              'pct', rd1(100 * cantidad / greatest(1, ap.curacion)), 'golpes', golpes) order by cantidad desc, habilidad))
+            from (select * from dcu where dcu.nombre = jv.jugador order by cantidad desc, habilidad limit 8)), '[]'::json),
+          'cura_obj', coalesce((select to_json(list(json_object('jugador', objetivo, 'cantidad', rd(cantidad),
+              'pct', rd1(100 * cantidad / greatest(1, ap.curacion))) order by cantidad desc, objetivo))
+            from dco where dco.nombre = jv.jugador), '[]'::json),
+          'escudo_hab', coalesce((select to_json(list(json_object('habilidad', habilidad::varchar, 'cantidad', rd(cantidad)) order by cantidad desc, habilidad))
+            from (select * from des where des.nombre = jv.jugador order by cantidad desc, habilidad limit 5)), '[]'::json))
+        from ap where ap.nombre = jv.jugador),
+      'supervivencia', (select json_object('golpes', sv.golpes, 'cura_recibida', rd(sv.cura_recibida), 'escudo_recibido', rd(sv.escudo_recibido),
+          'resurrecciones', sv.resurrecciones, 'bajo30_pct', rd1(100 * sv.bajo30_ms / greatest(1, sv.vivo_ms)),
+          'mitigados', coalesce((select json_group_object(mitigacion, n) from smi where smi.nombre = jv.jugador), '{}'::json),
+          'evitados', coalesce((select json_group_object(resultado, n) from sev where sev.nombre = jv.jugador), '{}'::json))
+        from sv where sv.nombre = jv.jugador)
     )) from jv)
 ) as raid_json;

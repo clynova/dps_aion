@@ -60,11 +60,11 @@
   const withFirst = raids.filter((r) => r.primera_muerte != null && r.grupo_media.primera_muerte != null);
   const myFirst = mean(withFirst, (r) => r.primera_muerte), grpFirst = mean(withFirst, (r) => r.grupo_media.primera_muerte);
   const grpDpa = mean(raids, (r) => r.grupo_media.muertes_intento);
-  const tile = (label, value, note, cls) => {
+  const tile = (label, value, note, cls, box = 'tiles') => {
     const t = el('div', 'rx-tile');
     t.append(el('span', 'rx-tile-label', label), el('span', 'rx-tile-value' + (cls ? ' ' + cls : ''), value));
     if (note) t.append(el('span', 'rx-tile-note', note));
-    $('tiles').append(t);
+    $(box).append(t);
   };
   tile(T('pl.tile.raids'), int(R.raids), T('pl.tile.raids.note', { k: int(R.kills), t: int(R.intentos) }));
   tile(T('pl.tile.dps'), cmp.format(R.dps_medio), vsWord(ratioDps));
@@ -108,6 +108,39 @@
   } else trend.push(T('ins.oneRaid'));
   const fill = (id, items) => { const ul = $(id); (items.length ? items : [T('ins.none')]).forEach((s) => ul.append(el('li', null, s))); };
   fill('a-good', good); fill('a-bad', bad); fill('a-trend', trend);
+
+  // ---------- Supervivencia y apoyo (solo raids extraídas desde la base de datos, a partir del 8/11/2026) ----------
+  const svR = raids.filter((r) => r.supervivencia), apR = raids.filter((r) => r.apoyo);
+  const sumOf = (arr, f) => d3.sum(arr, f);
+  // Con quién se compara: su clase en esas raids si había otro de su clase; si no, el grupo
+  const versus = (arr, key, fmt) => {
+    const cls = arr.filter((r) => r.clase_media && r.clase_media.jugadores > 1 && r.clase_media[key] != null);
+    if (cls.length) return T('pl.vs.class', { v: fmt(mean(cls, (r) => r.clase_media[key])) });
+    const grp = arr.filter((r) => r.grupo_media && r.grupo_media[key] != null);
+    return grp.length ? T('pl.vs.group', { v: fmt(mean(grp, (r) => r.grupo_media[key])) }) : null;
+  };
+  const scope = (arr) => { const n = sumOf(arr, (r) => r.intentos); return T(arr.length === 1 ? 'pl.new.scope1' : 'pl.new.scopeN', { n: int(arr.length), t: int(n), it: T(n === 1 ? 'pl.try1' : 'pl.tryN') }); };
+  if (!svR.length) { $('sv-pending').hidden = false; ['sv-card-deaths', 'sv-card-mit'].forEach((id) => { $(id).hidden = true; }); }
+  else {
+    $('sv-scope').textContent = scope(svR);
+    const S = (r) => r.supervivencia, tries = sumOf(svR, (r) => r.intentos);
+    const deaths = sumOf(svR, (r) => r.muertes), fast = sumOf(svR, (r) => S(r).muertes_rapidas);
+    tile(T('sv.tile.mit'), pct(mean(svR, (r) => S(r).mitigados_pct)), versus(svR, 'mitigados_pct', pct), null, 'sv-tiles');
+    tile(T('sv.tile.low'), pct(mean(svR, (r) => S(r).bajo30_pct)), versus(svR, 'bajo30_pct', pct) || T('sv.tile.low.note'), null, 'sv-tiles');
+    tile(T('sv.tile.fast'), deaths ? pct(100 * fast / deaths) : '—', deaths ? T('sv.tile.fast.note', { n: int(fast), t: int(deaths) }) : T('pl.tip.nofirst'), null, 'sv-tiles');
+    tile(T('sv.tile.avoid'), nf1.format(sumOf(svR, (r) => S(r).evitados) / Math.max(1, tries)), T('sv.tile.avoid.note'), null, 'sv-tiles');
+    tile(T('sv.tile.healin'), cmp.format(sumOf(svR, (r) => S(r).cura_recibida) / Math.max(1, tries)), T('sv.tile.healin.note', { s: cmp.format(sumOf(svR, (r) => S(r).escudo_recibido) / Math.max(1, tries)) }), null, 'sv-tiles');
+    tile(T('sv.tile.res'), int(sumOf(svR, (r) => S(r).resurrecciones)), T('sv.tile.res.note'), null, 'sv-tiles');
+  }
+  if (!apR.length) { $('ap-pending').hidden = false; $('ap-grid').hidden = true; }
+  else {
+    $('ap-scope').textContent = scope(apR);
+    const A = (r) => r.apoyo, tries = sumOf(apR, (r) => r.intentos);
+    tile(T('pl.tile.hps'), int(mean(apR, (r) => r.hps)), versus(apR, 'hps', int), null, 'ap-tiles');
+    tile(T('ap.tile.heal'), cmp.format(sumOf(apR, (r) => A(r).curacion) / Math.max(1, tries)), T('ap.tile.perTry'), null, 'ap-tiles');
+    tile(T('ap.tile.shield'), cmp.format(sumOf(apR, (r) => A(r).escudos) / Math.max(1, tries)), T('ap.tile.shield.note', { v: cmp.format(sumOf(apR, (r) => A(r).absorbido) / Math.max(1, tries)) }), null, 'ap-tiles');
+    tile(T('ap.tile.self'), pct(mean(apR, (r) => A(r).propia_pct)), T('ap.tile.self.note'), null, 'ap-tiles');
+  }
 
   // ---------- Perfil escrito por Claude ----------
   if (!P) $('c-pending').hidden = false;
@@ -225,6 +258,50 @@
     value: (d) => d.muertes, valueText: (d) => int(d.muertes), critical: (d) => d.golpe_max >= ONE_SHOT,
     tip: (d) => [T('tip.deaths', { n: int(d.muertes) }), T('tip.maxhit', { n: int(d.golpe_max) }), d.habilidad ? T('tip.skillno', { id: d.habilidad }) : T('tip.noskill')] });
 
+  // Sus últimas muertes: de la vida 5 s antes a la de 1 s antes y a 0. En rojo, si cae desde el 70 % o más.
+  function drawDeaths(box) {
+    const rows = ((D.supervivencia || {}).muertes || []).slice();
+    if (!rows.length) { box.append(el('div', 'rx-empty', T('pl.tip.nofirst'))); return; }
+    rows.forEach((d) => { d.when = new Date(d.fecha); });
+    const W = width(box), row = 22, m = { t: 4, r: 14, b: 26 };
+    const H = m.t + m.b + rows.length * row;
+    const svg = svgIn(box, W, H, T('pl.chart.deaths'));
+    const labels = rows.map((d) => `${d.when.toLocaleDateString(LOC, { day: 'numeric', month: 'numeric' })} · ${T('sv.att', { i: d.intento, t: int(d.t) })}`);
+    m.l = Math.min(W * 0.45, Math.ceil(measure(svg, labels)) + 12);
+    const x = d3.scaleLinear([0, 100], [m.l, W - m.r]);
+    const y = d3.scaleBand(rows.map((_, i) => i), [m.t, H - m.b]).padding(0.3);
+    [0, 25, 50, 75, 100].forEach((v) => {
+      svg.append('line').attr('x1', x(v)).attr('x2', x(v)).attr('y1', m.t).attr('y2', H - m.b).style('stroke', 'var(--chart-grid)');
+      svg.append('text').attr('x', x(v)).attr('y', H - m.b + 16).attr('text-anchor', 'middle').text(pct(v).replace(',0', '').replace('.0', ''));
+    });
+    const t = tipFor(box);
+    rows.forEach((d, i) => {
+      const cy = y(i) + y.bandwidth() / 2, fastD = d.vida_5s >= 70;
+      svg.append('text').attr('x', m.l - 8).attr('y', cy).attr('dy', '0.32em').attr('text-anchor', 'end').text(labels[i]);
+      const g = svg.append('g').style('cursor', 'pointer')
+        .on('pointermove', (ev) => { const [px, py] = d3.pointer(ev, box); t.show(d.habilidad || d.origen ? `${skName(d.habilidad)} · ${orgName(d.origen)}` : T('nodata'),
+          [T('sv.tip.hp', { a: int(d.vida_5s), b: int(d.vida_1s) }), T('sv.tip.last5', { d: int(d.dano_5s), c: int(d.cura_5s) }), T('tip.maxhit', { n: int(d.golpe_max) })], px, py); })
+        .on('pointerleave', () => t.hide()).on('click', () => { location.href = `../../raids/${d.slug}/#${encodeURIComponent(D.nombre)}`; });
+      g.append('rect').attr('x', m.l).attr('y', y(i)).attr('width', W - m.l - m.r).attr('height', y.bandwidth()).style('fill', 'transparent');
+      g.append('path').attr('d', `M${x(d.vida_5s)},${cy}L${x(d.vida_1s)},${cy}L${x(0)},${cy}`)
+        .style('fill', 'none').style('stroke', fastD ? 'var(--critical)' : 'var(--chart-muted)').style('stroke-width', 3).style('stroke-linecap', 'round');
+      g.append('circle').attr('cx', x(d.vida_5s)).attr('cy', cy).attr('r', 4.5).style('fill', 'var(--chart-muted)');
+      g.append('circle').attr('cx', x(d.vida_1s)).attr('cy', cy).attr('r', 5).style('fill', 'var(--series-1)');
+    });
+  }
+  const drawMit = (box) => {
+    const S = D.supervivencia || {}, golpes = d3.sum(svR, (r) => r.supervivencia.golpes);
+    const rows = [...Object.entries(S.mitigados || {}).map(([k, n]) => ({ k, n, mit: true })), ...Object.entries(S.evitados || {}).map(([k, n]) => ({ k, n, mit: false }))]
+      .sort((a, b) => b.n - a.n);
+    const lbl = (d) => { const s = T('mit.' + d.k); return s === 'mit.' + d.k ? d.k : s; };
+    hbars(box, rows, { label: lbl, value: (d) => d.n, valueText: (d) => int(d.n),
+      tip: (d) => [d.mit ? T('sv.tip.mit', { n: int(d.n), p: pct(100 * d.n / Math.max(1, golpes)) }) : T('sv.tip.avoid', { n: int(d.n) })] });
+  };
+  const drawHeal = (box) => hbars(box, (D.apoyo || {}).cura_hab || [], { label: (d) => skName(d.habilidad), value: (d) => d.pct, valueText: (d) => pct(d.pct), icon: (d) => iconUrl(d.habilidad),
+    tip: (d) => [T('ap.tip.heal', { v: cmp.format(d.cantidad), p: pct(d.pct) }), T('tip.skillno', { id: d.habilidad })] });
+  const drawHealTo = (box) => hbars(box, (D.apoyo || {}).cura_obj || [], { label: (d) => (d.jugador === D.nombre ? T('ap.self', { n: d.jugador }) : d.jugador), value: (d) => d.pct, valueText: (d) => pct(d.pct),
+    tip: (d) => [T('ap.tip.heal', { v: cmp.format(d.cantidad), p: pct(d.pct) })] });
+
   function drawTable() {
     const tb = $('tabla'); tb.replaceChildren();
     raids.slice().reverse().forEach((r) => {
@@ -241,9 +318,31 @@
     });
   }
 
-  const charts = [['ch-dps', drawDps], ['ch-surv', drawSurv], ['ch-skills', drawSkills], ['ch-causes', drawCauses]];
-  const drawAll = () => { charts.forEach(([id, fn]) => { const b = $(id); b.replaceChildren(); fn(b); }); drawTable(); };
-  drawAll();
+  // Pestañas: solo se dibuja la visible (en un panel oculto los gráficos no tienen ancho). La pestaña va en el #hash.
+  const charts = { evolucion: [['ch-dps', drawDps], ['ch-surv', drawSurv]], supervivencia: [['ch-deaths', drawDeaths], ['ch-causes', drawCauses], ['ch-mit', drawMit]],
+    apoyo: [['ch-heal', drawHeal], ['ch-healto', drawHealTo]], dano: [['ch-skills', drawSkills]], raids: [] };
+  const tabs = [...document.querySelectorAll('#tabs [data-tab]')];
+  let current = null;
+  const drawTab = (name) => { charts[name].forEach(([id, fn]) => { const b = $(id); if (b.closest('[hidden]')) return; b.replaceChildren(); fn(b); }); };
+  const openTab = (name, push) => {
+    if (!charts[name]) name = 'evolucion';
+    current = name;
+    tabs.forEach((b) => { const on = b.dataset.tab === name; b.setAttribute('aria-selected', on); b.tabIndex = on ? 0 : -1; $(b.dataset.tab).hidden = !on; });
+    drawTab(name);
+    if (push) history.replaceState(null, '', name === 'evolucion' ? location.pathname + location.search : '#' + name);
+  };
+  tabs.forEach((b, i) => {
+    b.setAttribute('aria-controls', b.dataset.tab);
+    b.addEventListener('click', () => openTab(b.dataset.tab, true));
+    b.addEventListener('keydown', (ev) => {
+      const j = ev.key === 'ArrowRight' ? i + 1 : ev.key === 'ArrowLeft' ? i - 1 : null; if (j == null) return;
+      const nb = tabs[(j + tabs.length) % tabs.length]; nb.focus(); openTab(nb.dataset.tab, true);
+    });
+  });
+  const drawAll = () => { drawTab(current); };
+  drawTable();
+  openTab(decodeURIComponent(location.hash.slice(1)), false);
+  addEventListener('hashchange', () => openTab(decodeURIComponent(location.hash.slice(1)), false));
   $('foot').textContent = T('pl.foot', { d: new Date(D.actualizado).toLocaleString(LOC), n: int(R.raids) });
   let lastW = innerWidth, timer;
   addEventListener('resize', () => { clearTimeout(timer); timer = setTimeout(() => { if (innerWidth !== lastW) { lastW = innerWidth; drawAll(); } }, 150); });

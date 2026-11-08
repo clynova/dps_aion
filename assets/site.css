@@ -171,3 +171,11 @@ h4.pl-bad { color: var(--series-2); }
 .hm-stat span { color: var(--fg-muted); font-size: var(--fs-caption); }
 .hm-stat b.is-ok { color: var(--ok); }
 @media (max-width: 560px) { .hm-item a { grid-template-columns: 1fr; } .hm-stats { text-align: left; } }
+
+/* Perfil de jugador: pestañas para el estudio a fondo (evolución, supervivencia, apoyo, daño, raids) */
+.pl-tabs { display: flex; gap: var(--gap-xs); border-bottom: 1px solid var(--line); overflow-x: auto; scrollbar-width: none; margin-bottom: calc(-1 * var(--gap-md)); }
+.pl-tabs button { font: inherit; font-size: var(--fs-caption); color: var(--fg-muted); background: none; border: 0; border-bottom: 2px solid transparent; padding: var(--pad-sm) var(--pad-md); cursor: pointer; white-space: nowrap; }
+.pl-tabs button:hover { color: var(--fg); }
+.pl-tabs button[aria-selected="true"] { color: var(--fg); border-bottom-color: var(--series-1); font-weight: 600; }
+.pl-tabs button:focus-visible { outline: 2px solid var(--series-1); outline-offset: -2px; }
+.pl-panel[hidden] { display: none; }

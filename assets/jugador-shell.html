@@ -47,9 +47,15 @@
       </article>
     </div>
   </section>
+  <nav class="pl-tabs" id="tabs" role="tablist" data-i18n-aria="pl.tabs.aria" aria-label="Secciones del perfil">
+    <button type="button" role="tab" data-tab="evolucion" data-i18n="pl.sec.evolution">Evolución</button>
+    <button type="button" role="tab" data-tab="supervivencia" data-i18n="pl.tab.surv">Supervivencia</button>
+    <button type="button" role="tab" data-tab="apoyo" data-i18n="pl.tab.support">Curación y apoyo</button>
+    <button type="button" role="tab" data-tab="dano" data-i18n="pl.tab.damage">Daño</button>
+    <button type="button" role="tab" data-tab="raids" data-i18n="pl.sec.raids">Sus raids</button>
+  </nav>
 
-  <section class="rx-section" id="evolucion">
-    <h2 class="rx-h2" data-i18n="pl.sec.evolution">Evolución</h2>
+  <section class="rx-section pl-panel" id="evolucion" role="tabpanel">
     <div class="rx-grid">
       <article class="rx-card">
         <h3 data-i18n="pl.chart.dps">DPS en cada raid</h3>
@@ -64,13 +70,15 @@
     </div>
   </section>
 
-  <section class="rx-section" id="habilidades">
-    <h2 class="rx-h2" data-i18n="pl.sec.skills">Habilidades y muertes</h2>
+  <section class="rx-section pl-panel" id="supervivencia" role="tabpanel" hidden>
+    <p class="rx-pending" id="sv-pending" hidden data-i18n="pl.new.pending">Estos datos se guardan desde el 8 de noviembre de 2026: aparecerán con su próxima raid.</p>
+    <p class="rx-note" id="sv-scope"></p>
+    <div class="rx-tiles" id="sv-tiles"></div>
     <div class="rx-grid">
-      <article class="rx-card">
-        <h3 data-i18n="pl.chart.skills">Habilidades con más daño</h3>
-        <p class="rx-note" data-i18n="pl.chart.skills.note">Suma de todas sus raids, en % de su daño al jefe.</p>
-        <div class="rx-chart rx-chart-sm" id="ch-skills"></div>
+      <article class="rx-card" id="sv-card-deaths">
+        <h3 data-i18n="pl.chart.deaths">Cómo muere</h3>
+        <p class="rx-note" data-i18n="pl.chart.deaths.note">Sus últimas muertes: vida 5 s antes (gris) y 1 s antes (azul). En rojo, las que caen desde el 70 % o más en menos de 5 s.</p>
+        <div class="rx-chart" id="ch-deaths"></div>
       </article>
       <article class="rx-card">
         <h3 data-i18n="pl.chart.causes">Qué le mata más</h3>
@@ -78,11 +86,43 @@
         <div class="rx-legend"><span><i class="rx-key rx-key-critical"></i><span data-i18n="legend.oneshot">Mata de un golpe</span></span><span><i class="rx-key rx-key-muted"></i><span data-i18n="legend.rest">Resto</span></span></div>
         <div class="rx-chart rx-chart-sm" id="ch-causes"></div>
       </article>
+      <article class="rx-card" id="sv-card-mit">
+        <h3 data-i18n="pl.chart.mit">Golpes mitigados y evitados</h3>
+        <p class="rx-note" data-i18n="pl.chart.mit.note">Golpes que bloquea, para o reduce, y ataques de los enemigos que resiste o que no le afectan.</p>
+        <div class="rx-chart rx-chart-sm" id="ch-mit"></div>
+      </article>
     </div>
   </section>
 
-  <section class="rx-section" id="raids">
-    <h2 class="rx-h2" data-i18n="pl.sec.raids">Sus raids</h2>
+  <section class="rx-section pl-panel" id="apoyo" role="tabpanel" hidden>
+    <p class="rx-pending" id="ap-pending" hidden data-i18n="pl.new.pending">Estos datos se guardan desde el 8 de noviembre de 2026: aparecerán con su próxima raid.</p>
+    <p class="rx-note" id="ap-scope"></p>
+    <div class="rx-tiles" id="ap-tiles"></div>
+    <div class="rx-grid" id="ap-grid">
+      <article class="rx-card">
+        <h3 data-i18n="pl.chart.heal">Curación por habilidad</h3>
+        <p class="rx-note" data-i18n="pl.chart.heal.note">En % de toda su curación (a cualquiera, incluido a sí mismo).</p>
+        <div class="rx-chart rx-chart-sm" id="ch-heal"></div>
+      </article>
+      <article class="rx-card">
+        <h3 data-i18n="pl.chart.healto">A quién cura</h3>
+        <p class="rx-note" data-i18n="pl.chart.healto.note">Reparto de su curación entre los jugadores del grupo.</p>
+        <div class="rx-chart rx-chart-sm" id="ch-healto"></div>
+      </article>
+    </div>
+  </section>
+
+  <section class="rx-section pl-panel" id="dano" role="tabpanel" hidden>
+    <div class="rx-grid">
+      <article class="rx-card">
+        <h3 data-i18n="pl.chart.skills">Habilidades con más daño</h3>
+        <p class="rx-note" data-i18n="pl.chart.skills.note">Suma de todas sus raids, en % de su daño al jefe.</p>
+        <div class="rx-chart rx-chart-sm" id="ch-skills"></div>
+      </article>
+    </div>
+  </section>
+
+  <section class="rx-section pl-panel" id="raids" role="tabpanel" hidden>
     <article class="rx-card">
       <div class="rx-table-wrap">
         <table class="rx-table">
