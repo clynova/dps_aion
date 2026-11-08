@@ -1,1 +1,3 @@
 _privado/
+db/aion.duckdb*
+db/archivo/
