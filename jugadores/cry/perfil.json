@@ -1,19 +1,23 @@
 {
   "actualizado": "2026-11-07",
   "raids": 5,
-  "resumen": "Clérigo y **curación principal** en las 5 raids (unos 5,1k HPS, entre 2,5 y 3,3 veces la media del grupo) que además aporta 40k de DPS. Es de quien más tarde muere en todas sus noches, pero con el grupo habitual su primera muerte sigue cayendo en plena fase de las zonas (131–142 s); con el grupo de los kills llegó a los 218–223 s.",
+  "resumen": "Clérigo y **curación principal** en las 5 raids (4,8–5,3k HPS, entre 2,5 y 3,3 veces la media del grupo) que además aporta 37–44k de DPS. Con el grupo habitual es de quien más aguanta: en 35 de los 50 intentos en que murió, el wipe llegó en los 10 s siguientes, así que su muerte suele cerrar el intento más que provocarlo (inferencia). Novedad del 7/11 19:06: no usó 17440000 y su DPS fue el más bajo de sus 5 noches.",
   "fortalezas": [
-    "Su primera muerte llega más tarde que la media del grupo en las 5 raids (por ejemplo, 138 s frente a 119 s el 6/11).",
+    "Su primera muerte llega más tarde que la media del grupo en las 5 raids (138 s frente a 119 s el 6/11; 142 s frente a 132 s el 7/11 19:06).",
+    "Cae en primer lugar solo en 5 de sus 62 intentos y en último lugar en 22 (contando empates).",
     "Recibe menos daño que la media en todas sus raids y muere menos por intento que la media en 4 de las 5.",
     "Mantiene la curación estable (4,8–5,3k HPS) incluso en las noches más largas."
   ],
   "mejorar": [
-    "Su DPS queda 4.º o 5.º del grupo (un 7–14 % bajo la media); casi el 40 % sale de una sola habilidad, 17350000.",
-    "Lo que más le mata: 1802750 (8 veces), 2920725 al final de los wipes (8), 1802720 (8) y 2920718 (7). 16 muertes no tienen habilidad registrada."
+    "El 7/11 19:06 no aparece 17440000, que en las otras 4 noches daba entre el 9 y el 11 % de su daño. Su DPS fue de 36,8k (un 14 % bajo la media, el más bajo de sus noches) y 17350000 subió al 41 % del total.",
+    "Esa noche su crítico bajó al 26,7 % (31,6–32,2 % en las demás). También bajó el de FunPeople (48,6 → 38,4 %) e Izumi (38,2 → 28,3 %) y no había Cantor en el grupo: probablemente faltaron sus buffs, no es algo solo de Cry (inferencia).",
+    "Con el grupo habitual, en 18 de esos 50 intentos murió antes de los 100 s, antes de la fase de las zonas: además del muro de los 130–175 s hay wipes tempranos.",
+    "Lo que más le mata: 1802750 (8 veces), 1802716 de la 2920725 (8), 1802720 (8) y 1802850 de la 2920718 (7). 16 muertes no tienen habilidad registrada."
   ],
   "recomendaciones": [
-    "En la ventana de 130–175 s prioriza sobrevivir: si cae la curación, cae el intento.",
-    "Esquiva 1802750: es telegrafiado y es la causa con nombre que más se repite.",
+    "Si quitar 17440000 no fue a propósito, vuelve a ponerlo: daba un 9–11 % de tu daño. Si lo cambiaste por algo de curación o supervivencia, compara en la próxima raid si compensa.",
+    "En la ventana de 130–175 s prioriza sobrevivir: con el grupo habitual, cuando cae la curación el intento termina en segundos.",
+    "Esquiva 1802750 y sal pronto de la 2920725: entre las dos suman 16 de tus muertes.",
     "Mientras el grupo no pase la fase de las zonas, una curación o escudo preventivo antes de los 130 s vale más que el DPS extra."
   ]
 }
