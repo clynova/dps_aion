@@ -331,6 +331,8 @@
     $('f-clase').textContent = className(r) + (r.jugador === M.personaje ? ' · ' + T('f.you') : '');
     $('f-nombre').textContent = r.jugador;
     $('f-equipo').textContent = `GS ${int(r.gs)} · CP ${int(r.cp)}`;
+    const slug = r.jugador.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+    $('f-perfil').href = `../../jugadores/${slug}/`;
     const ft = $('f-tiles'); ft.replaceChildren();
     const vs = (v, m, fmt) => {
       const diff = m ? (v - m) / m * 100 : 0;

@@ -1,0 +1,19 @@
+{
+  "actualizado": "2026-11-07",
+  "raids": 3,
+  "resumen": "Tanque (Templario) y aun así **el DPS más alto o el segundo** en sus 3 raids (50,3k de media, un 8–20 % sobre el grupo). Recibe entre 1,3 y 1,6 veces el daño medio y es quien menos muere por intento.",
+  "fortalezas": [
+    "1.º de DPS en dos noches y 2.º en la otra.",
+    "La menor tasa de muertes del grupo: 1,0 por intento frente a 1,26–1,39.",
+    "Su primera muerte llega algo más tarde que la media en las 3 noches."
+  ],
+  "mejorar": [
+    "18 de sus muertes son de 2920725 (1802716, 1802717 y 1802718), casi siempre al final del wipe, cuando queda último en pie: es un síntoma de lo que mata antes al resto.",
+    "1802880 y 1802720 le han matado 5 veces cada uno; 1802880 le dio golpes de hasta 206k en los primeros segundos.",
+    "Casi la mitad de su daño (45,6 %) sale de 12240000."
+  ],
+  "recomendaciones": [
+    "Guarda un defensivo para el primer 1802880 (26–35 s): perder al tanque ahí cuesta el intento entero.",
+    "Cuando veas venir 1802720, prioriza seguir vivo aunque el intento esté perdido: así el grupo aprende la fase siguiente."
+  ]
+}

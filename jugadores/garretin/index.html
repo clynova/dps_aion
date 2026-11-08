@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Jugador · DPS Aion</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://cdn.questlog.gg" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&family=Newsreader:opsz,wght@6..72,400&display=swap">
+<link rel="stylesheet" href="../../assets/site.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+<script src="../../assets/i18n.js" defer></script>
+<script src="../../assets/jugador.js" defer></script>
+</head>
+<body>
+<main class="rx">
+  <header class="rx-head">
+    <div class="rx-topbar">
+      <a class="rx-back" href="../../" data-i18n="pl.back">← Todas las raids</a>
+      <div data-lang-toggle></div>
+    </div>
+    <p class="rx-eyebrow" id="eyebrow" data-i18n="raid.loading">Cargando…</p>
+    <h1 class="rx-title" id="nombre">—</h1>
+    <p class="rx-lede" id="lede"></p>
+  </header>
+
+  <section class="rx-tiles" id="tiles"></section>
+
+  <section class="rx-section" id="perfil">
+    <h2 class="rx-h2" data-i18n="pl.sec.profile">Perfil</h2>
+    <div class="rx-grid">
+      <article class="rx-card">
+        <h3 data-i18n="pl.claude">Análisis de Claude</h3>
+        <p class="rx-note" data-i18n="pl.claude.note">Lo escribe Claude al analizar las raids y se amplía con cada noche nueva.</p>
+        <p class="rx-pending" id="c-pending" hidden data-i18n="pl.claude.pending">Todavía no hay un análisis escrito para este jugador.</p>
+        <div id="c-body" class="pl-claude"></div>
+      </article>
+      <article class="rx-card">
+        <h3 data-i18n="pl.auto">Perfil automático</h3>
+        <p class="rx-note" data-i18n="pl.auto.note">Se calcula solo con cada raid nueva a partir de sus números.</p>
+        <div class="pl-auto">
+          <div class="rx-sub"><h4 class="pl-good" data-i18n="pl.strengths">Puntos fuertes</h4><ul class="rx-reco" id="a-good"></ul></div>
+          <div class="rx-sub"><h4 class="pl-bad" data-i18n="pl.watch">A vigilar</h4><ul class="rx-reco" id="a-bad"></ul></div>
+          <div class="rx-sub"><h4 data-i18n="pl.trend">Tendencia</h4><ul class="rx-reco" id="a-trend"></ul></div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section class="rx-section" id="evolucion">
+    <h2 class="rx-h2" data-i18n="pl.sec.evolution">Evolución</h2>
+    <div class="rx-grid">
+      <article class="rx-card">
+        <h3 data-i18n="pl.chart.dps">DPS en cada raid</h3>
+        <p class="rx-note" data-i18n="pl.chart.dps.note">Barras: su DPS. Línea: media del grupo esa noche.</p>
+        <div class="rx-chart" id="ch-dps"></div>
+      </article>
+      <article class="rx-card">
+        <h3 data-i18n="pl.chart.surv">Cuándo muere por primera vez</h3>
+        <p class="rx-note" data-i18n="pl.chart.surv.note">Segundo medio de su primera muerte en cada intento (azul) frente a la media del grupo (gris). Más a la derecha, mejor.</p>
+        <div class="rx-chart" id="ch-surv"></div>
+      </article>
+    </div>
+  </section>
+
+  <section class="rx-section" id="habilidades">
+    <h2 class="rx-h2" data-i18n="pl.sec.skills">Habilidades y muertes</h2>
+    <div class="rx-grid">
+      <article class="rx-card">
+        <h3 data-i18n="pl.chart.skills">Habilidades con más daño</h3>
+        <p class="rx-note" data-i18n="pl.chart.skills.note">Suma de todas sus raids, en % de su daño al jefe.</p>
+        <div class="rx-chart rx-chart-sm" id="ch-skills"></div>
+      </article>
+      <article class="rx-card">
+        <h3 data-i18n="pl.chart.causes">Qué le mata más</h3>
+        <p class="rx-note" data-i18n="pl.chart.causes.note">Muertes por habilidad en todas sus raids.</p>
+        <div class="rx-legend"><span><i class="rx-key rx-key-critical"></i><span data-i18n="legend.oneshot">Mata de un golpe</span></span><span><i class="rx-key rx-key-muted"></i><span data-i18n="legend.rest">Resto</span></span></div>
+        <div class="rx-chart rx-chart-sm" id="ch-causes"></div>
+      </article>
+    </div>
+  </section>
+
+  <section class="rx-section" id="raids">
+    <h2 class="rx-h2" data-i18n="pl.sec.raids">Sus raids</h2>
+    <article class="rx-card">
+      <div class="rx-table-wrap">
+        <table class="rx-table">
+          <thead>
+            <tr>
+              <th data-i18n="pl.th.date">Fecha</th><th data-i18n="pl.th.boss">Jefe</th><th class="rx-left" data-i18n="pl.th.result">Resultado</th>
+              <th data-i18n="th.dps">DPS</th><th class="rx-opt" data-i18n="pl.th.rank">Puesto DPS</th><th data-i18n="th.hps">HPS</th>
+              <th data-i18n="th.deaths">Muertes</th><th class="rx-opt" data-i18n="pl.th.first">1.ª muerte</th><th class="rx-opt" data-i18n="pl.th.gs">GS</th>
+            </tr>
+          </thead>
+          <tbody id="tabla"></tbody>
+        </table>
+      </div>
+    </article>
+  </section>
+
+  <p class="rx-foot" id="foot"></p>
+</main>
+</body>
+</html>

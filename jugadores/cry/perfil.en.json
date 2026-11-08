@@ -1,0 +1,19 @@
+{
+  "actualizado": "2026-11-07",
+  "raids": 5,
+  "resumen": "Cleric and **main healer** in all 5 raids (about 5.1k HPS, 2.5 to 3.3 times the group average) who also adds 40k DPS. Among the last to die on every night, but with the usual group the first death still lands right in the zone phase (131–142 s); with the kill group it came at 218–223 s.",
+  "fortalezas": [
+    "First death comes later than the group average in all 5 raids (e.g. 138 s versus 119 s on Nov 6).",
+    "Takes less damage than average in every raid and dies less per attempt than average in 4 of the 5.",
+    "Keeps healing steady (4.8–5.3k HPS) even on the longest nights."
+  ],
+  "mejorar": [
+    "DPS ranks 4th or 5th in the group (7–14% below average); almost 40% comes from a single ability, 17350000.",
+    "Top killers: 1802750 (8 times), 2920725 at the end of wipes (8), 1802720 (8) and 2920718 (7). 16 deaths have no recorded ability."
+  ],
+  "recomendaciones": [
+    "In the 130–175 s window, prioritize survival: if the healing goes down, the attempt goes down.",
+    "Dodge 1802750: it’s telegraphed and it’s the most frequent named cause.",
+    "Until the group gets past the zone phase, a pre-emptive heal or shield before 130 s is worth more than extra DPS."
+  ]
+}

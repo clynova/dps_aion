@@ -60,6 +60,8 @@ function Build-Index {
       analizado = -not [bool]$aa.pendiente }
   }
   Write-Json (Join-Path $Repo 'raids\index.json') @($entradas | Sort-Object fecha -Descending)
+  # Perfiles de jugador (jugadores/) a partir de todas las raids
+  & (Join-Path $PSScriptRoot 'perfiles.ps1') -Repo $Repo
 }
 if ($Reindexar) { Build-Index; Write-Host 'Indice reconstruido.'; return }
 $runs = (Read-Json "$d\runs\index.json").entries | Sort-Object enteredAt -Descending

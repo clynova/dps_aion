@@ -1,0 +1,17 @@
+{
+  "actualizado": "2026-11-07",
+  "raids": 2,
+  "resumen": "Espiritualista con el mejor equipo del grupo habitual (GS 3067) y DPS sólido (46,4k, 3.º en sus dos raids). Entre sus dos noches **mejoró mucho la supervivencia**: su primera muerte pasó de 92 s a 135 s y sus muertes por intento de 1,67 a 1,18.",
+  "fortalezas": [
+    "Gran mejora de una noche a otra: de morir de los primeros (92 s frente a 114 s del grupo) a estar en la media (135 s frente a 132 s).",
+    "DPS por encima de la media del grupo en las dos noches, con picos de 57–69k en sus mejores intentos."
+  ],
+  "mejorar": [
+    "Las zonas son su principal causa de muerte: 2920718 con 1802850 (7) y 2920717 con 1802830 (7).",
+    "8 muertes sin habilidad registrada, probablemente daño continuo."
+  ],
+  "recomendaciones": [
+    "Sigue con lo que cambiaste entre noches: llegar vivo a la fase de las zonas es lo que más sube tu daño total.",
+    "Aprende dónde aparecen 2920717 (45–100 s) y 2920718 (fase del muro) y colócate fuera antes de que golpeen."
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "actualizado": "2026-11-07",
+  "raids": 2,
+  "resumen": "Chanter who combines DPS (45.1k, 3rd and 4th) with support healing (about 1.1k HPS). Dies a bit earlier and a bit more than the group average, and has the lowest CP in their group (175k).",
+  "fortalezas": [
+    "Good positioning: 63–68% of their hits land from behind.",
+    "The group’s second source of healing, useful as Cry’s support."
+  ],
+  "mejorar": [
+    "First death slightly earlier than average (114 s versus 119 s; 108 s versus 114 s) and more deaths per attempt (1.44 versus 1.27–1.39).",
+    "Main causes: 1802750 (5) and 2920718 with 1802850 (5); 14 deaths with no recorded ability.",
+    "The other recorded Chanter, Posey, does 62.7k DPS with 214k CP: part of the gap may be gear."
+  ],
+  "recomendaciones": [
+    "Dodge 1802740 (always around 16 s) and 1802750: those are the avoidable early deaths.",
+    "Raising CP is the most direct way to close in on Posey’s damage."
+  ]
+}

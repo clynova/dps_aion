@@ -38,6 +38,17 @@
     a.append(left, stats); li.append(a); $('lista').append(li);
   });
 
+  // Jugadores: enlace al perfil de cada uno
+  const players = await fetch('jugadores/index.json', { cache: 'no-cache' }).then((r) => r.json()).catch(() => []);
+  if (players.length) {
+    $('jugadores').hidden = false;
+    players.forEach((p) => {
+      const li = el('li', 'hm-player'); const a = el('a'); a.href = `jugadores/${p.slug}/`;
+      a.append(el('span', 'hm-name', p.nombre), el('span', 'hm-sub', `${T('class.' + p.clase_id)} · ${nf.format(p.raids)} ${T(p.raids === 1 ? 'pl.raid1' : 'pl.raidN')} · ${cmp.format(p.dps_medio)} DPS`));
+      li.append(a); $('lista-jugadores').append(li);
+    });
+  }
+
   // Evolución: solo para jefes con 2 o más noches
   const porJefe = d3.groups(raids, (r) => r.jefe).filter(([, v]) => v.length > 1);
   if (!porJefe.length) return;

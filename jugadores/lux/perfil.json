@@ -1,0 +1,18 @@
+{
+  "actualizado": "2026-11-07",
+  "raids": 2,
+  "resumen": "Arquero del grupo de los kills con **el DPS más bajo registrado**: 21,1k, menos de la mitad de la media de su grupo (unos 45k), 5.º en las dos runs. También tiene uno de los equipos más bajos (GS 2865, CP 175k).",
+  "fortalezas": [
+    "Estuvo en los dos kills de Rahu.",
+    "En la segunda run murió menos que la media (1,67 por intento frente a 2,07) y su primera muerte llegó a la par del grupo (180 s)."
+  ],
+  "mejorar": [
+    "El daño es la gran diferencia, y no parece solo cosa de equipo: Garretin, con el mismo CP (175k), hace 45k de DPS.",
+    "En la primera run murió antes y más que la media (primera muerte a 137 s frente a 173 s; 2,0 muertes por intento frente a 1,48).",
+    "Sus muertes se reparten entre 1802840 (3) y varias zonas: 2920719, 2920717 y 2920718 (2 cada una)."
+  ],
+  "recomendaciones": [
+    "Revisar la rotación y el build con una guía de Arquero: es la mejora con más impacto para el grupo.",
+    "Mejorar equipo después: el CP es de los más bajos registrados."
+  ]
+}

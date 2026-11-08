@@ -17,7 +17,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -File "tools\actualizar-nombres.ps
 if errorlevel 1 echo  (No se pudieron actualizar los nombres en espanol; la raid se publica igual.)
 powershell -NoProfile -ExecutionPolicy Bypass -File "tools\actualizar-nombres.ps1" -Idioma en
 if errorlevel 1 echo  (No se pudieron actualizar los nombres en ingles; la raid se publica igual.)
-git add raids nombres.json nombres.en.json
+git add raids jugadores nombres.json nombres.en.json
 git commit -q -m "Nueva raid desde Questlog"
 git push -q
 if errorlevel 1 (
