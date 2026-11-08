@@ -302,15 +302,15 @@
     $('f-nombre').textContent = r.jugador;
     $('f-equipo').textContent = `GS ${int(r.gs)} · CP ${int(r.cp)}`;
     const ft = $('f-tiles'); ft.replaceChildren();
-    const vs = (v, m, fmt, higherBetter = true) => {
+    const vs = (v, m, fmt) => {
       const diff = m ? (v - m) / m * 100 : 0;
-      const word = Math.abs(diff) < 3 ? 'en la media del grupo' : `${nf.format(Math.abs(diff))} % ${(diff > 0) === higherBetter ? 'por encima' : 'por debajo'} de la media`;
+      const word = Math.abs(diff) < 3 ? 'en la media del grupo' : `${nf.format(Math.abs(diff))} % ${diff > 0 ? 'por encima' : 'por debajo'} de la media`;
       return `${word} (${fmt(m)})`;
     };
     tile(ft, 'DPS', int(r.dps), vs(r.dps, media((j) => j.dps), int));
     tile(ft, 'HPS', int(r.hps), vs(r.hps, media((j) => j.hps), int));
-    tile(ft, 'Muertes', int(r.muertes), vs(r.muertes, media((j) => j.muertes), (v) => nf1.format(v), false));
-    tile(ft, 'Daño recibido', compact(r.dano_recibido), vs(r.dano_recibido, media((j) => j.dano_recibido), compact, false));
+    tile(ft, 'Muertes', int(r.muertes), vs(r.muertes, media((j) => j.muertes), (v) => nf1.format(v)));
+    tile(ft, 'Daño recibido', compact(r.dano_recibido), vs(r.dano_recibido, media((j) => j.dano_recibido), compact));
     tile(ft, 'Crítico · espalda', `${nf.format(r.crit_pct)} · ${nf.format(r.espalda_pct)} %`, 'De sus golpes al jefe');
 
     const recos = ((A.jugadores || {})[r.jugador]) || [];
