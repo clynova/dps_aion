@@ -5,7 +5,9 @@ delete from raids;
 insert into raids
 select json -> 'meta' ->> 'slug', json -> 'meta' ->> 'run', (json -> 'meta' ->> 'npc')::integer,
   (json -> 'meta' ->> 'fecha')::timestamptz, filename not like '%_privado%'
-from read_json_objects(['raids/*/data.json', '_privado/*/data.json'], filename = true, maximum_object_size = 67108864);
+from read_json_objects('*/*/data.json', filename = true, maximum_object_size = 67108864)
+-- un solo patrón: con una lista, DuckDB falla si _privado/ no existe o está vacía
+where regexp_matches(filename, '^(\.[/\\])?(raids|_privado)[/\\]');
 
 delete from nombres;
 insert into nombres
