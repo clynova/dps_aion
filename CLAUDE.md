@@ -36,3 +36,11 @@ Static site (Vercel, https://dpsaion.vercel.app/) with the raid history of Cry's
 6. Update `jugadores/<slug>/perfil.json` and `perfil.en.json` for every player in the raid with what the new night adds (trends versus their earlier raids, recurring causes of death), keeping it short and backed by `jugadores/<slug>/data.json`. Do not assume anyone's gender. Commit and push.
 
 In analysis text, write skill and NPC ids as bare numbers (e.g. 1802880): the page replaces them with «name» from `nombres.json`, titles included. Facts must come from the data files; say so when something is an inference (for example, players who left mid-run).
+
+## Rama `refactor/next` (migración a Next.js)
+
+Plan: `docs/plan-refactor-next.md` (fases, criterios de hecho) y decisiones en `docs/adr/`. Se trabaja en el worktree `C:\Users\jahnn\dev\dps_aion-next`, fuera de OneDrive (node_modules); la carpeta de OneDrive se queda en `main`, porque `nueva-raid.bat` hace commit y push en la rama activa. Antes de escribir código de Next lee `AGENTS.md`: Next 16 cambia APIs (por ejemplo, `proxy.ts` en vez de middleware) y la documentación de la versión instalada está en `node_modules/next/dist/docs/`.
+
+- Node: `"C:\Program Files\nodejs"` (añádelo al PATH en cada shell). Comprobar todo: `npm run typecheck && npm run lint && npm test && npm run build`.
+- Idiomas: `app/[lang]`, `proxy.ts` y `lib/i18n` (ADR 0001). Los textos se sacan de `assets/i18n.js` con `npm run textos`; nunca se escriben textos de interfaz a mano en los componentes.
+- La web estática (`index.html`, `assets/`, `raids/`, `jugadores/`, `api/`) sigue en el repo hasta el corte (fase 9), y ESLint la ignora.

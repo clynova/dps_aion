@@ -94,7 +94,7 @@
 | Login | **Auth.js con proveedor Discord**, sesiones en base (adaptador Drizzle) | La comunidad ya vive en Discord y así no hay contraseñas que guardar | Cuentas con email y contraseña; Clerk (de pago al crecer) |
 | Dónde se calculan las cifras | **En el cliente, con el `raid.sql` de siempre**: DuckDB-WASM en el navegador o DuckDB en el PC de Cry. El servidor valida y guarda | Un solo SQL, ya contrastado; no hay que reescribirlo en TypeScript ni pagar cómputo en el servidor | Reescribir en Postgres (duplicar lógica); procesar en una función de Vercel (límites de tiempo y tamaño; queda como plan B, apartado 8) |
 | Eventos brutos | **No van a Postgres.** Copia opcional de los `.gz` en **Vercel Blob**, privada y por grupo | Unos 450 KB por encuentro en tablas frente a 66 KB comprimido; permite recalcular raids antiguas cuando mejore `raid.sql` | Solo en los PC de cada uno (ya se perdió una vez) |
-| Idiomas | **next-intl**: español sin prefijo y `/en/...`; `?lang=en` redirige | URL limpias e indexables; las actuales siguen valiendo | Traducir en el cliente (parpadeo, peor SEO) |
+| Idiomas | **Rutas nativas de Next** (`app/[lang]` + `proxy.ts`) y diccionario plano propio: español sin prefijo y `/en/...`; `?lang=en` redirige. Ver [ADR 0001](adr/0001-idiomas.md) | URL limpias e indexables; las actuales siguen valiendo; las claves actuales (con puntos solapados) se conservan | next-intl (anida por puntos y obliga a renombrar claves); traducir en el cliente (parpadeo, peor SEO) |
 | Gráficas | **D3 v7 en componentes cliente**, portando las funciones actuales | Ya funcionan y están verificadas | Recharts o Chart.js (rehacer cada gráfica) |
 | Estilos | **`site.css` global + CSS Modules** | Mismo diseño, nada que reaprender | Tailwind (reescribir sin ganar nada ahora) |
 | Caché | Etiquetas por entidad (`raid:<id>`, `jugador:<id>`, `grupo:<id>`, `portada`, `nombres`) que la ingesta invalida | Las páginas cambian solo al llegar datos | Render en cada visita |
@@ -263,7 +263,7 @@ Los `.sql` de `db/` se convierten en **fuente única**. El navegador los importa
 Cada fase termina con una **PR a `refactor/next`**, su preview en Vercel y unos **criterios de hecho**. La web actual sigue en `main`, y `nueva-raid.bat` funciona hasta el corte (fase 9).
 
 ### Fase 0 · Preparación
-- Rama `refactor/next` y versiones fijadas (Node LTS, Next, React, Auth.js, Drizzle, next-intl, D3, DuckDB-WASM).
+- Rama `refactor/next` y versiones fijadas (Node LTS, Next, React, Auth.js, Drizzle, D3, DuckDB-WASM).
 - Vercel: **Neon** desde el Marketplace (`DATABASE_URL`, ramas por preview), almacén **Blob**, `AUTH_SECRET`, `CRON_SECRET`, `DISCORD_WEBHOOK_URL` (ya existe).
 - Discord Developer Portal: aplicación OAuth con las URL de callback de producción y de las previews (`AUTH_DISCORD_ID`, `AUTH_DISCORD_SECRET`).
 - `docs/adr/`: una nota por decisión del apartado 3.1.
@@ -276,10 +276,11 @@ Cada fase termina con una **PR a `refactor/next`**, su preview en Vercel y unos 
 - **Resultado (8/11/2026): superada con mazmorras de 5.** 11 de 11 runs iguales, alrededor de 1 s por run y 107 MB con 41 encuentros. Falta repetirla con la primera raid real. Detalle y cambios que implica en [`fase1-procesar-en-navegador.md`](fase1-procesar-en-navegador.md).
 
 ### Fase 2 · Esqueleto de la aplicación
-- `create-next-app` (TypeScript, App Router, ESLint), next-intl (es sin prefijo, `/en`), layout con ES | EN y `site.css` global.
-- Middleware de idioma y redirecciones de compatibilidad (apartado 3.6).
+- `create-next-app` (TypeScript, App Router, ESLint), idiomas con `app/[lang]` y `proxy.ts` (es sin prefijo, `/en`), layout con ES | EN y `site.css` global.
+- Proxy de idioma (en Next 16 el middleware se llama `proxy.ts`). Las redirecciones de `/raids/<slug>` (apartado 3.6) se hacen en la fase 5, cuando exista el grupo en la base.
 - CI en GitHub Actions: `typecheck`, `lint`, `test` y `build` en cada PR.
 - **Hecho cuando:** la preview muestra una portada vacía en es/en con el diseño actual y el CI pasa.
+- **Resultado (8/11/2026):** Next.js 16.4.5 y React 19.3 (con `cacheComponents`), Node 26 en local y 24 en el CI y en Vercel. 14 pruebas de idioma. En local: build correcto, `/es` y `/en` prerenderizadas y redirecciones comprobadas. Se trabaja en un worktree **fuera de OneDrive** (`C:\Users\jahnn\dev\dps_aion-next`), para que `node_modules` no se sincronice y para que la carpeta de OneDrive siga en `main` con `nueva-raid.bat`.
 
 ### Fase 3 · Base de datos y cuentas
 - `lib/db/schema.ts` (apartado 3.3), migración inicial y vistas.

@@ -1,3 +1,23 @@
+# Datos locales (sitio actual y pipeline del PC)
 _privado/
 db/aion.duckdb*
 db/archivo/
+
+# Dependencias y builds de Next.js
+/node_modules
+/.next/
+/out/
+/build
+/coverage
+*.tsbuildinfo
+next-env.d.ts
+
+# Entorno y Vercel
+.env*
+!.env.example
+.vercel
+
+# Varios
+.DS_Store
+*.pem
+npm-debug.log*
