@@ -4,7 +4,7 @@ Static site (Vercel, https://dpsaion.vercel.app/) with the raid history of Cry's
 
 ## Layout
 
-- `index.html` + `assets/home.js` — home: list of raids from `raids/index.json`, best attempt per boss over time.
+- `index.html` + `assets/home.js` — home: list of raids from `raids/index.json`, best attempt per boss over time, the 5 players with most raids (ties: most recent) and a player search. Search results have a "request my profile analysis" button that POSTs `{ slug }` to `api/solicitar.js` (Vercel function), which posts the player's metrics to Discord through the `DISCORD_WEBHOOK_URL` env var set in Vercel. When the user forwards a request, write or refresh that player's `perfil.json` / `perfil.en.json`.
 - `raids/<slug>/` — one folder per raid: `index.html` (copy of `assets/raid-shell.html`), `data.json` (stats), `analisis.json` (Claude's text).
 - `assets/raid.js` — renders a raid page from `data.json`, the analysis and the names for the current language (`analisis.json` / `analisis.en.json`, `nombres.json` / `nombres.en.json`). Clicking a player opens their card (ficha) with skill icons from cdn.questlog.gg.
 - `nombres.json` (es) and `nombres.en.json` (en) — names for skill and NPC ids, filled by `tools/actualizar-nombres.ps1 -Idioma es|en` from questlog.gg, plus `iconos` (icon paths) (`combatLog.entities.skills` / `.names`, the same source as the Questlog app). `habilidades` and `npcs` are regenerated; `apodos` are hand-written labels that win over them (most boss attacks are just "Ataque" in game data, so they show as "Ataque <id>" unless they have an apodo). NPCs named `N_Invisible_Summon_*` are invisible damage zones spawned by boss skills, not adds: they show as "Zona 8-2" etc.
