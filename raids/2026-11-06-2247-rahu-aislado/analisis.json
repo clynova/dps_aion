@@ -1,1 +1,60 @@
-{"pendiente":true,"titular":"","recomendaciones":[],"notas":[],"zonas":null}
+{
+  "pendiente": false,
+  "titular": "La noche que más cerca se estuvo: el intento 11 llegó al **80,6 %** y el 10 al 70,4 %. Pero solo **7 de 16** intentos rompieron el stagger, y tarde (143–157 s). Ninguno de los que no lo rompieron pasó del 45 %, y todos los que pasaron del 50 % sí lo rompieron.",
+  "zonas": { "ventana": [130, 175] },
+  "one_shot": 100000,
+  "recomendaciones": [
+    {
+      "titulo": "Romper el stagger antes y siempre.",
+      "texto": "Esta noche la rotura llegó a los 143–157 s y en menos de la mitad de los intentos. Al día siguiente por la tarde llegaba a los 101–114 s en todos los intentos largos. Es la diferencia más clara entre los intentos que avanzan y los que no."
+    },
+    {
+      "titulo": "Controlar los adds de la fase de los 130–175 s.",
+      "texto": "Los adds causaron 33 muertes: 2920718 con 1802850 (12), 2920725 (10) y 2920717 con 1802830 (9). Coinciden con la secuencia 1802900 → 1802840 → 1802810 de Rahu. Decidid antes de entrar quién se encarga de cada tipo."
+    },
+    {
+      "titulo": "1802720 es la mecánica que cierra los mejores intentos.",
+      "texto": "Mató a 12 jugadores, con golpes de hasta 194k, y fue la última muerte de los intentos 4, 11 y 16. Salió a los 157, 202, 216, 263, 335 y 340 s, así que no es un enrage de tiempo fijo; parece el castigo por fallar algo de la fase anterior."
+    },
+    {
+      "titulo": "No perder los primeros 40 segundos.",
+      "texto": "5 de 16 intentos (1, 2, 7, 8 y 12) acabaron antes del 26 %. En ese tramo Rahu lanza 1802730 (8 s), 1802740 (16 s), 1802805 (23–32 s) y 1802880 (26–35 s), que juntos causaron 15 muertes."
+    },
+    {
+      "titulo": "Menos muertes, no más daño.",
+      "texto": "En los dos mejores intentos el DPS del grupo cayó a 178–200k por las muertes (9 y 10). En el kill del 7/11 a la 01:38 Rahu cayó en 324 s con 264k de DPS del grupo y solo 5 muertes: hace falta llegar al final con la gente viva."
+    }
+  ],
+  "jugadores": {
+    "Rhygal": [
+      "El DPS más alto de la noche (51,3k, con picos de 65–69k en los intentos 2 y 9) y el 73 % de golpes por la espalda. Ejecución excelente.",
+      "Tus muertes se reparten entre 1802720 (3), los adds 2920718 (3) y 2920717 (2). Cuando salgan los adds, apártate del jefe un momento: sus áreas te pillan pegado a él."
+    ],
+    "FunPeople": [
+      "Aguantas casi todo el daño del grupo (5,3M recibido) y aun así haces 47,1k de DPS.",
+      "3 de tus muertes llegaron antes del segundo 60. 1802880 te dio golpes de hasta 194k (2 muertes): ten preparado un defensivo para los 26–35 s, cuando Rahu lo lanza por primera vez.",
+      "1802720 te mató 3 veces. Como tanque eres quien más tiempo aguanta; cuando lo veas venir, prioriza sobrevivir aunque perdáis el intento."
+    ],
+    "Garretin": [
+      "Haces 44k de DPS y además eres el segundo en curación (1,2k HPS). Muy útil como apoyo de Cry.",
+      "Mueres pronto: tu primera muerte llega de media a los 114 s y 6 de tus 24 muertes fueron antes del segundo 60. 1802750 (3) y 1802740 (2, siempre hacia los 16 s) son las causas a esquivar.",
+      "Eres quien más daño recibe de 1802715 (933k), el daño constante a todo el grupo. Tienes el CP más bajo del grupo (175k): subir equipo te dará margen para aguantarlo."
+    ],
+    "Cry": [
+      "40k de DPS y 5,3k de HPS: sigues siendo la curación principal del grupo.",
+      "Tu DPS baja a 30–37k en los intentos más largos (8, 10 y 11) porque toca curar más. Es lo correcto: en esos intentos tu curación vale más que tu daño.",
+      "1802805 te quitó 406k (lo lanza hacia los 23–32 s y otra vez hacia los 105–127 s). Un escudo antes de esos momentos puede ahorrar curación para la fase de adds."
+    ],
+    "Pantsu": [
+      "Eres quien más muere (29) y quien muere antes: tu primera muerte llega de media a los 94 s y 8 muertes fueron antes del segundo 60. En el intento 1 hiciste solo 11k de DPS por morir pronto.",
+      "Tus causas principales: los adds 2920718 (1802850, 5 muertes), 1802750 (3), los adds 2920717 (1802830, 3) y 1802730 (3, a los 8 s y hacia los 50 s). Aprende los tiempos del principio: 1802730 a los 8 s y 1802740 a los 16 s.",
+      "Tienes el GS más bajo del grupo (2829). Mejorar equipo es la vía más rápida para subir tu DPS (35,1k) y aguantar más golpes."
+    ]
+  },
+  "notas": [
+    { "termino": "Grupo", "texto": "Esta noche Garretin (Cantor) ocupó el puesto de Izumi." },
+    { "termino": "Primer jefe", "texto": "El jefe 2301008 cayó a la primera en 211 s, con 454k de DPS de raid." },
+    { "termino": "Intento 12", "texto": "Duró 11 s (0,7 %) con 4 muertes: probablemente un pull fallido o un reseteo, no un intento real." },
+    { "termino": "Referencia de kill", "texto": "Los datos del kill del 7/11 a la 01:38 vienen de otra raid de Cry que no está publicada." }
+  ]
+}
