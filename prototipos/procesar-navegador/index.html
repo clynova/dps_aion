@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Prueba: procesar Questlog en el navegador</title>
+<style>
+  :root { color-scheme: light dark; --fg: #1d1d1b; --muted: #6b6a66; --line: #d9d7cf; --bg: #fbfaf7; --ok: #2f7d4f; --bad: #b23b3b; }
+  @media (prefers-color-scheme: dark) { :root { --fg: #ecebe6; --muted: #a3a29c; --line: #3a3936; --bg: #1b1b1a; --ok: #6cc28f; --bad: #e07a7a; } }
+  body { font: 15px/1.5 system-ui, sans-serif; color: var(--fg); background: var(--bg); margin: 0; padding: 24px 16px; }
+  main { max-width: 900px; margin: 0 auto; display: grid; gap: 16px; }
+  h1 { font-size: 1.4rem; margin: 0; } p { margin: 0; } .muted { color: var(--muted); }
+  section { border: 1px solid var(--line); border-radius: 8px; padding: 14px 16px; display: grid; gap: 10px; }
+  table { border-collapse: collapse; width: 100%; font-size: 13px; } td, th { text-align: left; padding: 4px 8px; border-bottom: 1px solid var(--line); }
+  tr[data-run] { cursor: pointer; } tr[data-run]:hover td { background: color-mix(in srgb, var(--fg) 6%, transparent); }
+  pre { margin: 0; font-size: 12px; white-space: pre-wrap; max-height: 320px; overflow: auto; }
+  .ok { color: var(--ok); } .bad { color: var(--bad); }
+  button { font: inherit; padding: 4px 12px; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Prueba: procesar Questlog en el navegador</h1>
+  <p class="muted">Fase 1 del plan (docs/plan-refactor-next.md). Elige la carpeta <code>%APPDATA%\Questlog\aion-2</code>: nada sale de este navegador salvo el JSON final, que se guarda en el servidor local de prueba para compararlo con DuckDB nativo.</p>
+  <section>
+    <label>Carpeta de Questlog: <input type="file" id="carpeta" webkitdirectory multiple></label>
+    <p class="muted">o, solo con el servidor local de prueba: <button type="button" id="desde-servidor">Leer Questlog desde el servidor</button></p>
+    <p id="estado" class="muted">Cargando DuckDB-WASM…</p>
+  </section>
+  <section id="runs-sec" hidden>
+    <p><b>Runs</b> <span class="muted">(pulsa una para procesarla)</span></p>
+    <table><thead><tr><th>Run</th><th>Entrada</th><th>Mazmorra</th><th>Jefe</th><th>Encuentros</th><th>Jugadores</th></tr></thead><tbody id="runs"></tbody></table>
+  </section>
+  <section id="res-sec" hidden>
+    <p><b>Resultado</b></p>
+    <pre id="tiempos"></pre>
+    <pre id="salida"></pre>
+  </section>
+</main>
+<script type="module" src="procesar.js"></script>
+</body>
+</html>

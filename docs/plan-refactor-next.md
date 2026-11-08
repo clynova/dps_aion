@@ -273,6 +273,7 @@ Cada fase termina con una **PR a `refactor/next`**, su preview en Vercel y unos 
 - Página de prueba que elige una carpeta (`<input webkitdirectory>`; en Chrome y Edge también `showDirectoryPicker`), lee `runs/*.json` y los `encounters/*.json.gz` de una run, los descomprime (`DecompressionStream`) y ejecuta `esquema.sql` + `cargar*.sql` + `vistas.sql` + `raid.sql` en **DuckDB-WASM dentro de un Web Worker**.
 - Medir tiempo y memoria con una noche real (unos 20 encuentros, 1–2 MB) en un PC normal y en uno modesto.
 - **Hecho cuando:** el JSON del navegador es **idéntico** (con `comparar-json`) al que genera DuckDB en el PC para la misma run, y tarda menos de 30 s. Si no se cumple, se pasa al plan B del apartado 8.
+- **Resultado (8/11/2026): superada con mazmorras de 5.** 11 de 11 runs iguales, alrededor de 1 s por run y 107 MB con 41 encuentros. Falta repetirla con la primera raid real. Detalle y cambios que implica en [`fase1-procesar-en-navegador.md`](fase1-procesar-en-navegador.md).
 
 ### Fase 2 · Esqueleto de la aplicación
 - `create-next-app` (TypeScript, App Router, ESLint), next-intl (es sin prefijo, `/en`), layout con ES | EN y `site.css` global.
