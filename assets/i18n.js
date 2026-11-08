@@ -149,6 +149,14 @@
       'sv.tip.mit': '{n} golpes ({p} de los que recibió)', 'sv.tip.avoid': '{n} ataques', 'ap.tip.heal': '{v} curados ({p})', 'ap.self': '{n} (a sí mismo)',
       'mit.block': 'Bloqueo', 'mit.parry': 'Parada', 'mit.perfect-block': 'Bloqueo perfecto', 'mit.iron-wall': 'Muro de hierro', 'mit.restoration': 'Restauración',
       'mit.resist': 'Resistido', 'mit.immune': 'Sin efecto (inmune)', 'mit.evade': 'Esquivado',
+      'pl.tab.rotation': 'Rotación',
+      'pl.chart.buffs': 'Buffs que da al grupo', 'pl.chart.buffs.note': 'Tiempo activo medio de cada buff sobre los compañeros que lo recibieron, en % del combate.',
+      'pl.chart.casts': 'Habilidades que más castea', 'pl.chart.casts.note': 'Casteos por minuto vivo, sumando todas sus raids. Al pasar el ratón, el tiempo medio entre dos usos.',
+      'ro.rule': 'Los casteos se distinguen de los efectos que se disparan solos con una regla deducida de los datos: son una estimación.',
+      'ro.tile.cpm': 'Casteos por minuto', 'ro.tile.cpm.note': 'Por minuto vivo',
+      'ro.tile.idle': 'Tiempo en pausa', 'ro.tile.idle.note': 'Más de 3 s sin castear, estando vivo',
+      'ro.tile.first': 'Primer golpe al jefe', 'ro.tile.first.note': 'Segundos desde el inicio del intento',
+      'ap.tip.buff': 'Activo el {p} del combate (media de {n} raids)', 'ro.tip.casts': '{n} casteos ({m} por minuto)', 'ro.tip.every': 'Uno cada {s} s de media',
       'q.open': '«', 'q.close': '»'
     },
     en: {
@@ -298,6 +306,14 @@
       'sv.tip.mit': '{n} hits ({p} of those received)', 'sv.tip.avoid': '{n} attacks', 'ap.tip.heal': '{v} healed ({p})', 'ap.self': '{n} (self)',
       'mit.block': 'Block', 'mit.parry': 'Parry', 'mit.perfect-block': 'Perfect block', 'mit.iron-wall': 'Iron wall', 'mit.restoration': 'Restoration',
       'mit.resist': 'Resisted', 'mit.immune': 'No effect (immune)', 'mit.evade': 'Evaded',
+      'pl.tab.rotation': 'Rotation',
+      'pl.chart.buffs': 'Buffs they give the group', 'pl.chart.buffs.note': 'Average uptime of each buff on the teammates who received it, as % of the fight.',
+      'pl.chart.casts': 'Most cast abilities', 'pl.chart.casts.note': 'Casts per minute alive, summed over all their raids. Hover for the average time between two uses.',
+      'ro.rule': 'Casts are told apart from effects that trigger on their own with a rule derived from the data: treat them as an estimate.',
+      'ro.tile.cpm': 'Casts per minute', 'ro.tile.cpm.note': 'Per minute alive',
+      'ro.tile.idle': 'Idle time', 'ro.tile.idle.note': 'Over 3 s without casting, while alive',
+      'ro.tile.first': 'First hit on the boss', 'ro.tile.first.note': 'Seconds from the start of the attempt',
+      'ap.tip.buff': 'Up {p} of the fight (average of {n} raids)', 'ro.tip.casts': '{n} casts ({m} per minute)', 'ro.tip.every': 'One every {s} s on average',
       'q.open': '“', 'q.close': '”'
     }
   };

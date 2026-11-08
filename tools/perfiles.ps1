@@ -46,7 +46,12 @@ function Survival($det) {
     vida_5s_media = Avg ($ms | ForEach-Object { $_.vida_5s }) }
 }
 
-$players = @{}   # nombre -> @{ raids = list; skills = @{}; causes = @{}; heals = @{}; healTo = @{}; mit = @{}; evi = @{}; deaths = list }
+function Rotation($det) {
+  $ro = $det.rotacion; if (-not $ro) { return $null }
+  [pscustomobject]@{ usos = $ro.usos; vivo_s = $ro.vivo_s; usos_min = $ro.usos_min; pausas_pct = $ro.pausas_pct; primer_golpe_s = $ro.primer_golpe_s }
+}
+
+$players = @{}   # nombre -> @{ raids = list; skills = @{}; causes = @{}; heals = @{}; healTo = @{}; mit = @{}; evi = @{}; deaths = list; casts = @{}; buffs = @{} }
 $raidDirs = Get-ChildItem (Join-Path $Repo 'raids') -Directory | Where-Object { Test-Path (Join-Path $_.FullName 'data.json') }
 foreach ($dir in $raidDirs) {
   $d = Read-Json (Join-Path $dir.FullName 'data.json')
@@ -64,14 +69,17 @@ foreach ($dir in $raidDirs) {
   $rank = @($js | Sort-Object dps -Descending | ForEach-Object { $_.jugador })
   $svs = @{}; foreach ($j in $js) { $svs[$j.jugador] = Survival $d.detalle.($j.jugador) }
   $hasSv = @($svs.Values | Where-Object { $_ }).Count -gt 0
+  $ros = @{}; foreach ($j in $js) { $ros[$j.jugador] = Rotation $d.detalle.($j.jugador) }
   if ($hasSv) {
     $grp | Add-Member mitigados_pct (Avg ($svs.Values | ForEach-Object { $_.mitigados_pct }))
     $grp | Add-Member bajo30_pct (Avg ($svs.Values | ForEach-Object { $_.bajo30_pct }))
   }
+  $rotKeys = 'usos_min', 'pausas_pct', 'primer_golpe_s'
+  if (@($ros.Values | Where-Object { $_ }).Count) { foreach ($k in $rotKeys) { $grp | Add-Member $k (Avg ($ros.Values | Where-Object { $_ } | ForEach-Object { $_.$k })) } }
   foreach ($j in $js) {
     $name = $j.jugador
     if (-not $players.ContainsKey($name)) { $players[$name] = @{ raids = New-Object System.Collections.ArrayList; skills = @{}; causes = @{}
-      heals = @{}; healTo = @{}; mit = @{}; evi = @{}; deaths = New-Object System.Collections.ArrayList } }
+      heals = @{}; healTo = @{}; mit = @{}; evi = @{}; deaths = New-Object System.Collections.ArrayList; casts = @{}; buffs = @{}; vivo = 0.0 } }
     # Media de su clase en esta raid (incluido él): con quién compararse
     $mates = @($js | Where-Object { $_.clase_id -eq $j.clase_id })
     $cls = [pscustomobject]@{ jugadores = $mates.Count
@@ -81,6 +89,7 @@ foreach ($dir in $raidDirs) {
       $cls | Add-Member mitigados_pct (Avg ($mates | ForEach-Object { $svs[$_.jugador].mitigados_pct }))
       $cls | Add-Member bajo30_pct (Avg ($mates | ForEach-Object { $svs[$_.jugador].bajo30_pct }))
     }
+    if ($ros[$name]) { foreach ($k in $rotKeys) { $cls | Add-Member $k (Avg ($mates | Where-Object { $ros[$_.jugador] } | ForEach-Object { $ros[$_.jugador].$k })) } }
     $p = $players[$name]
     $det = $d.detalle.$name
     [void]$p.raids.Add([pscustomobject]@{
@@ -93,8 +102,19 @@ foreach ($dir in $raidDirs) {
       puesto_dps = [array]::IndexOf($rank, $name) + 1
       grupo_media = $grp; clase_media = $cls
       top = @($det.habilidades | Select-Object -First 3 | ForEach-Object { [pscustomobject]@{ habilidad = $_.habilidad; pct = $_.pct } })
-      apoyo = Support $name $det; supervivencia = $svs[$name]
+      apoyo = Support $name $det; supervivencia = $svs[$name]; rotacion = $ros[$name]
     })
+    if ($det.rotacion) {
+      $p.vivo += [double]$det.rotacion.vivo_s
+      foreach ($c in @($det.rotacion.usos_hab)) {
+        if (-not $p.casts.ContainsKey($c.habilidad)) { $p.casts[$c.habilidad] = @{ usos = 0.0; int = 0.0 } }
+        $e = $p.casts[$c.habilidad]; $e.usos += [double]$c.usos; $e.int += [double]$c.usos * [double]$c.intervalo_s   # intervalo medio ponderado por usos
+      }
+      foreach ($b in @($det.rotacion.buffs)) {
+        if (-not $p.buffs.ContainsKey($b.habilidad)) { $p.buffs[$b.habilidad] = New-Object System.Collections.ArrayList }
+        [void]$p.buffs[$b.habilidad].Add([double]$b.activo_pct)
+      }
+    }
     foreach ($s in @($det.habilidades)) { $p.skills[$s.habilidad] = [double]$p.skills[$s.habilidad] + [double]$s.dano }
     if ($det.apoyo) {
       foreach ($h in @($det.apoyo.cura_hab)) { $p.heals[$h.habilidad] = [double]$p.heals[$h.habilidad] + [double]$h.cantidad }
@@ -143,6 +163,15 @@ $index = foreach ($name in ($players.Keys | Sort-Object)) {
     mitigados = [pscustomobject]$p.mit; evitados = [pscustomobject]$p.evi
     muertes = @($p.deaths | Sort-Object fecha, intento, t -Descending | Select-Object -First 20)
   } } else { $null }
+  $conRot = @($raids | Where-Object { $_.rotacion }).Count
+  $rotacion = if ($conRot) { [pscustomobject]@{
+    raids = $conRot
+    usos_hab = @($p.casts.GetEnumerator() | Sort-Object { -$_.Value.usos } | Select-Object -First 12 | ForEach-Object {
+      [pscustomobject]@{ habilidad = $_.Key; usos = [math]::Round($_.Value.usos); usos_min = [math]::Round(60 * $_.Value.usos / [math]::Max(1, $p.vivo), 1)
+        intervalo_s = [math]::Round($_.Value.int / [math]::Max(1, $_.Value.usos), 1) } })
+    buffs = @($p.buffs.GetEnumerator() | ForEach-Object { [pscustomobject]@{ habilidad = $_.Key; activo_pct = [math]::Round(($_.Value | Measure-Object -Average).Average, 1); raids = $_.Value.Count } } |
+      Sort-Object { -$_.activo_pct } | Select-Object -First 8)
+  } } else { $null }
   $totalTries = ($raids | Measure-Object intentos -Sum).Sum
   $data = [pscustomobject]@{
     nombre = $name; slug = $slug; clase_id = $last.clase_id
@@ -154,7 +183,7 @@ $index = foreach ($name in ($players.Keys | Sort-Object)) {
       muertes_intento = [math]::Round(($raids | Measure-Object muertes -Sum).Sum / [math]::Max(1, $totalTries), 2)
       gs = $last.gs; cp = $last.cp; primera = $raids[0].fecha; ultima = $last.fecha
     }
-    raids = $raids; habilidades = $skills; causas = $causes; apoyo = $apoyo; supervivencia = $superv
+    raids = $raids; habilidades = $skills; causas = $causes; apoyo = $apoyo; supervivencia = $superv; rotacion = $rotacion
     actualizado = (Get-Date).ToString('yyyy-MM-ddTHH:mm:sszzz')
   }
   $dir = Join-Path $base $slug

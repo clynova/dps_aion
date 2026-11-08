@@ -54,6 +54,10 @@ select distinct 'h' || habilidad from (
   union all select r.habilidad from jugador_intento ji join recibido r on r.enc = ji.enc and r.objetivo = ji.entidad
   union all select m.habilidad from muertes_intento m
   union all select c.habilidad from intentos i join casteos c on c.enc = i.enc
+  union all select (u.habilidad // 10000) * 10000 from jugador_intento ji join usos u on u.enc = ji.enc and u.dueno = ji.entidad
+    where u.habilidad between 11000000 and 19999999
+  union all select (b.habilidad // 10000) * 10000 from jugador_intento ji join buffs b on b.enc = ji.enc and b.lanzador = ji.entidad
+    where b.habilidad between 11000000 and 19999999
 ) where habilidad > 0
 union all
 select distinct 'n' || npc from (

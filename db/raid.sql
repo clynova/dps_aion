@@ -138,6 +138,55 @@ select nombre,
   coalesce((select sum(ms) from svd where svd.nombre = p.nombre and vida > 0 and vida < 0.3 * vida_max and ms > 0), 0) bajo30_ms
 from (select distinct nombre from pi) p;
 
+-- Rotación: casteos de habilidades de clase (ids de 8 cifras 1x……) dentro del intento. En la tabla usos cada
+-- habilidad sale con variantes: el casteo lleva un sufijo de especialización >= 100 (14050340) o múltiplo de 10
+-- (estigmas: 14380030); los sufijos pequeños (14050008, 14380007) son efectos que se disparan solos cada
+-- 0,5-1 s y no cuentan. Es una regla deducida de los datos (recargas de questlog.gg y la build propia), no del juego.
+-- La variante se agrupa en su habilidad base (14050000), la de golpes y nombres. Pausa = más de 3 s entre dos
+-- casteos sin que muriera entre medias. Primer golpe = mediana del primer golpe al jefe por intento.
+-- parada = 'cancelled' (solo en el personaje que graba) es un casteo que golpeó y cuya animación se canceló
+-- para encadenar otro: cuenta como casteo. Solo 'interrupted' es un casteo fallido.
+create or replace temp table ru as
+select pi.nombre, pi.enc, pi.entidad, (u.habilidad // 10000) * 10000 hab, u.t_ms, u.parada
+from pi join usos u on u.enc = pi.enc and u.dueno = pi.entidad
+where u.t_ms between 0 and pi.dur * 1000 and u.habilidad between 11000000 and 19999999
+  and (u.habilidad % 10000 >= 100 or (u.habilidad % 10000 >= 10 and u.habilidad % 10 = 0));
+create or replace temp table rg as   -- tiempo entre usos completados consecutivos
+select nombre, enc, entidad, t_ms, t_ms - lag(t_ms) over (partition by enc, entidad order by t_ms) gap, lag(t_ms) over (partition by enc, entidad order by t_ms) prev
+from ru where coalesce(parada, '') <> 'interrupted';
+create or replace temp table ro as
+select nombre,
+  (select count(*) from ru where ru.nombre = p.nombre and coalesce(parada, '') <> 'interrupted') usos,
+  (select count(*) from ru where ru.nombre = p.nombre and parada = 'interrupted') interrumpidos,
+  coalesce((select sum(gap) from rg where rg.nombre = p.nombre and gap > 3000
+    and not exists (select 1 from de0 where de0.enc = rg.enc and de0.ent = rg.entidad and de0.t_ms between rg.prev and rg.t_ms)), 0) pausas_ms,
+  (select median(t) from (select min(g.t_ms) t from pi join golpes g on g.enc = pi.enc and g.dueno = pi.entidad and g.objetivo = pi.jefe
+    where pi.nombre = p.nombre and g.t_ms >= 0 group by pi.enc)) primer_golpe_ms
+from (select distinct nombre from pi) p;
+create or replace temp table ruh as
+select nombre, hab, count(*) usos, avg(dt) intervalo_ms from (
+  select *, t_ms - lag(t_ms) over (partition by enc, entidad, hab order by t_ms) dt from ru where coalesce(parada, '') <> 'interrupted'
+) group by all;
+
+-- Buffs que da a los demás jugadores del grupo: tiempo activo medio sobre los que lo recibieron, uniendo
+-- los tramos que se solapan (al refrescarlo) y recortando al intento.
+create or replace temp table bt as
+select l.nombre, l.enc, b.entidad receptor, (b.habilidad // 10000) * 10000 hab,
+  greatest(b.desde_ms, 0) desde, least(coalesce(b.hasta_ms, l.dur * 1000), l.dur * 1000) hasta, l.dur
+from pi l join buffs b on b.enc = l.enc and b.lanzador = l.entidad
+join ji r on r.enc = b.enc and r.entidad = b.entidad and r.nombre <> l.nombre
+where b.habilidad > 0;
+create or replace temp table bu as   -- tramos unidos (islas) por buff y receptor
+select nombre, enc, receptor, hab, dur, min(desde) desde, max(hasta) hasta from (
+  select *, sum(nuevo) over (partition by nombre, enc, receptor, hab order by desde, hasta rows unbounded preceding) isla from (
+    select *, case when desde > max(hasta) over (partition by nombre, enc, receptor, hab order by desde, hasta rows between unbounded preceding and 1 preceding) then 1 else 0 end nuevo
+    from bt where hasta > desde)
+) group by all;
+create or replace temp table bd as
+select nombre, hab, sum(hasta - desde) activo_ms, count(distinct receptor) receptores,
+  (select sum(o.dur * 1000) from (select distinct b2.enc, b2.receptor, b2.dur from bu b2 where b2.nombre = bu.nombre and b2.hab = bu.hab) o) posible_ms
+from bu group by nombre, hab;
+
 select json_object(
   'meta', json_object(
     'slug', getvariable('slug'), 'run', (select run from r), 'fecha', getvariable('fecha'), 'mazmorra', (select mazmorra from r),
@@ -204,6 +253,15 @@ select json_object(
           'resurrecciones', sv.resurrecciones, 'bajo30_pct', rd1(100 * sv.bajo30_ms / greatest(1, sv.vivo_ms)),
           'mitigados', coalesce((select json_group_object(mitigacion, n) from smi where smi.nombre = jv.jugador), '{}'::json),
           'evitados', coalesce((select json_group_object(resultado, n) from sev where sev.nombre = jv.jugador), '{}'::json))
-        from sv where sv.nombre = jv.jugador)
+        from sv where sv.nombre = jv.jugador),
+      'rotacion', (select json_object('usos', ro.usos, 'interrumpidos', ro.interrumpidos, 'vivo_s', rd(sv.vivo_ms / 1000),
+          'usos_min', rd1(60000 * ro.usos / greatest(1, sv.vivo_ms)), 'pausas_pct', rd1(100 * ro.pausas_ms / greatest(1, sv.vivo_ms)),
+          'primer_golpe_s', rd1(ro.primer_golpe_ms / 1000),
+          'usos_hab', coalesce((select to_json(list(json_object('habilidad', hab::varchar, 'usos', usos, 'intervalo_s', rd1(intervalo_ms / 1000)) order by usos desc, hab))
+            from (select * from ruh where ruh.nombre = jv.jugador order by usos desc, hab limit 12)), '[]'::json),
+          'buffs', coalesce((select to_json(list(json_object('habilidad', hab::varchar, 'activo_pct', rd1(100 * activo_ms / greatest(1, posible_ms)),
+              'receptores', receptores) order by activo_ms desc, hab))
+            from (select * from bd where bd.nombre = jv.jugador order by activo_ms desc, hab limit 8)), '[]'::json))
+        from ro join sv on sv.nombre = ro.nombre where ro.nombre = jv.jugador)
     )) from jv)
 ) as raid_json;

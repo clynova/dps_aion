@@ -141,6 +141,17 @@
     tile(T('ap.tile.shield'), cmp.format(sumOf(apR, (r) => A(r).escudos) / Math.max(1, tries)), T('ap.tile.shield.note', { v: cmp.format(sumOf(apR, (r) => A(r).absorbido) / Math.max(1, tries)) }), null, 'ap-tiles');
     tile(T('ap.tile.self'), pct(mean(apR, (r) => A(r).propia_pct)), T('ap.tile.self.note'), null, 'ap-tiles');
   }
+  if (!((D.rotacion || {}).buffs || []).length) $('ap-card-buffs').hidden = true;
+  const roR = raids.filter((r) => r.rotacion);
+  if (!roR.length) { $('ro-pending').hidden = false; $('ro-grid').hidden = true; }
+  else {
+    $('ro-scope').textContent = scope(roR) + ' ' + T('ro.rule');
+    const O = (r) => r.rotacion, secs = (v) => nf1.format(v) + ' s';
+    tile(T('ro.tile.cpm'), nf.format(d3.sum(roR, (r) => O(r).usos) * 60 / Math.max(1, d3.sum(roR, (r) => O(r).vivo_s))), versus(roR, 'usos_min', (v) => nf.format(v)) || T('ro.tile.cpm.note'), null, 'ro-tiles');
+    tile(T('ro.tile.idle'), pct(mean(roR, (r) => O(r).pausas_pct)), versus(roR, 'pausas_pct', pct) || T('ro.tile.idle.note'), null, 'ro-tiles');
+    const firsts = roR.filter((r) => O(r).primer_golpe_s != null);
+    if (firsts.length) tile(T('ro.tile.first'), secs(mean(firsts, (r) => O(r).primer_golpe_s)), versus(firsts, 'primer_golpe_s', secs) || T('ro.tile.first.note'), null, 'ro-tiles');
+  }
 
   // ---------- Perfil escrito por Claude ----------
   if (!P) $('c-pending').hidden = false;
@@ -302,6 +313,11 @@
   const drawHealTo = (box) => hbars(box, (D.apoyo || {}).cura_obj || [], { label: (d) => (d.jugador === D.nombre ? T('ap.self', { n: d.jugador }) : d.jugador), value: (d) => d.pct, valueText: (d) => pct(d.pct),
     tip: (d) => [T('ap.tip.heal', { v: cmp.format(d.cantidad), p: pct(d.pct) })] });
 
+  const drawBuffs = (box) => hbars(box, (D.rotacion || {}).buffs || [], { label: (d) => skName(d.habilidad), value: (d) => d.activo_pct, valueText: (d) => pct(d.activo_pct), icon: (d) => iconUrl(d.habilidad),
+    tip: (d) => [T('ap.tip.buff', { p: pct(d.activo_pct), n: int(d.raids) }), T('tip.skillno', { id: d.habilidad })] });
+  const drawCasts = (box) => hbars(box, (D.rotacion || {}).usos_hab || [], { label: (d) => skName(d.habilidad), value: (d) => d.usos_min, valueText: (d) => nf1.format(d.usos_min), icon: (d) => iconUrl(d.habilidad),
+    tip: (d) => [T('ro.tip.casts', { n: int(d.usos), m: nf1.format(d.usos_min) }), T('ro.tip.every', { s: nf1.format(d.intervalo_s) }), T('tip.skillno', { id: d.habilidad })] });
+
   function drawTable() {
     const tb = $('tabla'); tb.replaceChildren();
     raids.slice().reverse().forEach((r) => {
@@ -320,7 +336,7 @@
 
   // Pestañas: solo se dibuja la visible (en un panel oculto los gráficos no tienen ancho). La pestaña va en el #hash.
   const charts = { evolucion: [['ch-dps', drawDps], ['ch-surv', drawSurv]], supervivencia: [['ch-deaths', drawDeaths], ['ch-causes', drawCauses], ['ch-mit', drawMit]],
-    apoyo: [['ch-heal', drawHeal], ['ch-healto', drawHealTo]], dano: [['ch-skills', drawSkills]], raids: [] };
+    apoyo: [['ch-heal', drawHeal], ['ch-healto', drawHealTo], ['ch-buffs', drawBuffs]], dano: [['ch-skills', drawSkills]], rotacion: [['ch-casts', drawCasts]], raids: [] };
   const tabs = [...document.querySelectorAll('#tabs [data-tab]')];
   let current = null;
   const drawTab = (name) => { charts[name].forEach(([id, fn]) => { const b = $(id); if (b.closest('[hidden]')) return; b.replaceChildren(); fn(b); }); };
