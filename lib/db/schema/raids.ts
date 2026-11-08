@@ -47,6 +47,8 @@ export const raids = pgTable('raids', {
   limiteMin: integer('limite_min'),
   reseteos: integer('reseteos'),
   grabadoPor: text('grabado_por'),
+  /** El objeto meta del data.json tal cual: conserva la fecha con su zona (-03:00) y campos como run_min o reseteos. */
+  meta: jsonb('meta').$type<Record<string, unknown>>().notNull(),
   subidoPor: text('subido_por').references(() => user.id, { onDelete: 'set null' }),
   origen: origenEnum('origen').notNull(),
   esquemaVersion: integer('esquema_version').notNull(),
@@ -63,7 +65,7 @@ const raidRef = () => uuid('raid_id').notNull().references(() => raids.id, { onD
 const jugadorRef = (col = 'jugador_id') => integer(col).notNull().references(() => jugadores.id, { onDelete: 'cascade' });
 
 export const raidOtros = pgTable('raid_otros', {
-  raidId: raidRef(), npc: integer('npc').notNull(), jefe: text('jefe'), intentos: integer('intentos'),
+  raidId: raidRef(), orden: integer('orden').notNull(), npc: integer('npc').notNull(), jefe: text('jefe'), intentos: integer('intentos'),
   matado: boolean('matado').notNull(), killS: integer('kill_s'), dpsRaid: integer('dps_raid'),
 }, (t) => [primaryKey({ columns: [t.raidId, t.npc] })]);
 
@@ -85,6 +87,8 @@ export const casteosJefe = pgTable('casteos_jefe', {
 
 export const raidJugador = pgTable('raid_jugador', {
   raidId: raidRef(), jugadorId: jugadorRef(),
+  /** Posición en la lista jugadores del data.json (por DPS; conserva los desempates tal cual vinieron). */
+  orden: integer('orden').notNull(),
   enGrupo: boolean('en_grupo').notNull().default(true),
   claseId: text('clase_id'), gs: integer('gs'), cp: integer('cp'),
   dps: integer('dps'), hps: integer('hps'), danoRecibido: n('dano_recibido'), muertes: integer('muertes'),
@@ -121,7 +125,7 @@ export const desglose = pgTable('desglose', {
 }, (t) => [primaryKey({ columns: [t.raidId, t.jugadorId, t.tipo, t.orden] })]);
 
 export const repartoCura = pgTable('reparto_cura', {
-  raidId: raidRef(), jugadorId: jugadorRef(), objetivoId: jugadorRef('objetivo_id'),
+  raidId: raidRef(), jugadorId: jugadorRef(), objetivoId: jugadorRef('objetivo_id'), orden: integer('orden').notNull(),
   cantidad: n('cantidad').notNull(), pct: doublePrecision('pct'),
 }, (t) => [primaryKey({ columns: [t.raidId, t.jugadorId, t.objetivoId] })]);
 

@@ -24,13 +24,14 @@ Static site (Vercel, https://dpsaion.vercel.app/) with the raid history of Cry's
   "pendiente": false,
   "titular": "One or two sentences with the takeaway; **bold** is allowed.",
   "zonas": { "muro": [35, 50], "ventana": [140, 175] },
+  "one_shot": 100000,
   "recomendaciones": [{ "titulo": "Short imperative.", "texto": "Why, with the evidence from the data." }],
   "jugadores": { "PlayerName": ["Personal recommendation backed by their numbers."] },
   "notas": [{ "termino": "Label", "texto": "Extra caveat about this raid." }]
 }
 ```
 
-   `zonas` is optional (bands on the charts: `muro` = % of boss HP, `ventana` = seconds). Give every player in `meta.grupo` at least one recommendation, based on their own data (deaths and what caused them, DPS vs the group, skill mix, damage taken), constructive and specific.
+   `zonas` is optional (bands on the charts: `muro` = % of boss HP, `ventana` = seconds). `one_shot` is optional: the hit size the raid page marks as "kills in one hit" (default 100000). Give every player in `meta.grupo` at least one recommendation, based on their own data (deaths and what caused them, DPS vs the group, skill mix, damage taken), constructive and specific.
 4. Write the same analysis in English to `raids/<slug>/analisis.en.json` (same structure, translated text, same ids and numbers). Without it the English page shows the Spanish text with a notice.
 5. Rebuild the index and player profiles (`tools/extraer-raid.ps1 -Reindexar`).
 6. Update `jugadores/<slug>/perfil.json` and `perfil.en.json` for every player in the raid with what the new night adds (trends versus their earlier raids, recurring causes of death), keeping it short and backed by `jugadores/<slug>/data.json`. Do not assume anyone's gender. Commit and push.
@@ -49,3 +50,5 @@ Plan: `docs/plan-refactor-next.md` (fases, criterios de hecho) y decisiones en `
 - Pruebas: `npm test` (unitarias; las de integración se saltan sin base). Con la rama dev: `node --env-file=.env.local node_modules/vitest/vitest.mjs run`.
 - El panel del navegador integrado, cuando está oculto, no ejecuta `requestAnimationFrame`, y React deja el contenido de los `<Suspense>` sin colocar («Loading…»). No es un fallo de la app: comprobarlo con el panel visible o forzando `$RV($RB)`.
 - Probar páginas con sesión sin usar la cuenta de nadie: crear en la rama dev un usuario `prueba-*` con una fila en `session` y firmar la cookie como Better Auth (`token + "." + base64(HMAC-SHA256(token, AUTH_SECRET))`, con encodeURIComponent). Con `next start` (producción) la cookie se llama `__Secure-better-auth.session_token`, también en localhost. Al acabar, borrar `prueba-%` de `grupos` y `user`, y cerrar sesión con `POST /api/auth/sign-out`: el servidor reescribe las cookies como httpOnly, y la caché de sesión mantiene viva una sesión borrada hasta 5 minutos.
+- Raids en la base (fase 4): `lib/ingest/esquema.ts` (formato de subida, Zod estricto: una clave nueva en `raid.sql` obliga a ampliarlo), `lib/ingest/guardar.ts` (transacción, idempotente por grupo y slug), `lib/raids/reconstruir.ts` (vuelve a montar el `data.json`) y `lib/perfil/construir.ts` (port de `perfiles.ps1`; `redondeoNet` imita el `Math.Round` de .NET). API: `app/api/v1/grupos/[grupo]/raids/…` con sesión o token del grupo (`Authorization: Bearer dps_…`; en la base, solo su SHA-256).
+- Migrar la web actual a un grupo: `npm run migrar -- --grupo <slug>`. Comprobar: `npm run paridad -- --grupo <slug>`, que tiene que dar 0 diferencias. En la rama dev, las 5 raids están en el grupo `tetones` (el de Cry). Si `raid.sql`, `perfiles.ps1` o los JSON cambian en `main`, repetir la migración y la paridad.
