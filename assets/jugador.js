@@ -119,7 +119,7 @@
       const sub = el('div', 'rx-sub'); sub.append(el('h4', cls, T(label)));
       const ul = el('ul', 'rx-reco'); items.forEach((s) => ul.append(rich(el('li'), s))); sub.append(ul); body.append(sub);
     });
-    if (P.actualizado) body.append(el('p', 'rx-note', T('pl.claude.updated', { d: new Date(P.actualizado).toLocaleDateString(LOC, { day: 'numeric', month: 'long', year: 'numeric' }), n: int(P.raids || R.raids) })));
+    if (P.actualizado) body.append(el('p', 'rx-note', T('pl.claude.updated', { d: new Date(/^\d{4}-\d{2}-\d{2}$/.test(P.actualizado) ? P.actualizado + 'T12:00' : P.actualizado).toLocaleDateString(LOC, { day: 'numeric', month: 'long', year: 'numeric' }), n: int(P.raids || R.raids) })));
   }
 
   // ---------- Gráficos ----------
