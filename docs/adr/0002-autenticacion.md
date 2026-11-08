@@ -15,6 +15,7 @@ El plan proponía Auth.js (NextAuth) con Discord y sesiones en la base. Al empez
 - La **URL de retorno es la misma** que habría usado Auth.js: `<origen>/api/auth/callback/discord`. No hubo que cambiar nada en Discord.
 - **URL base dinámica** con una lista de hosts permitidos (`lib/auth/index.ts`): `dpsaion.vercel.app`, `dpsaion-git-*-clynovas-projects.vercel.app` y `localhost:3000`. Discord solo acepta URL de retorno exactas, así que en las previews solo funciona el alias de la rama (`dpsaion-git-<rama>-clynovas-projects.vercel.app`), no la URL de cada despliegue.
 - Variables: `AUTH_SECRET` (Better Auth la lee sola), `AUTH_DISCORD_ID` y `AUTH_DISCORD_SECRET`.
+- Los tokens de Discord se guardan **cifrados** (`account.encryptOAuthTokens`). Por defecto Better Auth los guarda en claro, y en la primera prueba real se guardó uno así; se borró. No se usan después del login.
 - **Grupos propios, sin el plugin `organization` de Better Auth.** Nuestras invitaciones son por enlace (sin email), los roles son los nuestros (propietario, admin, publicador, miembro) y la visibilidad de las raids depende de ellos. Con tablas propias (`grupos`, `miembros` e `invitaciones`) toda la lógica de permisos queda en `lib/permisos.ts` y se puede probar sin depender del modelo del plugin.
 - **Sesión en el servidor:** `lib/auth/sesion.ts` (`usuarioActual`) llama a `connection()` antes de leer. Con `cacheComponents`, si no, Next intenta prerenderizar y el pool de Neon (que usa `crypto.randomBytes`) rompe el render. Quien la usa va dentro de `<Suspense>`.
 

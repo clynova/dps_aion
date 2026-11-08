@@ -30,6 +30,8 @@ export const auth = betterAuth({
       mapProfileToUser: (p) => ({ name: p.global_name || p.username }),
     },
   },
+  // Los tokens de Discord no se usan tras el login, pero Better Auth los guarda: al menos, cifrados (XChaCha20).
+  account: { encryptOAuthTokens: true },
   session: {
     expiresIn: 60 * 60 * 24 * 30, // 30 días
     updateAge: 60 * 60 * 24,      // se renueva una vez al día si se usa
