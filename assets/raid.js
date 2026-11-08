@@ -34,7 +34,7 @@
   const iconImg = (id, size = 20) => {
     const u = iconUrl(id); if (!u) return null;
     const img = el('img', 'rx-icon'); img.src = u; img.alt = skName(id); img.title = skName(id);
-    img.width = size; img.height = size; img.loading = 'lazy'; img.decoding = 'async';
+    img.width = size; img.height = size; img.decoding = 'async';
     img.addEventListener('error', () => img.remove());
     return img;
   };
