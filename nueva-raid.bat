@@ -1,0 +1,28 @@
+@echo off
+chcp 65001 >nul
+cd /d "%~dp0"
+echo.
+echo  === Nueva raid: extraer de Questlog y publicar en dpsaion.vercel.app ===
+echo.
+git pull --rebase --autostash -q
+powershell -NoProfile -ExecutionPolicy Bypass -File "tools\extraer-raid.ps1" %*
+if errorlevel 1 (
+  echo.
+  echo  No se pudo extraer la raid. Revisa el mensaje de arriba.
+  pause
+  exit /b 1
+)
+git add raids nombres.json
+git commit -q -m "Nueva raid desde Questlog"
+git push -q
+if errorlevel 1 (
+  echo.
+  echo  No se pudo subir a GitHub. Revisa tu conexion o el inicio de sesion de Git.
+  pause
+  exit /b 1
+)
+echo.
+echo  Listo. En un minuto estara en https://dpsaion.vercel.app/
+echo  Para el analisis y las recomendaciones, pidele a Claude: "analiza la ultima raid".
+echo.
+pause

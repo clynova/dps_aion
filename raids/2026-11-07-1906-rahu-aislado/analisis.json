@@ -1,0 +1,60 @@
+{
+  "pendiente": false,
+  "titular": "El mejor intento quitó el **75,7 %** de la vida de Rahu, y los últimos dos ya pasaban del 50 %. En **9 de 17** intentos el grupo murió con Rahu entre el 35 y el 50 %, hacia los 140–175 s: el daño alcanza (a este ritmo serían unos 6,5 min sin morir), lo que falla son las mecánicas de esa fase.",
+  "zonas": { "muro": [35, 50], "ventana": [140, 175] },
+  "one_shot": 100000,
+  "recomendaciones": [
+    {
+      "titulo": "Preparar la fase del muro antes de entrar.",
+      "texto": "Entre los 112 y los 172 s Rahu encadena 1802900, 1802840 y 1802810 mientras salen los adds 2920718 (su 1802850 causó 8 muertes). Repartid quién se encarga de los adds y quién sigue en el jefe: solo los intentos que superaron esa fase (9, 16 y 17) pasaron de la mitad."
+    },
+    {
+      "titulo": "Esquivar o mitigar 1802880.",
+      "texto": "Es un golpe a un solo objetivo de 110–205k que mata de un toque. Sale hacia los 30–40 s y otra vez hacia los 125–150 s, y mató dos veces al tanque nada más empezar."
+    },
+    {
+      "titulo": "Romper el stagger siempre.",
+      "texto": "Todos los intentos que llegaron lejos rompieron el stagger hacia los 101–114 s. Ninguno sin rotura pasó del 28 %."
+    },
+    {
+      "titulo": "No llegar a 1802720.",
+      "texto": "Mata a todo el grupo (golpes de 110–195k) y cerró los cuatro mejores intentos. También salió a los 95 s del intento 2, así que parece el castigo por fallar una mecánica, no un enrage por tiempo."
+    },
+    {
+      "titulo": "Estudiar la fase final.",
+      "texto": "1802980 y 1802981 solo salieron en el intento 9, pasado el 70 %, y mataron a tres jugadores en 15 s. Conviene mirar una guía o un vídeo antes de la próxima noche."
+    }
+  ],
+  "jugadores": {
+    "FunPeople": [
+      "Eres quien más DPS hace (51,5k de media, hasta 59k en los últimos intentos) aun siendo el tanque. La tendencia es buena.",
+      "9 de tus 19 muertes son de los adds 2920725 (1802716/17/18), casi siempre al final del wipe, cuando quedas último en pie. El problema real es cómo empieza el wipe, no tú.",
+      "1802880 te mató dos veces en los primeros 41 s con golpes de 206k. Guarda un defensivo fuerte o muévete cuando Rahu lo castee hacia los 30–40 s."
+    ],
+    "Rhygal": [
+      "El 71,6 % de tus golpes van por la espalda y el 63 % son críticos: la mejor ejecución del grupo.",
+      "Tus muertes se reparten entre adds: 1802920 (add 2920724) y 1802830 (add 2920717), 3 cada una. Al estar pegado al jefe te pillan sus áreas; sal un momento cuando aparezcan.",
+      "Tu DPS bajó a 34–39k en los intentos 12, 13 y 17. Revisa si en esos intentos moriste antes o te tocó cambiar a los adds."
+    ],
+    "Izumi": [
+      "Tienes el mejor equipo del grupo (GS 3067). Tus intentos buenos llegan a 55–57k de DPS, pero el último cayó a 30k.",
+      "4 de tus muertes son de 1802850, el add 2920718 de la fase del muro. Colócate lejos de donde aparecen los adds o encárgate de ellos con tu daño en área.",
+      "8 muertes sin habilidad registrada: suelen ser efectos de daño continuo. Vigila los debuffs que te dejan los adds."
+    ],
+    "Cry": [
+      "Eres la única curación seria del grupo (5,2k HPS frente a menos de 1,2k del resto) y aun así haces 36,8k de DPS.",
+      "Tu primera muerte llega de media a los 142 s, justo en la ventana del muro. Si caes ahí, el grupo se queda sin curación: en esa fase prioriza sobrevivir y curar por encima del daño.",
+      "1802715 y 1802710 son daño constante a todo el grupo (unos 560k en total, golpes pequeños). Un escudo o curación en área preventiva antes de los 140 s puede dar margen para la fase de adds."
+    ],
+    "Pantsu": [
+      "Eres quien más muere (25) y quien muere antes: tu primera muerte llega de media a los 117 s, unos 20 s antes que el resto. Cada segundo muerto es DPS que el grupo pierde.",
+      "Tus causas principales: el add 2920717 (1802830, 3 muertes, hacia los 45–100 s), el telegrafiado 1802750 (2) y 1802700 y 1802840 (2 cada una). Mantén distancia con los adds y deja libre la zona marcada de 1802750 hacia los 75 s.",
+      "Tienes el equipo más bajo del grupo (GS 2834, CP 182k). Subirlo es la mejora más directa para tu DPS (36,4k) y para aguantar golpes."
+    ]
+  },
+  "notas": [
+    { "termino": "Otro grupo", "texto": "El otro grupo de la raid solo aparece en las muertes de los intentos 1 a 5. Después parece que se fue (es una deducción: el medidor no registra a ese grupo)." },
+    { "termino": "Primer jefe", "texto": "El jefe 2301008 cayó a la primera con la raid completa en 223 s, con 428k de DPS de raid." },
+    { "termino": "Fin de la run", "texto": "La run terminó por el límite de 60 minutos." }
+  ]
+}
