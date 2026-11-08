@@ -44,10 +44,25 @@
     $('jugadores').hidden = false;
     players.sort((a, b) => b.raids - a.raids || new Date(b.ultima) - new Date(a.ultima) || a.nombre.localeCompare(b.nombre));
     const fold = (s) => s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().trim();
-    const show = (list) => $('lista-jugadores').replaceChildren(...list.map((p) => {
+    // Botón de los resultados de búsqueda: avisa en Discord (api/solicitar.js) de que alguien quiere el análisis de su perfil
+    const pedido = (slug) => { try { return localStorage.getItem('solicitud:' + slug); } catch (e) { return null; } };
+    const request = (p) => {
+      const b = el('button', 'hm-request'); b.type = 'button';
+      const sent = () => { b.disabled = true; b.textContent = T('home.players.sent'); };
+      if (pedido(p.slug)) { sent(); return b; }
+      b.textContent = T('home.players.request');
+      b.addEventListener('click', async () => {
+        b.disabled = true; b.textContent = T('home.players.sending');
+        const r = await fetch('api/solicitar', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ slug: p.slug }) }).catch(() => null);
+        if (r && r.ok) { try { localStorage.setItem('solicitud:' + p.slug, new Date().toISOString()); } catch (e) { /* sin almacenamiento */ } sent(); }
+        else { b.disabled = false; b.textContent = T('home.players.error'); }
+      });
+      return b;
+    };
+    const show = (list, withRequest) => $('lista-jugadores').replaceChildren(...list.map((p) => {
       const li = el('li', 'hm-player'); const a = el('a'); a.href = `jugadores/${p.slug}/`;
       a.append(el('span', 'hm-name', p.nombre), el('span', 'hm-sub', `${T('class.' + p.clase_id)} · ${nf.format(p.raids)} ${T(p.raids === 1 ? 'pl.raid1' : 'pl.raidN')} · ${cmp.format(p.dps_medio)} DPS`));
-      li.append(a); return li;
+      li.append(a); if (withRequest) li.append(request(p)); return li;
     }));
     const search = () => {
       const q = $('buscar-jugador').value.trim(), state = $('buscar-estado');
@@ -55,7 +70,7 @@
       const found = players.filter((p) => fold(p.nombre).includes(fold(q)));
       state.hidden = false;
       state.textContent = found.length ? T(found.length === 1 ? 'home.players.found1' : 'home.players.foundN', { n: nf.format(found.length) }) : T('home.players.none', { q });
-      show(found);
+      show(found, true);
     };
     $('buscar-jugador').addEventListener('input', search);
     search();
