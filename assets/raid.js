@@ -230,7 +230,7 @@
   function drawCausas(box) {
     hbars(box, D.causas, {
       ariaLabel: T('aria.causes'),
-      label: (d) => `${skName(d.habilidad)} · ${orgName(d.origen)}`,
+      label: (d) => (d.habilidad || d.origen ? `${skName(d.habilidad)} · ${orgName(d.origen)}` : T('nodata')),
       value: (d) => d.muertes, valueText: (d) => int(d.muertes),
       critical: (d) => d.golpe_max >= ONE_SHOT,
       tip: (d) => [T('tip.deaths', { n: int(d.muertes) }), T('tip.maxhit', { n: int(d.golpe_max) }), skillNo(d.habilidad)]
@@ -379,7 +379,8 @@
     if (!det.muertes.length) { const tr = el('tr'); const c = el('td', null, T('f.nodeaths')); c.colSpan = 4; tr.append(c); mb.append(tr); }
     det.muertes.forEach((d) => {
       const tr = el('tr');
-      tr.append(el('td', null, int(d.intento)), el('td', null, int(d.t) + ' s'), el('td', null, `${skName(d.habilidad)} · ${orgName(d.origen)}`),
+      const causa = d.habilidad || d.origen ? `${skName(d.habilidad)} · ${orgName(d.origen)}` : T('nodata');
+      tr.append(el('td', null, int(d.intento)), el('td', null, int(d.t) + ' s'), el('td', null, causa),
         el('td', d.golpe_max >= ONE_SHOT ? 'rx-bad' : null, d.golpe_max ? int(d.golpe_max) : '—'));
       mb.append(tr);
     });
