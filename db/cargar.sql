@@ -14,7 +14,7 @@ create or replace temp table src as
 -- Encuentros, jugadores y npcs
 insert into encuentros
 select id, log, make_timestamptz(((overview ->> 'startedAt')::bigint) * 1000), (fight ->> 'startedAt')::bigint,
-  (overview ->> 'durationSeconds')::double, (overview ->> 'npc')::integer, (overview ->> 'killed')::boolean,
+  (overview ->> 'durationSeconds')::double, (overview ->> 'dps')::double, (overview ->> 'npc')::integer, (overview ->> 'killed')::boolean,
   overview ->> 'end', overview ->> 'character', (fight ->> 'version')::integer
 from raw;
 
@@ -43,7 +43,7 @@ create or replace temp table t as select enc, t0, tipo(c, 'at') k_at, tipo(c, 'a
 from (select enc, t0, p -> 'hits' -> 'columns' c from src where (p -> 'hits' ->> 'length')::integer > 0);
 insert into golpes
 select enc, acum(ts, k_at, enc, i) - t0, acum(actor, k_actor, enc, i), acum(dueno, k_dueno, enc, i), acum(objetivo, k_obj, enc, i),
-  habilidad, dano, golpes, dot <> 0, critico <> 0, espalda <> 0, frente <> 0, perfecto <> 0, fuerte <> 0
+  habilidad, dano, golpes, dot <> 0, critico <> 0, espalda <> 0, frente <> 0, perfecto <> 0, fuerte <> 0, i
 from (select enc, t0, k_at, k_actor, k_dueno, k_obj, unnest(range(len(ts))) i, unnest(ts) ts, unnest(actor) actor, unnest(dueno) dueno,
   unnest(objetivo) objetivo, unnest(habilidad) habilidad, unnest(dano) dano, unnest(golpes) golpes, unnest(dot) dot, unnest(critico) critico,
   unnest(espalda) espalda, unnest(frente) frente, unnest(perfecto) perfecto, unnest(fuerte) fuerte from t);
@@ -55,7 +55,7 @@ create or replace temp table t as select enc, t0, tipo(c, 'at') k_at,
   col(c, 'critical')::bigint[] critico, col(c, 'mitigation')::varchar[] mitigacion
 from (select enc, t0, p -> 'taken' -> 'columns' c from src where (p -> 'taken' ->> 'length')::integer > 0);
 insert into recibido
-select enc, acum(ts, k_at, enc, i) - t0, actor, dueno, objetivo, habilidad, dano, dot <> 0, critico <> 0, mitigacion
+select enc, acum(ts, k_at, enc, i) - t0, actor, dueno, objetivo, habilidad, dano, dot <> 0, critico <> 0, mitigacion, i
 from (select enc, t0, k_at, unnest(range(len(ts))) i, unnest(ts) ts, unnest(actor) actor, unnest(dueno) dueno, unnest(objetivo) objetivo,
   unnest(habilidad) habilidad, unnest(dano) dano, unnest(dot) dot, unnest(critico) critico, unnest(mitigacion) mitigacion from t);
 
@@ -132,8 +132,8 @@ drop table t;
 
 -- Mecánicas
 insert into muertes
-select enc, (x ->> 'at')::bigint - t0, x ->> 'name', (x ->> 'server')::integer, (x ->> 'npc')::integer, (x ->> 'skill')::integer
-from (select enc, t0, unnest(from_json(m -> 'deaths', '["json"]')) x from src);
+select enc, (x ->> 'at')::bigint - t0, x ->> 'name', (x ->> 'server')::integer, (x ->> 'npc')::integer, (x ->> 'skill')::integer, i
+from (select enc, t0, unnest(from_json(m -> 'deaths', '["json"]')) x, unnest(range(coalesce(json_array_length(m -> 'deaths'), 0)::bigint)) i from src);
 
 insert into resurrecciones
 select enc, (x ->> 'at')::bigint - t0, x -> 'player' ->> 'name', (x -> 'player' ->> 'server')::integer

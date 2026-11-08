@@ -22,7 +22,7 @@ create table if not exists run_build (            -- habilidades equipadas del p
 
 -- Encuentros (encounters/<id>.json.gz): cada pull a un jefe o grupo de npcs
 create table if not exists encuentros (
-  id varchar primary key, log varchar, inicio timestamptz, inicio_ms bigint, duracion_s double,
+  id varchar primary key, log varchar, inicio timestamptz, inicio_ms bigint, duracion_s double, dps double,
   npc integer, matado boolean, fin varchar, personaje varchar, version integer
 );
 create table if not exists jugadores (
@@ -37,11 +37,12 @@ create table if not exists npcs (
 -- Eventos del medidor (fight.packed)
 create table if not exists golpes (               -- daño hecho
   enc varchar, t_ms bigint, actor integer, dueno integer, objetivo integer, habilidad integer, dano bigint,
-  golpes integer, dot boolean, critico boolean, espalda boolean, frente boolean, perfecto boolean, fuerte boolean
+  golpes integer, dot boolean, critico boolean, espalda boolean, frente boolean, perfecto boolean, fuerte boolean,
+  orden integer                                   -- posición en el registro (desempata eventos del mismo ms)
 );
 create table if not exists recibido (             -- daño recibido
   enc varchar, t_ms bigint, actor integer, dueno integer, objetivo integer, habilidad integer, dano bigint,
-  dot boolean, critico boolean, mitigacion varchar
+  dot boolean, critico boolean, mitigacion varchar, orden integer
 );
 create table if not exists curaciones (enc varchar, t_ms bigint, dueno integer, objetivo integer, habilidad integer, cantidad bigint);
 create table if not exists escudos (enc varchar, t_ms bigint, dueno integer, objetivo integer, habilidad integer, buff integer, cantidad bigint);
@@ -58,7 +59,7 @@ create table if not exists buffs (
 create table if not exists vida (enc varchar, t_ms bigint, entidad integer, vida bigint, vida_max bigint);
 
 -- Mecánicas (fight.mechanics)
-create table if not exists muertes (enc varchar, t_ms bigint, nombre varchar, servidor integer, npc integer, habilidad integer);
+create table if not exists muertes (enc varchar, t_ms bigint, nombre varchar, servidor integer, npc integer, habilidad integer, orden integer);
 create table if not exists resurrecciones (enc varchar, t_ms bigint, nombre varchar, servidor integer);
 create table if not exists roturas (enc varchar, t_ms bigint, npc integer, hasta_ms bigint);
 create table if not exists casteos (              -- lo que castea cada npc: tipo = barra, casteo o telegrafiado

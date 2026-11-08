@@ -42,6 +42,27 @@ foreach ($f in $files) {
     $p.Value.muertes | ForEach-Object { & $addSk $_.habilidad; & $addNpc $_.origen }
   }
 }
+# Y de la base de datos (si existe), todo lo de esas raids: también curaciones, escudos y lo que recibe el grupo
+$db = Join-Path $Repo 'db\aion.duckdb'
+if (Test-Path $db) {
+  . (Join-Path $PSScriptRoot 'duckdb.ps1')
+  $filas = Invoke-Duck $db @"
+select distinct 'h' || habilidad from (
+  select g.habilidad from jugador_intento ji join golpes g on g.enc = ji.enc and g.dueno = ji.entidad
+  union all select c.habilidad from jugador_intento ji join curaciones c on c.enc = ji.enc and c.dueno = ji.entidad
+  union all select e.habilidad from jugador_intento ji join escudos e on e.enc = ji.enc and e.dueno = ji.entidad
+  union all select r.habilidad from jugador_intento ji join recibido r on r.enc = ji.enc and r.objetivo = ji.entidad
+  union all select m.habilidad from muertes_intento m
+  union all select c.habilidad from intentos i join casteos c on c.enc = i.enc
+) where habilidad > 0
+union all
+select distinct 'n' || npc from (
+  select npc from raids union all select m.npc from muertes_intento m
+  union all select e.npc from raids r join runs ru on ru.id = r.run join encuentros e on e.log = ru.log where e.duracion_s > 5
+) where npc > 0;
+"@ -SoloLectura
+  foreach ($f in $filas) { if ($f -match '^h(\d+)$') { $skIds[$Matches[1]] = 1 } elseif ($f -match '^n(\d+)$') { $npcIds[$Matches[1]] = 1 } }
+}
 
 Write-Host "Descargando nombres de Questlog ($Idioma)..."
 $S = Get-Trpc 'combatLog.entities.skills'

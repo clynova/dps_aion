@@ -24,22 +24,7 @@ $archEnc = Join-Path $dbDir 'archivo\encounters'
 $archRuns = Join-Path $dbDir 'archivo\runs'
 New-Item -ItemType Directory -Force $archEnc, $archRuns | Out-Null
 
-function Find-DuckDb {
-  $c = Get-Command duckdb -ErrorAction SilentlyContinue
-  if ($c) { return $c.Source }
-  $p = Get-ChildItem "$env:LOCALAPPDATA\Microsoft\WinGet\Packages" -Recurse -Filter duckdb.exe -ErrorAction SilentlyContinue | Select-Object -First 1
-  if ($p) { return $p.FullName }
-  throw 'No encuentro duckdb.exe. Instálalo con: winget install DuckDB.cli'
-}
-$duck = Find-DuckDb
-# El SQL va por un archivo temporal: por la tubería, PowerShell 5.1 estropea los comandos .read
-$tmpSql = Join-Path $env:TEMP 'dps-aion-cargar.sql'
-function Invoke-Duck([string]$sql) {
-  [IO.File]::WriteAllText($tmpSql, $sql, (New-Object Text.UTF8Encoding $false))
-  $out = & $duck $db -bail -noheader -list -f $tmpSql 2>&1 | ForEach-Object { "$_" }
-  if ($LASTEXITCODE -ne 0) { throw "DuckDB: $($out -join "`n")" }
-  $out
-}
+. (Join-Path $PSScriptRoot 'duckdb.ps1')
 $fwd = { param($p) $p -replace '\\', '/' }
 
 # 1. Archivo: copia lo nuevo (los encuentros no cambian; las runs sí mientras estás dentro)
@@ -59,15 +44,15 @@ Write-Host "Archivo: $nuevos encuentros nuevos copiados ($((Get-ChildItem $archE
 # 2. Encuentros que faltan en la base
 if ($Reconstruir -and (Test-Path $db)) { Remove-Item $db, "$db.wal" -ErrorAction SilentlyContinue }
 $esquema = & $fwd (Join-Path $dbDir 'esquema.sql')
-Invoke-Duck ".read '$esquema'" | Out-Null
-$cargados = @(Invoke-Duck 'select id from encuentros;')
+Invoke-Duck $db ".read '$esquema'" | Out-Null
+$cargados = @(Invoke-Duck $db 'select id from encuentros;')
 $set = New-Object 'System.Collections.Generic.HashSet[string]'; foreach ($id in $cargados) { [void]$set.Add([string]$id) }
 $pendientes = @(Get-ChildItem $archEnc -Filter '*.json.gz' | Where-Object { -not $set.Contains(($_.Name -replace '\.json\.gz$', '')) })
 $cargar = & $fwd (Join-Path $dbDir 'cargar.sql')
 for ($i = 0; $i -lt $pendientes.Count; $i += $Tanda) {
   $lote = $pendientes[$i..([math]::Min($i + $Tanda, $pendientes.Count) - 1)]
   $lista = ($lote | ForEach-Object { "'" + (& $fwd $_.FullName) + "'" }) -join ', '
-  Invoke-Duck @"
+  Invoke-Duck $db @"
 set preserve_insertion_order = false;
 begin transaction;
 create or replace temp table raw as
@@ -86,7 +71,7 @@ $vistasSql = & $fwd (Join-Path $dbDir 'vistas.sql')
 $runsGlob = & $fwd (Join-Path $archRuns '*.json')
 Push-Location $Repo
 try {
-  Invoke-Duck @"
+  Invoke-Duck $db @"
 begin transaction;
 delete from runs; delete from run_grupo; delete from run_miembros; delete from run_build;
 create or replace temp table raw_runs as
@@ -100,6 +85,6 @@ checkpoint;
 "@ | Out-Null
 } finally { Pop-Location }
 
-$resumen = Invoke-Duck "select count(*) || ' encuentros, ' || (select count(*) from runs) || ' runs, ' || (select count(*) from raids) || ' raids, ' || (select count(*) from golpes) || ' golpes' from encuentros;"
+$resumen = Invoke-Duck $db "select count(*) || ' encuentros, ' || (select count(*) from runs) || ' runs, ' || (select count(*) from raids) || ' raids, ' || (select count(*) from golpes) || ' golpes' from encuentros;"
 Write-Host "Base de datos: $resumen"
 Write-Host "  $db"
