@@ -5,6 +5,10 @@
   "one_shot": 100000,
   "recomendaciones": [
     {
+      "titulo": "Lo que separa esta noche de los kills.",
+      "texto": "Comparada con las dos runs en que Rahu cayó (7/11 a la 01:38 y a las 02:45): los intentos de esta noche duraron de media **144 s**, los más cortos de todas (en los kills, 269–304 s), y la primera muerte de cada jugador llegó entre los **92 y los 131 s** (en los kills, 127–223 s). Hubo **2,6 muertes por minuto** frente a 1,9–2,0, y la rotura salió en 9 de 18 intentos frente a todos. Fue la noche con más daño (244k frente a 198k del grupo de los kills) y la que menos aguantó: el daño sin supervivencia no avanza."
+    },
+    {
       "titulo": "Resolver 1802880 entre todos.",
       "texto": "Es un golpe a un solo objetivo de hasta 194k que mata de un toque. Lo lanza hacia los 26–35 s y otra vez hacia los 119–130 s. Esta noche mató a 11 jugadores, 5 de ellos Rhygal. Averiguad a quién apunta (¿al segundo en aggro, al más cercano?) y avisad por voz cuando salga."
     },

@@ -1,9 +1,13 @@
 {
   "pendiente": false,
-  "titular": "La noche que más cerca se estuvo: el intento 11 llegó al **80,6 %** y el 10 al 70,4 %. Pero solo **7 de 16** intentos rompieron el stagger, y tarde (143–157 s). Ninguno de los que no lo rompieron pasó del 45 %, y todos los que pasaron del 50 % sí lo rompieron.",
+  "titular": "La noche que más cerca se estuvo: el intento 11 llegó al **80,6 %** y el 10 al 70,4 %. Pero solo **6 de 16** intentos rompieron el stagger, y tarde (143–157 s). Ninguno de los que no lo rompieron llegó al 46 %, y todos los que pasaron del 50 % sí lo rompieron.",
   "zonas": { "ventana": [130, 175] },
   "one_shot": 100000,
   "recomendaciones": [
+    {
+      "titulo": "Lo que separa esta noche de los kills.",
+      "texto": "Comparada con las dos runs en que Rahu cayó (7/11 a la 01:38 y a las 02:45): los intentos de esta noche duraron de media **172 s** (en los kills, 269–304 s) y la primera muerte de cada jugador llegó entre los **94 y los 138 s** (en los kills, 127–223 s). Hubo **2,6 muertes por minuto** frente a 1,9–2,0, y la rotura de stagger salió en 6 de 16 intentos frente a todos. El daño no era el problema: 220k de DPS medio, y el grupo de los kills tenía 198k."
+    },
     {
       "titulo": "Romper el stagger antes y siempre.",
       "texto": "Esta noche la rotura llegó a los 143–157 s y en menos de la mitad de los intentos. Al día siguiente por la tarde llegaba a los 101–114 s en todos los intentos largos. Es la diferencia más clara entre los intentos que avanzan y los que no."
@@ -22,7 +26,7 @@
     },
     {
       "titulo": "Menos muertes, no más daño.",
-      "texto": "En los dos mejores intentos el DPS del grupo cayó a 178–200k por las muertes (9 y 10). En el kill del 7/11 a la 01:38 Rahu cayó en 324 s con 264k de DPS del grupo y solo 5 muertes: hace falta llegar al final con la gente viva."
+      "texto": "En los dos mejores intentos (10 y 11) el DPS del grupo cayó a 178–200k por las muertes (9 y 10). En el intento del kill de la 01:38 hubo 264k de DPS y solo 5 muertes: hace falta llegar al final con la gente viva."
     }
   ],
   "jugadores": {

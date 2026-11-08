@@ -154,7 +154,7 @@
         t.show(`Intento ${d.intento}`, [
           d.matado ? 'Kill' : `${pct(d.progreso_pct)} de vida quitada`,
           `${int(d.duracion_s)} s · ${int(d.muertes)} muertes`,
-          d.rotura_s == null ? 'Sin rotura de stagger' : `Rotura de stagger en el s ${int(d.rotura_s)}`,
+          typeof d.rotura_s !== 'number' ? 'Sin rotura de stagger' : `Rotura de stagger en el s ${int(d.rotura_s)}`,
           `Última muerte: ${skName(d.ultima_causa)}`
         ], px, py);
       })

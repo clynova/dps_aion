@@ -26,7 +26,8 @@ if (-not (Test-Path "$d\runs\index.json")) { throw "No encuentro los datos de Qu
 $utf8 = New-Object Text.UTF8Encoding $false
 
 function Read-Json($p) { [IO.File]::ReadAllText($p, [Text.Encoding]::UTF8) | ConvertFrom-Json }
-function Write-Json($p, $o) { [IO.File]::WriteAllText($p, (ConvertTo-Json -InputObject $o -Depth 8 -Compress), $utf8) }
+# PowerShell 5.1 serializa los valores vacíos de una tubería como {}: se guardan como null.
+function Write-Json($p, $o) { [IO.File]::WriteAllText($p, ((ConvertTo-Json -InputObject $o -Depth 8 -Compress) -replace '":\{\}', '":null'), $utf8) }
 function Read-Gz($p) {
   $fs = [IO.File]::OpenRead($p)
   $gz = New-Object IO.Compression.GZipStream($fs, [IO.Compression.CompressionMode]::Decompress)

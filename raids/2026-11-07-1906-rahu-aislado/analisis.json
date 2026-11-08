@@ -5,6 +5,10 @@
   "one_shot": 100000,
   "recomendaciones": [
     {
+      "titulo": "Lo que separa esta noche de los kills.",
+      "texto": "Comparada con las dos runs en que Rahu cayó (7/11 a la 01:38 y a las 02:45): los intentos duraron de media **156 s** (en los kills, 269–304 s) y la primera muerte de cada jugador llegó entre los **117 y los 142 s** (en los kills, 127–223 s). Hubo **2,4 muertes por minuto** frente a 1,9–2,0. La rotura fue la mejor de vuestras tres noches (12 de 17, y antes: 101–114 s), pero solo 3 intentos pasaron del 50 %, y en los kills lo hicieron todos. El paso que falta es sobrevivir a la fase de adds; el daño (218k) ya supera al del grupo de los kills (198k)."
+    },
+    {
       "titulo": "Preparar la fase del muro antes de entrar.",
       "texto": "Entre los 112 y los 172 s Rahu encadena 1802900, 1802840 y 1802810 mientras salen los adds 2920718 (su 1802850 causó 8 muertes). Repartid quién se encarga de los adds y quién sigue en el jefe: solo los intentos que superaron esa fase (9, 16 y 17) pasaron de la mitad."
     },
