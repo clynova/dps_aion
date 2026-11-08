@@ -70,5 +70,14 @@
   "unirse.entrar": "Sign in with Discord to accept the invite.",
   "noEncontrado.titulo": "Page not found",
   "noEncontrado.texto": "This page doesn’t exist or you don’t have access to it. If it belongs to a private group, sign in with the Discord account you joined with.",
-  "noEncontrado.inicio": "Go to the home page"
+  "noEncontrado.inicio": "Go to the home page",
+  "portada.lede": "Aion 2 raid history by group, taken from the Questlog combat meter: stats for every night, player profiles and analysis.",
+  "portada.grupos": "Groups",
+  "portada.grupos.nota": "Groups that share their raids. Private raids are only visible to members.",
+  "portada.grupos.vacio": "No public groups yet.",
+  "portada.raids1": "1 raid",
+  "portada.raidsN": "{n} raids",
+  "portada.ultima": "latest on {d}",
+  "portada.tuyo": "Your group",
+  "portada.crear": "Create one for your group, or join with an invite from “My groups”."
 }

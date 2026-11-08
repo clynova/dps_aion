@@ -70,5 +70,14 @@
   "unirse.entrar": "Entra con Discord para aceptar la invitación.",
   "noEncontrado.titulo": "Página no encontrada",
   "noEncontrado.texto": "Esta página no existe o no tienes acceso a ella. Si es de un grupo privado, entra con la cuenta de Discord con la que te uniste.",
-  "noEncontrado.inicio": "Ir a la portada"
+  "noEncontrado.inicio": "Ir a la portada",
+  "portada.lede": "Historial de raids de Aion 2 por grupos, sacado del medidor de combate de Questlog: estadísticas de cada noche, perfiles de jugador y análisis.",
+  "portada.grupos": "Grupos",
+  "portada.grupos.nota": "Los grupos que comparten sus raids. Las raids privadas solo las ven sus miembros.",
+  "portada.grupos.vacio": "Todavía no hay grupos públicos.",
+  "portada.raids1": "1 raid",
+  "portada.raidsN": "{n} raids",
+  "portada.ultima": "última, el {d}",
+  "portada.tuyo": "Tu grupo",
+  "portada.crear": "Crea el de tu grupo o únete con una invitación desde «Mis grupos»."
 }

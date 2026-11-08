@@ -303,6 +303,7 @@ Orden: **raid → perfil → grupo → portada**. Server Components con caché y
 - La portada del grupo es la portada actual; la portada global es nueva (apartado 3.6).
 - `generateMetadata` por página e imagen para compartir en Discord con `next/og`.
 - **Hecho cuando:** Playwright recorre las 5 raids y los 10 perfiles en es/en, en escritorio y en móvil (375 px), sin errores de consola. Las cifras visibles (tiles y tablas) coinciden con las de la web actual en una comparación automática, y un visitante anónimo no ve nada privado.
+- **Resultado (8/11/2026): las 32 páginas iguales a la web actual** (5 raids con ficha, 10 perfiles con sus 6 pestañas y la página del grupo, en es/en), comparadas zona por zona con `npm run comparar-paginas` (Playwright). Móvil (375 px) sin desbordes, sin errores de consola y raid privada invisible sin sesión. Port por adaptador: plantillas en JSX y el código de dibujo original en `lib/legado` ([ADR 0003](adr/0003-port-de-paginas.md)). Las URL antiguas `/raids/<slug>` redirigen con 308. Portada global con la lista de grupos. **Pendiente:** el botón «solicitar análisis» del buscador (fase 8), `next/og` para las imágenes al compartir y la caché por etiquetas (ver el ADR).
 
 ### Fase 6 · Subida desde el navegador
 Asistente en `/g/[grupo]/subir`, con el procesado de la fase 1 convertido en producto:
