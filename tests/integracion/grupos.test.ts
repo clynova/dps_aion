@@ -7,14 +7,19 @@ const conBase = !!process.env.DATABASE_URL;
 const id = `prueba-${Date.now().toString(36)}`;
 const U = { duena: `${id}-duena`, admin: `${id}-admin`, pub: `${id}-pub`, otro: `${id}-otro`, intrusa: `${id}-intrusa` };
 
-describe.skipIf(!conBase)('grupos contra la base', async () => {
-  const { db } = await import('@/lib/db/client');
-  const s = await import('@/lib/db/schema');
-  const g = await import('@/lib/db/grupos');
+// Los módulos que conectan a la base se importan en beforeAll: el cuerpo de un describe saltado se ejecuta igual al
+// recoger las pruebas, y sin DATABASE_URL lib/db/client lanza un error (así falló el CI de 305ddc0).
+type Db = typeof import('@/lib/db/client')['db'];
+let db: Db, s: typeof import('@/lib/db/schema'), g: typeof import('@/lib/db/grupos');
+
+describe.skipIf(!conBase)('grupos contra la base', () => {
   let grupoId = '';
   const slug = `${id}`.slice(0, 40);
 
   beforeAll(async () => {
+    ({ db } = await import('@/lib/db/client'));
+    s = await import('@/lib/db/schema');
+    g = await import('@/lib/db/grupos');
     await db.insert(s.user).values(Object.values(U).map((uid) => ({ id: uid, name: uid, email: `${uid}@prueba.invalid` })));
   });
   afterAll(async () => {

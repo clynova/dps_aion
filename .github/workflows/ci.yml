@@ -16,8 +16,8 @@ jobs:
     env:
       NEXT_TELEMETRY_DISABLED: '1'
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
         with:
           node-version: 24
           cache: npm
@@ -30,3 +30,6 @@ jobs:
         run: npm test
       - name: Build
         run: npm run build
+        env:
+          # Better Auth exige un secreto en producción. En el CI nadie inicia sesión: este valor solo sirve para compilar.
+          AUTH_SECRET: ci-solo-para-compilar-no-es-un-secreto-real-0000
