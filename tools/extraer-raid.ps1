@@ -5,6 +5,7 @@
     powershell -ExecutionPolicy Bypass -File tools\extraer-raid.ps1            # la última raid
     powershell -ExecutionPolicy Bypass -File tools\extraer-raid.ps1 -Run 656c  # una run concreta (inicio del id)
     ... -Lista                                                                  # ver las últimas runs
+    ... -Run dc39 -Jefe 2301006                                                 # una run, centrada en un jefe concreto
 
   Crea o actualiza:
     raids/<slug>/index.html   copia de assets/raid-shell.html
@@ -16,6 +17,7 @@ param(
   [Alias('Run')][string]$RunId,
   [switch]$Lista,
   [switch]$Reindexar,
+  [Alias('Jefe')][string]$JefeNpc,
   [string]$Repo = (Split-Path $PSScriptRoot -Parent)
 )
 $ErrorActionPreference = 'Stop'
@@ -80,6 +82,7 @@ if (-not $all) { throw 'Esta run no tiene encuentros guardados.' }
 $real = $all | Where-Object { $_.durationSeconds -gt 5 }
 # Jefe principal: el que más intentos tiene (en empate, el último que se intentó).
 $mainNpc = ($real | Group-Object npc | Sort-Object @{ e = { $_.Count }; Descending = $true }, @{ e = { ($_.Group | Measure-Object startedAt -Maximum).Maximum }; Descending = $true } | Select-Object -First 1).Name
+if ($JefeNpc) { if (-not ($real | Where-Object { [string]$_.npc -eq $JefeNpc })) { throw "Esa run no tiene intentos al jefe $JefeNpc." }; $mainNpc = $JefeNpc }
 $idx = $real | Where-Object { [string]$_.npc -eq $mainNpc }
 $otros = $real | Where-Object { [string]$_.npc -ne $mainNpc } | Group-Object npc | ForEach-Object {
   $k = $_.Group | Where-Object killed | Sort-Object durationSeconds | Select-Object -First 1

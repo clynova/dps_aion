@@ -1,1 +1,50 @@
-{"pendiente":true,"titular":"","recomendaciones":[],"notas":[],"zonas":null}
+{
+  "pendiente": false,
+  "titular": "**Kill** en el intento 8: 324 s con 264k de DPS del grupo y solo 5 muertes. El DPS medio de la noche (198k) fue *más bajo* que el del grupo habitual de Cry (218–244k). La diferencia fue sobrevivir: los 7 intentos reales rompieron el stagger y **todos pasaron del 53 %**.",
+  "one_shot": 100000,
+  "recomendaciones": [
+    {
+      "titulo": "La clave fue llegar vivos a la segunda mitad.",
+      "texto": "La primera muerte de cada jugador llegó de media entre los 129 y los 223 s. En las noches del grupo habitual, entre los 92 y los 142 s. Por eso estos intentos duraban unos 270 s y los otros unos 150 s: sin muertes en la fase de adds (140–175 s), el daño alcanza."
+    },
+    {
+      "titulo": "Stagger roto en todos los intentos.",
+      "texto": "Los 7 intentos reales rompieron el stagger entre los 94 y los 142 s. Es el mismo patrón que en todas las noches: sin rotura no hay progreso."
+    },
+    {
+      "titulo": "1802720 no salió en el intento del kill.",
+      "texto": "Mató a 10 jugadores en la noche y salió en 5 intentos (210–353 s), pero no en el del kill. Refuerza la idea de que es el castigo por fallar alguna mecánica, no un enrage por tiempo."
+    },
+    {
+      "titulo": "La fase final se puede pasar.",
+      "texto": "1802980 y 1802981 (más del 70 % de vida quitada) salieron en los intentos 4, 7 y 8 y mataron a 3 jugadores en la noche. En el kill llegaron a los 219 s y el grupo la aguantó entera."
+    }
+  ],
+  "jugadores": {
+    "Posey": [
+      "El DPS más alto (62,8k, 73k en el kill) y además 2,7k de HPS de apoyo y el 70 % de golpes por la espalda. Es la referencia de la noche.",
+      "3 de tus 9 muertes son de 1802720 (506k recibidos, golpes de 169k). En los intentos sin él, apenas mueres."
+    ],
+    "Stalo": [
+      "52,4k de DPS (60k en el kill) con el 68 % de críticos.",
+      "Eres quien antes muere del grupo (primera muerte de media a los 129 s, 3 muertes antes del segundo 60). Los adds 2920717 (1802830) te mataron 3 veces: salen hacia los 45–100 s, apártate de ellos."
+    ],
+    "Nadoriel": [
+      "49,8k de DPS como tanque (61k en el kill) y una primera muerte media a los 184 s.",
+      "En el intento del kill caíste a los 133 s por 1802880 (195k). Rahu lo lanza hacia los 26–30 s y otra vez hacia los 126–135 s: guarda un defensivo para ese segundo momento."
+    ],
+    "Cry": [
+      "38,9k de DPS y 4,8k de HPS. Tu primera muerte llega de media a los 223 s; con tu grupo habitual, a los 131–142 s. Con este grupo llegas viva a la fase final y tu curación sostiene el kill.",
+      "Ninguna muerte antes del segundo 60. 1802880 te mató 2 veces (144k): cuando te apunte a ti, un escudo propio a tiempo es la diferencia."
+    ],
+    "Lux": [
+      "Tu DPS (22,5k, 24k en el kill) es menos de la mitad que el del resto del grupo. Revisa rotación y equipo: tienes el GS más bajo (2865, CP 175k).",
+      "Eres quien más muere (16). 1802840 te mató 3 veces y el add 2920719 (1802870) 2 veces en el mismo intento del kill, a los 162 y 168 s. En la fase de adds, prioriza sobrevivir."
+    ]
+  },
+  "notas": [
+    { "termino": "Grupo", "texto": "Esta run fue con un grupo distinto al habitual de Cry (Lux, Nadoriel, Posey y Stalo)." },
+    { "termino": "Otros jefes", "texto": "El jefe 2301008 cayó a la primera en 207 s. Después hubo 5 intentos al jefe 2301014, sin kill." },
+    { "termino": "Intento 3", "texto": "Duró 5 s sin daño ni muertes: un pull fallido, no un intento real." }
+  ]
+}
