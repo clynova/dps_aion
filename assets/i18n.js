@@ -82,7 +82,9 @@
       'aria.fskills': 'Daño por habilidad', 'aria.ftaken': 'Daño recibido por habilidad',
       'class.gladiator': 'Gladiador', 'class.templar': 'Templario', 'class.assassin': 'Asesino', 'class.ranger': 'Arquero', 'class.sorcerer': 'Hechicero',
       'class.elementalist': 'Espiritualista', 'class.cleric': 'Clérigo', 'class.chanter': 'Cantor', 'class.fighter': 'Luchador',
-      'home.players': 'Jugadores', 'home.players.note': 'Perfil de cada jugador con todas sus raids.',
+      'home.players': 'Jugadores', 'home.players.note': 'Los 5 jugadores con más raids. Busca tu nombre para ver tu perfil.',
+      'home.players.search': 'Buscar jugador…', 'home.players.found1': '1 jugador encontrado.', 'home.players.foundN': '{n} jugadores encontrados.',
+      'home.players.none': 'No hay nadie llamado «{q}». Solo aparecen quienes han jugado alguna raid publicada.',
       'pl.eyebrow': 'Perfil de jugador · {clase}', 'pl.back': '← Todas las raids', 'pl.open': 'Ver perfil completo →',
       'pl.lede': '{n} {raids} desde el {desde}, {k} con kill. DPS medio de {dps}.', 'pl.raid1': 'raid', 'pl.raidN': 'raids',
       'pl.tile.raids': 'Raids', 'pl.tile.raids.note': '{k} con kill · {t} intentos',
@@ -205,7 +207,9 @@
       'aria.fskills': 'Damage by ability', 'aria.ftaken': 'Damage taken by ability',
       'class.gladiator': 'Gladiator', 'class.templar': 'Templar', 'class.assassin': 'Assassin', 'class.ranger': 'Ranger', 'class.sorcerer': 'Sorcerer',
       'class.elementalist': 'Spiritmaster', 'class.cleric': 'Cleric', 'class.chanter': 'Chanter', 'class.fighter': 'Brawler',
-      'home.players': 'Players', 'home.players.note': 'Each player’s profile across all their raids.',
+      'home.players': 'Players', 'home.players.note': 'The 5 players with the most raids. Search your name to see your profile.',
+      'home.players.search': 'Search player…', 'home.players.found1': '1 player found.', 'home.players.foundN': '{n} players found.',
+      'home.players.none': 'Nobody called “{q}”. Only players from published raids are listed.',
       'pl.eyebrow': 'Player profile · {clase}', 'pl.back': '← All raids', 'pl.open': 'Open full profile →',
       'pl.lede': '{n} {raids} since {desde}, {k} with a kill. Average DPS of {dps}.', 'pl.raid1': 'raid', 'pl.raidN': 'raids',
       'pl.tile.raids': 'Raids', 'pl.tile.raids.note': '{k} with a kill · {t} attempts',
@@ -265,6 +269,7 @@
   const apply = (root = document) => {
     root.querySelectorAll('[data-i18n]').forEach((n) => { n.textContent = t(n.dataset.i18n); });
     root.querySelectorAll('[data-i18n-aria]').forEach((n) => { n.setAttribute('aria-label', t(n.dataset.i18nAria)); });
+    root.querySelectorAll('[data-i18n-placeholder]').forEach((n) => { n.setAttribute('placeholder', t(n.dataset.i18nPlaceholder)); });
   };
   const setLang = (l) => {
     if (!LANGS.includes(l) || l === lang) return;

@@ -35,7 +35,9 @@
 
   <section class="rx-section" id="jugadores" hidden>
     <h2 class="rx-h2" data-i18n="home.players">Jugadores</h2>
-    <p class="rx-note" data-i18n="home.players.note">Perfil de cada jugador con todas sus raids.</p>
+    <p class="rx-note" data-i18n="home.players.note">Los 5 jugadores con más raids. Busca tu nombre para ver tu perfil.</p>
+    <input class="hm-search" type="search" id="buscar-jugador" autocomplete="off" spellcheck="false" data-i18n-placeholder="home.players.search" data-i18n-aria="home.players.search" placeholder="Buscar jugador…">
+    <p class="rx-note" id="buscar-estado" aria-live="polite" hidden></p>
     <ul class="hm-players" id="lista-jugadores"></ul>
   </section>
 

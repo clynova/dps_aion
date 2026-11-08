@@ -151,6 +151,9 @@ h4.pl-bad { color: var(--series-2); }
 .hm-player a { display: flex; flex-direction: column; gap: 2px; padding: var(--pad-md) var(--pad-lg); background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); text-decoration: none; transition: border-color .15s; }
 .hm-player a:hover { border-color: var(--fg-muted); }
 .hm-player .hm-name { font-size: 1.2rem; }
+.hm-search { width: 100%; max-width: 24rem; font: inherit; font-size: var(--fs-body); color: var(--fg); background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); padding: var(--pad-sm) var(--pad-md); }
+.hm-search:focus { outline: 2px solid var(--series-1); outline-offset: 1px; border-color: transparent; }
+.hm-search::placeholder { color: var(--fg-muted); }
 
 /* Página principal */
 .hm-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--gap-sm); }

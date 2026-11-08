@@ -38,15 +38,27 @@
     a.append(left, stats); li.append(a); $('lista').append(li);
   });
 
-  // Jugadores: enlace al perfil de cada uno
+  // Jugadores: los 5 con más raids (empate: el que jugó más recientemente) y un buscador para el resto
   const players = await fetch('jugadores/index.json', { cache: 'no-cache' }).then((r) => r.json()).catch(() => []);
   if (players.length) {
     $('jugadores').hidden = false;
-    players.forEach((p) => {
+    players.sort((a, b) => b.raids - a.raids || new Date(b.ultima) - new Date(a.ultima) || a.nombre.localeCompare(b.nombre));
+    const fold = (s) => s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().trim();
+    const show = (list) => $('lista-jugadores').replaceChildren(...list.map((p) => {
       const li = el('li', 'hm-player'); const a = el('a'); a.href = `jugadores/${p.slug}/`;
       a.append(el('span', 'hm-name', p.nombre), el('span', 'hm-sub', `${T('class.' + p.clase_id)} · ${nf.format(p.raids)} ${T(p.raids === 1 ? 'pl.raid1' : 'pl.raidN')} · ${cmp.format(p.dps_medio)} DPS`));
-      li.append(a); $('lista-jugadores').append(li);
-    });
+      li.append(a); return li;
+    }));
+    const search = () => {
+      const q = $('buscar-jugador').value.trim(), state = $('buscar-estado');
+      if (!q) { state.hidden = true; show(players.slice(0, 5)); return; }
+      const found = players.filter((p) => fold(p.nombre).includes(fold(q)));
+      state.hidden = false;
+      state.textContent = found.length ? T(found.length === 1 ? 'home.players.found1' : 'home.players.foundN', { n: nf.format(found.length) }) : T('home.players.none', { q });
+      show(found);
+    };
+    $('buscar-jugador').addEventListener('input', search);
+    search();
   }
 
   // Evolución: solo para jefes con 2 o más noches
