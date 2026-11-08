@@ -1,12 +1,22 @@
 import { describe, expect, it } from 'vitest';
 import es from '@/lib/i18n/es.json';
 import en from '@/lib/i18n/en.json';
+import appEs from '@/lib/i18n/app.es.json';
+import appEn from '@/lib/i18n/app.en.json';
 import { rutaEn, sinIdioma, traductor } from '@/lib/i18n';
 import { decidirIdioma, idiomaDelNavegador } from '@/lib/i18n/ruta-idioma';
 
 describe('diccionarios', () => {
   it('es y en tienen exactamente las mismas claves', () => {
     expect(Object.keys(en).sort()).toEqual(Object.keys(es).sort());
+    expect(Object.keys(appEn).sort()).toEqual(Object.keys(appEs).sort());
+  });
+  it('los textos nuevos de la app no pisan los heredados de la web actual', () => {
+    expect(Object.keys(appEs).filter((k) => k in es)).toEqual([]);
+  });
+  it('mismas variables {x} en los textos nuevos', () => {
+    const vars = (s: string) => [...s.matchAll(/\{(\w+)\}/g)].map((m) => m[1]).sort();
+    for (const k of Object.keys(appEs) as (keyof typeof appEs)[]) expect(vars(appEn[k]), k).toEqual(vars(appEs[k]));
   });
   it('cada texto usa las mismas variables {x} en los dos idiomas', () => {
     const vars = (s: string) => [...s.matchAll(/\{(\w+)\}/g)].map((m) => m[1]).sort();

@@ -1,6 +1,6 @@
 // Portada (fase 2: solo el esqueleto, todavía sin datos). En la fase 5 leerá raids y jugadores de la base.
 import type { Metadata } from 'next';
-import SelectorIdioma from '@/components/SelectorIdioma';
+import BarraSuperior from '@/components/BarraSuperior';
 import { textos } from '@/lib/i18n/servidor';
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -10,14 +10,11 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function Portada() {
-  const { t, idioma } = await textos();
+  const { t } = await textos();
   return (
     <main className="rx">
       <header className="rx-head">
-        <div className="rx-topbar">
-          <p className="rx-eyebrow">{t('home.eyebrow')}</p>
-          <SelectorIdioma actual={idioma} etiqueta={t('lang.label')} />
-        </div>
+        <BarraSuperior><p className="rx-eyebrow">{t('home.eyebrow')}</p></BarraSuperior>
         <h1 className="rx-title">{t('home.title')}</h1>
         <p className="rx-lede">{t('home.empty')}</p>
       </header>

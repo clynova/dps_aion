@@ -1,0 +1,2878 @@
+{
+  "id": "69fff263-cb98-4e72-b5d8-e4dc1e71d56d",
+  "prevId": "00000000-0000-0000-0000-000000000000",
+  "version": "7",
+  "dialect": "postgresql",
+  "tables": {
+    "public.account": {
+      "name": "account",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "account_id": {
+          "name": "account_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "provider_id": {
+          "name": "provider_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "user_id": {
+          "name": "user_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "access_token": {
+          "name": "access_token",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "refresh_token": {
+          "name": "refresh_token",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "id_token": {
+          "name": "id_token",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "access_token_expires_at": {
+          "name": "access_token_expires_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "refresh_token_expires_at": {
+          "name": "refresh_token_expires_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "scope": {
+          "name": "scope",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "password": {
+          "name": "password",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {
+        "account_user_id_idx": {
+          "name": "account_user_id_idx",
+          "columns": [
+            {
+              "expression": "user_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "account_user_id_user_id_fk": {
+          "name": "account_user_id_user_id_fk",
+          "tableFrom": "account",
+          "tableTo": "user",
+          "columnsFrom": [
+            "user_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.session": {
+      "name": "session",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "expires_at": {
+          "name": "expires_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "token": {
+          "name": "token",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "ip_address": {
+          "name": "ip_address",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "user_agent": {
+          "name": "user_agent",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "user_id": {
+          "name": "user_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {
+        "session_user_id_idx": {
+          "name": "session_user_id_idx",
+          "columns": [
+            {
+              "expression": "user_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "session_user_id_user_id_fk": {
+          "name": "session_user_id_user_id_fk",
+          "tableFrom": "session",
+          "tableTo": "user",
+          "columnsFrom": [
+            "user_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "session_token_unique": {
+          "name": "session_token_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "token"
+          ]
+        }
+      },
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.user": {
+      "name": "user",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "name": {
+          "name": "name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "email": {
+          "name": "email",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "email_verified": {
+          "name": "email_verified",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": false
+        },
+        "image": {
+          "name": "image",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "user_email_unique": {
+          "name": "user_email_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "email"
+          ]
+        }
+      },
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.verification": {
+      "name": "verification",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "identifier": {
+          "name": "identifier",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "value": {
+          "name": "value",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "expires_at": {
+          "name": "expires_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "verification_identifier_idx": {
+          "name": "verification_identifier_idx",
+          "columns": [
+            {
+              "expression": "identifier",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.grupos": {
+      "name": "grupos",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "slug": {
+          "name": "slug",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "nombre": {
+          "name": "nombre",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "descripcion": {
+          "name": "descripcion",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "visible": {
+          "name": "visible",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": false
+        },
+        "visibilidad_defecto": {
+          "name": "visibilidad_defecto",
+          "type": "visibilidad",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'privada'"
+        },
+        "guardar_brutos": {
+          "name": "guardar_brutos",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": false
+        },
+        "discord_webhook_cifrado": {
+          "name": "discord_webhook_cifrado",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "creado": {
+          "name": "creado",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "creado_por": {
+          "name": "creado_por",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "grupos_creado_por_user_id_fk": {
+          "name": "grupos_creado_por_user_id_fk",
+          "tableFrom": "grupos",
+          "tableTo": "user",
+          "columnsFrom": [
+            "creado_por"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "set null",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "grupos_slug_unique": {
+          "name": "grupos_slug_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "slug"
+          ]
+        }
+      },
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.invitaciones": {
+      "name": "invitaciones",
+      "schema": "",
+      "columns": {
+        "codigo": {
+          "name": "codigo",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "grupo_id": {
+          "name": "grupo_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "rol": {
+          "name": "rol",
+          "type": "rol",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'miembro'"
+        },
+        "caduca": {
+          "name": "caduca",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "usos_max": {
+          "name": "usos_max",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "usos": {
+          "name": "usos",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 0
+        },
+        "revocada": {
+          "name": "revocada",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": false
+        },
+        "creada_por": {
+          "name": "creada_por",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "creada": {
+          "name": "creada",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "invitaciones_grupo_idx": {
+          "name": "invitaciones_grupo_idx",
+          "columns": [
+            {
+              "expression": "grupo_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "invitaciones_grupo_id_grupos_id_fk": {
+          "name": "invitaciones_grupo_id_grupos_id_fk",
+          "tableFrom": "invitaciones",
+          "tableTo": "grupos",
+          "columnsFrom": [
+            "grupo_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "invitaciones_creada_por_user_id_fk": {
+          "name": "invitaciones_creada_por_user_id_fk",
+          "tableFrom": "invitaciones",
+          "tableTo": "user",
+          "columnsFrom": [
+            "creada_por"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "set null",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {
+        "invitaciones_rol_no_propietario": {
+          "name": "invitaciones_rol_no_propietario",
+          "value": "\"invitaciones\".\"rol\" <> 'propietario'"
+        }
+      },
+      "isRLSEnabled": false
+    },
+    "public.miembros": {
+      "name": "miembros",
+      "schema": "",
+      "columns": {
+        "grupo_id": {
+          "name": "grupo_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "usuario_id": {
+          "name": "usuario_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "rol": {
+          "name": "rol",
+          "type": "rol",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "desde": {
+          "name": "desde",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "miembros_usuario_idx": {
+          "name": "miembros_usuario_idx",
+          "columns": [
+            {
+              "expression": "usuario_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "miembros_grupo_id_grupos_id_fk": {
+          "name": "miembros_grupo_id_grupos_id_fk",
+          "tableFrom": "miembros",
+          "tableTo": "grupos",
+          "columnsFrom": [
+            "grupo_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "miembros_usuario_id_user_id_fk": {
+          "name": "miembros_usuario_id_user_id_fk",
+          "tableFrom": "miembros",
+          "tableTo": "user",
+          "columnsFrom": [
+            "usuario_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "miembros_grupo_id_usuario_id_pk": {
+          "name": "miembros_grupo_id_usuario_id_pk",
+          "columns": [
+            "grupo_id",
+            "usuario_id"
+          ]
+        }
+      },
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.tokens_api": {
+      "name": "tokens_api",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "grupo_id": {
+          "name": "grupo_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "nombre": {
+          "name": "nombre",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "hash": {
+          "name": "hash",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "ultimo_uso": {
+          "name": "ultimo_uso",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "creado": {
+          "name": "creado",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "creado_por": {
+          "name": "creado_por",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "revocado": {
+          "name": "revocado",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": false
+        }
+      },
+      "indexes": {
+        "tokens_grupo_idx": {
+          "name": "tokens_grupo_idx",
+          "columns": [
+            {
+              "expression": "grupo_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "tokens_api_grupo_id_grupos_id_fk": {
+          "name": "tokens_api_grupo_id_grupos_id_fk",
+          "tableFrom": "tokens_api",
+          "tableTo": "grupos",
+          "columnsFrom": [
+            "grupo_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "tokens_api_creado_por_user_id_fk": {
+          "name": "tokens_api_creado_por_user_id_fk",
+          "tableFrom": "tokens_api",
+          "tableTo": "user",
+          "columnsFrom": [
+            "creado_por"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "set null",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "tokens_api_hash_unique": {
+          "name": "tokens_api_hash_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "hash"
+          ]
+        }
+      },
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.casteos_jefe": {
+      "name": "casteos_jefe",
+      "schema": "",
+      "columns": {
+        "raid_id": {
+          "name": "raid_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "intento": {
+          "name": "intento",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "orden": {
+          "name": "orden",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "t": {
+          "name": "t",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "habilidad": {
+          "name": "habilidad",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "casteos_jefe_raid_id_raids_id_fk": {
+          "name": "casteos_jefe_raid_id_raids_id_fk",
+          "tableFrom": "casteos_jefe",
+          "tableTo": "raids",
+          "columnsFrom": [
+            "raid_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "casteos_jefe_raid_id_intento_orden_pk": {
+          "name": "casteos_jefe_raid_id_intento_orden_pk",
+          "columns": [
+            "raid_id",
+            "intento",
+            "orden"
+          ]
+        }
+      },
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.curva": {
+      "name": "curva",
+      "schema": "",
+      "columns": {
+        "raid_id": {
+          "name": "raid_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "intento": {
+          "name": "intento",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "orden": {
+          "name": "orden",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "t": {
+          "name": "t",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "progreso": {
+          "name": "progreso",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "curva_raid_id_raids_id_fk": {
+          "name": "curva_raid_id_raids_id_fk",
+          "tableFrom": "curva",
+          "tableTo": "raids",
+          "columnsFrom": [
+            "raid_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "curva_raid_id_intento_orden_pk": {
+          "name": "curva_raid_id_intento_orden_pk",
+          "columns": [
+            "raid_id",
+            "intento",
+            "orden"
+          ]
+        }
+      },
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.desglose": {
+      "name": "desglose",
+      "schema": "",
+      "columns": {
+        "raid_id": {
+          "name": "raid_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "jugador_id": {
+          "name": "jugador_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "tipo": {
+          "name": "tipo",
+          "type": "tipo_desglose",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "orden": {
+          "name": "orden",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "habilidad": {
+          "name": "habilidad",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "valor": {
+          "name": "valor",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "pct": {
+          "name": "pct",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "golpes": {
+          "name": "golpes",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "extra": {
+          "name": "extra",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "desglose_raid_id_raids_id_fk": {
+          "name": "desglose_raid_id_raids_id_fk",
+          "tableFrom": "desglose",
+          "tableTo": "raids",
+          "columnsFrom": [
+            "raid_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "desglose_jugador_id_jugadores_id_fk": {
+          "name": "desglose_jugador_id_jugadores_id_fk",
+          "tableFrom": "desglose",
+          "tableTo": "jugadores",
+          "columnsFrom": [
+            "jugador_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "desglose_raid_id_jugador_id_tipo_orden_pk": {
+          "name": "desglose_raid_id_jugador_id_tipo_orden_pk",
+          "columns": [
+            "raid_id",
+            "jugador_id",
+            "tipo",
+            "orden"
+          ]
+        }
+      },
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.dps_intento": {
+      "name": "dps_intento",
+      "schema": "",
+      "columns": {
+        "raid_id": {
+          "name": "raid_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "jugador_id": {
+          "name": "jugador_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "intento": {
+          "name": "intento",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "dps": {
+          "name": "dps",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "muertes": {
+          "name": "muertes",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "dps_intento_raid_id_raids_id_fk": {
+          "name": "dps_intento_raid_id_raids_id_fk",
+          "tableFrom": "dps_intento",
+          "tableTo": "raids",
+          "columnsFrom": [
+            "raid_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "dps_intento_jugador_id_jugadores_id_fk": {
+          "name": "dps_intento_jugador_id_jugadores_id_fk",
+          "tableFrom": "dps_intento",
+          "tableTo": "jugadores",
+          "columnsFrom": [
+            "jugador_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "dps_intento_raid_id_jugador_id_intento_pk": {
+          "name": "dps_intento_raid_id_jugador_id_intento_pk",
+          "columns": [
+            "raid_id",
+            "jugador_id",
+            "intento"
+          ]
+        }
+      },
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.intentos": {
+      "name": "intentos",
+      "schema": "",
+      "columns": {
+        "raid_id": {
+          "name": "raid_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "n": {
+          "name": "n",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "duracion_s": {
+          "name": "duracion_s",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "progreso_pct": {
+          "name": "progreso_pct",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "matado": {
+          "name": "matado",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "dps_grupo": {
+          "name": "dps_grupo",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "muertes": {
+          "name": "muertes",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "rotura_s": {
+          "name": "rotura_s",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "ultima_causa": {
+          "name": "ultima_causa",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "intentos_raid_id_raids_id_fk": {
+          "name": "intentos_raid_id_raids_id_fk",
+          "tableFrom": "intentos",
+          "tableTo": "raids",
+          "columnsFrom": [
+            "raid_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "intentos_raid_id_n_pk": {
+          "name": "intentos_raid_id_n_pk",
+          "columns": [
+            "raid_id",
+            "n"
+          ]
+        }
+      },
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.jugadores": {
+      "name": "jugadores",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "nombre": {
+          "name": "nombre",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "servidor": {
+          "name": "servidor",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "slug": {
+          "name": "slug",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "clase_id": {
+          "name": "clase_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "oculto": {
+          "name": "oculto",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": false
+        },
+        "usuario_id": {
+          "name": "usuario_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "creado": {
+          "name": "creado",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "jugadores_usuario_id_user_id_fk": {
+          "name": "jugadores_usuario_id_user_id_fk",
+          "tableFrom": "jugadores",
+          "tableTo": "user",
+          "columnsFrom": [
+            "usuario_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "set null",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "jugadores_slug_unique": {
+          "name": "jugadores_slug_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "slug"
+          ]
+        },
+        "jugadores_nombre_servidor": {
+          "name": "jugadores_nombre_servidor",
+          "nullsNotDistinct": true,
+          "columns": [
+            "nombre",
+            "servidor"
+          ]
+        }
+      },
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.mitigacion": {
+      "name": "mitigacion",
+      "schema": "",
+      "columns": {
+        "raid_id": {
+          "name": "raid_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "jugador_id": {
+          "name": "jugador_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "tipo": {
+          "name": "tipo",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "n": {
+          "name": "n",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "evitado": {
+          "name": "evitado",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "mitigacion_raid_id_raids_id_fk": {
+          "name": "mitigacion_raid_id_raids_id_fk",
+          "tableFrom": "mitigacion",
+          "tableTo": "raids",
+          "columnsFrom": [
+            "raid_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "mitigacion_jugador_id_jugadores_id_fk": {
+          "name": "mitigacion_jugador_id_jugadores_id_fk",
+          "tableFrom": "mitigacion",
+          "tableTo": "jugadores",
+          "columnsFrom": [
+            "jugador_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "mitigacion_raid_id_jugador_id_tipo_evitado_pk": {
+          "name": "mitigacion_raid_id_jugador_id_tipo_evitado_pk",
+          "columns": [
+            "raid_id",
+            "jugador_id",
+            "tipo",
+            "evitado"
+          ]
+        }
+      },
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.muertes": {
+      "name": "muertes",
+      "schema": "",
+      "columns": {
+        "raid_id": {
+          "name": "raid_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "jugador_id": {
+          "name": "jugador_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "intento": {
+          "name": "intento",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "orden": {
+          "name": "orden",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "t": {
+          "name": "t",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "habilidad": {
+          "name": "habilidad",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "origen": {
+          "name": "origen",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "golpe_max": {
+          "name": "golpe_max",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "vida_5s": {
+          "name": "vida_5s",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "vida_1s": {
+          "name": "vida_1s",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "dano_5s": {
+          "name": "dano_5s",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "cura_5s": {
+          "name": "cura_5s",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {
+        "muertes_jugador_idx": {
+          "name": "muertes_jugador_idx",
+          "columns": [
+            {
+              "expression": "jugador_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "muertes_raid_id_raids_id_fk": {
+          "name": "muertes_raid_id_raids_id_fk",
+          "tableFrom": "muertes",
+          "tableTo": "raids",
+          "columnsFrom": [
+            "raid_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "muertes_jugador_id_jugadores_id_fk": {
+          "name": "muertes_jugador_id_jugadores_id_fk",
+          "tableFrom": "muertes",
+          "tableTo": "jugadores",
+          "columnsFrom": [
+            "jugador_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "muertes_raid_id_jugador_id_intento_orden_pk": {
+          "name": "muertes_raid_id_jugador_id_intento_orden_pk",
+          "columns": [
+            "raid_id",
+            "jugador_id",
+            "intento",
+            "orden"
+          ]
+        }
+      },
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.raid_jugador": {
+      "name": "raid_jugador",
+      "schema": "",
+      "columns": {
+        "raid_id": {
+          "name": "raid_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "jugador_id": {
+          "name": "jugador_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "en_grupo": {
+          "name": "en_grupo",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": true
+        },
+        "clase_id": {
+          "name": "clase_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "gs": {
+          "name": "gs",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "cp": {
+          "name": "cp",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "dps": {
+          "name": "dps",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "hps": {
+          "name": "hps",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "dano_recibido": {
+          "name": "dano_recibido",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "muertes": {
+          "name": "muertes",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "crit_pct": {
+          "name": "crit_pct",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "espalda_pct": {
+          "name": "espalda_pct",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "curacion": {
+          "name": "curacion",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "escudos": {
+          "name": "escudos",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "absorbido": {
+          "name": "absorbido",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "golpes_recibidos": {
+          "name": "golpes_recibidos",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "cura_recibida": {
+          "name": "cura_recibida",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "escudo_recibido": {
+          "name": "escudo_recibido",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "resurrecciones": {
+          "name": "resurrecciones",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "bajo30_pct": {
+          "name": "bajo30_pct",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "casteos": {
+          "name": "casteos",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "interrumpidos": {
+          "name": "interrumpidos",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "vivo_s": {
+          "name": "vivo_s",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "casteos_min": {
+          "name": "casteos_min",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "pausas_pct": {
+          "name": "pausas_pct",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "primer_golpe_s": {
+          "name": "primer_golpe_s",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {
+        "raid_jugador_jugador_idx": {
+          "name": "raid_jugador_jugador_idx",
+          "columns": [
+            {
+              "expression": "jugador_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "raid_jugador_raid_id_raids_id_fk": {
+          "name": "raid_jugador_raid_id_raids_id_fk",
+          "tableFrom": "raid_jugador",
+          "tableTo": "raids",
+          "columnsFrom": [
+            "raid_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "raid_jugador_jugador_id_jugadores_id_fk": {
+          "name": "raid_jugador_jugador_id_jugadores_id_fk",
+          "tableFrom": "raid_jugador",
+          "tableTo": "jugadores",
+          "columnsFrom": [
+            "jugador_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "raid_jugador_raid_id_jugador_id_pk": {
+          "name": "raid_jugador_raid_id_jugador_id_pk",
+          "columns": [
+            "raid_id",
+            "jugador_id"
+          ]
+        }
+      },
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.raid_otros": {
+      "name": "raid_otros",
+      "schema": "",
+      "columns": {
+        "raid_id": {
+          "name": "raid_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "npc": {
+          "name": "npc",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "jefe": {
+          "name": "jefe",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "intentos": {
+          "name": "intentos",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "matado": {
+          "name": "matado",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "kill_s": {
+          "name": "kill_s",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "dps_raid": {
+          "name": "dps_raid",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "raid_otros_raid_id_raids_id_fk": {
+          "name": "raid_otros_raid_id_raids_id_fk",
+          "tableFrom": "raid_otros",
+          "tableTo": "raids",
+          "columnsFrom": [
+            "raid_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "raid_otros_raid_id_npc_pk": {
+          "name": "raid_otros_raid_id_npc_pk",
+          "columns": [
+            "raid_id",
+            "npc"
+          ]
+        }
+      },
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.raids": {
+      "name": "raids",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "grupo_id": {
+          "name": "grupo_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "slug": {
+          "name": "slug",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "run_id": {
+          "name": "run_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "huella": {
+          "name": "huella",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "fecha": {
+          "name": "fecha",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "mazmorra": {
+          "name": "mazmorra",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "npc_jefe": {
+          "name": "npc_jefe",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "jefe": {
+          "name": "jefe",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "visibilidad": {
+          "name": "visibilidad",
+          "type": "visibilidad",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'privada'"
+        },
+        "intentos": {
+          "name": "intentos",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "matado": {
+          "name": "matado",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "kill_s": {
+          "name": "kill_s",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "minutos_combate": {
+          "name": "minutos_combate",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "mejor_pct": {
+          "name": "mejor_pct",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "mejor_intento": {
+          "name": "mejor_intento",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "muertes_grupo": {
+          "name": "muertes_grupo",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "dps_grupo_medio": {
+          "name": "dps_grupo_medio",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "hp_jefe": {
+          "name": "hp_jefe",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "run_min": {
+          "name": "run_min",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "limite_min": {
+          "name": "limite_min",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "reseteos": {
+          "name": "reseteos",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "grabado_por": {
+          "name": "grabado_por",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "subido_por": {
+          "name": "subido_por",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "origen": {
+          "name": "origen",
+          "type": "origen_raid",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "esquema_version": {
+          "name": "esquema_version",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "sql_version": {
+          "name": "sql_version",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "extraido": {
+          "name": "extraido",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "publicado": {
+          "name": "publicado",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "raids_grupo_fecha_idx": {
+          "name": "raids_grupo_fecha_idx",
+          "columns": [
+            {
+              "expression": "grupo_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "fecha",
+              "isExpression": false,
+              "asc": false,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "raids_huella_idx": {
+          "name": "raids_huella_idx",
+          "columns": [
+            {
+              "expression": "huella",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "raids_grupo_id_grupos_id_fk": {
+          "name": "raids_grupo_id_grupos_id_fk",
+          "tableFrom": "raids",
+          "tableTo": "grupos",
+          "columnsFrom": [
+            "grupo_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "raids_subido_por_user_id_fk": {
+          "name": "raids_subido_por_user_id_fk",
+          "tableFrom": "raids",
+          "tableTo": "user",
+          "columnsFrom": [
+            "subido_por"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "set null",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "raids_grupo_slug": {
+          "name": "raids_grupo_slug",
+          "nullsNotDistinct": false,
+          "columns": [
+            "grupo_id",
+            "slug"
+          ]
+        }
+      },
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.reparto_cura": {
+      "name": "reparto_cura",
+      "schema": "",
+      "columns": {
+        "raid_id": {
+          "name": "raid_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "jugador_id": {
+          "name": "jugador_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "objetivo_id": {
+          "name": "objetivo_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "cantidad": {
+          "name": "cantidad",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "pct": {
+          "name": "pct",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "reparto_cura_raid_id_raids_id_fk": {
+          "name": "reparto_cura_raid_id_raids_id_fk",
+          "tableFrom": "reparto_cura",
+          "tableTo": "raids",
+          "columnsFrom": [
+            "raid_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "reparto_cura_jugador_id_jugadores_id_fk": {
+          "name": "reparto_cura_jugador_id_jugadores_id_fk",
+          "tableFrom": "reparto_cura",
+          "tableTo": "jugadores",
+          "columnsFrom": [
+            "jugador_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "reparto_cura_objetivo_id_jugadores_id_fk": {
+          "name": "reparto_cura_objetivo_id_jugadores_id_fk",
+          "tableFrom": "reparto_cura",
+          "tableTo": "jugadores",
+          "columnsFrom": [
+            "objetivo_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "reparto_cura_raid_id_jugador_id_objetivo_id_pk": {
+          "name": "reparto_cura_raid_id_jugador_id_objetivo_id_pk",
+          "columns": [
+            "raid_id",
+            "jugador_id",
+            "objetivo_id"
+          ]
+        }
+      },
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.analisis": {
+      "name": "analisis",
+      "schema": "",
+      "columns": {
+        "raid_id": {
+          "name": "raid_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "idioma": {
+          "name": "idioma",
+          "type": "idioma",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "contenido": {
+          "name": "contenido",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "autor": {
+          "name": "autor",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'claude'"
+        },
+        "actualizado": {
+          "name": "actualizado",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "analisis_raid_id_raids_id_fk": {
+          "name": "analisis_raid_id_raids_id_fk",
+          "tableFrom": "analisis",
+          "tableTo": "raids",
+          "columnsFrom": [
+            "raid_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "analisis_raid_id_idioma_pk": {
+          "name": "analisis_raid_id_idioma_pk",
+          "columns": [
+            "raid_id",
+            "idioma"
+          ]
+        }
+      },
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.apodos": {
+      "name": "apodos",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "tipo": {
+          "name": "tipo",
+          "type": "tipo_nombre",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "ref_id": {
+          "name": "ref_id",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "idioma": {
+          "name": "idioma",
+          "type": "idioma",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "apodo": {
+          "name": "apodo",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "grupo_id": {
+          "name": "grupo_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {
+        "apodos_ref_idx": {
+          "name": "apodos_ref_idx",
+          "columns": [
+            {
+              "expression": "tipo",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "ref_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "idioma",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "apodos_grupo_id_grupos_id_fk": {
+          "name": "apodos_grupo_id_grupos_id_fk",
+          "tableFrom": "apodos",
+          "tableTo": "grupos",
+          "columnsFrom": [
+            "grupo_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.archivos": {
+      "name": "archivos",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "grupo_id": {
+          "name": "grupo_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "raid_id": {
+          "name": "raid_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "run_id": {
+          "name": "run_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "encuentro_id": {
+          "name": "encuentro_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "blob_url": {
+          "name": "blob_url",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "bytes": {
+          "name": "bytes",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "sha256": {
+          "name": "sha256",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "subido": {
+          "name": "subido",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "archivos_grupo_idx": {
+          "name": "archivos_grupo_idx",
+          "columns": [
+            {
+              "expression": "grupo_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "archivos_grupo_id_grupos_id_fk": {
+          "name": "archivos_grupo_id_grupos_id_fk",
+          "tableFrom": "archivos",
+          "tableTo": "grupos",
+          "columnsFrom": [
+            "grupo_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "archivos_raid_id_raids_id_fk": {
+          "name": "archivos_raid_id_raids_id_fk",
+          "tableFrom": "archivos",
+          "tableTo": "raids",
+          "columnsFrom": [
+            "raid_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "set null",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.auditoria": {
+      "name": "auditoria",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "grupo_id": {
+          "name": "grupo_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "usuario_id": {
+          "name": "usuario_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "accion": {
+          "name": "accion",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "ref": {
+          "name": "ref",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "detalle": {
+          "name": "detalle",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "creada": {
+          "name": "creada",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "auditoria_grupo_idx": {
+          "name": "auditoria_grupo_idx",
+          "columns": [
+            {
+              "expression": "grupo_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "creada",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "auditoria_grupo_id_grupos_id_fk": {
+          "name": "auditoria_grupo_id_grupos_id_fk",
+          "tableFrom": "auditoria",
+          "tableTo": "grupos",
+          "columnsFrom": [
+            "grupo_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "auditoria_usuario_id_user_id_fk": {
+          "name": "auditoria_usuario_id_user_id_fk",
+          "tableFrom": "auditoria",
+          "tableTo": "user",
+          "columnsFrom": [
+            "usuario_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "set null",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.nombres": {
+      "name": "nombres",
+      "schema": "",
+      "columns": {
+        "tipo": {
+          "name": "tipo",
+          "type": "tipo_nombre",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "id": {
+          "name": "id",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "idioma": {
+          "name": "idioma",
+          "type": "idioma",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "nombre": {
+          "name": "nombre",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "icono": {
+          "name": "icono",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {
+        "nombres_tipo_id_idioma_pk": {
+          "name": "nombres_tipo_id_idioma_pk",
+          "columns": [
+            "tipo",
+            "id",
+            "idioma"
+          ]
+        }
+      },
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.perfil_texto": {
+      "name": "perfil_texto",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "jugador_id": {
+          "name": "jugador_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "grupo_id": {
+          "name": "grupo_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "idioma": {
+          "name": "idioma",
+          "type": "idioma",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "contenido": {
+          "name": "contenido",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "raids": {
+          "name": "raids",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "actualizado": {
+          "name": "actualizado",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "perfil_texto_jugador_idx": {
+          "name": "perfil_texto_jugador_idx",
+          "columns": [
+            {
+              "expression": "jugador_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "idioma",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "perfil_texto_jugador_id_jugadores_id_fk": {
+          "name": "perfil_texto_jugador_id_jugadores_id_fk",
+          "tableFrom": "perfil_texto",
+          "tableTo": "jugadores",
+          "columnsFrom": [
+            "jugador_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "perfil_texto_grupo_id_grupos_id_fk": {
+          "name": "perfil_texto_grupo_id_grupos_id_fk",
+          "tableFrom": "perfil_texto",
+          "tableTo": "grupos",
+          "columnsFrom": [
+            "grupo_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.solicitudes": {
+      "name": "solicitudes",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "jugador_id": {
+          "name": "jugador_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "grupo_id": {
+          "name": "grupo_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "usuario_id": {
+          "name": "usuario_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "creada": {
+          "name": "creada",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "avisada": {
+          "name": "avisada",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {
+        "solicitudes_jugador_idx": {
+          "name": "solicitudes_jugador_idx",
+          "columns": [
+            {
+              "expression": "jugador_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "creada",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "solicitudes_jugador_id_jugadores_id_fk": {
+          "name": "solicitudes_jugador_id_jugadores_id_fk",
+          "tableFrom": "solicitudes",
+          "tableTo": "jugadores",
+          "columnsFrom": [
+            "jugador_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "solicitudes_grupo_id_grupos_id_fk": {
+          "name": "solicitudes_grupo_id_grupos_id_fk",
+          "tableFrom": "solicitudes",
+          "tableTo": "grupos",
+          "columnsFrom": [
+            "grupo_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "solicitudes_usuario_id_user_id_fk": {
+          "name": "solicitudes_usuario_id_user_id_fk",
+          "tableFrom": "solicitudes",
+          "tableTo": "user",
+          "columnsFrom": [
+            "usuario_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "set null",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    }
+  },
+  "enums": {
+    "public.rol": {
+      "name": "rol",
+      "schema": "public",
+      "values": [
+        "propietario",
+        "admin",
+        "publicador",
+        "miembro"
+      ]
+    },
+    "public.visibilidad": {
+      "name": "visibilidad",
+      "schema": "public",
+      "values": [
+        "privada",
+        "enlace",
+        "publica"
+      ]
+    },
+    "public.origen_raid": {
+      "name": "origen_raid",
+      "schema": "public",
+      "values": [
+        "navegador",
+        "pc",
+        "migracion"
+      ]
+    },
+    "public.tipo_desglose": {
+      "name": "tipo_desglose",
+      "schema": "public",
+      "values": [
+        "dano",
+        "recibido",
+        "cura",
+        "escudo",
+        "casteo",
+        "buff"
+      ]
+    },
+    "public.idioma": {
+      "name": "idioma",
+      "schema": "public",
+      "values": [
+        "es",
+        "en"
+      ]
+    },
+    "public.tipo_nombre": {
+      "name": "tipo_nombre",
+      "schema": "public",
+      "values": [
+        "habilidad",
+        "npc"
+      ]
+    }
+  },
+  "schemas": {},
+  "sequences": {},
+  "roles": {},
+  "policies": {},
+  "views": {},
+  "_meta": {
+    "columns": {},
+    "schemas": {},
+    "tables": {}
+  }
+}

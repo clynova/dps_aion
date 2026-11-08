@@ -1,16 +1,20 @@
 // Idiomas de la web. Los textos vienen de la web estática (assets/i18n.js → npm run textos) y conservan sus
 // claves con puntos ('pl.chart.dps', 'pl.chart.dps.note'…): por eso el diccionario es plano y no se usa una
 // librería que anide por puntos. Interpolación {var} igual que hoy. Ver docs/adr/0001-idiomas.md.
+// es.json / en.json: copiados de la web actual (no editarlos a mano). app.*.json: textos nuevos de la app.
 import es from './es.json';
 import en from './en.json';
+import appEs from './app.es.json';
+import appEn from './app.en.json';
 
 export const IDIOMAS = ['es', 'en'] as const;
 export type Idioma = (typeof IDIOMAS)[number];
 export const IDIOMA_DEFECTO: Idioma = 'es';
-export type Clave = keyof typeof es;
+export type Clave = keyof typeof es | keyof typeof appEs;
 export type Vars = Record<string, string | number>;
 
-const DICCIONARIOS: Record<Idioma, Record<string, string>> = { es, en };
+const DICCIONARIOS: Record<Idioma, Record<string, string>> = { es: { ...es, ...appEs }, en: { ...en, ...appEn } };
+export type Traductor = ReturnType<typeof traductor>;
 
 export const esIdioma = (s: string | null | undefined): s is Idioma => !!s && (IDIOMAS as readonly string[]).includes(s);
 

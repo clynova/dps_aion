@@ -72,7 +72,7 @@
 │  3. DuckDB-WASM: esquema +        │      │   /  /g/[grupo]  /g/[grupo]/raids/[slug] │
 │     cargar.sql + raid.sql         │ JSON │   /jugadores/[slug]   (+ /en/...)        │
 │  4. vista previa y visibilidad    │ ────▶│                                          │
-│  5. envía (+ .gz si el grupo      │      │  Auth.js (Discord) · roles por grupo     │
+│  5. envía (+ .gz si el grupo      │      │  Better Auth (Discord) · roles por grupo│
 │     guarda copia)                 │      │  API /api/v1/* → Zod → transacción       │
 └───────────────────────────────────┘      │        │            revalidateTag()      │
  PC de Cry: .bat → publicar.ps1 ──token──▶ │        ▼                                 │
@@ -89,9 +89,9 @@
 | Tema | Recomendación | Por qué | Alternativas descartadas |
 |---|---|---|---|
 | Framework | **Next.js, App Router, TypeScript**, versión estable más reciente fijada exacta | Vercel lo despliega sin configuración; Server Components sirven HTML con datos y D3 queda solo para las gráficas | Astro (peor para la parte de app: login, subida, paneles); SPA pura (peor primera carga) |
-| Base de datos | **Postgres en Neon** (Marketplace de Vercel) | Relacional, apta para agregar perfiles con SQL; ramas de base por preview; escala a planes de pago sin migrar | Supabase (válido; su auth no aporta nada frente a Auth.js con Discord); MotherDuck (menos estándar para servir una web) |
+| Base de datos | **Postgres en Neon** (Marketplace de Vercel) | Relacional, apta para agregar perfiles con SQL; ramas de base por preview; escala a planes de pago sin migrar | Supabase (válido; su auth no aporta nada frente a Better Auth con Discord); MotherDuck (menos estándar para servir una web) |
 | ORM / migraciones | **Drizzle ORM + drizzle-kit** con el driver serverless de Neon | Tipado de punta a punta, SQL legible, migraciones en el repo | Prisma (más pesado en serverless) |
-| Login | **Auth.js con proveedor Discord**, sesiones en base (adaptador Drizzle) | La comunidad ya vive en Discord y así no hay contraseñas que guardar | Cuentas con email y contraseña; Clerk (de pago al crecer) |
+| Login | **Better Auth con proveedor Discord**, sesiones en base (adaptador Drizzle). Ver [ADR 0002](adr/0002-autenticacion.md) | La comunidad ya vive en Discord y así no hay contraseñas que guardar | Cuentas con email y contraseña; Clerk (de pago al crecer) |
 | Dónde se calculan las cifras | **En el cliente, con el `raid.sql` de siempre**: DuckDB-WASM en el navegador o DuckDB en el PC de Cry. El servidor valida y guarda | Un solo SQL, ya contrastado; no hay que reescribirlo en TypeScript ni pagar cómputo en el servidor | Reescribir en Postgres (duplicar lógica); procesar en una función de Vercel (límites de tiempo y tamaño; queda como plan B, apartado 8) |
 | Eventos brutos | **No van a Postgres.** Copia opcional de los `.gz` en **Vercel Blob**, privada y por grupo | Unos 450 KB por encuentro en tablas frente a 66 KB comprimido; permite recalcular raids antiguas cuando mejore `raid.sql` | Solo en los PC de cada uno (ya se perdió una vez) |
 | Idiomas | **Rutas nativas de Next** (`app/[lang]` + `proxy.ts`) y diccionario plano propio: español sin prefijo y `/en/...`; `?lang=en` redirige. Ver [ADR 0001](adr/0001-idiomas.md) | URL limpias e indexables; las actuales siguen valiendo; las claves actuales (con puntos solapados) se conservan | next-intl (anida por puntos y obliga a renombrar claves); traducir en el cliente (parpadeo, peor SEO) |
@@ -123,7 +123,7 @@
 ### 3.3 Modelo de datos (Postgres)
 
 ```sql
--- Cuentas (Auth.js, adaptador Drizzle): users, accounts, sessions, verification_tokens
+-- Cuentas (Better Auth, adaptador Drizzle): user, session, account, verification
 usuarios          (id, discord_id UNIQUE, nombre, avatar, creado)
 
 grupos            (id, slug UNIQUE, nombre, descripcion, visible bool,
@@ -263,7 +263,7 @@ Los `.sql` de `db/` se convierten en **fuente única**. El navegador los importa
 Cada fase termina con una **PR a `refactor/next`**, su preview en Vercel y unos **criterios de hecho**. La web actual sigue en `main`, y `nueva-raid.bat` funciona hasta el corte (fase 9).
 
 ### Fase 0 · Preparación
-- Rama `refactor/next` y versiones fijadas (Node LTS, Next, React, Auth.js, Drizzle, D3, DuckDB-WASM).
+- Rama `refactor/next` y versiones fijadas (Node LTS, Next, React, Better Auth, Drizzle, D3, DuckDB-WASM).
 - Vercel: **Neon** desde el Marketplace (`DATABASE_URL`, ramas por preview), almacén **Blob**, `AUTH_SECRET`, `CRON_SECRET`, `DISCORD_WEBHOOK_URL` (ya existe).
 - Discord Developer Portal: aplicación OAuth con las URL de callback de producción y de las previews (`AUTH_DISCORD_ID`, `AUTH_DISCORD_SECRET`).
 - `docs/adr/`: una nota por decisión del apartado 3.1.
@@ -283,10 +283,11 @@ Cada fase termina con una **PR a `refactor/next`**, su preview en Vercel y unos 
 - **Resultado (8/11/2026):** Next.js 16.4.5 y React 19.3 (con `cacheComponents`), Node 26 en local y 24 en el CI y en Vercel. 14 pruebas de idioma. En local: build correcto, `/es` y `/en` prerenderizadas y redirecciones comprobadas. Se trabaja en un worktree **fuera de OneDrive** (`C:\Users\jahnn\dev\dps_aion-next`), para que `node_modules` no se sincronice y para que la carpeta de OneDrive siga en `main` con `nueva-raid.bat`.
 
 ### Fase 3 · Base de datos y cuentas
-- `lib/db/schema.ts` (apartado 3.3), migración inicial y vistas.
-- Auth.js con Discord y sesiones en la base. `lib/db/permisos.ts` con `raidsVisiblesPara` y `rolEn(grupo)`.
+- `lib/db/schema/` (apartado 3.3) y migración inicial. Las vistas (`v_raid_jugador_ctx`, causas) pasan a la fase 4, donde hay datos para probarlas.
+- Better Auth con Discord y sesiones en la base ([ADR 0002](adr/0002-autenticacion.md)). Permisos en `lib/permisos.ts` (puros) y `lib/db/grupos.ts` (`rolEn`, `grupoParaVer`).
 - Crear grupo, invitaciones por enlace, roles y página de ajustes mínima.
 - **Hecho cuando:** en la preview se puede entrar con Discord, crear un grupo, invitar a otra cuenta y ver que cada rol puede lo que dice la tabla del apartado 3.2 y nada más (con pruebas automáticas de permisos).
+- **Resultado (8/11/2026):** esquema completo (27 tablas: 4 de cuentas, 4 de grupos y 19 de raids, textos y operación) en la rama `dev` de Neon. Login con Discord, crear grupo, invitaciones por enlace (con caducidad y usos), roles, expulsar o salir y ajustes. Hay 19 pruebas de permisos (matriz completa rol × acción, raids, roles e invitaciones) y 9 de integración contra la base, que crean y borran sus propios datos. **Falta la prueba con una cuenta real de Discord**, que tiene que hacer el usuario. Configuración de la fase 0: Neon quedó conectado a Preview y Production (no a Development), con variables *Sensitive* que no se pueden descargar; en local se usa una rama `dev` de Neon pegada en `.env.local`. Las migraciones se aplican en el build de Vercel (`npm run build:vercel`).
 
 ### Fase 4 · Ingesta y migración de lo existente
 - `lib/ingest` (Zod para v2, que también acepta el v1 actual) y escritura en transacción; `huella.ts` para duplicados.
@@ -364,7 +365,7 @@ El **fixture** es una noche real de Questlog con los nombres de los jugadores an
 - **Secretos** solo en Vercel o en archivos locales fuera de git. Los tokens de grupo y los webhooks se guardan **cifrados** (los tokens, solo como hash) y se pueden revocar.
 - **Autorización en el servidor** en cada consulta y ruta, mediante `permisos.ts`. Hay pruebas de la matriz completa (apartado 5).
 - **Validación estricta** (Zod) y límites de tamaño. Los textos se muestran siempre como texto; no se usa `dangerouslySetInnerHTML`.
-- **CSRF y sesiones**: lo que trae Auth.js por defecto, cookies `httpOnly` y `SameSite`.
+- **CSRF y sesiones**: lo que trae Better Auth por defecto, cookies `httpOnly` y `SameSite`.
 - **Privacidad**: los grupos nuevos son privados por defecto. Los brutos de Blob (que incluyen a jugadores ajenos) son privados y solo los lee el servidor. Existe «ocultar mi nombre», y el borrado de un grupo elimina sus raids, textos y brutos.
 - **Abuso**: límites por usuario y grupo en la subida, el buscador y las solicitudes; registro en `auditoria`.
 
@@ -425,7 +426,7 @@ Tomadas:
 1. **Alcance**: varios grupos, cada uno con sus registros (8/11/2026).
 
 Pendientes, con mi recomendación:
-2. **Base de datos**: Neon con Auth.js y Discord (recomendado), o Supabase.
+2. **Base de datos**: Neon con Better Auth y Discord (recomendado), o Supabase.
 3. **Copia de los brutos en Blob**: activada para el grupo de Cry y opcional para los demás (recomendado).
 4. **URL en inglés**: `/en/...` (recomendado), con `?lang=en` redirigiendo.
 5. **Nombre de la ruta de grupo**: `/g/<grupo>` (recomendado, corto) o `/grupos/<grupo>`.

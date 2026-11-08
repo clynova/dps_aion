@@ -9,17 +9,26 @@
     "lint": "eslint",
     "typecheck": "next typegen && tsc --noEmit",
     "test": "vitest run",
-    "textos": "node scripts/extraer-textos.mjs"
+    "textos": "node scripts/extraer-textos.mjs",
+    "db:generar": "node --env-file-if-exists=.env.local node_modules/drizzle-kit/bin.cjs generate",
+    "db:migrar": "node --env-file-if-exists=.env.local node_modules/drizzle-kit/bin.cjs migrate",
+    "build:vercel": "node node_modules/drizzle-kit/bin.cjs migrate && next build"
   },
   "dependencies": {
+    "@neondatabase/serverless": "1.2.0",
+    "better-auth": "1.7.18",
+    "drizzle-orm": "0.45.4",
     "next": "16.4.5",
     "react": "19.3.0",
-    "react-dom": "19.3.0"
+    "react-dom": "19.3.0",
+    "server-only": "0.0.1",
+    "zod": "4.6.7"
   },
   "devDependencies": {
     "@types/node": "26.6.6",
     "@types/react": "19.3.0",
     "@types/react-dom": "19.3.0",
+    "drizzle-kit": "0.31.11",
     "eslint": "9.39.5",
     "eslint-config-next": "16.4.5",
     "typescript": "5.9.3",
