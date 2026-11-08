@@ -23,8 +23,10 @@
   const k = (v) => nf.format(Math.round(Number(v) / 1000)) + 'k';
   const ONE_SHOT = Number(A.one_shot) || 100000;
   const zonas = A.zonas || {};
-  const skName = (id) => (id ? ((N.habilidades || {})[id] || id) : 'Sin dato');
-  const orgName = (o) => (o === 'jefe' ? D.meta.jefe : o ? ((N.npcs || {})[o] || `Add ${o}`) : 'origen desconocido');
+  // Nombre visible de una habilidad: apodo puesto a mano > nombre de Questlog > número
+  const skName = (id) => (id ? ((N.apodos || {})[id] || (N.habilidades || {})[id] || String(id)) : 'Sin dato');
+  const orgName = (o) => (o === 'jefe' ? D.meta.jefe : o ? ((N.npcs || {})[o] || `NPC ${o}`) : 'origen desconocido');
+  const idLabel = (id) => ((N.apodos || {})[id] || (N.habilidades || {})[id] ? skName(id) : (N.npcs || {})[id] ? orgName(id) : null);
   const M = D.meta, R = D.resumen;
   const npcName = (npc, fallback) => (N.npcs || {})[npc] || fallback;
   M.jefe = npcName(M.npc, M.jefe);
@@ -32,9 +34,10 @@
   const fecha = new Date(M.fecha);
   const fechaTxt = fecha.toLocaleDateString('es', { day: 'numeric', month: 'long', year: 'numeric' });
 
-  // Texto con **negritas** sin usar innerHTML
+  // Texto con **negritas** sin usar innerHTML. Los números de habilidad o NPC se cambian por su nombre.
   const rich = (node, text) => {
-    String(text || '').split(/(\*\*[^*]+\*\*)/).forEach((part) => {
+    const named = String(text || '').replace(/\b\d{6,8}\b/g, (m) => { const l = idLabel(m); return l ? `«${l}»` : m; });
+    named.split(/(\*\*[^*]+\*\*)/).forEach((part) => {
       if (/^\*\*[^*]+\*\*$/.test(part)) node.append(el('b', null, part.slice(2, -2)));
       else if (part) node.append(document.createTextNode(part));
     });
@@ -72,7 +75,7 @@
   if (A.pendiente || !(A.recomendaciones || []).length) $('pendiente').hidden = false;
   (A.recomendaciones || []).forEach((r) => {
     const li = el('li');
-    if (r.titulo) li.append(el('b', null, r.titulo + ' '));
+    if (r.titulo) li.append(rich(el('b'), r.titulo), ' ');
     rich(li, r.texto);
     $('reco').append(li);
   });
@@ -82,7 +85,7 @@
   nota('Run', `${nf1.format(M.run_min)} min dentro de la mazmorra${M.limite_min ? ` (límite ${int(M.limite_min)} min)` : ''}.`);
   nota('Vida del jefe', `${compact(R.hp_jefe)}. «Vida quitada» es el daño total al jefe dividido entre su vida máxima.`);
   if (M.reseteos) nota('Fuera del análisis', `${int(M.reseteos)} pulls de reseteo de menos de 5 s y las muertes antes de empezar el combate.`);
-  nota('Habilidades', 'La app guarda habilidades y adds por número. Los nombres se pueden poner en nombres.json del repositorio.');
+  nota('Habilidades', 'Nombres en español de questlog.gg. El juego llama «Ataque» a casi todos los golpes del jefe: esos se muestran con su número, salvo los que tienen un apodo descriptivo puesto a mano en nombres.json. Las «zonas» son invocaciones invisibles de las habilidades del jefe (áreas de daño), no enemigos.');
   (A.notas || []).forEach((n) => nota(n.termino, n.texto));
   $('foot').textContent = `Datos extraídos el ${new Date(M.extraido).toLocaleString('es')} · run ${String(M.run).slice(0, 8)}`;
   document.querySelectorAll('[data-zona]').forEach((n) => { n.hidden = !zonas[n.dataset.zona]; });
@@ -208,7 +211,7 @@
       label: (d) => `${skName(d.habilidad)} · ${orgName(d.origen)}`,
       value: (d) => d.muertes, valueText: (d) => int(d.muertes),
       critical: (d) => d.golpe_max >= ONE_SHOT,
-      tip: (d) => [`${int(d.muertes)} muertes`, `Golpe más fuerte: ${int(d.golpe_max)}`]
+      tip: (d) => [`${int(d.muertes)} muertes`, `Golpe más fuerte: ${int(d.golpe_max)}`, d.habilidad ? `Habilidad n.º ${d.habilidad}` : 'Habilidad no registrada']
     });
   }
 
@@ -236,7 +239,7 @@
     svg.append('g').selectAll('circle').data(casts).join('circle')
       .attr('cx', (d) => x(d.t)).attr('cy', (d) => y(d.habilidad) + y.bandwidth() / 2).attr('r', 3.5)
       .style('fill', (d) => (killers.has(d.habilidad) ? 'var(--critical)' : 'var(--series-1)')).style('fill-opacity', 0.55)
-      .on('pointermove', (ev, d) => { const [px, py] = d3.pointer(ev, box); t.show(skName(d.habilidad), [`Intento ${d.intento}, s ${int(d.t)}`], px, py); })
+      .on('pointermove', (ev, d) => { const [px, py] = d3.pointer(ev, box); t.show(skName(d.habilidad), [`Intento ${d.intento}, s ${int(d.t)}`, `Habilidad n.º ${d.habilidad}`], px, py); })
       .on('pointerleave', () => t.hide());
   }
 
@@ -340,10 +343,10 @@
 
     const hb = $('f-habilidades'); hb.replaceChildren();
     hbars(hb, det.habilidades, { ariaLabel: 'Daño por habilidad', label: (d) => skName(d.habilidad), value: (d) => d.pct, valueText: (d) => pct(d.pct),
-      tip: (d) => [`${compact(d.dano)} de daño (${pct(d.pct)})`, `${int(d.golpes)} golpes · ${pct(d.crit_pct)} críticos`] });
+      tip: (d) => [`${compact(d.dano)} de daño (${pct(d.pct)})`, `${int(d.golpes)} golpes · ${pct(d.crit_pct)} críticos`, `Habilidad n.º ${d.habilidad}`] });
     const rb = $('f-recibido'); rb.replaceChildren();
     hbars(rb, det.recibido, { ariaLabel: 'Daño recibido por habilidad', label: (d) => skName(d.habilidad), value: (d) => d.dano, valueText: (d) => compact(d.dano),
-      critical: (d) => d.golpe_max >= ONE_SHOT, tip: (d) => [`${compact(d.dano)} en ${int(d.golpes)} golpes`, `Golpe más fuerte: ${int(d.golpe_max)}`] });
+      critical: (d) => d.golpe_max >= ONE_SHOT, tip: (d) => [`${compact(d.dano)} en ${int(d.golpes)} golpes`, `Golpe más fuerte: ${int(d.golpe_max)}`, `Habilidad n.º ${d.habilidad}`] });
 
     const mb = $('f-muertes'); mb.replaceChildren();
     if (!det.muertes.length) { const tr = el('tr'); const c = el('td', null, 'Sin muertes'); c.colSpan = 4; tr.append(c); mb.append(tr); }

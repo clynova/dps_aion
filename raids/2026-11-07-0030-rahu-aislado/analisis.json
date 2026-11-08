@@ -1,6 +1,6 @@
 {
   "pendiente": false,
-  "titular": "La noche con más daño (**244k** de DPS medio, la más alta de las tres), pero el mejor intento solo llegó al **61,2 %**: las 114 muertes se comieron ese daño. 1802880 fue lo que más mató (11 muertes) y los adds sumaron otras 50.",
+  "titular": "La noche con más daño (**244k** de DPS medio, la más alta de las tres), pero el mejor intento solo llegó al **61,2 %**: las 114 muertes se comieron ese daño. 1802880 fue lo que más mató (11 muertes) y las zonas que invoca Rahu sumaron otras 50.",
   "zonas": { "muro": [36, 50], "ventana": [115, 175] },
   "one_shot": 100000,
   "recomendaciones": [
@@ -13,8 +13,8 @@
       "texto": "Es un golpe a un solo objetivo de hasta 194k que mata de un toque. Lo lanza hacia los 26–35 s y otra vez hacia los 119–130 s. Esta noche mató a 11 jugadores, 5 de ellos Rhygal. Averiguad a quién apunta (¿al segundo en aggro, al más cercano?) y avisad por voz cuando salga."
     },
     {
-      "titulo": "Repartir los adds antes de entrar.",
-      "texto": "50 muertes fueron de adds: 2920725 (1802716/17/18, 17 muertes), 2920717 (1802830, 11), 2920718 (1802850, 10) y 2920724 (1802920, 6). Hay daño de sobra: si los adds caen rápido, el jefe también."
+      "titulo": "Salir de las zonas a tiempo.",
+      "texto": "50 muertes fueron de las zonas que invoca Rahu (áreas de daño invisibles, no enemigos): 2920725 (17 muertes), 2920717 (1802830, 11), 2920718 (1802850, 10) y 2920724 (1802920, 6). Hay daño de sobra: si nadie se queda dentro, el jefe cae."
     },
     {
       "titulo": "Romper el stagger en todos los intentos.",
@@ -22,7 +22,7 @@
     },
     {
       "titulo": "Dos muros: hacia el 40 % y hacia el 55–60 %.",
-      "texto": "6 intentos murieron entre el 36 y el 50 % (fase de adds de los 115–175 s) y otros 6 entre el 51 y el 61 %, cuando Rahu lanza 1802860 y 1802720 (154–228 s). Primero hay que asegurar el primer muro; el segundo es la siguiente meta."
+      "texto": "6 intentos murieron entre el 36 y el 50 % (fase de las zonas, 115–175 s) y otros 6 entre el 51 y el 61 %, cuando Rahu lanza 1802860 y 1802720 (154–228 s). Primero hay que asegurar el primer muro; el segundo es la siguiente meta."
     },
     {
       "titulo": "Saber cuándo parar.",
@@ -32,7 +32,7 @@
   "jugadores": {
     "FunPeople": [
       "El DPS más alto (52,3k, picos de 63–65k) y el que menos muere (15). Muy buena noche.",
-      "6 de tus 15 muertes son de los adds 2920725, al final de los wipes, cuando quedas último. Lo que hay que arreglar es lo que mata antes al resto.",
+      "6 de tus 15 muertes son de 2920725, al final de los wipes, cuando quedas último. Lo que hay que arreglar es lo que mata antes al resto.",
       "En el último intento bajaste a 30k: el cansancio también cuenta."
     ],
     "Rhygal": [
@@ -41,23 +41,23 @@
     ],
     "Izumi": [
       "Tus intentos buenos son excelentes (57–69k de DPS), pero eres quien más muere (30) y antes: primera muerte de media a los 92 s, y 7 muertes antes del segundo 60.",
-      "Los adds 2920717 (1802830) te mataron 5 veces; salen hacia los 45–100 s. Colócate lejos de ellos o acaba con ellos en área nada más aparecer.",
+      "2920717 (1802830) te mató 5 veces; aparece hacia los 45–100 s. Sal de esa zona en cuanto la veas.",
       "1802880 te mató 3 veces con golpes de 121k. Si le apunta al jugador más lejano o a casters, guarda un escudo para ese momento."
     ],
     "Garretin": [
       "46,2k de DPS más 1k de HPS de apoyo.",
-      "Primera muerte de media a los 108 s. Los adds 2920718 (1802850) te mataron 4 veces y hubo 5 golpes de Rahu sin habilidad registrada (probablemente daño continuo).",
+      "Primera muerte de media a los 108 s. 2920718 (1802850) te mató 4 veces y hubo 5 golpes de Rahu sin habilidad registrada (probablemente daño continuo).",
       "Tienes el CP más bajo del grupo (175k): subir equipo es la mejora más directa."
     ],
     "Cry": [
       "43,9k de DPS y 5,1k de HPS. Ninguna muerte antes del segundo 60: buena gestión del inicio.",
-      "4 de tus muertes son de los adds 2920725 al final de los wipes, y tu primera muerte llega de media a los 131 s, ya en la fase de adds. Ahí la curación del grupo depende de ti: prioriza sobrevivir.",
-      "1802715 y 1802710 (daño constante a todo el grupo) te quitan unos 820k. Una curación en área preventiva antes de los 115 s da margen para la fase difícil."
+      "4 de tus muertes son de 2920725 al final de los wipes, y tu primera muerte llega de media a los 131 s, ya en la fase de las zonas. Ahí la curación del grupo depende de ti: prioriza sobrevivir.",
+      "1802715 y 1802710 te quitan unos 820k en golpes pequeños. Una curación en área preventiva antes de los 115 s da margen para la fase difícil."
     ]
   },
   "notas": [
     { "termino": "Grupo", "texto": "Izumi volvió al grupo y Garretin (Cantor) ocupó el puesto de Pantsu." },
     { "termino": "Primer jefe", "texto": "El jefe 2301008 cayó a la primera en 232 s, con 410k de DPS de raid." },
-    { "termino": "Después", "texto": "En la run siguiente (01:38, con otro grupo, no publicada) Rahu cayó en 324 s con 264k de DPS del grupo y solo 5 muertes." }
+    { "termino": "Después", "texto": "En la run siguiente (01:38, con otro grupo) Rahu cayó en 324 s con 264k de DPS del grupo y solo 5 muertes." }
   ]
 }

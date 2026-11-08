@@ -8,8 +8,8 @@
       "texto": "402 s con 213k de DPS del grupo, unos 80 s más que el kill de la 01:38 (324 s, 264k). Las muertes bajaron el daño, pero el grupo nunca se quedó sin nadie en pie."
     },
     {
-      "titulo": "El momento crítico: los adds 2920718 hacia los 234 s.",
-      "texto": "En el kill, 1802850 mató a tres jugadores en 2 segundos (234–236 s) y causó 6 muertes en la run. Ese pico casi tira el intento: conviene tener localizados esos adds antes de que lleguen."
+      "titulo": "El momento crítico: 2920718 hacia los 234 s.",
+      "texto": "En el kill, 1802850 mató a tres jugadores en 2 segundos (234–236 s) y causó 6 muertes en la run. Ese pico casi tira el intento: conviene saber dónde aparece esa zona y salir de ella antes de que golpee."
     },
     {
       "titulo": "La fase final, aguantada.",
@@ -23,7 +23,7 @@
   "jugadores": {
     "Posey": [
       "62,7k de DPS (75k en el intento 2) y 2,9k de HPS de apoyo: de nuevo, quien más daño hace.",
-      "3 de tus 7 muertes son de los adds 2920718 (1802850), incluida la del pico de los 236 s del kill."
+      "3 de tus 7 muertes son de 2920718 (1802850), incluida la del pico de los 236 s del kill."
     ],
     "Nadoriel": [
       "54,4k de DPS como tanque.",
@@ -39,7 +39,7 @@
     ],
     "Lux": [
       "19,7k de DPS (12k en el kill): sigue siendo menos de la mitad que el resto. Revisar rotación y equipo (GS 2865) es lo más urgente.",
-      "En el kill moriste a los 48 s (add 2920717), a los 117 s (1802805) y a los 234 s (adds 2920718). Cada muerte temprana quita daño al grupo."
+      "En el kill moriste a los 48 s (2920717), a los 117 s (1802805) y a los 234 s (2920718). Cada muerte temprana quita daño al grupo."
     ]
   },
   "notas": [

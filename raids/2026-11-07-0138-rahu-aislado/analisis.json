@@ -5,7 +5,7 @@
   "recomendaciones": [
     {
       "titulo": "La clave fue llegar vivos a la segunda mitad.",
-      "texto": "La primera muerte de cada jugador llegó de media entre los 129 y los 223 s. En las noches del grupo habitual, entre los 92 y los 142 s. Por eso estos intentos duraban unos 270 s y los del grupo habitual entre 144 y 172 s: sin muertes en la fase de adds (140–175 s), el daño alcanza."
+      "texto": "La primera muerte de cada jugador llegó de media entre los 129 y los 223 s. En las noches del grupo habitual, entre los 92 y los 142 s. Por eso estos intentos duraban unos 270 s y los del grupo habitual entre 144 y 172 s: sin muertes en la fase de las zonas (140–175 s), el daño alcanza."
     },
     {
       "titulo": "Stagger roto en todos los intentos.",
@@ -27,7 +27,7 @@
     ],
     "Stalo": [
       "52,4k de DPS (60k en el kill) con el 68 % de críticos.",
-      "Eres quien antes muere del grupo (primera muerte de media a los 129 s, 3 muertes antes del segundo 60). Los adds 2920717 (1802830) te mataron 3 veces: salen hacia los 45–100 s, apártate de ellos."
+      "Eres quien antes muere del grupo (primera muerte de media a los 129 s, 3 muertes antes del segundo 60). 2920717 (1802830) te mató 3 veces: aparece hacia los 45–100 s, sal de ella en cuanto la veas."
     ],
     "Nadoriel": [
       "49,8k de DPS como tanque (61k en el kill) y una primera muerte media a los 184 s.",
@@ -39,7 +39,7 @@
     ],
     "Lux": [
       "Tu DPS (22,5k, 24k en el kill) es menos de la mitad que el del resto del grupo. Revisa rotación y equipo: tienes el GS más bajo (2865, CP 175k).",
-      "Eres quien más muere (16). 1802840 te mató 3 veces y el add 2920719 (1802870) 2 veces en el mismo intento del kill, a los 162 y 168 s. En la fase de adds, prioriza sobrevivir."
+      "Eres quien más muere (16). 1802840 te mató 3 veces y 2920719 (1802870) 2 veces en el mismo intento del kill, a los 162 y 168 s. En la fase de las zonas, prioriza sobrevivir."
     ]
   },
   "notas": [

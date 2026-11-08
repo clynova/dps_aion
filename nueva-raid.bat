@@ -12,6 +12,9 @@ if errorlevel 1 (
   pause
   exit /b 1
 )
+echo  Actualizando nombres de habilidades desde questlog.gg...
+powershell -NoProfile -ExecutionPolicy Bypass -File "tools\actualizar-nombres.ps1"
+if errorlevel 1 echo  (No se pudieron actualizar los nombres; la raid se publica igual.)
 git add raids nombres.json
 git commit -q -m "Nueva raid desde Questlog"
 git push -q
