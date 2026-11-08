@@ -1,0 +1,50 @@
+{
+  "pendiente": false,
+  "titular": "**Kill** on attempt 8: 324 s at 264k group DPS with only 5 deaths. The night’s average DPS (198k) was lower than that of Cry’s usual group (218–244k). The difference was survival: all 7 real attempts broke the stagger and **every one passed 53%**.",
+  "one_shot": 100000,
+  "recomendaciones": [
+    {
+      "titulo": "The key was reaching the second half alive.",
+      "texto": "Each player’s first death came between 129 and 223 s on average. On the usual group’s nights, between 92 and 142 s. That’s why these attempts lasted about 270 s and the usual group’s between 144 and 172 s: with no deaths in the zone phase (140–175 s), the damage is enough."
+    },
+    {
+      "titulo": "Stagger broken in every attempt.",
+      "texto": "All 7 real attempts broke the stagger between 94 and 142 s. Same pattern as every night: no break, no progress."
+    },
+    {
+      "titulo": "1802720 didn’t appear in the kill attempt.",
+      "texto": "It killed 10 players over the night and came in 5 attempts (210–353 s), but not in the kill. This supports the idea that it punishes a failed mechanic rather than being a timed enrage."
+    },
+    {
+      "titulo": "The final phase can be survived.",
+      "texto": "1802980 and 1802981 (past 70% HP removed) appeared in attempts 4, 7 and 8 and killed 3 players over the night. In the kill they came at 219 s and the group held through all of it."
+    }
+  ],
+  "jugadores": {
+    "Posey": [
+      "Top DPS (62.8k, 73k in the kill) plus 2.7k support HPS and 70% of hits from behind. The night’s benchmark.",
+      "3 of your 9 deaths are from 1802720 (506k taken, 169k hits). In attempts without it, you barely die."
+    ],
+    "Stalo": [
+      "52.4k DPS (60k in the kill) with a 68% crit rate.",
+      "You die the earliest in the group (first death at 129 s on average, 3 deaths before the 60-second mark). 2920717 (1802830) killed you 3 times: it appears around 45–100 s, leave it as soon as you see it."
+    ],
+    "Nadoriel": [
+      "49.8k DPS as tank (61k in the kill) and a first death at 184 s on average.",
+      "In the kill attempt you went down at 133 s to 1802880 (195k). Rahu casts it around 26–30 s and again around 126–135 s: keep a defensive for that second cast."
+    ],
+    "Cry": [
+      "38.9k DPS and 4.8k HPS. Your first death comes at 223 s on average; with your usual group, at 131–142 s. With this group you’re still alive in the final phase, and your healing carries the kill.",
+      "No deaths before the 60-second mark. 1802880 killed you twice (144k): when it targets you, a timely self-shield makes the difference."
+    ],
+    "Lux": [
+      "Your DPS (22.5k, 24k in the kill) is less than half of everyone else’s. Review your rotation and gear: you have the lowest GS (2865, CP 175k).",
+      "You die the most (16). 1802840 killed you 3 times and 2920719 (1802870) twice in the kill attempt itself, at 162 and 168 s. In the zone phase, prioritize surviving."
+    ]
+  },
+  "notas": [
+    { "termino": "Group", "texto": "This run was with a different group from Cry’s usual one (Lux, Nadoriel, Posey and Stalo)." },
+    { "termino": "Other bosses", "texto": "Boss 2301008 died on the first try in 207 s. Then there were 5 attempts on boss 2301014, no kill." },
+    { "termino": "Attempt 3", "texto": "Lasted 5 s with no damage or deaths: a failed pull, not a real attempt." }
+  ]
+}

@@ -105,7 +105,7 @@ foreach ($f in $fights) {
 $party = @($partyDmg.Keys | Where-Object { $partyDmg[$_] -gt 0 })
 if ($party -notcontains $self) { $party += $self }
 
-$clases = @{ templar = 'Templario'; assassin = 'Asesino'; elementalist = 'Elementalista'; cleric = 'Clérigo'; sorcerer = 'Hechicero'; gladiator = 'Gladiador'; ranger = 'Arquero'; chanter = 'Cantor' }
+$clases = @{ templar = 'Templario'; assassin = 'Asesino'; elementalist = 'Espiritualista'; cleric = 'Clérigo'; sorcerer = 'Hechicero'; gladiator = 'Gladiador'; ranger = 'Arquero'; chanter = 'Cantor'; fighter = 'Luchador' }
 $intentos = @(); $dpsRows = @(); $curva = @(); $casts = @(); $deathRows = @(); $plAgg = @{}
 $detSk = @{}; $detTk = @{}; $detDe = @()
 $n = 0; $bossMaxHp = 0; $killS = $null
@@ -179,7 +179,7 @@ foreach ($f in $fights) {
 
 $jugadores = foreach ($k in $plAgg.Keys) {
   $g = $plAgg[$k]
-  [pscustomobject]@{ jugador = $k; clase = $(if ($clases[$g.clase]) { $clases[$g.clase] } else { $g.clase }); gs = $g.gs; cp = $g.cp
+  [pscustomobject]@{ jugador = $k; clase = $(if ($clases[$g.clase]) { $clases[$g.clase] } else { $g.clase }); clase_id = $g.clase; gs = $g.gs; cp = $g.cp
     dps = [math]::Round($g.dmg / $g.t); hps = [math]::Round($g.heal / $g.t); dano_recibido = [math]::Round($g.taken); muertes = $g.deaths
     crit_pct = $(if ($g.hits) { [math]::Round(100 * $g.crit / $g.hits, 1) } else { 0 }); espalda_pct = $(if ($g.hits) { [math]::Round(100 * $g.back / $g.hits, 1) } else { 0 }) }
 }

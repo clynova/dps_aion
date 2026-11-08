@@ -1,0 +1,49 @@
+{
+  "pendiente": false,
+  "titular": "The night’s second kill: Rahu died on the **third attempt**, in 402 s. The first one already stopped at 92.4%. All three attempts broke the stagger (94–132 s), and the kill attempt held to the end despite 10 deaths.",
+  "one_shot": 100000,
+  "recomendaciones": [
+    {
+      "titulo": "A slow but steady kill.",
+      "texto": "402 s at 213k group DPS, about 80 s more than the 01:38 kill (324 s, 264k). Deaths lowered the damage, but the group never ran out of people standing."
+    },
+    {
+      "titulo": "The critical moment: 2920718 around 234 s.",
+      "texto": "In the kill, 1802850 killed three players in 2 seconds (234–236 s) and caused 6 deaths over the run. That spike nearly lost the attempt: know where that zone appears and get out before it hits."
+    },
+    {
+      "titulo": "The final phase, survived.",
+      "texto": "1802981 killed 3 players between 259 and 270 s of the kill, and the boss still went down. In attempt 1 the final phase came around 233 s and the attempt was lost with Rahu at 92.4%, to 1802720 at 325 s."
+    },
+    {
+      "titulo": "1802720, again only in failed attempts.",
+      "texto": "It came in attempts 1 (325 s) and 2 (179 s), and in neither of the night’s two kills. Consistent with it being the punishment for failing a mechanic."
+    }
+  ],
+  "jugadores": {
+    "Posey": [
+      "62.7k DPS (75k in attempt 2) and 2.9k support HPS: once again, the top damage dealer.",
+      "3 of your 7 deaths are from 2920718 (1802850), including the one in the 236 s spike of the kill."
+    ],
+    "Nadoriel": [
+      "54.4k DPS as tank.",
+      "1802720 killed you twice (390k taken) and 1802880 once (195k). Your first death comes at 127 s on average, earlier than in the 01:38 run (184 s)."
+    ],
+    "Stalo": [
+      "48.7k DPS and a first death at 201 s on average, much better than in the previous run (129 s).",
+      "1802720 killed you twice. In the kill you went down at 383 s to 1802880, 19 s from the end: keep a defensive for the last casts."
+    ],
+    "Cry": [
+      "42.2k DPS and 5.1k HPS, no deaths before the 60-second mark and a first death at 218 s on average.",
+      "In the kill you went down at 225 s (1802750) and at 270 s (1802981). The 1802750 telegraph can be dodged: in the final phase every heal counts."
+    ],
+    "Lux": [
+      "19.7k DPS (12k in the kill): still less than half of everyone else. Reviewing rotation and gear (GS 2865) is the most urgent thing.",
+      "In the kill you died at 48 s (2920717), at 117 s (1802805) and at 234 s (2920718). Every early death takes damage away from the group."
+    ]
+  },
+  "notas": [
+    { "termino": "Run", "texto": "This page shows only the Rahu attempts from the 02:45 run. The same run had 9 attempts on boss 2301014 (no kill, not published), and boss 2301008 died in 203 s." },
+    { "termino": "Group", "texto": "Same group as the 01:38 kill: Cry, Lux, Nadoriel, Posey and Stalo." }
+  ]
+}

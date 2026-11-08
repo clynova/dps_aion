@@ -52,7 +52,12 @@ a:focus-visible, button:focus-visible, summary:focus-visible { outline: 2px soli
 
 .rx { max-width: 1180px; margin-inline: auto; padding-inline: clamp(16px, 4vw, 40px); padding-block: clamp(24px, 4vw, 48px); display: flex; flex-direction: column; gap: var(--gap-xl); font-variant-numeric: tabular-nums; }
 .rx-head { display: flex; flex-direction: column; gap: var(--gap-sm); }
-.rx-back { color: var(--fg-muted); font-size: var(--fs-caption); text-decoration: none; width: fit-content; }
+.rx-topbar { display: flex; justify-content: space-between; align-items: center; gap: var(--gap-md); }
+.rx-lang { display: inline-flex; border: 1px solid var(--line); border-radius: 999px; padding: 2px; background: var(--panel); }
+.rx-lang button { font: inherit; font-size: var(--fs-caption); font-weight: 600; letter-spacing: .04em; color: var(--fg-muted); background: transparent; border: 0; border-radius: 999px; padding: .2rem .65rem; cursor: pointer; }
+.rx-lang button:hover { color: var(--fg); }
+.rx-lang button[aria-pressed="true"] { background: var(--fg); color: var(--bg); }
+.rx-back {color: var(--fg-muted); font-size: var(--fs-caption); text-decoration: none; width: fit-content; }
 .rx-back:hover { color: var(--fg); }
 .rx-eyebrow { color: var(--fg-muted); font-size: var(--fs-caption); letter-spacing: .06em; text-transform: uppercase; margin: 0; }
 .rx-title { font-family: var(--font-serif); font-weight: 400; font-size: var(--fs-title); margin: 0; line-height: 1.1; text-wrap: balance; }
@@ -96,6 +101,9 @@ a:focus-visible, button:focus-visible, summary:focus-visible { outline: 2px soli
 .rx-table th:nth-child(-n+2), .rx-table td:nth-child(-n+2) { text-align: left; }
 .rx-table td:first-child { font-weight: 600; }
 .rx-table tr.is-self td:first-child { color: var(--ok); }
+.rx-table .rx-left { text-align: left; }
+.rx-skillicons { display: inline-flex; gap: 4px; vertical-align: middle; }
+.rx-icon { display: block; border-radius: 4px; background: var(--line); }
 .rx-dpscell { display: inline-flex; align-items: center; gap: var(--gap-sm); justify-content: flex-end; }
 .rx-bar { display: inline-block; height: .45rem; border-radius: 2px; background: var(--chart-muted); }
 .rx-bad { color: var(--bad); }

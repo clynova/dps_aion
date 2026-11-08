@@ -1,0 +1,64 @@
+{
+  "pendiente": false,
+  "titular": "The best attempt removed **75.7%** of Rahu’s HP, and the last two were already past 50%. In **9 of 17** attempts the group died with Rahu between 35 and 50%, around 140–175 s: the damage is there (at this pace a deathless kill takes about 6.5 min); what fails are the mechanics of that phase.",
+  "zonas": { "muro": [35, 50], "ventana": [140, 175] },
+  "one_shot": 100000,
+  "recomendaciones": [
+    {
+      "titulo": "What separates this night from the kills.",
+      "texto": "Compared with the two runs where Rahu died (Nov 7 at 01:38 and 02:45): attempts lasted **156 s** on average (269–304 s in the kills) and each player’s first death came between **117 and 142 s** (127–223 s in the kills). There were **2.4 deaths per minute** versus 1.9–2.0. Stagger breaks were the best of your three nights (12 of 17, and earlier: 101–114 s), but only 3 attempts passed 50%, while every kill attempt did. The missing step is surviving the zone phase; your damage (218k) already beats the kill group’s (198k)."
+    },
+    {
+      "titulo": "Plan the wall phase before pulling.",
+      "texto": "Between 112 and 172 s Rahu chains 1802900, 1802840 and 1802810 while 2920718 appears (its 1802850 caused 8 deaths). These are invisible damage areas, not enemies: agree where each player moves. Only the attempts that got through that phase (9, 16 and 17) passed the halfway mark."
+    },
+    {
+      "titulo": "Dodge or mitigate 1802880.",
+      "texto": "It is a 110–205k single-target hit that one-shots. It comes around 30–40 s and again around 125–150 s, and killed the tank twice right at the start."
+    },
+    {
+      "titulo": "Always break the stagger.",
+      "texto": "Every attempt that went far broke the stagger around 101–114 s. None without a break got past 28%."
+    },
+    {
+      "titulo": "Don’t let it reach 1802720.",
+      "texto": "It kills the whole group (110–195k hits) and ended the four best attempts. It also came at 95 s in attempt 2, so it looks like the punishment for failing a mechanic, not a timed enrage."
+    },
+    {
+      "titulo": "Study the final phase.",
+      "texto": "1802980 and 1802981 only appeared in attempt 9, past 70%, and killed three players in 15 s. Worth watching a guide or video before the next night."
+    }
+  ],
+  "jugadores": {
+    "FunPeople": [
+      "You do the most DPS (51.5k on average, up to 59k in the last attempts) while tanking. The trend is good.",
+      "9 of your 19 deaths are from 2920725 (1802716, 1802717 and 1802718), almost always at the end of a wipe, when you’re the last one standing. The real problem is how the wipe starts, not you.",
+      "1802880 killed you twice in the first 41 s with 206k hits. Keep a strong defensive or move when Rahu casts it around 30–40 s."
+    ],
+    "Rhygal": [
+      "71.6% of your hits land from behind and 63% crit: the best execution in the group.",
+      "Your deaths are spread across zones: 1802920 (from 2920724) and 1802830 (from 2920717), 3 each. Staying glued to the boss gets you caught; step out briefly when they appear.",
+      "Your DPS dropped to 34–39k in attempts 12, 13 and 17. Check whether you died earlier in those or had to move through the zones."
+    ],
+    "Izumi": [
+      "You have the best gear in the group (GS 3067). Your good attempts reach 55–57k DPS, but the last one fell to 30k.",
+      "4 of your deaths are from 1802850, cast by 2920718 in the wall phase. Learn where it appears and stand outside before it hits.",
+      "8 deaths with no recorded ability: usually damage-over-time effects. Watch the effects the zones leave on you."
+    ],
+    "Cry": [
+      "You are the group’s only real healer (5.2k HPS versus under 1.2k for everyone else) and still do 36.8k DPS.",
+      "Your first death comes at 142 s on average, right in the wall window. If you go down there, the group loses its healing: in that phase, prioritize surviving and healing over damage.",
+      "1802715 and 1802710 took about 560k from you in small hits. A pre-emptive shield or group heal before 140 s can buy margin for the zone phase."
+    ],
+    "Pantsu": [
+      "You die the most (25) and the earliest: your first death comes at 117 s on average, about 20 s before everyone else. Every second dead is DPS the group loses.",
+      "Your main causes: 2920717 (1802830, 3 deaths, around 45–100 s), the 1802750 telegraph (2), and 1802700 and 1802840 (2 each). Leave those zones as soon as they appear and dodge 1802750 around 75 s.",
+      "You have the lowest gear in the group (GS 2834, CP 182k). Raising it is the most direct boost to your DPS (36.4k) and to taking hits."
+    ]
+  },
+  "notas": [
+    { "termino": "Other group", "texto": "The raid’s other group only shows up in the deaths of attempts 1 to 5. It seems they left after that (an inference: the meter doesn’t record that group)." },
+    { "termino": "First boss", "texto": "Boss 2301008 died on the first try with the full raid in 223 s, at 428k raid DPS." },
+    { "termino": "End of run", "texto": "The run ended at the 60-minute limit." }
+  ]
+}

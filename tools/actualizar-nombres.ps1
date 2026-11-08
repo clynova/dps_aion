@@ -6,7 +6,8 @@
   - "apodos" se conserva: son nombres puestos a mano y tienen prioridad en la web
     (útil para los ataques del jefe que el juego llama solo «Ataque»).
 
-  Uso: powershell -ExecutionPolicy Bypass -File tools\actualizar-nombres.ps1
+  Uso: powershell -ExecutionPolicy Bypass -File tools\actualizar-nombres.ps1 [-Idioma es|en]
+  Escribe nombres.json (es) o nombres.<idioma>.json.
 #>
 param([string]$Repo = (Split-Path $PSScriptRoot -Parent), [string]$Idioma = 'es')
 $ErrorActionPreference = 'Stop'
@@ -46,28 +47,40 @@ Write-Host "Descargando nombres de Questlog ($Idioma)..."
 $S = Get-Trpc 'combatLog.entities.skills'
 $N = (Get-Trpc 'combatLog.entities.names').npc
 
+# Textos propios por idioma: nombre genérico del juego para los golpes de NPC y etiquetas de las zonas.
+$L = @{
+  es = @{ generic = 'Ataque'; zone = 'Zona'; curse = 'Zona de maldición'; summon = 'Zona invocada' }
+  en = @{ generic = 'Attack'; zone = 'Zone'; curse = 'Curse zone'; summon = 'Summoned zone' }
+}[$Idioma]
+if (-not $L) { throw "Idioma no soportado: $Idioma" }
+
 # Las invocaciones invisibles son zonas de daño de una habilidad del jefe, no enemigos.
 function Pretty-Npc($raw) {
   if ($raw -match '^N_Invisible_Summon_.*?(Skill)_?(\d+)(?:_(\d+))?') {
     $n = [int]$Matches[2]; $sub = if ($Matches[3]) { "-$([int]$Matches[3])" } else { '' }
-    return "Zona $n$sub"
+    return "$($L.zone) $n$sub"
   }
-  if ($raw -match '^N_Invisible_Summon_.*_Curse') { return 'Zona de maldición' }
-  if ($raw -match '^N_Invisible_Summon_') { return 'Zona invocada' }
+  if ($raw -match '^N_Invisible_Summon_.*_Curse') { return $L.curse }
+  if ($raw -match '^N_Invisible_Summon_') { return $L.summon }
   return $raw
 }
 
 $habilidades = [ordered]@{}
+$iconos = [ordered]@{}
 foreach ($id in ($skIds.Keys | Sort-Object { [int64]$_ })) {
   $name = $S.$id.name
   if (-not $name) { continue }
-  if ($name -eq 'Ataque') { $name = "Ataque $id" }   # nombre genérico del juego: se distingue por su número
+  if ($name -eq $L.generic) { $name = "$($L.generic) $id" }   # nombre genérico del juego: se distingue por su número
   $habilidades[$id] = $name
+  # Icono: ruta corta bajo Texture/, sin el sufijo ".NOMBRE". Las habilidades de NPC llevan un icono
+  # de relleno (ICON_TE_SKILL_001) que no las representa: esas se quedan sin icono.
+  $icon = ([string]$S.$id.icon) -replace '^/assets/Game/UI/Resource/Texture/', '' -replace '\.[^./]+$', ''
+  if ($icon -and -not ($icon -eq 'Skill/ICON_TE_SKILL_001' -and $id.Length -lt 8)) { $iconos[$id] = $icon }
 }
 $npcs = [ordered]@{}
 foreach ($id in ($npcIds.Keys | Sort-Object { [int64]$_ })) { $raw = $N.$id.name; if ($raw) { $npcs[$id] = Pretty-Npc $raw } }
 
-$path = Join-Path $Repo 'nombres.json'
+$path = Join-Path $Repo $(if ($Idioma -eq 'es') { 'nombres.json' } else { "nombres.$Idioma.json" })
 $prev = if (Test-Path $path) { [IO.File]::ReadAllText($path, [Text.Encoding]::UTF8) | ConvertFrom-Json } else { $null }
 $apodos = if ($prev -and $prev.apodos) { $prev.apodos } else { [pscustomobject]@{} }
 $out = [ordered]@{
@@ -76,7 +89,8 @@ $out = [ordered]@{
   apodos = $apodos
   npcs = $npcs
   habilidades = $habilidades
+  iconos = $iconos
 }
 [IO.File]::WriteAllText($path, ($out | ConvertTo-Json -Depth 4), $utf8)
 $sinNombre = @($skIds.Keys | Where-Object { -not $habilidades.Contains($_) })
-Write-Host "nombres.json: $($habilidades.Count) habilidades y $($npcs.Count) NPCs. Sin nombre: $($sinNombre.Count)"
+Write-Host "$(Split-Path $path -Leaf): $($habilidades.Count) habilidades ($($iconos.Count) con icono) y $($npcs.Count) NPCs. Sin nombre: $($sinNombre.Count)"

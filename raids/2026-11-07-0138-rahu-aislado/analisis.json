@@ -1,6 +1,6 @@
 {
   "pendiente": false,
-  "titular": "**Kill** en el intento 8: 324 s con 264k de DPS del grupo y solo 5 muertes. El DPS medio de la noche (198k) fue *más bajo* que el del grupo habitual de Cry (218–244k). La diferencia fue sobrevivir: los 7 intentos reales rompieron el stagger y **todos pasaron del 53 %**.",
+  "titular": "**Kill** en el intento 8: 324 s con 264k de DPS del grupo y solo 5 muertes. El DPS medio de la noche (198k) fue más bajo que el del grupo habitual de Cry (218–244k). La diferencia fue sobrevivir: los 7 intentos reales rompieron el stagger y **todos pasaron del 53 %**.",
   "one_shot": 100000,
   "recomendaciones": [
     {
@@ -34,7 +34,7 @@
       "En el intento del kill caíste a los 133 s por 1802880 (195k). Rahu lo lanza hacia los 26–30 s y otra vez hacia los 126–135 s: guarda un defensivo para ese segundo momento."
     ],
     "Cry": [
-      "38,9k de DPS y 4,8k de HPS. Tu primera muerte llega de media a los 223 s; con tu grupo habitual, a los 131–142 s. Con este grupo llegas viva a la fase final y tu curación sostiene el kill.",
+      "38,9k de DPS y 4,8k de HPS. Tu primera muerte llega de media a los 223 s; con tu grupo habitual, a los 131–142 s. Con este grupo sigues con vida en la fase final y tu curación sostiene el kill.",
       "Ninguna muerte antes del segundo 60. 1802880 te mató 2 veces (144k): cuando te apunte a ti, un escudo propio a tiempo es la diferencia."
     ],
     "Lux": [

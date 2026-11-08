@@ -1,0 +1,64 @@
+{
+  "pendiente": false,
+  "titular": "The closest night: attempt 11 reached **80.6%** and attempt 10 hit 70.4%. But only **6 of 16** attempts broke the stagger, and late (143–157 s). None of the attempts without a break reached 46%, and every attempt past 50% had one.",
+  "zonas": { "ventana": [130, 175] },
+  "one_shot": 100000,
+  "recomendaciones": [
+    {
+      "titulo": "What separates this night from the kills.",
+      "texto": "Compared with the two runs where Rahu died (Nov 7 at 01:38 and 02:45): this night’s attempts lasted **172 s** on average (269–304 s in the kills) and each player’s first death came between **94 and 138 s** (127–223 s in the kills). There were **2.6 deaths per minute** versus 1.9–2.0, and the stagger broke in 6 of 16 attempts versus all of them. Damage wasn’t the problem: 220k avg DPS, and the kill group had 198k."
+    },
+    {
+      "titulo": "Break the stagger earlier, and every time.",
+      "texto": "Tonight the break came at 143–157 s and in fewer than half of the attempts. The next evening it came at 101–114 s in every long attempt. It’s the clearest difference between attempts that progress and those that don’t."
+    },
+    {
+      "titulo": "Get out of the zones in the 130–175 s phase.",
+      "texto": "The zones Rahu summons caused 33 deaths: 2920718 with 1802850 (12), 2920725 (10) and 2920717 with 1802830 (9). They are invisible damage areas, not enemies, and line up with the 1802900 → 1802840 → 1802810 sequence. Agree before pulling where each player moves when they appear."
+    },
+    {
+      "titulo": "1802720 is the mechanic that ends the best attempts.",
+      "texto": "It killed 12 players with hits of up to 194k, and was the last death in attempts 4, 11 and 16. It came at 157, 202, 216, 263, 335 and 340 s, so it isn’t a fixed-time enrage; it looks like the punishment for failing something in the previous phase."
+    },
+    {
+      "titulo": "Don’t lose the first 40 seconds.",
+      "texto": "5 of 16 attempts (1, 2, 7, 8 and 12) ended before 26%. In that stretch Rahu casts 1802730 (8 s), 1802740 (16 s), 1802805 (23–32 s) and 1802880 (26–35 s), which together caused 15 deaths."
+    },
+    {
+      "titulo": "Fewer deaths, not more damage.",
+      "texto": "In the two best attempts (10 and 11) group DPS fell to 178–200k because of deaths (9 and 10). The 01:38 kill attempt had 264k DPS and only 5 deaths: you need to reach the end with people alive."
+    }
+  ],
+  "jugadores": {
+    "Rhygal": [
+      "The night’s top DPS (51.3k, with peaks of 65–69k in attempts 2 and 9) and 73% of hits from behind. Excellent execution.",
+      "Your deaths are spread across 1802720 (3), 2920718 (3) and 2920717 (2). When the zones appear, step out even if you lose a few seconds of back attacks."
+    ],
+    "FunPeople": [
+      "You soak almost all the group’s damage (5.3M taken) and still do 47.1k DPS.",
+      "3 of your deaths came before the 60-second mark. 1802880 hit you for up to 194k (2 deaths): have a defensive ready for 26–35 s, when Rahu first casts it.",
+      "1802720 killed you 3 times. As the tank you survive the longest; when you see it coming, prioritize staying alive even if the attempt is lost."
+    ],
+    "Garretin": [
+      "You do 44k DPS and are also second in healing (1.2k HPS). Very useful as Cry’s support.",
+      "You die early: your first death comes at 114 s on average, and 6 of your 24 deaths were before the 60-second mark. 1802750 (3) and 1802740 (2, always around 16 s) are the ones to dodge.",
+      "You take the most damage from 1802715 (933k). You have the lowest CP in the group (175k): upgrading gear will give you margin to absorb it."
+    ],
+    "Cry": [
+      "40k DPS and 5.3k HPS: still the group’s main healer.",
+      "Your DPS drops to 30–37k in the longest attempts (8, 10 and 11) because there’s more healing to do. That’s right: in those attempts your healing is worth more than your damage.",
+      "1802805 took 406k from you (cast around 23–32 s and again around 105–127 s). A shield before those moments can save healing for the zone phase."
+    ],
+    "Pantsu": [
+      "You die the most (29) and the earliest: your first death comes at 94 s on average, and 8 deaths were before the 60-second mark. In attempt 1 you did only 11k DPS because you died early.",
+      "Your main causes: 2920718 (1802850, 5 deaths), 1802750 (3), 2920717 (1802830, 3) and 1802730 (3, at 8 s and around 50 s). Learn the opening timings: 1802730 at 8 s and 1802740 at 16 s.",
+      "You have the lowest GS in the group (2829). Better gear is the fastest way to raise your DPS (35.1k) and take more hits."
+    ]
+  },
+  "notas": [
+    { "termino": "Group", "texto": "Tonight Garretin (Chanter) took Izumi’s spot." },
+    { "termino": "First boss", "texto": "Boss 2301008 died on the first try in 211 s, at 454k raid DPS." },
+    { "termino": "Attempt 12", "texto": "Lasted 11 s (0.7%) with 4 deaths: probably a failed pull or a reset, not a real attempt." },
+    { "termino": "Kill reference", "texto": "The kill data comes from the Nov 7 01:38 raid, with another group, also on this site." }
+  ]
+}

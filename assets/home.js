@@ -1,19 +1,23 @@
 // Página principal: lista de raids (raids/index.json) y evolución del mejor intento por jefe.
 (async function () {
+  const T = I18N.t, LANG = I18N.lang, LOC = I18N.locale;
   const $ = (id) => document.getElementById(id);
   const el = (tag, cls, text) => { const n = document.createElement(tag); if (cls) n.className = cls; if (text != null) n.textContent = text; return n; };
-  const nf = new Intl.NumberFormat('es', { maximumFractionDigits: 0 });
-  const nf1 = new Intl.NumberFormat('es', { maximumFractionDigits: 1, minimumFractionDigits: 1 });
-  const cmp = new Intl.NumberFormat('es', { notation: 'compact', maximumFractionDigits: 1 });
+  const nf = new Intl.NumberFormat(LOC, { maximumFractionDigits: 0 });
+  const nf1 = new Intl.NumberFormat(LOC, { maximumFractionDigits: 1, minimumFractionDigits: 1 });
+  const cmp = new Intl.NumberFormat(LOC, { notation: 'compact', maximumFractionDigits: 1 });
+  const pct = (v) => nf1.format(v) + (LANG === 'es' ? ' %' : '%');
+  document.title = `${T('site.name')} · ${T('home.title')}`;
   let raids;
   try { raids = await fetch('raids/index.json', { cache: 'no-cache' }).then((r) => r.json()); }
-  catch (e) { $('lede').textContent = 'Todavía no hay raids guardadas.'; return; }
-  const N = await fetch('nombres.json', { cache: 'no-cache' }).then((r) => r.json()).catch(() => ({}));
+  catch (e) { $('lede').textContent = T('home.empty'); return; }
+  const getN = (f) => fetch(f, { cache: 'no-cache' }).then((r) => { if (!r.ok) throw new Error(f); return r.json(); });
+  const N = await (LANG === 'es' ? getN('nombres.json') : getN(`nombres.${LANG}.json`).catch(() => getN('nombres.json'))).catch(() => ({}));
   const npcName = (npc, fallback) => (N.npcs || {})[npc] || fallback;
   raids.forEach((r) => { r.jefe = npcName(r.npc, r.jefe); (r.otros || []).forEach((o) => { o.jefe = npcName(o.npc, o.jefe); }); });
   raids.sort((a, b) => new Date(b.fecha) - new Date(a.fecha));
   const kills = raids.filter((r) => r.matado).length;
-  $('lede').textContent = `${nf.format(raids.length)} ${raids.length === 1 ? 'raid guardada' : 'raids guardadas'}, ${nf.format(kills)} con kill del jefe principal. Pulsa una para ver sus estadísticas, la ficha de cada jugador y las recomendaciones.`;
+  $('lede').textContent = T('home.lede', { n: nf.format(raids.length), raids: T(raids.length === 1 ? 'home.raid1' : 'home.raidN'), k: nf.format(kills) });
 
   raids.forEach((r) => {
     const d = new Date(r.fecha);
@@ -21,17 +25,16 @@
     const left = el('div');
     left.append(el('div', 'hm-name', r.jefe));
     const sub = el('div', 'hm-sub');
-    sub.append(el('span', null, d.toLocaleDateString('es', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }) + ' · ' + d.toLocaleTimeString('es', { hour: '2-digit', minute: '2-digit' })));
-    (r.otros || []).forEach((o) => sub.append(el('span', null, `${o.jefe}: ${o.matado ? 'matado' : 'sin kill'}`)));
-    const pill = el('span', 'rx-pill' + (r.analizado ? ' is-ok' : ' is-pending'), r.analizado ? 'Analizada' : 'Análisis pendiente');
-    sub.append(pill);
+    sub.append(el('span', null, d.toLocaleDateString(LOC, { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }) + ' · ' + d.toLocaleTimeString(LOC, { hour: '2-digit', minute: '2-digit' })));
+    (r.otros || []).forEach((o) => sub.append(el('span', null, `${o.jefe}: ${T(o.matado ? 'home.killed' : 'home.nokill')}`)));
+    sub.append(el('span', 'rx-pill' + (r.analizado ? ' is-ok' : ' is-pending'), T(r.analizado ? 'home.analyzed' : 'home.pending')));
     left.append(sub);
     const stats = el('div', 'hm-stats');
     const stat = (v, l, ok) => { const s = el('div', 'hm-stat'); s.append(el('b', ok ? 'is-ok' : null, v), el('span', null, l)); stats.append(s); };
-    stat(r.matado ? 'Kill' : nf1.format(r.mejor_pct) + ' %', r.matado ? 'jefe matado' : 'mejor intento', r.matado);
-    stat(nf.format(r.intentos), 'intentos');
-    stat(nf.format(r.muertes), 'muertes');
-    stat(cmp.format(r.dps_grupo_medio), 'DPS medio');
+    stat(r.matado ? T('home.stat.kill') : pct(r.mejor_pct), T(r.matado ? 'home.stat.killed' : 'home.stat.best'), r.matado);
+    stat(nf.format(r.intentos), T('home.stat.tries'));
+    stat(nf.format(r.muertes), T('home.stat.deaths'));
+    stat(cmp.format(r.dps_grupo_medio), T('home.stat.dps'));
     a.append(left, stats); li.append(a); $('lista').append(li);
   });
 
@@ -43,14 +46,15 @@
     const box = $('ch-evolucion'); box.replaceChildren();
     const rows = porJefe.flatMap(([jefe, v]) => v.map((r) => ({ ...r, jefe, x: new Date(r.fecha), y: r.matado ? 100 : r.mejor_pct })));
     const W = Math.max(box.clientWidth, 260), H = 240, m = { t: 16, r: 16, b: 30, l: 40 };
-    const svg = d3.select(box).append('svg').attr('width', '100%').attr('viewBox', `0 0 ${W} ${H}`).attr('role', 'img').attr('aria-label', 'Evolución del mejor intento por jefe');
+    const svg = d3.select(box).append('svg').attr('width', '100%').attr('viewBox', `0 0 ${W} ${H}`).attr('role', 'img').attr('aria-label', T('home.evolution'));
     const x = d3.scaleUtc(d3.extent(rows, (d) => d.x), [m.l, W - m.r]);
     const y = d3.scaleLinear([0, 100], [H - m.b, m.t]);
     [0, 25, 50, 75, 100].forEach((v) => {
       svg.append('line').attr('x1', m.l).attr('x2', W - m.r).attr('y1', y(v)).attr('y2', y(v)).style('stroke', v ? 'var(--chart-grid)' : 'var(--chart-axis)');
-      svg.append('text').attr('x', m.l - 6).attr('y', y(v)).attr('dy', '0.32em').attr('text-anchor', 'end').text(v + ' %');
+      svg.append('text').attr('x', m.l - 6).attr('y', y(v)).attr('dy', '0.32em').attr('text-anchor', 'end').text(v + (LANG === 'es' ? ' %' : '%'));
     });
-    x.ticks(W < 420 ? 3 : 6).forEach((v) => svg.append('text').attr('x', x(v)).attr('y', H - m.b + 16).attr('text-anchor', 'middle').text(v.toLocaleDateString('es', { day: 'numeric', month: 'short' })));
+    x.ticks(W < 420 ? 3 : 6).forEach((v) => svg.append('text').attr('x', x(v)).attr('y', H - m.b + 16).attr('text-anchor', 'middle')
+      .text(v.toLocaleDateString(LOC, { day: 'numeric', month: 'short' }) + ' ' + v.toLocaleTimeString(LOC, { hour: '2-digit', minute: '2-digit' })));
     const colors = ['var(--series-1)', 'var(--series-2)', 'var(--fg-muted)'];
     porJefe.forEach(([jefe], i) => {
       const pts = rows.filter((r) => r.jefe === jefe).sort((a, b) => a.x - b.x);
@@ -58,7 +62,7 @@
       svg.append('g').selectAll('circle').data(pts).join('circle').attr('cx', (d) => x(d.x)).attr('cy', (d) => y(d.y)).attr('r', 4)
         .style('fill', (d) => (d.matado ? 'var(--ok)' : colors[i % 3])).style('cursor', 'pointer')
         .on('click', (ev, d) => { location.href = `raids/${d.slug}/`; })
-        .append('title').text((d) => `${d.jefe} · ${d.x.toLocaleDateString('es')} · ${d.matado ? 'kill' : nf1.format(d.mejor_pct) + ' %'}`);
+        .append('title').text((d) => `${d.jefe} · ${d.x.toLocaleString(LOC)} · ${d.matado ? T('home.stat.kill') : pct(d.mejor_pct)}`);
       const last = pts[pts.length - 1];
       svg.append('text').attr('x', x(last.x) - 6).attr('y', y(last.y) - 9).attr('text-anchor', 'end').attr('class', 'rx-strong').text(jefe);
     });

@@ -10,31 +10,35 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&family=Newsreader:opsz,wght@6..72,400&display=swap">
 <link rel="stylesheet" href="assets/site.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+<script src="assets/i18n.js" defer></script>
 <script src="assets/home.js" defer></script>
 </head>
 <body>
 <main class="rx">
   <header class="rx-head">
-    <p class="rx-eyebrow">Aion 2 · Medidor de Questlog</p>
-    <h1 class="rx-title">Raids del grupo</h1>
-    <p class="rx-lede" id="lede">Cargando el historial…</p>
+    <div class="rx-topbar">
+      <p class="rx-eyebrow" data-i18n="home.eyebrow">Aion 2 · Medidor de Questlog</p>
+      <div data-lang-toggle></div>
+    </div>
+    <h1 class="rx-title" data-i18n="home.title">Raids del grupo</h1>
+    <p class="rx-lede" id="lede" data-i18n="home.loading">Cargando el historial…</p>
   </header>
 
   <section class="rx-section" id="evolucion" hidden>
-    <h2 class="rx-h2">Evolución por jefe</h2>
+    <h2 class="rx-h2" data-i18n="home.evolution">Evolución por jefe</h2>
     <article class="rx-card">
-      <h3>Mejor intento de cada noche</h3>
-      <p class="rx-note">Vida quitada en el mejor intento de cada raid; en verde, las noches con kill.</p>
+      <h3 data-i18n="home.evolution.card">Mejor intento de cada noche</h3>
+      <p class="rx-note" data-i18n="home.evolution.note">Vida quitada en el mejor intento de cada raid; en verde, las noches con kill.</p>
       <div class="rx-chart" id="ch-evolucion"></div>
     </article>
   </section>
 
   <section class="rx-section">
-    <h2 class="rx-h2">Todas las raids</h2>
+    <h2 class="rx-h2" data-i18n="home.all">Todas las raids</h2>
     <ul class="hm-list" id="lista"></ul>
   </section>
 
-  <p class="rx-foot">Cada raid se extrae del medidor de combate de Questlog. El análisis de cada noche lo escribe Claude cuando se le pide.</p>
+  <p class="rx-foot" data-i18n="home.foot">Cada raid se extrae del medidor de combate de Questlog. El análisis de cada noche lo escribe Claude cuando se le pide.</p>
 </main>
 </body>
 </html>
