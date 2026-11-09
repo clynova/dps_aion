@@ -19,9 +19,9 @@ import semillaEs from '@/nombres.json';
 import semillaEn from '@/nombres.en.json';
 
 const BASE = 'https://questlog.gg/aion-2/api/trpc/';
-const TEXTOS: Record<Idioma, { generico: string; zona: string; maldicion: string; invocada: string }> = {
-  es: { generico: 'Ataque', zona: 'Zona', maldicion: 'Zona de maldición', invocada: 'Zona invocada' },
-  en: { generico: 'Attack', zona: 'Zone', maldicion: 'Curse zone', invocada: 'Summoned zone' },
+const TEXTOS: Record<Idioma, { generico: string; zona: string; maldicion: string; invocada: string; esbirro: string }> = {
+  es: { generico: 'Ataque', zona: 'Zona', maldicion: 'Zona de maldición', invocada: 'Zona invocada', esbirro: 'Esbirro invocado' },
+  en: { generico: 'Attack', zona: 'Zone', maldicion: 'Curse zone', invocada: 'Summoned zone', esbirro: 'Summoned minion' },
 };
 const IDIOMAS = ['es', 'en'] as const;
 
@@ -42,6 +42,7 @@ export function nombreNpc(bruto: string, idioma: Idioma): string {
   if (m) return `${L.zona} ${Number(m[2])}${m[3] ? `-${Number(m[3])}` : ''}`;
   if (/^N_Invisible_Summon_.*_Curse/.test(bruto)) return L.maldicion;
   if (/^N_Invisible_Summon_/.test(bruto)) return L.invocada;
+  if (/^M_Summon_/.test(bruto)) return L.esbirro; // esbirro visible de una habilidad del jefe (nombre interno sin traducir)
   return bruto;
 }
 
@@ -70,12 +71,14 @@ export function filasQuestlog(ids: { h: Iterable<string>; n: Iterable<string> },
   return { filas, sinNombre };
 }
 
+/** pisar = false (semilla): solo rellena huecos y sustituye nombres internos sin traducir (M_Summon_…, N_…). */
 async function guardar(filas: Fila[], pisar: boolean) {
   for (let i = 0; i < filas.length; i += 500) {
-    const q = db.insert(nombres).values(filas.slice(i, i + 500));
-    await (pisar
-      ? q.onConflictDoUpdate({ target: [nombres.tipo, nombres.id, nombres.idioma], set: { nombre: sql`excluded.nombre`, icono: sql`excluded.icono` } })
-      : q.onConflictDoNothing());
+    await db.insert(nombres).values(filas.slice(i, i + 500)).onConflictDoUpdate({
+      target: [nombres.tipo, nombres.id, nombres.idioma],
+      set: { nombre: sql`excluded.nombre`, icono: sql`excluded.icono` },
+      ...(pisar ? {} : { setWhere: sql`${nombres.nombre} ~ '^[MN]_[A-Za-z]'` }),
+    });
   }
 }
 
