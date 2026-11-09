@@ -25,7 +25,11 @@ const ia = createServer((req, res) => {
     const b = JSON.parse(cuerpo) as { messages: { role: string; content: string }[]; response_format?: { type: string } };
     const [sistema, usuario] = b.messages;
     let salida: unknown;
-    if (/Traduce al inglés/.test(sistema.content)) salida = { ...JSON.parse(usuario.content), titular: 'Simulated **English** headline.' };
+    if (/You are a translator/.test(sistema.content)) {
+      const es = JSON.parse(usuario.content);
+      salida = { ...es, titular: 'Simulated **English** headline.', recomendaciones: es.recomendaciones.map(() => ({ titulo: 'Test it', texto: 'Simulated text in English.' })),
+        jugadores: Object.fromEntries(Object.keys(es.jugadores).map((n) => [n, [`Simulated advice for ${n}: you can do it.`]])) };
+    }
     else {
       const g: string[] = JSON.parse(usuario.content).raid.meta.grupo;
       salida = { pendiente: false, titular: 'Titular **simulado** de la IA.', recomendaciones: [{ titulo: 'Probar', texto: 'Texto simulado.' }],

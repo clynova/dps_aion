@@ -39,7 +39,75 @@ export function resumenParaIA(d: Datos, nombres: Nombres, historial: Historial) 
   recorrer(raid);
   const dic: Record<string, string> = {};
   for (const id of [...ids].sort()) { const n = nombres.apodos[id] ?? nombres.habilidades[id] ?? nombres.npcs[id]; if (n) dic[id] = n; }
-  return { raid, nombres: dic, raids_anteriores_del_mismo_jefe: historial };
+  return { raid, nombres: dic, clasificaciones: clasificaciones(d as { jugadores?: unknown; detalle?: unknown; intentos?: unknown }), raids_anteriores_del_mismo_jefe: historial };
+}
+
+/**
+ * Clasificaciones ya calculadas (de mayor a menor) para que la IA no se equivoque al comparar a 10 jugadores
+ * («el que más daño recibe», «el que más muere»): en la primera prueba real fallaba justo en eso.
+ */
+export function clasificaciones(d: { jugadores?: unknown; detalle?: unknown; intentos?: unknown }) {
+  const jug = (d.jugadores ?? []) as { jugador: string; dps?: number; hps?: number; dano_recibido?: number; muertes?: number }[];
+  const det = (d.detalle ?? {}) as Record<string, { apoyo?: { curacion?: number }; rotacion?: { vivo_s?: number }; supervivencia?: { resurrecciones?: number } }>;
+  const orden = (f: (n: string) => number | undefined): [string, number][] =>
+    jug.map((j) => [j.jugador, f(j.jugador)] as [string, number | undefined]).filter((x): x is [string, number] => typeof x[1] === 'number').sort((a, b) => b[1] - a[1]);
+  const de = (n: string) => jug.find((j) => j.jugador === n);
+  return {
+    dps: orden((n) => de(n)?.dps),
+    curacion: orden((n) => det[n]?.apoyo?.curacion),
+    dano_recibido: orden((n) => de(n)?.dano_recibido),
+    muertes: orden((n) => de(n)?.muertes),
+    resurrecciones: orden((n) => det[n]?.supervivencia?.resurrecciones),
+    segundos_vivo: orden((n) => det[n]?.rotacion?.vivo_s),
+    // intentos: [número de intento, valor]
+    intentos_por_dps_grupo: porIntento(d.intentos, 'dps_grupo'),
+    intentos_por_progreso: porIntento(d.intentos, 'progreso_pct'),
+  };
+}
+
+const porIntento = (xs: unknown, campo: string): [number, number][] => ((xs ?? []) as Record<string, number>[])
+  .filter((i) => typeof i[campo] === 'number').map((i) => [i.intento, i[campo]] as [number, number]).sort((a, b) => b[1] - a[1]);
+
+/**
+ * Quita el nombre que la IA a veces pone entre paréntesis detrás de un id («13080000 (Postura de evasión)»): la web
+ * ya sustituye el id por su nombre y saldría repetido. Solo paréntesis sin cifras (los de valores, como «(219650)», se quedan).
+ */
+export function quitarNombresTrasIds<T>(a: T): T {
+  // y la negrita alrededor de un id suelto (la web ya lo destaca al poner el nombre), aunque el prompt la prohíbe
+  const limpiar = (s: string) => s.replace(/\b(\d{7,8})(\*\*)?\s*\(([^()\d]{1,60})\)/g, '$1$2').replace(/\*\*(\d{7,8})\*\*/g, '$1');
+  const recorrer = (v: unknown): unknown => (typeof v === 'string' ? limpiar(v) : Array.isArray(v) ? v.map(recorrer)
+    : v && typeof v === 'object' ? Object.fromEntries(Object.entries(v).map(([k, x]) => [k, recorrer(x)])) : v);
+  return recorrer(a) as T;
+}
+
+/** Ids que salen en la raid (habilidades, causas, npcs): el resto de números largos de un texto son cifras. */
+export function idsDeLaRaid(d: unknown): Set<string> {
+  const ids = new Set<string>();
+  const recorrer = (v: unknown, clave = ''): void => {
+    if (Array.isArray(v)) v.forEach((x) => recorrer(x, clave));
+    else if (v && typeof v === 'object') for (const [k, x] of Object.entries(v)) recorrer(x, k);
+    else if ((typeof v === 'string' || typeof v === 'number') && /habilidad|causa|origen|npc/.test(clave) && /^\d{4,9}$/.test(String(v))) ids.add(String(v));
+  };
+  recorrer(d);
+  return ids;
+}
+
+/**
+ * Da formato a las cifras que la IA deja en crudo («2456997» → «2,46 M», «504604» → «504,6k»; en inglés con punto),
+ * sin tocar los ids de la raid, que la web sustituye por su nombre. Solo números de 5 cifras o más sin decimales.
+ */
+export function formatearCifras<T>(a: T, idioma: 'es' | 'en', ids: Set<string>): T {
+  const dec = (x: number, d: number) => (idioma === 'es' ? x.toFixed(d).replace('.', ',') : x.toFixed(d)).replace(/[.,]0+$/, '');
+  const f = (n: number) => (n >= 1e6 ? `${dec(n / 1e6, 2)}${idioma === 'es' ? ' M' : 'M'}` : `${dec(n / 1e3, 1)}k`);
+  const limpiar = (s: string) => s.replace(/(?<![\d.,])\d{5,9}(?![\d.,]\d)/g, (m) => (ids.has(m) ? m : f(Number(m))));
+  const recorrer = (v: unknown): unknown => (typeof v === 'string' ? limpiar(v) : Array.isArray(v) ? v.map(recorrer)
+    : v && typeof v === 'object' ? Object.fromEntries(Object.entries(v).map(([k, x]) => [k, recorrer(x)])) : v);
+  return recorrer(a) as T;
+}
+
+/** Nombres de campos del json («rotura_s», «vida_1s») que se cuelan en el texto; los nombres de jugador no cuentan. */
+export function camposEnTexto(textos: string[], grupo: string[]): string[] {
+  return [...new Set(textos.join(' ').match(/\b[a-z]+_[a-z0-9_]+\b/g) ?? [])].filter((x) => !grupo.includes(x));
 }
 
 const EJEMPLO = {
@@ -56,28 +124,75 @@ export const PROMPT_SISTEMA = `Eres analista de raids de Aion 2 para la web DPS 
 Qué mirar:
 - Progreso por intento (intentos.progreso_pct, que es el % de vida que le quitaron al jefe) y dónde se atascan los intentos.
 - Qué mata a la gente: causas (muertes por habilidad y origen); un golpe_max >= 100000 es un golpe que mata de una vez (one-shot).
-- La secuencia de casteos del jefe (casteos_jefe: veces, intentos en que sale, segundo mediano) y las roturas de aturdimiento (intentos.rotura_s).
+- La secuencia de casteos del jefe (casteos_jefe: veces, intentos en que sale, segundo mediano).
+- intentos.rotura_s = segundo del intento en que el grupo ROMPIÓ la barra de aturdimiento (stagger) del jefe. Romperla es BUENO: el jefe queda aturdido y recibe más daño. null = no se llegó a romper en ese intento (a menudo porque el grupo murió antes de llegar a ese momento).
+- Un intento corto NO es mejor: si dura poco es porque el grupo murió antes. El avance real es progreso_pct.
 - Las cifras de cada jugador (jugadores) y su detalle: habilidades (daño por habilidad), recibido, muertes (con vida_5s y vida_1s = % de vida 5 s y 1 s antes de morir, dano_5s y cura_5s), apoyo (curación y escudos por habilidad y por objetivo), supervivencia (bajo30_pct = % del tiempo por debajo del 30 % de vida, resurrecciones, golpes mitigados y evitados) y rotacion (usos_min = habilidades por minuto vivo, pausas_pct = tiempo sin usar nada, primer_golpe_s, usos por habilidad, buffs al grupo).
 - dps_y_muertes_por_intento: [dps, muertes] de cada jugador en cada intento.
 - raids_anteriores_del_mismo_jefe: compara con ellas si hay (tendencia del mejor %, muertes, dps del grupo).
+- clasificaciones: listas ya ordenadas de mayor a menor (dps, curacion, dano_recibido, muertes, resurrecciones, segundos_vivo; e intentos_por_dps_grupo e intentos_por_progreso, como [intento, valor]). Para decir que alguien es «el que más» o «el que menos» de algo, o su puesto, mira SIEMPRE estas listas; no lo deduzcas tú.
 
 Reglas:
 - Los hechos salen SOLO de los datos. Si algo es una deducción (por ejemplo, que alguien se fue a mitad de la raid), dilo como deducción.
-- Escribe los ids de habilidades y npcs como números sueltos (por ejemplo 1803396), también en los títulos: la web los sustituye por su nombre. El diccionario «nombres» es para que entiendas qué es cada id; no escribas el nombre en su lugar.
+- Escribe los ids de habilidades y npcs como números sueltos (por ejemplo 1803396), también en los títulos: la web los sustituye por su nombre. El diccionario «nombres» es para que entiendas qué es cada id: no escribas el nombre en su lugar NI junto al id (nada de «13080000 (Postura de evasión)» ni de «impacto letal de la zona 9-2 (1803204)»: saldría repetido). Escribe solo el número: «evita 1803204».
 - Da a CADA jugador de raid.meta.grupo al menos una recomendación en «jugadores» (la clave es su nombre exacto), basada en sus propios datos (muertes y sus causas, dps frente al grupo y a su clase, reparto de habilidades, daño recibido, curación o apoyo si es sanador o tanque), constructiva y concreta. No incluyas a nadie que no esté en raid.meta.grupo.
+- En los consejos de un jugador, nombra SOLO habilidades suyas: las que salen en SU detalle (habilidades, apoyo, rotacion.usos_hab, rotacion.buffs). No le recomiendes habilidades por id que no use: si crees que le falta una defensa, dilo sin id («guarda una defensiva para…»). Las habilidades del jefe (las de causas, casteos_jefe y recibido) sí se pueden citar.
+- Háblale a cada jugador de tú, en español neutro (nada de vosotros: «tienes», «usa», no «tenéis», «usad»). Las recomendaciones al grupo, en impersonal o en primera persona del plural («conviene…», «hay que…», «guardemos…»).
 - No asumas el género de nadie: usa su nombre o formas neutras.
 - Entre 3 y 7 recomendaciones para el grupo, ordenadas por impacto. Titular de una o dos frases.
 - «zonas» es opcional: muro = [desde, hasta] en % de vida del jefe donde se atascan; ventana = [desde, hasta] en segundos del intento.
 - Cifras al estilo español: coma decimal y «k» para miles (4,8k DPS; 37 %).
-- Sin texto fuera del json, sin markdown salvo **negrita** dentro de los textos.
+- Sin texto fuera del json, sin markdown salvo **negrita** dentro de los textos, y con moderación: solo para la cifra o la idea clave de cada texto. Nunca pongas un id en negrita.
 
 Formato exacto (json):
 ${JSON.stringify(EJEMPLO, null, 2)}`;
 
-export const PROMPT_TRADUCIR = `Traduce al inglés este análisis de una raid de Aion 2 y devuelve SOLO un objeto json con exactamente la misma estructura: mismas claves, mismos nombres de jugadores como claves, mismo número de elementos en cada lista, mismos ids (números sueltos como 1803396) y mismas cifras, pero en formato inglés (4.8k DPS; 37%). Traduce solo los textos; conserva la **negrita**. No asumas el género de nadie (usa they/them o el nombre). Responde en json.`;
+// En inglés: escrito en español, en la primera prueba real DeepSeek devolvió el mismo texto sin traducir
+export const PROMPT_TRADUCIR = `You are a translator. The user message is a json object with a Spanish analysis of an Aion 2 raid. Translate EVERY text value into natural English (titular, every recomendaciones titulo and texto, every string in jugadores, every notas termino and texto) and return ONLY a json object with exactly the same structure: the same keys (keep the Spanish key names such as "titular" and "recomendaciones"), the same player names as keys, the same number of items in every list, the same ids (bare numbers such as 1803396) and the same figures in English format (4.8k DPS; 37%). Keep **bold** where it is. Address each player as "you". Do not assume anyone's gender (use their name or they/them). The output text must be in English, not Spanish. Reply in json.`;
 
-/** Valida un análisis de la IA: formato de la web y un consejo para cada jugador del grupo. Devuelve los problemas. */
-export function revisarAnalisis(x: unknown, grupo: string[], referencia?: Analisis): { analisis?: Analisis; problemas: string[] } {
+// Palabras muy frecuentes de cada idioma, para detectar una «traducción» que sigue en español
+const PALABRAS_ES = /\b(el|la|los|las|de|del|que|y|en|por|con|para|una|un|es|se|tu|no)\b/gi;
+const PALABRAS_EN = /\b(the|of|and|to|in|is|you|your|for|with|on|at|that|it|are|this)\b/gi;
+export function pareceEspanol(textos: string[]): boolean {
+  const t = textos.join(' ');
+  return (t.match(PALABRAS_ES)?.length ?? 0) > (t.match(PALABRAS_EN)?.length ?? 0);
+}
+/**
+ * Formas de «vosotros» (la web tutea): presente/subjuntivo en -áis/-éis («tenéis», «sacrifiquéis») e imperativos en
+ * -ad/-ed/-id al empezar una frase («Reservad», «Romped», «Cubrid»), sin contar sustantivos como «Mitad» o «Salud».
+ */
+export function formasVosotros(textos: string[]): string[] {
+  const t = textos.join('\n');
+  const presente = t.match(/\b[a-záéíóúñ]{3,}(áis|éis)\b/gi) ?? [];
+  const imperativo = [...t.matchAll(/(?:^|[.:;!?¡¿\n]\s*)([A-ZÁÉÍÓÚ][a-záéíóúñ]{2,}(?:ad|ed|id))\b/g)].map((m) => m[1]).filter((p) => !/(dad|tad|tud)$/i.test(p));
+  return [...new Set([...presente, ...imperativo])];
+}
+
+const textosDe = (a: Analisis) => [a.titular, ...a.recomendaciones.flatMap((r) => [r.titulo, r.texto]), ...Object.values(a.jugadores ?? {}).flat(), ...(a.notas ?? []).flatMap((n) => [n.termino, n.texto])];
+
+/** Ids de habilidades de cada jugador: todo lo que sale en su detalle (habilidades, recibido, apoyo, rotación…). */
+export function habilidadesPorJugador(d: { detalle?: Record<string, unknown> }): Record<string, Set<string>> {
+  const res: Record<string, Set<string>> = {};
+  for (const [n, det] of Object.entries(d.detalle ?? {})) {
+    const s = (res[n] = new Set<string>());
+    const recorrer = (v: unknown, clave = ''): void => {
+      if (Array.isArray(v)) v.forEach((x) => recorrer(x, clave));
+      else if (v && typeof v === 'object') for (const [k, x] of Object.entries(v)) recorrer(x, k);
+      else if ((typeof v === 'string' || typeof v === 'number') && clave === 'habilidad') s.add(String(v));
+    };
+    recorrer(det);
+  }
+  return res;
+}
+
+// Habilidades de jugador: ids de 8 cifras entre 11000000 y 19999999 (las de npc tienen 7)
+const ID_HAB_JUGADOR = /\b1[1-9]\d{6}\b/g;
+
+/**
+ * Valida un análisis de la IA: formato de la web, un consejo para cada jugador del grupo y, si se pasan sus
+ * habilidades, que los consejos de cada uno no citen habilidades de jugador que no usa. Devuelve los problemas.
+ */
+export function revisarAnalisis(x: unknown, grupo: string[], referencia?: Analisis, habilidades?: Record<string, Set<string>>): { analisis?: Analisis; problemas: string[] } {
   const v = esquemaAnalisis.safeParse(x);
   if (!v.success) return { problemas: v.error.issues.slice(0, 15).map((i) => `${i.path.join('.') || '(raíz)'}: ${i.message}`) };
   const a = v.data, problemas: string[] = [];
@@ -87,10 +202,25 @@ export function revisarAnalisis(x: unknown, grupo: string[], referencia?: Analis
   const jug = a.jugadores ?? {};
   for (const n of grupo) if (!jug[n]?.some((t) => t.trim())) problemas.push(`falta al menos una recomendación para ${n}`);
   for (const n of Object.keys(jug)) if (!grupo.includes(n)) problemas.push(`${n} no está en meta.grupo`);
+  if (habilidades) {
+    for (const [n, consejos] of Object.entries(jug)) {
+      const ajenas = [...new Set(consejos.join(' ').match(ID_HAB_JUGADOR) ?? [])].filter((id) => !habilidades[n]?.has(id));
+      if (ajenas.length) problemas.push(`los consejos de ${n} citan habilidades que no usa en esta raid (${ajenas.join(', ')}): quítalas o di el consejo sin id`);
+    }
+  }
+  const entreParentesis = textosDe(a).join(' ').match(/\(\s*(\*\*)?\d{7,8}(\*\*)?\s*\)/g) ?? [];
+  if (entreParentesis.length) problemas.push(`no pongas el nombre de una habilidad y su id entre paréntesis (${entreParentesis.slice(0, 4).join(', ')}): escribe solo el id, sin nombre ni paréntesis; la web pone el nombre`);
+  const campos = camposEnTexto(textosDe(a), grupo);
+  if (campos.length) problemas.push(`no escribas nombres de campos del json (${campos.slice(0, 6).join(', ')}): dilo con palabras («no se rompió la barra», «con la vida al 100 % un segundo antes»)`);
+  if (!referencia) {
+    const vos = formasVosotros(textosDe(a));
+    if (vos.length) problemas.push(`no uses vosotros (${vos.slice(0, 6).join(', ')}): a cada jugador háblale de tú y al grupo en impersonal o en primera persona del plural («conviene…», «hay que…», «guardemos…»)`);
+  }
   if (referencia) {
     if (a.recomendaciones.length !== referencia.recomendaciones.length) problemas.push('la traducción no tiene el mismo número de recomendaciones');
     for (const [n, l] of Object.entries(referencia.jugadores ?? {})) if ((jug[n]?.length ?? 0) !== l.length) problemas.push(`la traducción de ${n} no tiene los mismos consejos`);
     if ((a.notas?.length ?? 0) !== (referencia.notas?.length ?? 0)) problemas.push('la traducción no tiene las mismas notas');
+    if (pareceEspanol(textosDe(a))) problemas.push('the texts are still in Spanish: translate every text value into English');
   }
   return problemas.length ? { problemas } : { analisis: a, problemas };
 }

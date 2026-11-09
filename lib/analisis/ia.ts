@@ -10,20 +10,20 @@ import type { Analisis } from '@/lib/ingest/analisis';
 import { reconstruirRaid } from '@/lib/raids/reconstruir';
 import { nombresPara } from '@/lib/raids/vista';
 import { deepseekJson, ErrorIA, type Mensaje, type RespuestaIA, type Uso } from './deepseek';
-import { NOTA_IA, PROMPT_SISTEMA, PROMPT_TRADUCIR, resumenParaIA, revisarAnalisis, type Historial, type Nombres } from './resumen';
+import { formatearCifras, habilidadesPorJugador, idsDeLaRaid, NOTA_IA, quitarNombresTrasIds, PROMPT_SISTEMA, PROMPT_TRADUCIR, resumenParaIA, revisarAnalisis, type Historial, type Nombres } from './resumen';
 
 export const ESPERA_HORAS = 24;
 type Llamar = (m: Mensaje[]) => Promise<RespuestaIA>;
 
-/** Pide el json a la IA y lo valida; si no vale, se lo devuelve con los problemas y lo intenta una vez más. */
-async function pedirValidado(llamar: Llamar, mensajes: Mensaje[], grupo: string[], referencia: Analisis | undefined, uso: Uso) {
+/** Pide el json a la IA y lo valida; si no vale, se lo devuelve con los problemas y lo vuelve a intentar (3 veces en total). */
+async function pedirValidado(llamar: Llamar, mensajes: Mensaje[], grupo: string[], referencia: Analisis | undefined, uso: Uso, habilidades?: Record<string, Set<string>>) {
   let problemas: string[] = [];
-  for (let intento = 0; intento < 2; intento++) {
+  for (let intento = 0; intento < 3; intento++) {
     let r: RespuestaIA;
     try { r = await llamar(mensajes); }
-    catch (e) { if (e instanceof ErrorIA && ['vacia', 'json', 'cortada'].includes(e.motivo) && intento === 0) { problemas = [e.message]; continue; } throw e; }
+    catch (e) { if (e instanceof ErrorIA && ['vacia', 'json', 'cortada'].includes(e.motivo) && intento < 2) { problemas = [e.message]; continue; } throw e; }
     uso.entrada += r.uso.entrada; uso.salida += r.uso.salida; uso.cache += r.uso.cache;
-    const v = revisarAnalisis(r.json, grupo, referencia);
+    const v = revisarAnalisis(r.json, grupo, referencia, habilidades);
     if (v.analisis) return v.analisis;
     problemas = v.problemas;
     mensajes = [...mensajes, { role: 'assistant', content: JSON.stringify(r.json) },
@@ -37,11 +37,15 @@ export async function generarAnalisis(datos: Parameters<typeof resumenParaIA>[0]
   const uso: Uso = { entrada: 0, salida: 0, cache: 0 };
   const grupo = datos.meta.grupo;
   const entrada = JSON.stringify(resumenParaIA(datos, nombres, historial));
-  const es = await pedirValidado(llamar, [{ role: 'system', content: PROMPT_SISTEMA }, { role: 'user', content: entrada }], grupo, undefined, uso);
-  const en = await pedirValidado(llamar, [{ role: 'system', content: PROMPT_TRADUCIR }, { role: 'user', content: JSON.stringify(es) }], grupo, es, uso);
-  es.notas = [...(es.notas ?? []), NOTA_IA.es];
-  en.notas = [...(en.notas ?? []), NOTA_IA.en];
-  return { es, en, uso };
+  const habilidades = habilidadesPorJugador(datos as { detalle?: Record<string, unknown> });
+  const es = await pedirValidado(llamar, [{ role: 'system', content: PROMPT_SISTEMA }, { role: 'user', content: entrada }], grupo, undefined, uso, habilidades);
+  const en = await pedirValidado(llamar, [{ role: 'system', content: PROMPT_TRADUCIR }, { role: 'user', content: JSON.stringify(es) }], grupo, es, uso, habilidades);
+  const ids = idsDeLaRaid(datos);
+  return {
+    es: formatearCifras(quitarNombresTrasIds({ ...es, notas: [...(es.notas ?? []), NOTA_IA.es] }), 'es', ids),
+    en: formatearCifras(quitarNombresTrasIds({ ...en, notas: [...(en.notas ?? []), NOTA_IA.en] }), 'en', ids),
+    uso,
+  };
 }
 
 /** Reserva el análisis de la raid si han pasado 24 h desde el anterior (atómico: FOR UPDATE + condición). */
