@@ -8,11 +8,12 @@ import { Suspense } from 'react';
 import BarraSuperior from '@/components/BarraSuperior';
 import Formulario from '@/components/Formulario';
 import CopiarEnlace from '@/components/grupos/CopiarEnlace';
+import CrearToken from '@/components/grupos/CrearToken';
 import {
-  accionAjustes, accionCambiarRol, accionCrearInvitacion, accionExpulsar, accionRevocarInvitacion,
+  accionAjustes, accionCambiarRol, accionCrearInvitacion, accionExpulsar, accionRevocarInvitacion, accionRevocarToken,
 } from '@/lib/acciones/grupos';
 import { usuarioActual } from '@/lib/auth/sesion';
-import { grupoParaVer, invitacionesActivas, miembrosDe } from '@/lib/db/grupos';
+import { grupoParaVer, invitacionesActivas, miembrosDe, tokensDe } from '@/lib/db/grupos';
 import { localeDe, rutaEn } from '@/lib/i18n';
 import { textosError } from '@/lib/i18n/errores';
 import { textos } from '@/lib/i18n/servidor';
@@ -39,7 +40,11 @@ async function Contenido({ params }: { params: PageProps<'/[lang]/g/[grupo]/ajus
   const r = await grupoParaVer(slug, u?.id ?? null);
   if (!r || !r.rol || !u) notFound(); // solo miembros
   const { grupo, rol } = r;
-  const [lista, invs] = await Promise.all([miembrosDe(grupo.id), puede(rol, 'invitar') ? invitacionesActivas(grupo.id) : Promise.resolve([])]);
+  const [lista, invs, toks] = await Promise.all([
+    miembrosDe(grupo.id),
+    puede(rol, 'invitar') ? invitacionesActivas(grupo.id) : Promise.resolve([]),
+    puede(rol, 'ajustes') ? tokensDe(grupo.id) : Promise.resolve([]),
+  ]);
   const errores = textosError(t);
   const campos = { lang: idioma, grupo: grupo.slug };
   const fecha = (d: Date) => d.toLocaleDateString(localeDe(idioma), { day: 'numeric', month: 'long', year: 'numeric' });
@@ -152,6 +157,33 @@ async function Contenido({ params }: { params: PageProps<'/[lang]/g/[grupo]/ajus
             </div>
             <button type="submit" className="cx-boton">{t('ajustes.inv.crear')}</button>
           </Formulario>
+        </section>
+      ) : null}
+      {puede(rol, 'ajustes') ? (
+        <section className="rx-section">
+          <h2 className="rx-h2">{t('ajustes.tokens')}</h2>
+          <p className="rx-note">{t('ajustes.tokens.nota')}</p>
+          {toks.length ? (
+            <ul className="cx-lista rx-card">
+              {toks.map((k) => (
+                <li key={k.id}>
+                  <span className="cx-crece">
+                    <span><b>{k.nombre}</b></span>
+                    <span className="rx-note">
+                      {t('ajustes.tokens.creado', { d: fecha(k.creado) })}{' · '}
+                      {k.ultimoUso ? t('ajustes.tokens.usado', { d: fecha(k.ultimoUso) }) : t('ajustes.tokens.sinUso')}
+                    </span>
+                  </span>
+                  <Formulario accion={accionRevocarToken} campos={{ ...campos, id: k.id }} textos={errores} className="cx-fila"
+                    confirmar={t('ajustes.tokens.confirmar', { n: k.nombre })}>
+                    <button type="submit" className="cx-boton cx-boton-peligro">{t('ajustes.tokens.revocar')}</button>
+                  </Formulario>
+                </li>
+              ))}
+            </ul>
+          ) : <p className="rx-pending">{t('ajustes.tokens.vacio')}</p>}
+          <CrearToken campos={campos} textos={errores} t={{ nombre: t('ajustes.tokens.nombre'), crear: t('ajustes.tokens.crear'),
+            nuevo: t('ajustes.tokens.nuevo'), copiar: t('ajustes.inv.copiar').replace(/ .*/, ''), copiado: t('ajustes.inv.copiado') }} />
         </section>
       ) : null}
     </>

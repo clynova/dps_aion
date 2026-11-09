@@ -3,19 +3,18 @@
 //  - Token del grupo (Authorization: Bearer dps_…): para el PC (publicar.ps1) y Claude. Vale como «publicador» de ese
 //    grupo y además puede escribir análisis y perfiles. En la base solo se guarda su SHA-256.
 import 'server-only';
-import { createHash, randomBytes } from 'node:crypto';
 import { and, eq } from 'drizzle-orm';
 import { auth } from '@/lib/auth';
 import { db } from '@/lib/db/client';
 import { rolEn } from '@/lib/db/grupos';
 import { tokensApi } from '@/lib/db/schema';
 import type { Rol } from '@/lib/permisos';
+import { hashToken } from '@/lib/tokens';
+
+export { hashToken, nuevoToken } from '@/lib/tokens';
 
 export type Llamante = { usuarioId: string | null; rol: Rol | null; porToken: boolean };
 
-export const hashToken = (token: string) => createHash('sha256').update(token).digest('hex');
-/** Token nuevo: «dps_» + 32 bytes aleatorios. Se muestra una sola vez; en la base va su hash. */
-export const nuevoToken = () => `dps_${randomBytes(32).toString('base64url')}`;
 
 export async function llamante(req: Request, grupoId: string): Promise<Llamante> {
   const cabecera = req.headers.get('authorization') ?? '';

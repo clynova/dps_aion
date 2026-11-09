@@ -7,7 +7,7 @@ import { z } from 'zod';
 import { usuarioActual } from '@/lib/auth/sesion';
 import {
   ErrorDatos, ErrorPermiso, aceptarInvitacion, actualizarAjustes, cambiarRol, crearGrupo, crearInvitacion, expulsar,
-  grupoPorSlug, revocarInvitacion,
+  crearToken, grupoPorSlug, revocarInvitacion, revocarToken,
 } from '@/lib/db/grupos';
 import { esIdioma, rutaEn, type Clave, type Idioma } from '@/lib/i18n';
 import { ROLES, VISIBILIDADES } from '@/lib/permisos';
@@ -107,4 +107,25 @@ export async function accionAceptarInvitacion(_: Resultado, f: FormData): Promis
   });
   if (r?.ok) redirect(rutaEn(idiomaDe(f), `/g/${slug}`));
   return r;
+}
+
+export type ResultadoToken = { ok?: boolean; error?: Clave; token?: string } | null;
+
+/** Crea un token de publicación; el token en claro vuelve solo en esta respuesta. */
+export async function accionCrearToken(_: ResultadoToken, f: FormData): Promise<ResultadoToken> {
+  let token = '';
+  const r = await intentar(async (uid) => {
+    const g = await grupoDe(f);
+    token = await crearToken(uid, g.id, z.string().parse(f.get('nombre')));
+    revalidatePath('/[lang]/g/[grupo]/ajustes', 'page');
+  });
+  return r?.ok ? { ok: true, token } : r;
+}
+
+export async function accionRevocarToken(_: Resultado, f: FormData): Promise<Resultado> {
+  return intentar(async (uid) => {
+    const g = await grupoDe(f);
+    await revocarToken(uid, g.id, z.uuid().parse(f.get('id')));
+    revalidatePath('/[lang]/g/[grupo]/ajustes', 'page');
+  });
 }

@@ -124,5 +124,16 @@
   "subir.hecho.nueva": "Raid subida.",
   "subir.hecho.actualizada": "Raid actualizada (ya estaba subida y se ha reemplazado con estos datos).",
   "subir.ver": "Ver la raid",
-  "subir.otra": "Subir otra"
+  "subir.otra": "Subir otra",
+  "ajustes.tokens": "Tokens para publicar desde el PC",
+  "ajustes.tokens.nota": "Con un token, nueva-raid.bat (tools/publicar.ps1) sube las raids de este grupo sin abrir el navegador. Vale como publicador. Guárdalo en tu PC: solo se muestra una vez.",
+  "ajustes.tokens.vacio": "No hay tokens activos.",
+  "ajustes.tokens.nombre": "Nombre (p. ej. «PC de Cry»)",
+  "ajustes.tokens.crear": "Crear token",
+  "ajustes.tokens.nuevo": "Copia este token ahora; no se volverá a mostrar:",
+  "ajustes.tokens.creado": "Creado el {d}",
+  "ajustes.tokens.usado": "último uso: {d}",
+  "ajustes.tokens.sinUso": "sin usar",
+  "ajustes.tokens.revocar": "Revocar",
+  "ajustes.tokens.confirmar": "¿Revocar el token «{n}»? Lo que lo use dejará de poder publicar."
 }

@@ -1,37 +1,37 @@
 ﻿<#
-  Extrae una raid de la base de datos (db/aion.duckdb, que llena tools/cargar-db.ps1 desde Questlog)
-  y la guarda en raids/<slug>/. Las cifras las calcula db/raid.sql.
+  Extrae una raid de la base de datos (db/aion.duckdb, que llena tools/cargar-db.ps1 desde Questlog) y escribe su
+  JSON en una carpeta temporal. Las cifras las calcula db/raid.sql. No toca el repo: la raid se publica en la web con
+  tools/publicar.ps1 (que llama a este script) y la web guarda todo en su base de datos.
 
   Uso:
     powershell -ExecutionPolicy Bypass -File tools\extraer-raid.ps1            # la última raid
     powershell -ExecutionPolicy Bypass -File tools\extraer-raid.ps1 -Run 656c  # una run concreta (inicio del id)
     ... -Lista                                                                  # ver las últimas runs
     ... -Run dc39 -Jefe 2301006                                                 # una run, centrada en un jefe concreto
-    ... -Reindexar                                                              # solo rehace raids/index.json y los perfiles
     ... -SinCargar                                                              # no actualiza antes la base desde Questlog
+    ... -Api https://dpsaion.vercel.app                                         # nombre del jefe desde la web
+    ... -Salida C:\carpeta   -BaseDatos C:\otra\aion.duckdb                     # otra base (no la actualiza)
 
-  Crea o actualiza:
-    raids/<slug>/index.html   copia de assets/raid-shell.html
-    raids/<slug>/data.json    estadísticas
-    raids/<slug>/analisis.json  solo si no existe (plantilla vacía, "pendiente")
-    raids/index.json          listado para la página principal
+  Escribe <Salida>\<slug>.json (por defecto %TEMP%\dps-aion) y devuelve esa ruta como última línea.
+  El nombre del jefe (y con él el slug) sale de la web (-Api) o, si no, de nombres.json del repo; si no lo encuentra,
+  queda «Jefe <id>».
 #>
 param(
   [Alias('Run')][string]$RunId,
   [switch]$Lista,
-  [switch]$Reindexar,
   [switch]$SinCargar,
   [Alias('Jefe')][string]$JefeNpc,
-  [string]$Repo = (Split-Path $PSScriptRoot -Parent)
+  [string]$Api,
+  [string]$Salida = (Join-Path $env:TEMP 'dps-aion'),
+  [string]$Repo = (Split-Path $PSScriptRoot -Parent),
+  [string]$BaseDatos
 )
 $ErrorActionPreference = 'Stop'
 . (Join-Path $PSScriptRoot 'duckdb.ps1')
 $utf8 = New-Object Text.UTF8Encoding $false
-$db = Join-Path $Repo 'db\aion.duckdb'
+$db = if ($BaseDatos) { $BaseDatos } else { Join-Path $Repo 'db\aion.duckdb' }
 
 function Read-Json($p) { [IO.File]::ReadAllText($p, [Text.Encoding]::UTF8) | ConvertFrom-Json }
-# PowerShell 5.1 serializa los valores vacíos de una tubería como {}: se guardan como null.
-function Write-Json($p, $o) { [IO.File]::WriteAllText($p, ((ConvertTo-Json -InputObject $o -Depth 8 -Compress) -replace '":\{\}', '":null'), $utf8) }
 function FromMs($ms) { [DateTimeOffset]::FromUnixTimeMilliseconds([int64]$ms).ToLocalTime() }
 function Slugify($s) {
   $n = $s.Normalize([Text.NormalizationForm]::FormD)
@@ -41,28 +41,11 @@ function Slugify($s) {
 # Filas de una consulta como objetos (DuckDB devuelve una columna JSON por fila)
 function Query($sql) { @(Invoke-Duck $db $sql -SoloLectura | Where-Object { $_ } | ForEach-Object { $_ | ConvertFrom-Json }) }
 
-# Índice para la página principal: se reconstruye siempre a partir de las carpetas de raids
-function Build-Index {
-  $entradas = foreach ($dir in Get-ChildItem (Join-Path $Repo 'raids') -Directory) {
-    $dp = Join-Path $dir.FullName 'data.json'; if (-not (Test-Path $dp)) { continue }
-    $dd = Read-Json $dp
-    $ap = Join-Path $dir.FullName 'analisis.json'
-    $aa = if (Test-Path $ap) { Read-Json $ap } else { [pscustomobject]@{ pendiente = $true } }
-    [pscustomobject]@{ slug = $dd.meta.slug; fecha = $dd.meta.fecha; jefe = $dd.meta.jefe; npc = $dd.meta.npc; mazmorra = $dd.meta.mazmorra
-      intentos = $dd.resumen.intentos; matado = $dd.resumen.matado; mejor_pct = $dd.resumen.mejor_pct; muertes = $dd.resumen.muertes_grupo
-      dps_grupo_medio = $dd.resumen.dps_grupo_medio; otros = @($dd.otros | Where-Object { $_ } | ForEach-Object { [pscustomobject]@{ npc = $_.npc; jefe = $_.jefe; matado = $_.matado } })
-      analizado = -not [bool]$aa.pendiente }
-  }
-  Write-Json (Join-Path $Repo 'raids\index.json') @($entradas | Sort-Object fecha -Descending)
-  # Perfiles de jugador (jugadores/) a partir de todas las raids
-  & (Join-Path $PSScriptRoot 'perfiles.ps1') -Repo $Repo
-}
-if ($Reindexar) { Build-Index; Write-Host 'Indice reconstruido.'; return }
+if (-not $SinCargar -and -not $BaseDatos) { & (Join-Path $PSScriptRoot 'cargar-db.ps1') -Repo $Repo | Out-Host }
+if (-not (Test-Path $db)) { throw "No existe $db : ejecuta antes tools\cargar-db.ps1" }
 
-if (-not $SinCargar) { & (Join-Path $PSScriptRoot 'cargar-db.ps1') -Repo $Repo | Out-Host }
-if (-not (Test-Path $db)) { throw 'No existe db\aion.duckdb: ejecuta antes tools\cargar-db.ps1' }
-
-# Runs con encuentros: jefe principal = el npc con más intentos de más de 5 s (en empate, el último que se intentó)
+# Runs con encuentros: jefe principal = el npc con más intentos de más de 5 s (en empate, el último que se intentó).
+# La misma regla está en db/runs.sql (la usa la subida desde el navegador): si cambias una, cambia la otra.
 $runsSql = @"
 with e as (
   select ru.id, ru.log, ru.mazmorra, epoch_ms(ru.entrada) entrada, e.npc, e.duracion_s, e.inicio
@@ -93,17 +76,28 @@ if ($JefeNpc) {
 }
 if (-not $mainNpc) { throw 'Esta run no tiene intentos de más de 5 s.' }
 
-$nombresPath = Join-Path $Repo 'nombres.json'
-$nombres = if (Test-Path $nombresPath) { Read-Json $nombresPath } else { [pscustomobject]@{ npcs = @{}; habilidades = @{} } }
-function NpcName($id) { $n = $nombres.npcs."$id"; if ($n) { $n } else { "Jefe $id" } }
+# Nombres de los npcs en español: de la web si se indica -Api (WebClient en UTF-8: Invoke-RestMethod de PowerShell 5.1
+# lee mal las tildes cuando la respuesta no declara charset); si no, nombres.json del repo.
+$npcs = $null
+if ($Api) {
+  try {
+    $wc = New-Object Net.WebClient; $wc.Encoding = [Text.Encoding]::UTF8
+    $npcs = ($wc.DownloadString(($Api.TrimEnd('/')) + '/api/v1/nombres?idioma=es') | ConvertFrom-Json).npcs
+  } catch { Write-Warning "No se pudieron leer los nombres de la web ($($_.Exception.Message)); se usa nombres.json." }
+}
+if (-not $npcs) {
+  $nombresPath = Join-Path $Repo 'nombres.json'
+  if (Test-Path $nombresPath) { $npcs = (Read-Json $nombresPath).npcs }
+}
+function NpcName($id) { $n = if ($npcs) { $npcs."$id" } else { $null }; if ($n) { $n } else { "Jefe $id" } }
 
 $fecha = FromMs $run.entrada
 $jefe = NpcName $mainNpc
 $slug = '{0:yyyy-MM-dd-HHmm}-{1}' -f $fecha, (Slugify $jefe)
-$dir = Join-Path $Repo "raids\$slug"
-New-Item -ItemType Directory -Force $dir | Out-Null
+New-Item -ItemType Directory -Force $Salida | Out-Null
+$archivo = Join-Path $Salida "$slug.json"
 
-# La raid entra en la tabla raids (cargar-web.sql la recargará luego desde el data.json) y db/raid.sql genera el JSON
+# db/raid.sql lee la raid de la tabla raids (slug, run, npc) de la base local y genera el JSON
 Invoke-Duck $db @"
 delete from raids where slug = $(Sql-Texto $slug);
 insert into raids values ($(Sql-Texto $slug), $(Sql-Texto $run.id), $mainNpc, $(Sql-Texto $fecha.ToString('yyyy-MM-ddTHH:mm:sszzz'))::timestamptz, true);
@@ -113,30 +107,15 @@ set variable fecha = $(Sql-Texto $fecha.ToString('yyyy-MM-ddTHH:mm:sszzz'));
 set variable extraido = $(Sql-Texto (Get-Date).ToString('yyyy-MM-ddTHH:mm:sszzz'));
 .mode list
 .headers off
-.output $((Join-Path $dir 'data.json') -replace '\\', '/')
+.output $($archivo -replace '\\', '/')
 .read $((Join-Path $Repo 'db\raid.sql') -replace '\\', '/')
 .output
 "@ | Out-Null
-$data = Read-Json (Join-Path $dir 'data.json')
+$data = Read-Json $archivo
 if (-not $data.resumen.intentos) { throw "No salió ningún intento para $slug." }
-
-Copy-Item (Join-Path $Repo 'assets\raid-shell.html') (Join-Path $dir 'index.html') -Force
-$anaPath = Join-Path $dir 'analisis.json'
-if (-not (Test-Path $anaPath)) { Write-Json $anaPath ([pscustomobject]@{ pendiente = $true; titular = ''; recomendaciones = @(); notas = @(); zonas = $null }) }
-
-Build-Index
-
-# Añade a nombres.json los npcs nuevos para poder ponerles nombre
-$changed = $false
-if (-not $nombres.npcs) { $nombres | Add-Member npcs ([pscustomobject]@{}) -Force }
-foreach ($id in @([string]$mainNpc) + @($data.otros | Where-Object { $_ } | ForEach-Object { [string]$_.npc })) {
-  if (-not ($nombres.npcs.PSObject.Properties.Name -contains $id)) { $nombres.npcs | Add-Member -NotePropertyName $id -NotePropertyValue ''; $changed = $true }
-}
-if ($changed) { [IO.File]::WriteAllText($nombresPath, ($nombres | ConvertTo-Json -Depth 4), $utf8) }
 
 $r = $data.resumen
 Write-Host ''
 Write-Host "Raid extraida: $jefe ($('{0:dd/MM/yyyy HH:mm}' -f $fecha))"
 Write-Host "  $($r.intentos) intentos, mejor $($r.mejor_pct) %, $(if ($r.matado) { 'MATADO' } else { 'sin kill' })"
-Write-Host "  Carpeta: raids\$slug"
-Write-Output $slug
+Write-Output $archivo

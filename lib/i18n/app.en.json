@@ -124,5 +124,16 @@
   "subir.hecho.nueva": "Raid uploaded.",
   "subir.hecho.actualizada": "Raid updated (it was already uploaded and has been replaced with this data).",
   "subir.ver": "View the raid",
-  "subir.otra": "Upload another"
+  "subir.otra": "Upload another",
+  "ajustes.tokens": "Tokens to publish from your PC",
+  "ajustes.tokens.nota": "With a token, nueva-raid.bat (tools/publicar.ps1) uploads this group’s raids without opening the browser. It acts as a publisher. Keep it on your PC: it’s only shown once.",
+  "ajustes.tokens.vacio": "No active tokens.",
+  "ajustes.tokens.nombre": "Name (e.g. “Cry’s PC”)",
+  "ajustes.tokens.crear": "Create token",
+  "ajustes.tokens.nuevo": "Copy this token now; it won’t be shown again:",
+  "ajustes.tokens.creado": "Created {d}",
+  "ajustes.tokens.usado": "last used {d}",
+  "ajustes.tokens.sinUso": "never used",
+  "ajustes.tokens.revocar": "Revoke",
+  "ajustes.tokens.confirmar": "Revoke the token “{n}”? Anything using it will no longer be able to publish."
 }

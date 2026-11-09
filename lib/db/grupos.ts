@@ -4,7 +4,8 @@ import 'server-only';
 import { randomBytes } from 'node:crypto';
 import { and, asc, count, desc, eq, sql } from 'drizzle-orm';
 import { db } from './client';
-import { auditoria, grupos, invitaciones, miembros, user } from './schema';
+import { auditoria, grupos, invitaciones, miembros, tokensApi, user } from './schema';
+import { hashToken, nuevoToken } from '@/lib/tokens';
 import {
   puede, puedeCambiarRol, puedeExpulsar, puedeInvitarCon, slugGrupoValido, type Rol, type Visibilidad,
 } from '@/lib/permisos';
@@ -149,4 +150,27 @@ export async function expulsar(actorId: string, grupoId: string, objetivoId: str
   if (!objetivo || !puedeExpulsar(actor, objetivo, actorId === objetivoId)) throw new ErrorPermiso();
   await db.delete(miembros).where(and(eq(miembros.grupoId, grupoId), eq(miembros.usuarioId, objetivoId)));
   await db.insert(auditoria).values({ grupoId, usuarioId: actorId, accion: actorId === objetivoId ? 'miembro.salir' : 'miembro.expulsar', ref: objetivoId });
+}
+
+/** Tokens activos del grupo (sin el hash). Solo para quien puede tocar los ajustes. */
+export async function tokensDe(grupoId: string) {
+  return db.select({ id: tokensApi.id, nombre: tokensApi.nombre, creado: tokensApi.creado, ultimoUso: tokensApi.ultimoUso })
+    .from(tokensApi).where(and(eq(tokensApi.grupoId, grupoId), eq(tokensApi.revocado, false))).orderBy(desc(tokensApi.creado));
+}
+
+/** Crea un token de publicación y devuelve el token en claro (la única vez que existe fuera del PC de quien lo crea). */
+export async function crearToken(actorId: string, grupoId: string, nombre: string) {
+  if (!puede(await rolEn(grupoId, actorId), 'ajustes')) throw new ErrorPermiso();
+  const n = nombre.trim();
+  if (n.length < 1 || n.length > 60) throw new ErrorDatos('nombre');
+  const token = nuevoToken();
+  const [t] = await db.insert(tokensApi).values({ grupoId, nombre: n, hash: hashToken(token), creadoPor: actorId }).returning({ id: tokensApi.id });
+  await db.insert(auditoria).values({ grupoId, usuarioId: actorId, accion: 'token.crear', ref: t.id, detalle: { nombre: n } });
+  return token;
+}
+
+export async function revocarToken(actorId: string, grupoId: string, id: string) {
+  if (!puede(await rolEn(grupoId, actorId), 'ajustes')) throw new ErrorPermiso();
+  await db.update(tokensApi).set({ revocado: true }).where(and(eq(tokensApi.id, id), eq(tokensApi.grupoId, grupoId)));
+  await db.insert(auditoria).values({ grupoId, usuarioId: actorId, accion: 'token.revocar', ref: id });
 }
