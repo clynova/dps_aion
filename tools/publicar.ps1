@@ -81,16 +81,17 @@ function Leer-Config {
   if ($Token) { $c.token = $Token }
   if ($Bypass) { $c.bypass = $Bypass }
   $c.api = $c.api.TrimEnd('/')
+  $c.grupo = $c.grupo.Trim().ToLowerInvariant()  # las direcciones de grupo van en minúsculas
   $c
 }
 
 $cfg = Leer-Config
 if ($Configurar) {
   if (-not $Api) { $r = Read-Host "Web [$($cfg.api)]"; if ($r) { $cfg.api = $r.TrimEnd('/') } }
-  if (-not $Grupo) { $r = Read-Host "Grupo (lo que va después de /g/ en la dirección) [$($cfg.grupo)]"; if ($r) { $cfg.grupo = $r.Trim() } }
+  if (-not $Grupo) { $r = Read-Host "Grupo (lo que va después de /g/ en la dirección) [$($cfg.grupo)]"; if ($r) { $cfg.grupo = $r.Trim().ToLowerInvariant() } }
   if (-not $Token) { $r = Read-Host 'Token (dps_..., de Ajustes del grupo → Tokens)'; if ($r) { $cfg.token = $r.Trim() } }
   if ($cfg.token -notmatch $patronToken) { throw 'Ese token no tiene el formato dps_... Cópialo entero desde Ajustes del grupo.' }
-  if ($cfg.grupo -notmatch '^[a-z0-9-]{3,40}$') { throw 'El grupo es la dirección del grupo (minúsculas, números y guiones).' }
+  if ($cfg.grupo.ToLowerInvariant() -cnotmatch '^[a-z0-9-]{3,40}$') { throw 'El grupo es la dirección del grupo (minúsculas, números y guiones).' }
   if (-not $Bypass -and $cfg.api -match '\.vercel\.app$' -and $cfg.api -ne 'https://dpsaion.vercel.app') {
     $r = Read-Host 'Secreto «Protection Bypass for Automation» de Vercel (solo para una preview protegida; Enter para ninguno)'
     $cfg.bypass = $r.Trim()
