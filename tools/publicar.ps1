@@ -18,7 +18,9 @@
     ... -Analisis raids\<slug>\analisis.json, raids\<slug>\analisis.en.json
     ... -Perfil jugadores\<jugador>\perfil.json, jugadores\<jugador>\perfil.en.json
 
-  También lee DPS_AION_API, DPS_AION_GRUPO y DPS_AION_TOKEN (ganan a la configuración; los parámetros ganan a todo).
+  Preview protegida por Vercel: -Configurar -Bypass <secreto de «Protection Bypass for Automation»> (se guarda cifrado).
+  También lee DPS_AION_API, DPS_AION_GRUPO, DPS_AION_TOKEN y DPS_AION_BYPASS (ganan a la configuración; los
+  parámetros ganan a todo).
   Códigos de salida: 0 bien, 1 error, 2 la noche ya estaba subida por otra persona (usa -Reemplazar).
 #>
 param(
@@ -26,6 +28,7 @@ param(
   [string]$Api,
   [string]$Grupo,
   [string]$Token,
+  [string]$Bypass,
   [Alias('Run')][string]$RunId,
   [Alias('Jefe')][string]$JefeNpc,
   [switch]$SinCargar,
@@ -50,24 +53,27 @@ $patronToken = '^dps_[A-Za-z0-9_-]{20,}$'
 
 # --- Configuración ----------------------------------------------------------------------------------------------
 function Leer-Config {
-  $c = [ordered]@{ api = 'https://dpsaion.vercel.app'; grupo = ''; token = '' }
+  $c = [ordered]@{ api = 'https://dpsaion.vercel.app'; grupo = ''; token = ''; bypass = '' }
   if (Test-Path $cfgPath) {
     $f = [IO.File]::ReadAllText($cfgPath, [Text.Encoding]::UTF8) | ConvertFrom-Json
     if ($f.api) { $c.api = $f.api }
     if ($f.grupo) { $c.grupo = $f.grupo }
-    if ($f.token) {
+    foreach ($k in 'token', 'bypass') {
+      if (-not $f.$k) { continue }
       try {
-        $s = ConvertTo-SecureString $f.token
-        $c.token = [Runtime.InteropServices.Marshal]::PtrToStringAuto([Runtime.InteropServices.Marshal]::SecureStringToBSTR($s))
-      } catch { Write-Warning 'No se pudo leer el token guardado (¿otro usuario de Windows?). Vuelve a ejecutar con -Configurar.' }
+        $s = ConvertTo-SecureString $f.$k
+        $c[$k] = [Runtime.InteropServices.Marshal]::PtrToStringAuto([Runtime.InteropServices.Marshal]::SecureStringToBSTR($s))
+      } catch { Write-Warning "No se pudo leer el $k guardado (¿otro usuario de Windows?). Vuelve a ejecutar con -Configurar." }
     }
   }
   if ($env:DPS_AION_API) { $c.api = $env:DPS_AION_API }
   if ($env:DPS_AION_GRUPO) { $c.grupo = $env:DPS_AION_GRUPO }
   if ($env:DPS_AION_TOKEN) { $c.token = $env:DPS_AION_TOKEN }
+  if ($env:DPS_AION_BYPASS) { $c.bypass = $env:DPS_AION_BYPASS }
   if ($Api) { $c.api = $Api }
   if ($Grupo) { $c.grupo = $Grupo }
   if ($Token) { $c.token = $Token }
+  if ($Bypass) { $c.bypass = $Bypass }
   $c.api = $c.api.TrimEnd('/')
   $c
 }
@@ -79,10 +85,14 @@ if ($Configurar) {
   if (-not $Token) { $r = Read-Host 'Token (dps_..., de Ajustes del grupo → Tokens)'; if ($r) { $cfg.token = $r.Trim() } }
   if ($cfg.token -notmatch $patronToken) { throw 'Ese token no tiene el formato dps_... Cópialo entero desde Ajustes del grupo.' }
   if ($cfg.grupo -notmatch '^[a-z0-9-]{3,40}$') { throw 'El grupo es la dirección del grupo (minúsculas, números y guiones).' }
+  if (-not $Bypass -and $cfg.api -match '\.vercel\.app$' -and $cfg.api -ne 'https://dpsaion.vercel.app') {
+    $r = Read-Host 'Secreto «Protection Bypass for Automation» de Vercel (solo para una preview protegida; Enter para ninguno)'
+    $cfg.bypass = $r.Trim()
+  }
+  $cifrar = { param($t) if ($t) { ConvertTo-SecureString $t -AsPlainText -Force | ConvertFrom-SecureString } else { '' } }
   New-Item -ItemType Directory -Force $cfgDir | Out-Null
-  $cifrado = ConvertTo-SecureString $cfg.token -AsPlainText -Force | ConvertFrom-SecureString
-  [IO.File]::WriteAllText($cfgPath, ([pscustomobject]@{ api = $cfg.api; grupo = $cfg.grupo; token = $cifrado } | ConvertTo-Json), $utf8)
-  Write-Host "Configuración guardada en $cfgPath (web $($cfg.api), grupo $($cfg.grupo))."
+  [IO.File]::WriteAllText($cfgPath, ([pscustomobject]@{ api = $cfg.api; grupo = $cfg.grupo; token = (& $cifrar $cfg.token); bypass = (& $cifrar $cfg.bypass) } | ConvertTo-Json), $utf8)
+  Write-Host "Configuración guardada en $cfgPath (web $($cfg.api), grupo $($cfg.grupo)$(if ($cfg.bypass) { ', con bypass de Vercel' }))."
   return
 }
 
@@ -103,6 +113,8 @@ function Invoke-Api([string]$Metodo, [string]$Ruta, [string]$Cuerpo) {
   $req.UserAgent = 'dps-aion-publicar/1'
   $req.Accept = 'application/json'
   $req.Timeout = 180000
+  $req.AllowAutoRedirect = $false  # una redirección aquí es el login de Vercel de una preview protegida
+  if ($cfg.bypass) { $req.Headers['x-vercel-protection-bypass'] = $cfg.bypass }
   if ($null -ne $Cuerpo) {
     $bytes = $utf8.GetBytes($Cuerpo)
     $req.ContentType = 'application/json; charset=utf-8'
@@ -125,6 +137,11 @@ function Invoke-Api([string]$Metodo, [string]$Ruta, [string]$Cuerpo) {
 # Explica una respuesta que no fue bien y termina con error
 function Fallo($r, [string]$que) {
   $d = $r.Datos
+  # Vercel responde a una preview protegida con una redirección o con un 401 en JSON con «protection» (nuestra API
+  # nunca devuelve ese campo)
+  if (($r.Estado -ge 300 -and $r.Estado -lt 400) -or ($d -and $d.protection)) {
+    throw "$que : la web pide el login de Vercel (preview protegida). En Vercel → Settings → Deployment Protection, crea un secreto de «Protection Bypass for Automation» y guárdalo con -Configurar -Bypass <secreto>."
+  }
   if (-not $d) { throw "$que : respuesta inesperada ($($r.Estado)). ¿Es la dirección de la web correcta? (si es una preview de Vercel protegida, el PC no puede entrar)" }
   switch ($r.Estado) {
     401 { throw "$que : el token no vale (revocado o de otro grupo). Crea otro en Ajustes del grupo y ejecuta -Configurar." }
@@ -166,6 +183,7 @@ function Sql-Version {
 
 if (-not $Archivo) {
   $extra = @{ Repo = $Repo; Api = $cfg.api }
+  if ($cfg.bypass) { $extra.Bypass = $cfg.bypass }
   if ($RunId) { $extra.RunId = $RunId }
   if ($JefeNpc) { $extra.JefeNpc = $JefeNpc }
   if ($SinCargar) { $extra.SinCargar = $true }

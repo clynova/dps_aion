@@ -22,6 +22,7 @@ param(
   [switch]$SinCargar,
   [Alias('Jefe')][string]$JefeNpc,
   [string]$Api,
+  [string]$Bypass,
   [string]$Salida = (Join-Path $env:TEMP 'dps-aion'),
   [string]$Repo = (Split-Path $PSScriptRoot -Parent),
   [string]$BaseDatos
@@ -82,6 +83,7 @@ $npcs = $null
 if ($Api) {
   try {
     $wc = New-Object Net.WebClient; $wc.Encoding = [Text.Encoding]::UTF8
+    if ($Bypass) { $wc.Headers['x-vercel-protection-bypass'] = $Bypass }  # preview protegida por Vercel
     $npcs = ($wc.DownloadString(($Api.TrimEnd('/')) + '/api/v1/nombres?idioma=es') | ConvertFrom-Json).npcs
   } catch { Write-Warning "No se pudieron leer los nombres de la web ($($_.Exception.Message)); se usa nombres.json." }
 }
