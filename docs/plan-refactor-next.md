@@ -326,6 +326,7 @@ Asistente en `/g/[grupo]/subir`, con el procesado de la fase 1 convertido en pro
 - `/api/solicitar` lee de la base y avisa al **webhook del grupo** (cifrado en la base). La espera de 10 minutos pasa a guardarse en `solicitudes`.
 - `CLAUDE.md`: «analiza la última raid» lee por la API (o la DuckDB local para ir más a fondo) y publica con `publicar.ps1`. Las reglas de siempre se mantienen.
 - **Hecho cuando:** el cron se ejecuta en la preview, una solicitud llega al Discord del grupo y un análisis publicado por Claude se ve en es/en sin desplegar.
+- **Avance (9/11/2026):** (1) nombres hechos: `lib/nombres/actualizar.ts` tras cada subida y en el cron diario `/api/cron/nombres` (falta `CRON_SECRET` en Vercel); arregló la raid de Ludra subida desde el navegador, que salía con números (ids nuevos sin nombre desde que el `.bat` dejó de refrescarlos), más 40 apodos para sus ataques «Ataque». (2) **Nuevo, a petición del usuario: análisis automático con IA (DeepSeek)**, al subir una raid nueva y con un botón, con una espera de 24 h por raid (columna `raids.analisis_ia`, migración 0003). Probado de punta a punta con un DeepSeek simulado (`scripts/probar-ia.mts`); falta la prueba con la clave real. Pendiente de la fase: `/api/solicitar` y que Claude publique por la API.
 
 ### Fase 9 · Corte
 1. Avisar y congelar `nueva-raid.bat` en `main` (mejor un día sin raid). Volver a ejecutar `migrar-json.ts` y `paridad.ts` contra producción.

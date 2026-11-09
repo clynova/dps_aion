@@ -135,5 +135,11 @@
   "ajustes.tokens.usado": "last used {d}",
   "ajustes.tokens.sinUso": "never used",
   "ajustes.tokens.revocar": "Revoke",
-  "ajustes.tokens.confirmar": "Revoke the token “{n}”? Anything using it will no longer be able to publish."
+  "ajustes.tokens.confirmar": "Revoke the token “{n}”? Anything using it will no longer be able to publish.",
+  "ia.boton": "Analyze with AI",
+  "ia.enCurso": "Analyzing with AI… it takes 1 to 3 minutes; the page will update by itself.",
+  "ia.espera": "This raid was already analyzed with AI; it can be analyzed again on {d}.",
+  "ia.listo": "AI analysis done; it can be repeated on {d}.",
+  "ia.error": "The AI analysis couldn’t be done. Try again in a few minutes.",
+  "ia.confirmar": "This raid already has an analysis. Replace it with a new AI analysis? It can’t be repeated for 24 hours afterwards."
 }

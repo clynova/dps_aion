@@ -1,0 +1,1 @@
+ALTER TABLE "raids" ADD COLUMN "analisis_ia" timestamp with time zone;

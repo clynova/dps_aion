@@ -55,6 +55,8 @@ export const raids = pgTable('raids', {
   sqlVersion: text('sql_version'),
   extraido: timestamp('extraido', { withTimezone: true }),
   publicado: timestamp('publicado', { withTimezone: true }).notNull().defaultNow(),
+  /** Último análisis automático pedido a la IA (DeepSeek): no se repite antes de 24 h. Se reserva antes de llamar a la IA. */
+  analisisIa: timestamp('analisis_ia', { withTimezone: true }),
 }, (t) => [
   unique('raids_grupo_slug').on(t.grupoId, t.slug),
   index('raids_grupo_fecha_idx').on(t.grupoId, t.fecha.desc()),

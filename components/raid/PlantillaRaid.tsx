@@ -1,10 +1,11 @@
 // Plantilla generada desde assets/raid-shell.html (web estática): la misma estructura e ids que espera lib/legado/*.
 // Los textos salen traducidos del servidor; los datos los pinta el módulo de lib/legado al montar la página.
 import Link from 'next/link';
+import type { ReactNode } from 'react';
 import BarraSuperior from '@/components/BarraSuperior';
 import type { Traductor } from '@/lib/i18n';
 
-export default function PlantillaRaid({ t, volver }: { t: Traductor; volver: string }) {
+export default function PlantillaRaid({ t, volver, accion }: { t: Traductor; volver: string; accion?: ReactNode }) {
   return (
     <main className="rx">
       <header className="rx-head">
@@ -12,6 +13,7 @@ export default function PlantillaRaid({ t, volver }: { t: Traductor; volver: str
         <p className="rx-eyebrow" id="eyebrow">{t('raid.loading')}</p>
         <h1 className="rx-title" id="jefe">—</h1>
         <p className="rx-lede" id="lede"></p>
+        {accion}
         <div className="rx-others" id="otros"></div>
       </header>
     

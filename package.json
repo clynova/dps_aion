@@ -17,7 +17,8 @@
     "migrar": "node --conditions=react-server --env-file-if-exists=.env.local --import tsx scripts/migrar-json.mts",
     "paridad": "node --conditions=react-server --env-file-if-exists=.env.local --import tsx scripts/paridad.mts",
     "comparar-paginas": "node --import tsx scripts/comparar-paginas.mts",
-    "sql": "node scripts/generar-sql.mjs"
+    "sql": "node scripts/generar-sql.mjs",
+    "nombres": "node --env-file=.env.local --conditions=react-server --import tsx scripts/actualizar-nombres.mts"
   },
   "dependencies": {
     "@duckdb/duckdb-wasm": "1.32.0",

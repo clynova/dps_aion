@@ -135,5 +135,11 @@
   "ajustes.tokens.usado": "último uso: {d}",
   "ajustes.tokens.sinUso": "sin usar",
   "ajustes.tokens.revocar": "Revocar",
-  "ajustes.tokens.confirmar": "¿Revocar el token «{n}»? Lo que lo use dejará de poder publicar."
+  "ajustes.tokens.confirmar": "¿Revocar el token «{n}»? Lo que lo use dejará de poder publicar.",
+  "ia.boton": "Analizar con IA",
+  "ia.enCurso": "Analizando con IA… tarda de 1 a 3 minutos; la página se actualizará sola.",
+  "ia.espera": "Esta raid ya se analizó con IA; se podrá volver a analizar el {d}.",
+  "ia.listo": "Análisis con IA hecho; se podrá repetir el {d}.",
+  "ia.error": "No se pudo hacer el análisis con IA. Inténtalo de nuevo en unos minutos.",
+  "ia.confirmar": "Esta raid ya tiene un análisis. ¿Sustituirlo por uno nuevo hecho con IA? Después no se podrá repetir en 24 horas."
 }
