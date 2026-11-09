@@ -89,6 +89,8 @@ export const raidJugador = pgTable('raid_jugador', {
   raidId: raidRef(), jugadorId: jugadorRef(),
   /** Posición en la lista jugadores del data.json (por DPS; conserva los desempates tal cual vinieron). */
   orden: integer('orden').notNull(),
+  /** Servidor tal como vino en el JSON de ESTA raid (las de la web estática no lo traen: null). */
+  servidor: integer('servidor'),
   enGrupo: boolean('en_grupo').notNull().default(true),
   claseId: text('clase_id'), gs: integer('gs'), cp: integer('cp'),
   dps: integer('dps'), hps: integer('hps'), danoRecibido: n('dano_recibido'), muertes: integer('muertes'),

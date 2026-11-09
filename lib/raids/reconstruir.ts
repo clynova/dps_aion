@@ -100,7 +100,7 @@ export async function reconstruirRaid(raidId: string) {
       muertes: i.muertes, rotura_s: i.roturaS, ultima_causa: i.ultimaCausa })),
     curva: curva.map((c) => ({ intento: c.intento, t: c.t, progreso: c.progreso })),
     jugadores: rj.map(({ f: j, nombre }) => ({
-      jugador: nombre, clase: CLASE_ES[j.claseId ?? ''] ?? j.claseId, clase_id: j.claseId, gs: j.gs, cp: j.cp, dps: j.dps, hps: j.hps,
+      jugador: nombre, clase: CLASE_ES[j.claseId ?? ''] ?? j.claseId, clase_id: j.claseId, ...(j.servidor !== null ? { servidor: j.servidor } : {}), gs: j.gs, cp: j.cp, dps: j.dps, hps: j.hps,
       dano_recibido: j.danoRecibido, muertes: j.muertes, crit_pct: j.critPct, espalda_pct: j.espaldaPct,
     })),
     // Como raid.sql: por intento y nombre (orden binario, el de DuckDB)

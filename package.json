@@ -16,9 +16,11 @@
     "build:vercel": "node node_modules/drizzle-kit/bin.cjs migrate && next build",
     "migrar": "node --conditions=react-server --env-file-if-exists=.env.local --import tsx scripts/migrar-json.mts",
     "paridad": "node --conditions=react-server --env-file-if-exists=.env.local --import tsx scripts/paridad.mts",
-    "comparar-paginas": "node --import tsx scripts/comparar-paginas.mts"
+    "comparar-paginas": "node --import tsx scripts/comparar-paginas.mts",
+    "sql": "node scripts/generar-sql.mjs"
   },
   "dependencies": {
+    "@duckdb/duckdb-wasm": "1.32.0",
     "@neondatabase/serverless": "1.2.0",
     "better-auth": "1.7.18",
     "d3": "7.9.2",

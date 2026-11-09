@@ -4,16 +4,22 @@ import Link from 'next/link';
 import BarraSuperior from '@/components/BarraSuperior';
 import type { Traductor } from '@/lib/i18n';
 
-type Props = { t: Traductor; nombre: string; eyebrow: string; enlaceAjustes?: { href: string; texto: string } | null };
+type Enlace = { href: string; texto: string };
+type Props = { t: Traductor; nombre: string; eyebrow: string; enlaceAjustes?: Enlace | null; enlaceSubir?: Enlace | null };
 
-export default function PlantillaGrupo({ t, nombre, eyebrow, enlaceAjustes }: Props) {
+export default function PlantillaGrupo({ t, nombre, eyebrow, enlaceAjustes, enlaceSubir }: Props) {
   return (
     <main className="rx">
       <header className="rx-head">
         <BarraSuperior><p className="rx-eyebrow">{eyebrow}</p></BarraSuperior>
         <h1 className="rx-title">{nombre}</h1>
         <p className="rx-lede" id="lede">{t('home.loading')}</p>
-        {enlaceAjustes ? <p><Link className="rx-link" href={enlaceAjustes.href}>{enlaceAjustes.texto} →</Link></p> : null}
+        {enlaceAjustes || enlaceSubir ? (
+          <p className="cx-fila">
+            {enlaceSubir ? <Link className="cx-boton" href={enlaceSubir.href}>{enlaceSubir.texto}</Link> : null}
+            {enlaceAjustes ? <Link className="rx-link" href={enlaceAjustes.href}>{enlaceAjustes.texto} →</Link> : null}
+          </p>
+        ) : null}
       </header>
 
       <section className="rx-section" id="evolucion" hidden>

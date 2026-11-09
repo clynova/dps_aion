@@ -19,7 +19,7 @@ select i.intento, i.enc, i.duracion_s dur, i.matado, j.entidad jefe, j.vida_max,
 from intentos i join jefe_enc j on j.enc = i.enc where i.raid = getvariable('slug');
 
 create or replace temp table ji as
-select it.intento, it.enc, it.dur, it.jefe, j.entidad, j.nombre, j.clase, j.gs, j.cp
+select it.intento, it.enc, it.dur, it.jefe, j.entidad, j.nombre, j.servidor, j.clase, j.gs, j.cp
 from it join jugadores j on j.enc = it.enc join grupo g on g.raid = getvariable('slug') and g.nombre = j.nombre;
 
 -- Daño al jefe, curación y daño recibido de cada jugador en cada intento
@@ -77,7 +77,7 @@ union all select intento, rd1(dur), bp, 2 from it;
 
 -- Jugadores (acumulado de la raid)
 create or replace temp table jv as
-select nombre jugador, first(clase order by intento) clase_id, first(gs order by intento) gs, first(cp order by intento) cp,
+select nombre jugador, first(servidor order by intento) servidor, first(clase order by intento) clase_id, first(gs order by intento) gs, first(cp order by intento) cp,
   rd(sum(dmg) / sum(dur)) dps, rd(sum(heal) / sum(dur)) hps, rd(sum(taken)) dano_recibido, sum(deaths) muertes,
   case when sum(hits) > 0 then rd1(100 * sum(crit) / sum(hits)) else 0 end crit_pct,
   case when sum(hits) > 0 then rd1(100 * sum(back) / sum(hits)) else 0 end espalda_pct,
@@ -219,7 +219,7 @@ select json_object(
       'clase', case clase_id when 'templar' then 'Templario' when 'assassin' then 'Asesino' when 'elementalist' then 'Espiritualista'
         when 'cleric' then 'Clérigo' when 'sorcerer' then 'Hechicero' when 'gladiator' then 'Gladiador' when 'ranger' then 'Arquero'
         when 'chanter' then 'Cantor' when 'fighter' then 'Luchador' else clase_id end,
-      'clase_id', clase_id, 'gs', gs, 'cp', cp, 'dps', dps, 'hps', hps, 'dano_recibido', dano_recibido, 'muertes', muertes,
+      'clase_id', clase_id, 'servidor', servidor, 'gs', gs, 'cp', cp, 'dps', dps, 'hps', hps, 'dano_recibido', dano_recibido, 'muertes', muertes,
       'crit_pct', crit_pct, 'espalda_pct', espalda_pct) order by dps desc, jugador)) from jv),
   'dps_intento', (select to_json(list(json_object('intento', intento, 'jugador', nombre, 'dps', rd(dmg / dur), 'muertes', deaths)
       order by intento, nombre)) from pi),

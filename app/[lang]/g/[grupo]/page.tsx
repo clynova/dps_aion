@@ -32,7 +32,8 @@ async function Contenido({ params }: { params: Props['params'] }) {
   const enlace = r.rol ? { href: rutaEn(idioma, `/g/${slug}/ajustes`), texto: puede(r.rol, 'ajustes') ? t('grupo.ajustes') : t('ajustes.miembros') } : null;
   return (
     <>
-      <PlantillaGrupo key={`p-${slug}`} t={t} nombre={r.grupo.nombre} eyebrow={eyebrow} enlaceAjustes={enlace} />
+      <PlantillaGrupo key={`p-${slug}`} t={t} nombre={r.grupo.nombre} eyebrow={eyebrow} enlaceAjustes={enlace}
+        enlaceSubir={puede(r.rol, 'subir_raid') ? { href: rutaEn(idioma, `/g/${slug}/subir`), texto: t('subir.enlace') } : null} />
       <MontarGrupo key={`m-${slug}`} idioma={idioma} grupo={slug} raids={datos.raids} jugadores={datos.jugadores} nombres={datos.nombres} />
     </>
   );

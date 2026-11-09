@@ -26,6 +26,17 @@ async function idsJugadores(tx: Tx, datos: DatosRaid): Promise<Map<string, numbe
       ids.set(j.jugador, ya.id);
       continue;
     }
+    // Primera raid con servidor de un jugador que ya existía sin él (las raids migradas de la web estática no lo
+    // traen): se le asigna, en vez de crear un duplicado «nombre-servidor».
+    if (servidor !== null) {
+      const [sinServidor] = await tx.select({ id: t.jugadores.id }).from(t.jugadores)
+        .where(and(eq(t.jugadores.nombre, j.jugador), sql`${t.jugadores.servidor} is null`)).limit(1);
+      if (sinServidor) {
+        await tx.update(t.jugadores).set({ servidor, claseId: j.clase_id }).where(eq(t.jugadores.id, sinServidor.id));
+        ids.set(j.jugador, sinServidor.id);
+        continue;
+      }
+    }
     const base = slugJugador(j.jugador) || 'jugador';
     const [libre] = await tx.select({ n: sql<number>`count(*)::int` }).from(t.jugadores).where(eq(t.jugadores.slug, base));
     const slug = libre.n === 0 ? base : `${base}-${servidor ?? Date.now().toString(36)}`;
@@ -85,7 +96,7 @@ export async function guardarRaid(opciones: {
       const det = d.detalle[j.jugador];
       const ap = det?.apoyo, sv = det?.supervivencia, ro = det?.rotacion;
       return {
-        raidId, jugadorId: jid(j.jugador), orden, enGrupo: j.en_grupo ?? enGrupo.has(j.jugador), claseId: j.clase_id, gs: j.gs, cp: j.cp,
+        raidId, jugadorId: jid(j.jugador), orden, servidor: j.servidor ?? null, enGrupo: j.en_grupo ?? enGrupo.has(j.jugador), claseId: j.clase_id, gs: j.gs, cp: j.cp,
         dps: j.dps, hps: j.hps, danoRecibido: j.dano_recibido, muertes: j.muertes, critPct: j.crit_pct, espaldaPct: j.espalda_pct,
         curacion: ap?.curacion ?? null, escudos: ap?.escudos ?? null, absorbido: ap?.absorbido ?? null,
         golpesRecibidos: sv?.golpes ?? null, curaRecibida: sv?.cura_recibida ?? null, escudoRecibido: sv?.escudo_recibido ?? null,

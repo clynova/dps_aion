@@ -1,0 +1,1 @@
+ALTER TABLE "raid_jugador" ADD COLUMN "servidor" integer;
