@@ -98,8 +98,10 @@ export async function analizarRaid(raidId: string, opciones: { origen: 'auto' | 
     const { es, en, uso } = await generarAnalisis(datos as unknown as Parameters<typeof generarAnalisis>[0], nombres, historial);
     await db.transaction(async (tx) => {
       for (const [idioma, contenido] of [['es', es], ['en', en]] as const) {
+        // El automático no pisa un análisis que haya llegado mientras la IA pensaba (p. ej. el de Claude con publicar.ps1)
         await tx.insert(analisis).values({ raidId, idioma, contenido, autor: 'deepseek' })
-          .onConflictDoUpdate({ target: [analisis.raidId, analisis.idioma], set: { contenido, autor: 'deepseek', actualizado: new Date() } });
+          .onConflictDoUpdate({ target: [analisis.raidId, analisis.idioma], set: { contenido, autor: 'deepseek', actualizado: new Date() },
+            ...(opciones.origen === 'auto' ? { setWhere: sql`${analisis.autor} = 'deepseek' or coalesce((${analisis.contenido} ->> 'pendiente')::boolean, false)` } : {}) });
       }
       await tx.insert(auditoria).values({ grupoId: raid.grupoId, usuarioId: opciones.usuarioId ?? null, accion: 'analisis.ia', ref: raid.slug,
         detalle: { origen: opciones.origen, modelo: process.env.DEEPSEEK_MODEL || 'deepseek-flash', ...uso, segundos: Math.round((Date.now() - t0) / 1000) } });
