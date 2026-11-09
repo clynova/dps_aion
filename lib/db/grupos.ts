@@ -212,8 +212,21 @@ export async function guardarWebhook(actorId: string, grupoId: string, url: stri
     if (!webhookValido(url)) throw new ErrorDatos('webhook');
     if (!(await webhookExiste(url))) throw new ErrorDatos('webhook-inexistente');
   }
-  await db.update(grupos).set({ discordWebhookCifrado: url === null ? null : cifrar(url) }).where(eq(grupos.id, grupoId));
+  // Al quitarlo se apaga también el aviso de raids, para que no vuelva solo si un día se pega otro webhook
+  await db.update(grupos).set(url === null ? { discordWebhookCifrado: null, avisoRaids: null } : { discordWebhookCifrado: cifrar(url) }).where(eq(grupos.id, grupoId));
   await db.insert(auditoria).values({ grupoId, usuarioId: actorId, accion: url === null ? 'webhook.quitar' : 'webhook.guardar' });
+}
+
+/**
+ * Avisar en el Discord del grupo de cada raid nueva (lib/avisos.ts), con el mismo webhook. `idioma` es el del mensaje
+ * (el de la página desde la que se activó); `null` lo apaga. Sin webhook no se puede activar.
+ */
+export async function guardarAvisoRaids(actorId: string, grupoId: string, idioma: 'es' | 'en' | null) {
+  if (!puede(await rolEn(grupoId, actorId), 'ajustes')) throw new ErrorPermiso();
+  const [g] = await db.select({ w: grupos.discordWebhookCifrado }).from(grupos).where(eq(grupos.id, grupoId));
+  if (idioma !== null && !g?.w) throw new ErrorDatos('webhook');
+  await db.update(grupos).set({ avisoRaids: idioma }).where(eq(grupos.id, grupoId));
+  await db.insert(auditoria).values({ grupoId, usuarioId: actorId, accion: idioma === null ? 'aviso-raids.quitar' : 'aviso-raids.activar', detalle: idioma ? { idioma } : null });
 }
 
 /** La dirección del webhook del grupo en claro, o null si no tiene (o ya no se puede descifrar). Solo para el servidor. */

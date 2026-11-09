@@ -133,6 +133,19 @@ export const repartoCura = pgTable('reparto_cura', {
   cantidad: n('cantidad').notNull(), pct: doublePrecision('pct'),
 }, (t) => [primaryKey({ columns: [t.raidId, t.jugadorId, t.objetivoId] })]);
 
+/**
+ * Golpes directos de cada ataque a cada jugador (mecanicas del data.json; raids extraídas desde el 9/11/2026).
+ * Una fila por ataque y jugador; las columnas *_hab son del ataque y se repiten en sus filas.
+ */
+export const mecanicas = pgTable('mecanicas', {
+  raidId: raidRef(), jugadorId: jugadorRef(), habilidad: text('habilidad').notNull(),
+  /** Posición del ataque en la lista y del jugador dentro del ataque. */
+  orden: integer('orden').notNull(), ordenJugador: integer('orden_jugador').notNull(),
+  golpesHab: integer('golpes_hab').notNull(), olasHab: integer('olas_hab').notNull(), alcance: doublePrecision('alcance').notNull(),
+  golpes: integer('golpes').notNull(), olas: integer('olas').notNull(), expuesto: integer('expuesto').notNull(),
+  dano: n('dano').notNull(), golpeMax: n('golpe_max').notNull(),
+}, (t) => [primaryKey({ columns: [t.raidId, t.habilidad, t.jugadorId] }), index('mecanicas_jugador_idx').on(t.jugadorId)]);
+
 export const mitigacion = pgTable('mitigacion', {
   raidId: raidRef(), jugadorId: jugadorRef(), tipo: text('tipo').notNull(),
   n: integer('n').notNull(), evitado: boolean('evitado').notNull(),

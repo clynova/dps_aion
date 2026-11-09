@@ -5,7 +5,10 @@ import type { ReactNode } from 'react';
 import BarraSuperior from '@/components/BarraSuperior';
 import type { Traductor } from '@/lib/i18n';
 
-export default function PlantillaRaid({ t, volver, accion }: { t: Traductor; volver: string; accion?: ReactNode }) {
+/** `mecanicas` y `seguimiento` son secciones que llegan ya pintadas del servidor (components/raid/Mecanicas, Seguimiento). */
+export default function PlantillaRaid({ t, volver, accion, mecanicas, seguimiento }: {
+  t: Traductor; volver: string; accion?: ReactNode; mecanicas?: ReactNode; seguimiento?: ReactNode;
+}) {
   return (
     <main className="rx">
       <header className="rx-head">
@@ -53,7 +56,9 @@ export default function PlantillaRaid({ t, volver, accion }: { t: Traductor; vol
           </article>
         </div>
       </section>
-    
+
+      {mecanicas}
+
       <section className="rx-section" id="jugadores">
         <h2 className="rx-h2">{t('sec.players')}</h2>
         <article className="rx-card">
@@ -130,6 +135,8 @@ export default function PlantillaRaid({ t, volver, accion }: { t: Traductor; vol
         <p className="rx-pending" id="solo-es" hidden>{t('analysis.onlyEs')}</p>
         <ol className="rx-reco" id="reco"></ol>
       </section>
+
+      {seguimiento}
     
       <details className="rx-details">
         <summary>{t('notes.summary')}</summary>

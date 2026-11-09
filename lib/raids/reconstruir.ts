@@ -5,6 +5,7 @@ import 'server-only';
 import { and, asc, eq } from 'drizzle-orm';
 import { db } from '@/lib/db/client';
 import * as t from '@/lib/db/schema';
+import type { MecanicaDato } from './mecanicas';
 
 /** Nombre en español de cada clase, como lo escribe db/raid.sql en jugadores[].clase */
 export const CLASE_ES: Record<string, string> = {
@@ -18,7 +19,7 @@ export async function reconstruirRaid(raidId: string) {
   const [raid] = await db.select().from(t.raids).where(eq(t.raids.id, raidId)).limit(1);
   if (!raid) return null;
   const por = <T>(f: Promise<T>) => f;
-  const [otros, intentos, curva, casteos, rj, dpsInt, muertes, desglose, reparto, mitig] = await Promise.all([
+  const [otros, intentos, curva, casteos, rj, dpsInt, muertes, desglose, reparto, mitig, mec] = await Promise.all([
     por(db.select().from(t.raidOtros).where(eq(t.raidOtros.raidId, raidId)).orderBy(asc(t.raidOtros.orden))),
     por(db.select().from(t.intentos).where(eq(t.intentos.raidId, raidId)).orderBy(asc(t.intentos.n))),
     por(db.select().from(t.curva).where(eq(t.curva.raidId, raidId)).orderBy(asc(t.curva.intento), asc(t.curva.orden))),
@@ -32,7 +33,15 @@ export async function reconstruirRaid(raidId: string) {
     por(db.select({ f: t.repartoCura, objetivo: t.jugadores.nombre }).from(t.repartoCura).innerJoin(t.jugadores, eq(t.jugadores.id, t.repartoCura.objetivoId))
       .where(eq(t.repartoCura.raidId, raidId)).orderBy(asc(t.repartoCura.orden))),
     por(db.select().from(t.mitigacion).where(eq(t.mitigacion.raidId, raidId))),
+    por(db.select({ f: t.mecanicas, nombre: t.jugadores.nombre }).from(t.mecanicas).innerJoin(t.jugadores, eq(t.jugadores.id, t.mecanicas.jugadorId))
+      .where(eq(t.mecanicas.raidId, raidId)).orderBy(asc(t.mecanicas.orden), asc(t.mecanicas.ordenJugador))),
   ]);
+  const mecanicas: MecanicaDato[] = [];
+  for (const { f, nombre } of mec) {
+    let m = mecanicas[mecanicas.length - 1];
+    if (!m || m.habilidad !== f.habilidad) mecanicas.push(m = { habilidad: f.habilidad, golpes: f.golpesHab, olas: f.olasHab, alcance: f.alcance, jugadores: [] });
+    m.jugadores.push({ jugador: nombre, golpes: f.golpes, olas: f.olas, expuesto: f.expuesto, dano: f.dano, golpe_max: f.golpeMax });
+  }
 
   const agrupar = <T extends { jugadorId: number }>(filas: T[]) => {
     const m = new Map<number, T[]>(); for (const f of filas) { const l = m.get(f.jugadorId); if (l) l.push(f); else m.set(f.jugadorId, [f]); }
@@ -110,6 +119,8 @@ export async function reconstruirRaid(raidId: string) {
       .map(({ habilidad, origen, muertes: n, golpe_max }) => ({ habilidad, origen, muertes: n, golpe_max })),
     casteos: casteos.map((c) => ({ intento: c.intento, t: c.t, habilidad: c.habilidad })),
     detalle,
+    // Solo las raids extraídas desde el 9/11/2026 (una raid sin ningún golpe recibido también queda sin la clave)
+    ...(mecanicas.length ? { mecanicas } : {}),
   };
 }
 

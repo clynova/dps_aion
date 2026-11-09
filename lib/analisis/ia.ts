@@ -8,9 +8,10 @@ import { db } from '@/lib/db/client';
 import { analisis, auditoria, raids } from '@/lib/db/schema';
 import type { Analisis } from '@/lib/ingest/analisis';
 import { reconstruirRaid } from '@/lib/raids/reconstruir';
-import { nombresPara } from '@/lib/raids/vista';
+import { seguimientoParaIA, seguir, type AnalisisSeg, type RaidSeg } from '@/lib/raids/seguimiento';
+import { nombresPara, raidAnterior } from '@/lib/raids/vista';
 import { deepseekJson, ErrorIA, type Mensaje, type RespuestaIA, type Uso } from './deepseek';
-import { formatearCifras, habilidadesPorJugador, idsDeLaRaid, NOTA_IA, quitarNombresTrasIds, PROMPT_SISTEMA, PROMPT_TRADUCIR, resumenParaIA, revisarAnalisis, type Historial, type Nombres } from './resumen';
+import { formatearCifras, habilidadesPorJugador, idsDeLaRaid, NOTA_IA, quitarNombresTrasIds, PROMPT_SISTEMA, PROMPT_TRADUCIR, resumenParaIA, revisarAnalisis, type Historial, type Nombres, type SeguimientoIA } from './resumen';
 
 export const ESPERA_HORAS = 24;
 type Llamar = (m: Mensaje[]) => Promise<RespuestaIA>;
@@ -33,10 +34,10 @@ async function pedirValidado(llamar: Llamar, mensajes: Mensaje[], grupo: string[
 }
 
 /** El análisis en los dos idiomas. Sin base de datos: se prueba con una IA simulada. */
-export async function generarAnalisis(datos: Parameters<typeof resumenParaIA>[0], nombres: Nombres, historial: Historial, llamar: Llamar = deepseekJson) {
+export async function generarAnalisis(datos: Parameters<typeof resumenParaIA>[0], nombres: Nombres, historial: Historial, llamar: Llamar = deepseekJson, seguimiento?: SeguimientoIA) {
   const uso: Uso = { entrada: 0, salida: 0, cache: 0 };
   const grupo = datos.meta.grupo;
-  const entrada = JSON.stringify(resumenParaIA(datos, nombres, historial));
+  const entrada = JSON.stringify(resumenParaIA(datos, nombres, historial, seguimiento));
   const habilidades = habilidadesPorJugador(datos as { detalle?: Record<string, unknown> });
   const es = await pedirValidado(llamar, [{ role: 'system', content: PROMPT_SISTEMA }, { role: 'user', content: entrada }], grupo, undefined, uso, habilidades);
   const en = await pedirValidado(llamar, [{ role: 'system', content: PROMPT_TRADUCIR }, { role: 'user', content: JSON.stringify(es) }], grupo, es, uso, habilidades);
@@ -95,7 +96,10 @@ export async function analizarRaid(raidId: string, opciones: { origen: 'auto' | 
       .where(and(eq(raids.grupoId, raid.grupoId), eq(raids.npcJefe, raid.npcJefe), ne(raids.id, raidId))).orderBy(desc(raids.fecha)).limit(10);
     const historial: Historial = anteriores.map((x) => ({ fecha: (x.meta as { fecha: string }).fecha, intentos: x.intentos, mejor_pct: x.mejorPct, matado: x.matado, muertes: x.muertesGrupo, dps_grupo_medio: x.dpsGrupoMedio }));
     const nombres = await nombresPara('es', raid.grupoId);
-    const { es, en, uso } = await generarAnalisis(datos as unknown as Parameters<typeof generarAnalisis>[0], nombres, historial);
+    // Qué pasó con las recomendaciones de la raid anterior de este jefe (lib/raids/seguimiento.ts)
+    const previa = await raidAnterior(raid, 'es');
+    const seguimiento = previa ? seguimientoParaIA(seguir(datos as unknown as RaidSeg, previa.datos as unknown as RaidSeg, previa.analisis as AnalisisSeg)) : undefined;
+    const { es, en, uso } = await generarAnalisis(datos as unknown as Parameters<typeof generarAnalisis>[0], nombres, historial, deepseekJson, seguimiento);
     await db.transaction(async (tx) => {
       for (const [idioma, contenido] of [['es', es], ['en', en]] as const) {
         // El automático no pisa un análisis que haya llegado mientras la IA pensaba (p. ej. el de Claude con publicar.ps1)

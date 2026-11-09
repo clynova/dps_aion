@@ -2,11 +2,11 @@
 // Devuelven lo mismo que leían los scripts de la web estática (data.json, analisis.json, nombres.json, index.json),
 // para que los módulos de lib/legado pinten exactamente lo mismo.
 import 'server-only';
-import { and, desc, eq, inArray, isNull, or, sql } from 'drizzle-orm';
+import { and, desc, eq, inArray, isNull, lt, or, sql } from 'drizzle-orm';
 import { db } from '@/lib/db/client';
 import * as t from '@/lib/db/schema';
 import { construirPerfiles } from '@/lib/perfil/construir';
-import { apareceEnListados, puedeVerRaid, type Rol } from '@/lib/permisos';
+import { apareceEnListados, puedeVerRaid, type Rol, type Visibilidad } from '@/lib/permisos';
 import type { Idioma } from '@/lib/i18n';
 import { reconstruirRaid } from './reconstruir';
 
@@ -48,8 +48,24 @@ export async function raidParaVer(slugGrupo: string, slugRaid: string, rolDe: (g
   if (!fila) return null;
   const rol = await rolDe(fila.grupo.id);
   if (!puedeVerRaid(fila.raid.visibilidad, rol)) return null;
-  const [datos, a, nombres] = await Promise.all([reconstruirRaid(fila.raid.id), analisisPara(fila.raid.id, idioma), nombresPara(idioma, fila.grupo.id)]);
-  return { grupo: fila.grupo, raid: fila.raid, rol, datos: datos!, ...a, nombres };
+  const [datos, a, nombres, anterior] = await Promise.all([
+    reconstruirRaid(fila.raid.id), analisisPara(fila.raid.id, idioma), nombresPara(idioma, fila.grupo.id),
+    raidAnterior(fila.raid, idioma, (v) => apareceEnListados(v, fila.grupo.visible, rol)),
+  ]);
+  return { grupo: fila.grupo, raid: fila.raid, rol, datos: datos!, ...a, nombres, anterior };
+}
+
+/**
+ * La raid anterior del mismo jefe en el mismo grupo, con su análisis (para el seguimiento de recomendaciones). En la
+ * página solo vale una que quien mira vería en los listados: una raid «con enlace» no se descubre desde otra.
+ */
+export async function raidAnterior(raid: Pick<typeof t.raids.$inferSelect, 'grupoId' | 'npcJefe' | 'fecha'>, idioma: Idioma, visible: (v: Visibilidad) => boolean = () => true) {
+  const filas = await db.select({ id: t.raids.id, slug: t.raids.slug, visibilidad: t.raids.visibilidad }).from(t.raids)
+    .where(and(eq(t.raids.grupoId, raid.grupoId), eq(t.raids.npcJefe, raid.npcJefe), lt(t.raids.fecha, raid.fecha))).orderBy(desc(t.raids.fecha)).limit(20);
+  const f = filas.find((r) => visible(r.visibilidad));
+  if (!f) return null;
+  const [datos, a] = await Promise.all([reconstruirRaid(f.id), analisisPara(f.id, idioma)]);
+  return datos ? { slug: f.slug, datos, analisis: a.analisis } : null;
 }
 
 /** Raids que aparecen en la página del grupo: todas si es miembro; si no, solo las públicas (las «con enlace» no se listan). */

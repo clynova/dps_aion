@@ -71,7 +71,7 @@ export async function guardarRaid(opciones: {
     const raidId = raid.id;
 
     // Filas hijas: se borran y se vuelven a escribir (el borrado en cascada no aplica: la raid sigue existiendo)
-    for (const tabla of [t.raidOtros, t.intentos, t.curva, t.casteosJefe, t.raidJugador, t.dpsIntento, t.muertes, t.desglose, t.repartoCura, t.mitigacion]) {
+    for (const tabla of [t.raidOtros, t.intentos, t.curva, t.casteosJefe, t.raidJugador, t.dpsIntento, t.muertes, t.desglose, t.repartoCura, t.mitigacion, t.mecanicas]) {
       await tx.delete(tabla).where(eq(tabla.raidId, raidId));
     }
     let filas = 0;
@@ -140,6 +140,10 @@ export async function guardarRaid(opciones: {
     await meter(t.muertes, muertes);
     await meter(t.repartoCura, reparto);
     await meter(t.mitigacion, mitig);
+    await meter(t.mecanicas, (d.mecanicas ?? []).flatMap((m, orden) => m.jugadores.map((j, ordenJugador) => ({
+      raidId, jugadorId: jid(j.jugador), habilidad: m.habilidad, orden, ordenJugador, golpesHab: m.golpes, olasHab: m.olas, alcance: m.alcance,
+      golpes: j.golpes, olas: j.olas, expuesto: j.expuesto, dano: j.dano, golpeMax: j.golpe_max,
+    }))));
 
     return { raidId, slug: d.meta.slug, nueva: raid.nueva, jugadores: ids.size, filas };
   });

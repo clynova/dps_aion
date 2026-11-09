@@ -187,6 +187,36 @@ select nombre, hab, sum(hasta - desde) activo_ms, count(distinct receptor) recep
   (select sum(o.dur * 1000) from (select distinct b2.enc, b2.receptor, b2.dur from bu b2 where b2.nombre = bu.nombre and b2.hab = bu.hab) o) posible_ms
 from bu group by nombre, hab;
 
+-- Mecánicas: golpes directos que recibe el grupo, por habilidad (sin los ticks de daño en el tiempo, que siguen a un
+-- golpe y contarían dos veces el mismo fallo). Una «ola» es cada vez que la habilidad sale: golpes de la misma
+-- habilidad en el mismo intento separados por 1,5 s o menos. De cada jugador: en cuántas olas le dio y a cuántas
+-- estuvo expuesto (las que le dieron y las que empezaron con él vivo: sin una muerte anterior que no tenga después
+-- una resurrección). El alcance es la media de jugadores distintos a los que da cada ola. Regla deducida de los datos.
+create or replace temp table mh as
+select *, sum(nueva) over (partition by enc, habilidad order by t_ms, orden rows unbounded preceding) ola from (
+  select pi.nombre, pi.enc, x.habilidad, x.t_ms, x.orden, x.dano,
+    case when x.t_ms - lag(x.t_ms) over (partition by pi.enc, x.habilidad order by x.t_ms, x.orden) <= 1500 then 0 else 1 end nueva
+  from pi join recibido x on x.enc = pi.enc and x.objetivo = pi.entidad
+  where not coalesce(x.dot, false) and coalesce(x.habilidad, 0) <> 0);
+create or replace temp table mo as   -- olas
+select enc, habilidad, ola, min(t_ms) t_ms, count(distinct nombre) alcanzados from mh group by all;
+create or replace temp table mm as   -- tramos en que cada jugador está muerto
+select d.enc, d.nombre, d.t_ms desde,
+  coalesce((select min(x.t_ms) from resurrecciones x where x.enc = d.enc and x.nombre = d.nombre and x.t_ms > d.t_ms), 9000000000000) hasta
+from de0 d;
+create or replace temp table mg as   -- golpes por habilidad y jugador
+select habilidad, nombre, count(*) golpes, count(distinct enc || ':' || ola) olas, sum(dano) dano, max(dano) maximo from mh group by all;
+create or replace temp table mx as   -- olas a las que estuvo expuesto cada jugador
+select mo.habilidad, p.nombre, count(*) expuesto
+from mo join (select distinct enc, nombre from pi) p on p.enc = mo.enc
+where exists (select 1 from mh where mh.enc = mo.enc and mh.habilidad = mo.habilidad and mh.ola = mo.ola and mh.nombre = p.nombre)
+  or not exists (select 1 from mm where mm.enc = mo.enc and mm.nombre = p.nombre and mo.t_ms > mm.desde and mo.t_ms < mm.hasta)
+group by all;
+create or replace temp table mk as   -- por habilidad
+select habilidad, count(*) olas, rd1(avg(alcanzados)) alcance,
+  (select count(*) from mh where mh.habilidad = mo.habilidad) golpes
+from mo group by habilidad;
+
 select json_object(
   'meta', json_object(
     'slug', getvariable('slug'), 'run', (select run from r), 'fecha', getvariable('fecha'), 'mazmorra', (select mazmorra from r),
@@ -263,5 +293,12 @@ select json_object(
               'receptores', receptores) order by activo_ms desc, hab))
             from (select * from bd where bd.nombre = jv.jugador order by activo_ms desc, hab limit 8)), '[]'::json))
         from ro join sv on sv.nombre = ro.nombre where ro.nombre = jv.jugador)
-    )) from jv)
+    )) from jv),
+  'mecanicas', coalesce((select to_json(list(json_object('habilidad', habilidad::varchar, 'golpes', golpes, 'olas', olas, 'alcance', alcance,
+      'jugadores', (select to_json(list(json_object('jugador', mx.nombre, 'golpes', coalesce(mg.golpes, 0), 'olas', coalesce(mg.olas, 0),
+          'expuesto', mx.expuesto, 'dano', rd(coalesce(mg.dano, 0)), 'golpe_max', rd(coalesce(mg.maximo, 0)))
+          order by coalesce(mg.golpes, 0) desc, mx.nombre))
+        from mx left join mg on mg.habilidad = mx.habilidad and mg.nombre = mx.nombre where mx.habilidad = mk.habilidad))
+      order by golpes desc, habilidad))
+    from (select * from mk order by golpes desc, habilidad limit 40) mk), '[]'::json)
 ) as raid_json;

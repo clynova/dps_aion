@@ -7,7 +7,7 @@ import { z } from 'zod';
 import { usuarioActual } from '@/lib/auth/sesion';
 import {
   ErrorDatos, ErrorPermiso, aceptarInvitacion, actualizarAjustes, borrarGrupo, cambiarRol, crearGrupo, crearInvitacion,
-  expulsar, crearToken, grupoPorSlug, guardarWebhook, revocarInvitacion, revocarToken,
+  expulsar, crearToken, grupoPorSlug, guardarAvisoRaids, guardarWebhook, revocarInvitacion, revocarToken,
 } from '@/lib/db/grupos';
 import { esIdioma, rutaEn, type Clave, type Idioma } from '@/lib/i18n';
 import { ROLES, VISIBILIDADES } from '@/lib/permisos';
@@ -147,5 +147,14 @@ export async function accionWebhook(_: Resultado, f: FormData): Promise<Resultad
     const g = await grupoDe(f);
     await guardarWebhook(uid, g.id, f.get('quitar') ? null : z.string().max(300).parse(f.get('url')));
     revalidatePath('/[lang]/g/[grupo]', 'layout');
+  });
+}
+
+/** Activa o apaga el resumen de cada raid nueva en el Discord del grupo; el mensaje sale en el idioma de la página. */
+export async function accionAvisoRaids(_: Resultado, f: FormData): Promise<Resultado> {
+  return intentar(async (uid) => {
+    const g = await grupoDe(f);
+    await guardarAvisoRaids(uid, g.id, f.get('avisar') === 'on' ? idiomaDe(f) : null);
+    revalidatePath('/[lang]/g/[grupo]/ajustes', 'page');
   });
 }

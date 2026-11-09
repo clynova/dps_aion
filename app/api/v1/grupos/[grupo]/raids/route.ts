@@ -17,6 +17,7 @@ import { huellaRaid } from '@/lib/ingest/huella';
 import { usoRaids } from '@/lib/limites';
 import { iaConfigurada } from '@/lib/analisis/deepseek';
 import { analizarRaid } from '@/lib/analisis/ia';
+import { avisarRaid } from '@/lib/avisos';
 import { actualizarNombres } from '@/lib/nombres/actualizar';
 import { raidPorSlug } from '@/lib/raids/reconstruir';
 import { esVisibilidad, puede } from '@/lib/permisos';
@@ -68,9 +69,12 @@ export async function POST(req: Request, { params }: RouteContext<'/api/v1/grupo
   // DeepSeek, su análisis automático (después de los nombres, que la IA usa; no pisa un análisis que ya exista)
   after(async () => {
     await actualizarNombres().catch((e) => console.error('nombres:', e));
-    if (!g.nueva || !iaConfigurada()) return;
+    if (!g.nueva) return;
     const r = await raidPorSlug(grupo.id, g.slug);
-    if (r) await analizarRaid(r.id, { origen: 'auto', usuarioId: quien.usuarioId }).catch((e) => console.error('analisis ia:', e instanceof Error ? e.message : e));
+    if (!r) return;
+    if (iaConfigurada()) await analizarRaid(r.id, { origen: 'auto', usuarioId: quien.usuarioId }).catch((e) => console.error('analisis ia:', e instanceof Error ? e.message : e));
+    // Al final, para que el resumen de Discord lleve el titular del análisis si lo hay
+    if (grupo.avisoRaids) await avisarRaid(r.id, url.origin).catch((e) => console.error('aviso raid:', e instanceof Error ? e.message : e));
   });
   return json({ ok: true, slug: g.slug, nueva: g.nueva, filas: g.filas, url: `/g/${grupo.slug}/raids/${g.slug}` }, g.nueva ? 201 : 200);
 }

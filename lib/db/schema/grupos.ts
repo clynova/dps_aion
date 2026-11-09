@@ -17,6 +17,8 @@ export const grupos = pgTable('grupos', {
   guardarBrutos: boolean('guardar_brutos').notNull().default(false),
   /** Webhook de Discord para «solicitar análisis», cifrado (lib/cifrado.ts). */
   discordWebhookCifrado: text('discord_webhook_cifrado'),
+  /** Resumen en Discord al subir una raid nueva: null = no; 'es' / 'en' = sí, en ese idioma (necesita el webhook). */
+  avisoRaids: text('aviso_raids'),
   creado: timestamp('creado', { withTimezone: true }).notNull().defaultNow(),
   creadoPor: text('creado_por').references(() => user.id, { onDelete: 'set null' }),
 });

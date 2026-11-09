@@ -10,7 +10,7 @@ import Formulario from '@/components/Formulario';
 import CopiarEnlace from '@/components/grupos/CopiarEnlace';
 import CrearToken from '@/components/grupos/CrearToken';
 import {
-  accionAjustes, accionBorrarGrupo, accionCambiarRol, accionCrearInvitacion, accionExpulsar, accionRevocarInvitacion,
+  accionAjustes, accionAvisoRaids, accionBorrarGrupo, accionCambiarRol, accionCrearInvitacion, accionExpulsar, accionRevocarInvitacion,
   accionRevocarToken, accionWebhook,
 } from '@/lib/acciones/grupos';
 import { usuarioActual } from '@/lib/auth/sesion';
@@ -201,6 +201,13 @@ async function Contenido({ params }: { params: PageProps<'/[lang]/g/[grupo]/ajus
               </Formulario>
             </div>
           ) : <p className="rx-pending">{t('ajustes.webhook.vacio')}</p>}
+          {grupo.discordWebhookCifrado ? (
+            <Formulario accion={accionAvisoRaids} campos={campos} textos={errores} guardado={t('comun.guardado')}>
+              <label className="cx-check"><input type="checkbox" name="avisar" defaultChecked={!!grupo.avisoRaids} /> {t('ajustes.aviso.raids')}</label>
+              <p className="rx-note">{t('ajustes.aviso.nota')}</p>
+              <div><button type="submit" className="cx-boton cx-boton-sec">{t('comun.guardar')}</button></div>
+            </Formulario>
+          ) : null}
           <Formulario accion={accionWebhook} campos={campos} textos={errores} guardado={t('comun.guardado')} className="cx-fila">
             <div className="cx-campo cx-crece">
               <label htmlFor="w-url">{grupo.discordWebhookCifrado ? t('ajustes.webhook.cambiar') : t('ajustes.webhook.url')}</label>

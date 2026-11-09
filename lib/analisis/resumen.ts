@@ -1,6 +1,10 @@
 // Lo que se le manda a la IA para analizar una raid y lo que se le exige de vuelta. Puro (sin red ni base): se prueba
 // en tests/unit/analisis-ia.test.ts. Las reglas son las de «Analiza la última raid» de CLAUDE.md.
 import { esquemaAnalisis, type Analisis } from '@/lib/ingest/analisis';
+import { analizarMecanicas, fallosParaIA, type MecanicaDato } from '@/lib/raids/mecanicas';
+import { idsEnTexto, type seguimientoParaIA } from '@/lib/raids/seguimiento';
+
+export type SeguimientoIA = ReturnType<typeof seguimientoParaIA>;
 
 type Datos = Record<string, unknown> & {
   meta: { jefe: string; fecha: string; grupo: string[]; [k: string]: unknown };
@@ -13,9 +17,15 @@ export type Historial = { fecha: string; intentos: number; mejor_pct: number | n
 const mediana = (xs: number[]) => { const s = [...xs].sort((a, b) => a - b); const m = s.length >> 1; return s.length % 2 ? s[m] : (s[m - 1] + s[m]) / 2; };
 
 /** La raid compacta: sin la curva de vida (los intentos ya traen su progreso) y con los casteos del jefe agrupados. */
-export function resumenParaIA(d: Datos, nombres: Nombres, historial: Historial) {
-  const { curva: _curva, casteos, dps_intento, ...resto } = d;
+export function resumenParaIA(d: Datos, nombres: Nombres, historial: Historial, seguimiento?: SeguimientoIA) {
+  const { curva: _curva, casteos, dps_intento, mecanicas, ...resto } = d;
   void _curva;
+  // Las mecánicas no van en crudo (40 ataques × 10 jugadores): solo lo que destaca, ya comparado (lib/raids/mecanicas.ts)
+  const det = (d.detalle ?? {}) as Record<string, { muertes?: { habilidad: string }[] }>;
+  const fallos = Array.isArray(mecanicas) && mecanicas.length ? fallosParaIA(analizarMecanicas(
+    mecanicas as MecanicaDato[], d.meta.grupo, (d.causas ?? []) as { habilidad: string; muertes: number }[],
+    Object.fromEntries(Object.entries(det).map(([n, x]) => [n, x.muertes ?? []])),
+  )) : null;
   const porHab = new Map<string, { t: number[]; intentos: Set<number> }>();
   for (const c of casteos ?? []) {
     const p = porHab.get(c.habilidad) ?? { t: [], intentos: new Set<number>() };
@@ -31,6 +41,8 @@ export function resumenParaIA(d: Datos, nombres: Nombres, historial: Historial) 
   const raid = { ...resto, casteos_jefe: casteosJefe, dps_y_muertes_por_intento: porJugador };
   // Diccionario de nombres para cada id que aparece (apodo > nombre de habilidad > nombre de npc)
   const ids = new Set<string>();
+  for (const x of fallos?.ataques ?? []) ids.add(x.habilidad);
+  for (const r of seguimiento?.recomendaciones_anteriores ?? []) for (const id of idsEnTexto(r.titulo)) ids.add(id);
   const recorrer = (v: unknown, clave = ''): void => {
     if (Array.isArray(v)) v.forEach((x) => recorrer(x, clave));
     else if (v && typeof v === 'object') for (const [k, x] of Object.entries(v)) recorrer(x, k);
@@ -39,7 +51,12 @@ export function resumenParaIA(d: Datos, nombres: Nombres, historial: Historial) 
   recorrer(raid);
   const dic: Record<string, string> = {};
   for (const id of [...ids].sort()) { const n = nombres.apodos[id] ?? nombres.habilidades[id] ?? nombres.npcs[id]; if (n) dic[id] = n; }
-  return { raid, nombres: dic, clasificaciones: clasificaciones(d as { jugadores?: unknown; detalle?: unknown; intentos?: unknown }), raids_anteriores_del_mismo_jefe: historial };
+  return {
+    raid, nombres: dic, clasificaciones: clasificaciones(d as { jugadores?: unknown; detalle?: unknown; intentos?: unknown }),
+    ...(fallos ? { fallos_de_mecanica: fallos } : {}),
+    raids_anteriores_del_mismo_jefe: historial,
+    ...(seguimiento ? { seguimiento_de_la_raid_anterior: seguimiento } : {}),
+  };
 }
 
 /**
@@ -130,6 +147,8 @@ Qué mirar:
 - Las cifras de cada jugador (jugadores) y su detalle: habilidades (daño por habilidad), recibido, muertes (con vida_5s y vida_1s = % de vida 5 s y 1 s antes de morir, dano_5s y cura_5s), apoyo (curación y escudos por habilidad y por objetivo), supervivencia (bajo30_pct = % del tiempo por debajo del 30 % de vida, resurrecciones, golpes mitigados y evitados) y rotacion (usos_min = habilidades por minuto vivo, pausas_pct = tiempo sin usar nada, primer_golpe_s, usos por habilidad, buffs al grupo).
 - dps_y_muertes_por_intento: [dps, muertes] de cada jugador en cada intento.
 - raids_anteriores_del_mismo_jefe: compara con ellas si hay (tendencia del mejor %, muertes, dps del grupo).
+- fallos_de_mecanica (si viene): de los ataques del jefe que NO dan a todo el grupo, cuántas veces le dieron a cada jugador y cuántas le habrían dado al ritmo de sus compañeros. por_jugador va de quien más recibe de más a quien menos (diferencia_pct = % sobre lo esperado; ataques_donde_recibe_de_mas son ids); en ataques, de_mas lista «Jugador veces/salidas». Es una DEDUCCIÓN (el registro no dice qué ataques se pueden esquivar, y quien tanquea o pelea cuerpo a cuerpo está más expuesto): dilo como tal («recibe 13 de 22, el doble que el resto: probablemente se puede evitar»). Úsalo en los consejos personales de quien destaque; no acuses al objetivo fijo de un ataque (tipo «objetivo fijo»).
+- seguimiento_de_la_raid_anterior (si viene): qué pasó con las recomendaciones de la raid anterior de este jefe: cifras de antes y de ahora del grupo, de los ataques que nombraban y de cada jugador. Di en el titular o en una recomendación qué mejoró y qué sigue igual, con esas cifras; no repitas un consejo ya cumplido.
 - clasificaciones: listas ya ordenadas de mayor a menor (dps, curacion, dano_recibido, muertes, resurrecciones, segundos_vivo; e intentos_por_dps_grupo e intentos_por_progreso, como [intento, valor]). Para decir que alguien es «el que más» o «el que menos» de algo, o su puesto, mira SIEMPRE estas listas; no lo deduzcas tú.
 
 Reglas:

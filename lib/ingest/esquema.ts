@@ -84,6 +84,13 @@ const detalleJugador = z.object({
   rotacion: rotacion.optional(),
 }).strict();
 
+// Desde el 9/11/2026: golpes directos que recibe el grupo de cada ataque. olas = veces que salió el ataque; por jugador,
+// en cuántas le dio (olas) de las que le pillaron vivo (expuesto). Ver db/raid.sql y lib/raids/mecanicas.ts.
+const mecanica = z.object({
+  habilidad: hab, golpes: nat, olas: ent.positive(), alcance: pos,
+  jugadores: z.array(z.object({ jugador: nombre, golpes: nat, olas: nat, expuesto: nat, dano: nat, golpe_max: nat }).strict()).min(1),
+}).strict();
+
 export const esquemaRaid = z.object({
   esquema_version: z.literal(2).optional(),
   sql_version: z.string().max(80).optional(),
@@ -96,6 +103,7 @@ export const esquemaRaid = z.object({
   causas: z.array(causa),
   casteos: z.array(casteo),
   detalle: z.record(nombre, detalleJugador),
+  mecanicas: z.array(mecanica).max(60).optional(),
 }).strict().superRefine((d, ctx) => {
   const err = (path: (string | number)[], message: string) => ctx.addIssue({ code: 'custom', path, message });
   if (d.intentos.length !== d.resumen.intentos) err(['resumen', 'intentos'], `dice ${d.resumen.intentos} intentos y hay ${d.intentos.length}`);
@@ -112,9 +120,21 @@ export const esquemaRaid = z.object({
     det.apoyo?.cura_obj.forEach((o, i) => { if (!nombres.has(o.jugador)) err(['detalle', n, 'apoyo', 'cura_obj', i], 'jugador desconocido'); });
     det.muertes.forEach((m, i) => { if (m.intento > maxIntento) err(['detalle', n, 'muertes', i], 'intento que no existe'); });
   }
+  const vistas = new Set<string>();
+  (d.mecanicas ?? []).forEach((m, i) => {
+    if (vistas.has(m.habilidad)) err(['mecanicas', i, 'habilidad'], 'habilidad repetida');
+    vistas.add(m.habilidad);
+    const suyos = new Set<string>();
+    m.jugadores.forEach((j, k) => {
+      if (!nombres.has(j.jugador)) err(['mecanicas', i, 'jugadores', k], 'jugador desconocido');
+      if (suyos.has(j.jugador)) err(['mecanicas', i, 'jugadores', k], 'jugador repetido');
+      suyos.add(j.jugador);
+    });
+  });
 });
 
 export type DatosRaid = z.infer<typeof esquemaRaid>;
+export type Mecanica = z.infer<typeof mecanica>;
 export type DetalleJugador = z.infer<typeof detalleJugador>;
 
 /** Valida y devuelve los datos tipados, o los problemas en texto legible (ruta: mensaje). */

@@ -29,6 +29,13 @@
       "when": 1794196414410,
       "tag": "0003_analisis_ia",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1794253205544,
+      "tag": "0004_mecanicas_y_aviso",
+      "breakpoints": true
     }
   ]
 }
