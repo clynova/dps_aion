@@ -18,6 +18,11 @@
     ... -Analisis raids\<slug>\analisis.json, raids\<slug>\analisis.en.json
     ... -Perfil jugadores\<jugador>\perfil.json, jugadores\<jugador>\perfil.en.json
 
+  Nombres de habilidades y NPC: la web no puede bajarlos de questlog.gg (Cloudflare bloquea a Vercel), así que tras
+  cada subida este script pregunta qué ids de las raids del grupo no tienen nombre, los busca en questlog.gg desde el
+  PC y los manda. A mano (por ejemplo, tras subir raids desde el navegador):
+    ... -Nombres
+
   Preview protegida por Vercel: -Configurar -Bypass <secreto de «Protection Bypass for Automation»> (se guarda cifrado).
   También lee DPS_AION_API, DPS_AION_GRUPO, DPS_AION_TOKEN y DPS_AION_BYPASS (ganan a la configuración; los
   parámetros ganan a todo).
@@ -40,6 +45,7 @@ param(
   [string[]]$Analisis,
   [string[]]$Perfil,
   [string]$Slug,
+  [switch]$Nombres,
   [string]$Repo = (Split-Path $PSScriptRoot -Parent)
 )
 $ErrorActionPreference = 'Stop'
@@ -115,7 +121,7 @@ function Invoke-Api([string]$Metodo, [string]$Ruta, [string]$Cuerpo) {
   $req.Timeout = 180000
   $req.AllowAutoRedirect = $false  # una redirección aquí es el login de Vercel de una preview protegida
   if ($cfg.bypass) { $req.Headers['x-vercel-protection-bypass'] = $cfg.bypass }
-  if ($null -ne $Cuerpo) {
+  if ($Cuerpo) {  # [string] convierte $null en «»: sin cuerpo (GET)
     $bytes = $utf8.GetBytes($Cuerpo)
     $req.ContentType = 'application/json; charset=utf-8'
     $req.ContentLength = $bytes.Length
@@ -153,6 +159,36 @@ function Fallo($r, [string]$que) {
 }
 
 $g = [uri]::EscapeDataString($cfg.grupo)
+
+# --- Nombres de questlog.gg ---------------------------------------------------------------------------------------
+function Get-Questlog([string]$proc, [string]$idioma) {
+  $in = [uri]::EscapeDataString('{"language":"' + $idioma + '"}')
+  $r = Invoke-WebRequest "https://questlog.gg/aion-2/api/trpc/$proc`?input=$in" -UseBasicParsing -TimeoutSec 90
+  # La respuesta no declara charset: se decodifica como UTF-8 a mano para no romper las tildes
+  ([Text.Encoding]::UTF8.GetString($r.RawContentStream.ToArray()) | ConvertFrom-Json).result.data
+}
+function Publicar-Nombres {
+  $r = Invoke-Api 'GET' "/api/v1/grupos/$g/nombres" $null
+  if ($r.Estado -ne 200) { Fallo $r 'Ver qué nombres faltan' }
+  $hs = @($r.Datos.habilidades); $ns = @($r.Datos.npcs)
+  if (-not $hs.Count -and -not $ns.Count) { Write-Host '  ✓ nombres: no falta ninguno'; return }
+  Write-Host "  Buscando en questlog.gg $($hs.Count) habilidades y $($ns.Count) NPC sin nombre..."
+  $ProgressPreference = 'SilentlyContinue'
+  $cuerpo = [ordered]@{}
+  foreach ($idioma in 'es', 'en') {
+    $hQ = Get-Questlog 'combatLog.entities.skills' $idioma
+    $nQ = (Get-Questlog 'combatLog.entities.names' $idioma).npc
+    $hab = [ordered]@{}; $npc = [ordered]@{}
+    foreach ($id in $hs) { $x = $hQ."$id"; if ($x -and $x.name) { $hab["$id"] = [ordered]@{ name = [string]$x.name; icon = [string]$x.icon } } }
+    foreach ($id in $ns) { $x = $nQ."$id"; if ($x -and $x.name) { $npc["$id"] = [string]$x.name } }
+    $cuerpo[$idioma] = [ordered]@{ habilidades = $hab; npcs = $npc }
+  }
+  $r = Invoke-Api 'POST' "/api/v1/grupos/$g/nombres" ($cuerpo | ConvertTo-Json -Depth 5 -Compress)
+  if ($r.Estado -ne 200) { Fallo $r 'Mandar los nombres' }
+  $sin = [math]::Max([int]$r.Datos.es.sinNombre, [int]$r.Datos.en.sinNombre)
+  Write-Host "  ✓ nombres: $($r.Datos.es.guardados) en español y $($r.Datos.en.guardados) en inglés$(if ($sin) { " ($sin que questlog.gg no conoce)" })"
+}
+if ($Nombres) { Publicar-Nombres; return }
 
 # --- Textos de Claude ---------------------------------------------------------------------------------------------
 function Publicar-Texto([string]$tipo, [string]$ruta) {
@@ -213,3 +249,5 @@ if ($r.Estado -eq 409 -and $r.Datos.error -eq 'duplicada') {
 if ($r.Estado -ne 200 -and $r.Estado -ne 201) { Fallo $r 'Subir la raid' }
 Write-Host ''
 Write-Host ("{0}: {1}{2}" -f $(if ($r.Datos.nueva) { 'Raid publicada' } else { 'Raid actualizada' }), $cfg.api, $r.Datos.url)
+# Los nombres no impiden la subida: si fallan, se avisa y se pueden mandar luego con -Nombres
+try { Publicar-Nombres } catch { Write-Warning "No se pudieron mandar los nombres ($($_.Exception.Message)). Repite con -Nombres." }

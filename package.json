@@ -13,7 +13,7 @@
     "textos": "node scripts/extraer-textos.mjs",
     "db:generar": "node --env-file-if-exists=.env.local node_modules/drizzle-kit/bin.cjs generate",
     "db:migrar": "node --env-file-if-exists=.env.local node_modules/drizzle-kit/bin.cjs migrate",
-    "build:vercel": "node node_modules/drizzle-kit/bin.cjs migrate && next build",
+    "build:vercel": "node node_modules/drizzle-kit/bin.cjs migrate && node --conditions=react-server --import tsx scripts/semilla-nombres.mts && next build",
     "migrar": "node --conditions=react-server --env-file-if-exists=.env.local --import tsx scripts/migrar-json.mts",
     "paridad": "node --conditions=react-server --env-file-if-exists=.env.local --import tsx scripts/paridad.mts",
     "comparar-paginas": "node --import tsx scripts/comparar-paginas.mts",
