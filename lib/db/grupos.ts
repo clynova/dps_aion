@@ -174,3 +174,27 @@ export async function revocarToken(actorId: string, grupoId: string, id: string)
   await db.update(tokensApi).set({ revocado: true }).where(and(eq(tokensApi.id, id), eq(tokensApi.grupoId, grupoId)));
   await db.insert(auditoria).values({ grupoId, usuarioId: actorId, accion: 'token.revocar', ref: id });
 }
+
+/** Cuántas raids tiene el grupo (para el aviso antes de borrarlo). */
+export async function raidsDelGrupo(grupoId: string) {
+  return (await db.execute<{ n: number }>(sql`select count(*)::int n from raids where grupo_id = ${grupoId}`)).rows[0].n;
+}
+
+/**
+ * Borra el grupo con todo lo suyo: miembros, invitaciones, tokens, raids, análisis, perfiles y apodos del grupo (las
+ * claves foráneas van en cascada). Solo el propietario, y escribiendo la dirección del grupo para confirmar. Los
+ * jugadores que se quedan sin ninguna raid en ningún grupo también se borran. No se puede deshacer.
+ */
+export async function borrarGrupo(actorId: string, grupoId: string, confirmacion: string) {
+  if (!puede(await rolEn(grupoId, actorId), 'borrar_grupo')) throw new ErrorPermiso();
+  const [g] = await db.select({ slug: grupos.slug, nombre: grupos.nombre }).from(grupos).where(eq(grupos.id, grupoId));
+  if (!g) throw new ErrorPermiso();
+  if (confirmacion.trim().toLowerCase() !== g.slug) throw new ErrorDatos('confirmacion');
+  await db.transaction(async (tx) => {
+    const [{ raids }] = (await tx.execute<{ raids: number }>(sql`select count(*)::int raids from raids where grupo_id = ${grupoId}`)).rows;
+    await tx.delete(grupos).where(eq(grupos.id, grupoId));
+    await tx.execute(sql`delete from jugadores j where not exists (select 1 from raid_jugador rj where rj.jugador_id = j.id)`);
+    // El registro queda sin grupo (el grupo ya no existe), con su dirección y nombre
+    await tx.insert(auditoria).values({ grupoId: null, usuarioId: actorId, accion: 'grupo.borrar', ref: g.slug, detalle: { nombre: g.nombre, raids } });
+  });
+}

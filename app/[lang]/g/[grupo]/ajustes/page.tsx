@@ -10,10 +10,11 @@ import Formulario from '@/components/Formulario';
 import CopiarEnlace from '@/components/grupos/CopiarEnlace';
 import CrearToken from '@/components/grupos/CrearToken';
 import {
-  accionAjustes, accionCambiarRol, accionCrearInvitacion, accionExpulsar, accionRevocarInvitacion, accionRevocarToken,
+  accionAjustes, accionBorrarGrupo, accionCambiarRol, accionCrearInvitacion, accionExpulsar, accionRevocarInvitacion,
+  accionRevocarToken,
 } from '@/lib/acciones/grupos';
 import { usuarioActual } from '@/lib/auth/sesion';
-import { grupoParaVer, invitacionesActivas, miembrosDe, tokensDe } from '@/lib/db/grupos';
+import { grupoParaVer, invitacionesActivas, miembrosDe, raidsDelGrupo, tokensDe } from '@/lib/db/grupos';
 import { localeDe, rutaEn } from '@/lib/i18n';
 import { textosError } from '@/lib/i18n/errores';
 import { textos } from '@/lib/i18n/servidor';
@@ -40,10 +41,11 @@ async function Contenido({ params }: { params: PageProps<'/[lang]/g/[grupo]/ajus
   const r = await grupoParaVer(slug, u?.id ?? null);
   if (!r || !r.rol || !u) notFound(); // solo miembros
   const { grupo, rol } = r;
-  const [lista, invs, toks] = await Promise.all([
+  const [lista, invs, toks, nRaids] = await Promise.all([
     miembrosDe(grupo.id),
     puede(rol, 'invitar') ? invitacionesActivas(grupo.id) : Promise.resolve([]),
     puede(rol, 'ajustes') ? tokensDe(grupo.id) : Promise.resolve([]),
+    puede(rol, 'borrar_grupo') ? raidsDelGrupo(grupo.id) : Promise.resolve(0),
   ]);
   const errores = textosError(t);
   const campos = { lang: idioma, grupo: grupo.slug };
@@ -184,6 +186,21 @@ async function Contenido({ params }: { params: PageProps<'/[lang]/g/[grupo]/ajus
           ) : <p className="rx-pending">{t('ajustes.tokens.vacio')}</p>}
           <CrearToken campos={campos} textos={errores} t={{ nombre: t('ajustes.tokens.nombre'), crear: t('ajustes.tokens.crear'),
             nuevo: t('ajustes.tokens.nuevo'), copiar: t('ajustes.inv.copiar').replace(/ .*/, ''), copiado: t('ajustes.inv.copiado') }} />
+        </section>
+      ) : null}
+      {puede(rol, 'borrar_grupo') ? (
+        <section className="rx-section">
+          <h2 className="rx-h2">{t('ajustes.borrar')}</h2>
+          <p className="rx-note">{t('ajustes.borrar.nota', { n: nRaids })}</p>
+          <Formulario accion={accionBorrarGrupo} campos={campos} textos={errores} className="cx-fila"
+            confirmar={t('ajustes.borrar.confirmar', { n: grupo.nombre })}>
+            <div className="cx-campo">
+              <label htmlFor="b-confirmacion">{t('ajustes.borrar.escribe', { slug: grupo.slug })}</label>
+              <input id="b-confirmacion" name="confirmacion" className="cx-input" required autoComplete="off"
+                pattern={grupo.slug} spellCheck={false} />
+            </div>
+            <button type="submit" className="cx-boton cx-boton-peligro">{t('ajustes.borrar.boton')}</button>
+          </Formulario>
         </section>
       ) : null}
     </>

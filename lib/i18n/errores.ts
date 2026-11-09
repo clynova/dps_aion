@@ -3,7 +3,7 @@ import type { Clave, Traductor } from './index';
 
 const CLAVES: Clave[] = [
   'comun.error', 'comun.sinPermiso', 'comun.entrarPrimero',
-  'grupos.error.nombre', 'grupos.error.slug', 'grupos.error.slugOcupado', 'unirse.invalida',
+  'grupos.error.nombre', 'grupos.error.slug', 'grupos.error.slugOcupado', 'unirse.invalida', 'ajustes.borrar.noCoincide',
 ];
 
 export const textosError = (t: Traductor) => Object.fromEntries(CLAVES.map((k) => [k, t(k)]));

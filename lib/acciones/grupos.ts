@@ -6,8 +6,8 @@ import { redirect } from 'next/navigation';
 import { z } from 'zod';
 import { usuarioActual } from '@/lib/auth/sesion';
 import {
-  ErrorDatos, ErrorPermiso, aceptarInvitacion, actualizarAjustes, cambiarRol, crearGrupo, crearInvitacion, expulsar,
-  crearToken, grupoPorSlug, revocarInvitacion, revocarToken,
+  ErrorDatos, ErrorPermiso, aceptarInvitacion, actualizarAjustes, borrarGrupo, cambiarRol, crearGrupo, crearInvitacion,
+  expulsar, crearToken, grupoPorSlug, revocarInvitacion, revocarToken,
 } from '@/lib/db/grupos';
 import { esIdioma, rutaEn, type Clave, type Idioma } from '@/lib/i18n';
 import { ROLES, VISIBILIDADES } from '@/lib/permisos';
@@ -24,7 +24,7 @@ async function intentar(fn: (usuarioId: string) => Promise<void>): Promise<Resul
   catch (e) {
     if (e instanceof ErrorPermiso) return { error: 'comun.sinPermiso' };
     if (e instanceof ErrorDatos) {
-      const claves: Record<string, Clave> = { nombre: 'grupos.error.nombre', slug: 'grupos.error.slug', 'slug-ocupado': 'grupos.error.slugOcupado', invitacion: 'unirse.invalida' };
+      const claves: Record<string, Clave> = { nombre: 'grupos.error.nombre', slug: 'grupos.error.slug', 'slug-ocupado': 'grupos.error.slugOcupado', invitacion: 'unirse.invalida', confirmacion: 'ajustes.borrar.noCoincide' };
       return { error: claves[e.clave] ?? 'comun.error' };
     }
     if (e instanceof z.ZodError) return { error: 'comun.error' };
@@ -120,6 +120,17 @@ export async function accionCrearToken(_: ResultadoToken, f: FormData): Promise<
     revalidatePath('/[lang]/g/[grupo]/ajustes', 'page');
   });
   return r?.ok ? { ok: true, token } : r;
+}
+
+/** Borra el grupo (solo el propietario, escribiendo su dirección) y lleva a «Mis grupos». */
+export async function accionBorrarGrupo(_: Resultado, f: FormData): Promise<Resultado> {
+  const r = await intentar(async (uid) => {
+    const g = await grupoDe(f);
+    await borrarGrupo(uid, g.id, String(f.get('confirmacion') ?? ''));
+    revalidatePath('/[lang]', 'layout');
+  });
+  if (r?.ok) redirect(rutaEn(idiomaDe(f), '/mis-grupos'));
+  return r;
 }
 
 export async function accionRevocarToken(_: Resultado, f: FormData): Promise<Resultado> {
