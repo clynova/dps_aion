@@ -1,11 +1,11 @@
-import { readdirSync, readFileSync, existsSync } from 'node:fs';
+import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 import { esquemaPerfil } from '@/lib/ingest/perfil';
 
 describe('esquemaPerfil', () => {
-  const archivos = readdirSync('jugadores').flatMap((d) => ['perfil.json', 'perfil.en.json'].map((f) => `jugadores/${d}/${f}`)).filter(existsSync);
+  const archivos = ['tests/fixtures/perfil-anonimo.json', 'tests/fixtures/perfil-anonimo.en.json'];
 
-  it('acepta los perfiles escritos hasta ahora', () => {
+  it('acepta un perfil escrito por Claude (es y en)', () => {
     expect(archivos.length).toBeGreaterThan(0);
     for (const f of archivos) expect(esquemaPerfil.safeParse(JSON.parse(readFileSync(f, 'utf8'))).success, f).toBe(true);
   });

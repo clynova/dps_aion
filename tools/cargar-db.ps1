@@ -4,7 +4,7 @@
   1. Copia a db/archivo/ los encuentros y runs nuevos de %APPDATA%\Questlog\aion-2. Questlog solo guarda
      los últimos 500 encuentros y va borrando los antiguos: el archivo los conserva para siempre.
   2. Pasa a las tablas (db/esquema.sql) los encuentros del archivo que aún no están en la base, en tandas.
-  3. Recarga las runs, las raids de la web (raids/, _privado/) y los nombres (nombres.json / nombres.en.json).
+  3. Recarga las runs y los nombres (nombres.json / nombres.en.json). Las raids de la tabla raids las inserta extraer-raid.ps1.
 
   Uso:
     powershell -ExecutionPolicy Bypass -File tools\cargar-db.ps1             # lo nuevo

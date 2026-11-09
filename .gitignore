@@ -21,4 +21,3 @@ next-env.d.ts
 .DS_Store
 *.pem
 npm-debug.log*
-tests/salida-comparacion/

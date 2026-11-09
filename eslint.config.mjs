@@ -8,8 +8,8 @@ const eslintConfig = defineConfig([
   globalIgnores([
     // Generado por Next
     ".next/**", "out/**", "build/**", "next-env.d.ts",
-    // Web estática actual (se borra en el corte, fase 9) y prototipos
-    "assets/**", "api/**", "raids/**", "jugadores/**", "prototipos/**",
+    // Prototipos de la fase 1
+    "prototipos/**",
   ]),
 ]);
 

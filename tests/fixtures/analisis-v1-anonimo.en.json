@@ -1,7 +1,12 @@
 {
   "pendiente": false,
   "titular": "The closest night: attempt 11 reached **80.6%** and attempt 10 hit 70.4%. But only **6 of 16** attempts broke the stagger, and late (143–157 s). None of the attempts without a break reached 46%, and every attempt past 50% had one.",
-  "zonas": { "ventana": [130, 175] },
+  "zonas": {
+    "ventana": [
+      130,
+      175
+    ]
+  },
   "one_shot": 100000,
   "recomendaciones": [
     {
@@ -30,35 +35,47 @@
     }
   ],
   "jugadores": {
-    "Rhygal": [
+    "Veterano4": [
       "The night’s top DPS (51.3k, with peaks of 65–69k in attempts 2 and 9) and 73% of hits from behind. Excellent execution.",
       "Your deaths are spread across 1802720 (3), 2920718 (3) and 2920717 (2). When the zones appear, step out even if you lose a few seconds of back attacks."
     ],
-    "FunPeople": [
+    "Veterano1": [
       "You soak almost all the group’s damage (5.3M taken) and still do 47.1k DPS.",
       "3 of your deaths came before the 60-second mark. 1802880 hit you for up to 194k (2 deaths): have a defensive ready for 26–35 s, when Rahu first casts it.",
       "1802720 killed you 3 times. As the tank you survive the longest; when you see it coming, prioritize staying alive even if the attempt is lost."
     ],
-    "Garretin": [
-      "You do 44k DPS and are also second in healing (1.2k HPS). Very useful as Cry’s support.",
+    "Veterano2": [
+      "You do 44k DPS and are also second in healing (1.2k HPS). Very useful as Veterano5’s support.",
       "You die early: your first death comes at 114 s on average, and 6 of your 24 deaths were before the 60-second mark. 1802750 (3) and 1802740 (2, always around 16 s) are the ones to dodge.",
       "You take the most damage from 1802715 (933k). You have the lowest CP in the group (175k): upgrading gear will give you margin to absorb it."
     ],
-    "Cry": [
+    "Veterano5": [
       "40k DPS and 5.3k HPS: still the group’s main healer.",
       "Your DPS drops to 30–37k in the longest attempts (8, 10 and 11) because there’s more healing to do. That’s right: in those attempts your healing is worth more than your damage.",
       "1802805 took 406k from you (cast around 23–32 s and again around 105–127 s). A shield before those moments can save healing for the zone phase."
     ],
-    "Pantsu": [
+    "Veterano3": [
       "You die the most (29) and the earliest: your first death comes at 94 s on average, and 8 deaths were before the 60-second mark. In attempt 1 you did only 11k DPS because you died early.",
       "Your main causes: 2920718 (1802850, 5 deaths), 1802750 (3), 2920717 (1802830, 3) and 1802730 (3, at 8 s and around 50 s). Learn the opening timings: 1802730 at 8 s and 1802740 at 16 s.",
       "You have the lowest GS in the group (2829). Better gear is the fastest way to raise your DPS (35.1k) and take more hits."
     ]
   },
   "notas": [
-    { "termino": "Group", "texto": "Tonight Garretin (Chanter) took Izumi’s spot." },
-    { "termino": "First boss", "texto": "Boss 2301008 died on the first try in 211 s, at 454k raid DPS." },
-    { "termino": "Attempt 12", "texto": "Lasted 11 s (0.7%) with 4 deaths: probably a failed pull or a reset, not a real attempt." },
-    { "termino": "Kill reference", "texto": "The kill data comes from the Nov 7 01:38 raid, with another group, also on this site." }
+    {
+      "termino": "Group",
+      "texto": "Tonight Veterano2 (Chanter) took Veterano6’s spot."
+    },
+    {
+      "termino": "First boss",
+      "texto": "Boss 2301008 died on the first try in 211 s, at 454k raid DPS."
+    },
+    {
+      "termino": "Attempt 12",
+      "texto": "Lasted 11 s (0.7%) with 4 deaths: probably a failed pull or a reset, not a real attempt."
+    },
+    {
+      "termino": "Kill reference",
+      "texto": "The kill data comes from the Nov 7 01:38 raid, with another group, also on this site."
+    }
   ]
 }

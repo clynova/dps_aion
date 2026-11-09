@@ -1,13 +1,7 @@
--- Datos de la web que viven en el repo: raids publicadas o privadas y nombres de habilidades y npcs.
+-- Nombres de habilidades y npcs del repo (nombres.json / nombres.en.json, la semilla de la web).
 -- tools/cargar-db.ps1 lo ejecuta desde la carpeta del repo y lo recarga entero cada vez.
-
-delete from raids;
-insert into raids
-select json -> 'meta' ->> 'slug', json -> 'meta' ->> 'run', (json -> 'meta' ->> 'npc')::integer,
-  (json -> 'meta' ->> 'fecha')::timestamptz, filename not like '%_privado%'
-from read_json_objects('*/*/data.json', filename = true, maximum_object_size = 67108864)
--- un solo patrón: con una lista, DuckDB falla si _privado/ no existe o está vacía
-where regexp_matches(filename, '^(\.[/\\])?(raids|_privado)[/\\]');
+-- La tabla raids ya no se llena desde archivos (las raids viven en la base de la web desde el corte del 9/11/2026):
+-- tools/extraer-raid.ps1 inserta la raid que extrae y de ahí la leen las vistas y db/raid.sql.
 
 delete from nombres;
 insert into nombres

@@ -1,7 +1,7 @@
-// Ida y vuelta contra la base (rama dev): cada raid publicada (v1) y la del formato nuevo (v2, anonimizada) se guarda,
+// Ida y vuelta contra la base (rama dev): una raid del formato antiguo (v1) y una del nuevo (v2), anonimizadas, se guarda,
 // se reconstruye y tiene que salir IGUAL que el archivo original. Guardarla otra vez no cambia nada.
 // Solo se permite que las causas empatadas en el mismo segundo salgan en otro orden (como en raid.sql).
-import { existsSync, readFileSync, readdirSync } from 'node:fs';
+import { readFileSync } from 'node:fs';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 import { and, eq, inArray, like, notExists, sql } from 'drizzle-orm';
 import { compararJson } from '@/lib/comparar';
@@ -10,7 +10,7 @@ const conBase = !!process.env.DATABASE_URL;
 const slugGrupo = `prueba-ingest-${Date.now().toString(36)}`;
 const leer = (p: string) => JSON.parse(readFileSync(p, 'utf8'));
 const archivos = [
-  ...readdirSync('raids').filter((d) => existsSync(`raids/${d}/data.json`)).map((d) => `raids/${d}/data.json`),
+  'tests/fixtures/raid-v1-anonima.json',
   'tests/fixtures/raid-v2-anonima.json',
 ];
 const OPC = { ignorar: [], sinOrden: ['causas'] };
@@ -30,7 +30,7 @@ describe.skipIf(!conBase)('ingesta y reconstrucción', () => {
   afterAll(async () => {
     await db.delete(s.grupos).where(like(s.grupos.slug, 'prueba-ingest-%'));
     // Jugadores del fixture anónimo que no estén en ninguna otra raid
-    await db.delete(s.jugadores).where(and(like(s.jugadores.nombre, 'Jugador_'),
+    for (const patron of ['Jugador_', 'Veterano%']) await db.delete(s.jugadores).where(and(like(s.jugadores.nombre, patron),
       notExists(db.select({ x: sql`1` }).from(s.raidJugador).where(eq(s.raidJugador.jugadorId, s.jugadores.id)))));
   });
 

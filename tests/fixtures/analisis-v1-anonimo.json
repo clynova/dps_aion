@@ -1,7 +1,12 @@
 {
   "pendiente": false,
   "titular": "La noche que más cerca se estuvo: el intento 11 llegó al **80,6 %** y el 10 al 70,4 %. Pero solo **6 de 16** intentos rompieron el stagger, y tarde (143–157 s). Ninguno de los que no lo rompieron llegó al 46 %, y todos los que pasaron del 50 % sí lo rompieron.",
-  "zonas": { "ventana": [130, 175] },
+  "zonas": {
+    "ventana": [
+      130,
+      175
+    ]
+  },
   "one_shot": 100000,
   "recomendaciones": [
     {
@@ -30,35 +35,47 @@
     }
   ],
   "jugadores": {
-    "Rhygal": [
+    "Veterano4": [
       "El DPS más alto de la noche (51,3k, con picos de 65–69k en los intentos 2 y 9) y el 73 % de golpes por la espalda. Ejecución excelente.",
       "Tus muertes se reparten entre 1802720 (3), 2920718 (3) y 2920717 (2). Cuando aparezcan las zonas, sal de ellas aunque pierdas unos segundos de daño por la espalda."
     ],
-    "FunPeople": [
+    "Veterano1": [
       "Aguantas casi todo el daño del grupo (5,3M recibido) y aun así haces 47,1k de DPS.",
       "3 de tus muertes llegaron antes del segundo 60. 1802880 te dio golpes de hasta 194k (2 muertes): ten preparado un defensivo para los 26–35 s, cuando Rahu lo lanza por primera vez.",
       "1802720 te mató 3 veces. Como tanque eres quien más tiempo aguanta; cuando lo veas venir, prioriza sobrevivir aunque perdáis el intento."
     ],
-    "Garretin": [
-      "Haces 44k de DPS y además eres el segundo en curación (1,2k HPS). Muy útil como apoyo de Cry.",
+    "Veterano2": [
+      "Haces 44k de DPS y además eres el segundo en curación (1,2k HPS). Muy útil como apoyo de Veterano5.",
       "Mueres pronto: tu primera muerte llega de media a los 114 s y 6 de tus 24 muertes fueron antes del segundo 60. 1802750 (3) y 1802740 (2, siempre hacia los 16 s) son las causas a esquivar.",
       "Eres quien más daño recibe de 1802715 (933k). Tienes el CP más bajo del grupo (175k): subir equipo te dará margen para aguantarlo."
     ],
-    "Cry": [
+    "Veterano5": [
       "40k de DPS y 5,3k de HPS: sigues siendo la curación principal del grupo.",
       "Tu DPS baja a 30–37k en los intentos más largos (8, 10 y 11) porque toca curar más. Es lo correcto: en esos intentos tu curación vale más que tu daño.",
       "1802805 te quitó 406k (lo lanza hacia los 23–32 s y otra vez hacia los 105–127 s). Un escudo antes de esos momentos puede ahorrar curación para la fase de las zonas."
     ],
-    "Pantsu": [
+    "Veterano3": [
       "Eres quien más muere (29) y quien muere antes: tu primera muerte llega de media a los 94 s y 8 muertes fueron antes del segundo 60. En el intento 1 hiciste solo 11k de DPS por morir pronto.",
       "Tus causas principales: 2920718 (1802850, 5 muertes), 1802750 (3), 2920717 (1802830, 3) y 1802730 (3, a los 8 s y hacia los 50 s). Aprende los tiempos del principio: 1802730 a los 8 s y 1802740 a los 16 s.",
       "Tienes el GS más bajo del grupo (2829). Mejorar equipo es la vía más rápida para subir tu DPS (35,1k) y aguantar más golpes."
     ]
   },
   "notas": [
-    { "termino": "Grupo", "texto": "Esta noche Garretin (Cantor) ocupó el puesto de Izumi." },
-    { "termino": "Primer jefe", "texto": "El jefe 2301008 cayó a la primera en 211 s, con 454k de DPS de raid." },
-    { "termino": "Intento 12", "texto": "Duró 11 s (0,7 %) con 4 muertes: probablemente un pull fallido o un reseteo, no un intento real." },
-    { "termino": "Referencia de kill", "texto": "Los datos del kill vienen de la raid del 7/11 a la 01:38, con otro grupo, también en esta web." }
+    {
+      "termino": "Grupo",
+      "texto": "Esta noche Veterano2 (Cantor) ocupó el puesto de Veterano6."
+    },
+    {
+      "termino": "Primer jefe",
+      "texto": "El jefe 2301008 cayó a la primera en 211 s, con 454k de DPS de raid."
+    },
+    {
+      "termino": "Intento 12",
+      "texto": "Duró 11 s (0,7 %) con 4 muertes: probablemente un pull fallido o un reseteo, no un intento real."
+    },
+    {
+      "termino": "Referencia de kill",
+      "texto": "Los datos del kill vienen de la raid del 7/11 a la 01:38, con otro grupo, también en esta web."
+    }
   ]
 }

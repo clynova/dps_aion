@@ -1,13 +1,13 @@
-import { readFileSync, readdirSync, existsSync } from 'node:fs';
+import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 import { validarRaid } from '@/lib/ingest/esquema';
 
 const leer = (p: string) => JSON.parse(readFileSync(p, 'utf8'));
-const raidsActuales = readdirSync('raids').filter((d) => existsSync(`raids/${d}/data.json`));
+// Formato v1 (el de la web estática): una raid real con los nombres de jugador sustituidos
 
 describe('esquema de subida', () => {
-  it.each(raidsActuales)('acepta la raid publicada %s (formato v1)', (slug) => {
-    const r = validarRaid(leer(`raids/${slug}/data.json`));
+  it('acepta el formato v1 de la web estática', () => {
+    const r = validarRaid(leer('tests/fixtures/raid-v1-anonima.json'));
     expect(r.ok ? [] : r.problemas).toEqual([]);
   });
   it('acepta el formato nuevo con apoyo, supervivencia y rotación', () => {
@@ -36,7 +36,7 @@ describe('esquema de subida', () => {
 
 describe('análisis', async () => {
   const { esquemaAnalisis } = await import('@/lib/ingest/analisis');
-  const archivos = raidsActuales.flatMap((s) => ['analisis.json', 'analisis.en.json'].map((a) => `raids/${s}/${a}`)).filter((p) => existsSync(p));
+  const archivos = ['tests/fixtures/analisis-v1-anonimo.json', 'tests/fixtures/analisis-v1-anonimo.en.json'];
   it.each(archivos)('acepta %s', (p) => {
     const r = esquemaAnalisis.safeParse(leer(p));
     expect(r.success ? [] : r.error.issues.map((i) => `${i.path.join('.')}: ${i.message}`)).toEqual([]);
