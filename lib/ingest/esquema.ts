@@ -49,11 +49,25 @@ const dpsIntento = z.object({ intento: ent.positive(), jugador: nombre, dps: nat
 const causa = z.object({ habilidad: hab, origen, muertes: ent.positive(), golpe_max: nat }).strict();
 const casteo = z.object({ intento: ent.positive(), t: pos, habilidad: hab }).strict();
 
+// Desde el 9/11/2026: los 10 s anteriores a cada muerte (ver db/raid.sql y lib/raids/repaso.ts). Los tiempos son
+// segundos respecto a la muerte (negativos); en curas, jugador '' = alguien de fuera del grupo o una poción.
+const antes = num.min(-10.1).max(0.2);
+const repaso = z.object({
+  vida_10s: num.min(0).max(100.5), vida: z.array(z.tuple([antes, num.min(0).max(100.5)])).max(300), vida_max: nat,
+  golpes_10s: nat, dano_10s: nat,
+  golpes: z.array(z.object({ t: antes, hab, dano: nat, mit: z.string().regex(/^[a-z-]{2,30}$/).nullable() }).strict()).max(12),
+  cura_10s: nat,
+  curas: z.array(z.object({ jugador: z.string().max(64), hab, cantidad: nat, n: ent.positive() }).strict()).max(5),
+  escudo_10s: nat, companeros: nat, vivos: nat, sanadores: nat,
+  defensivos: z.array(z.object({ hab, hace_s: pos.nullable(), recarga_s: pos.nullable() }).strict()).max(20),
+}).strict();
+
 const muerte = z.object({
   intento: ent.positive(), t: nat, habilidad: hab, origen, golpe_max: nat,
   // desde el 8/11/2026 (raids extraídas con la base): vida y daño/curación de los 5 s anteriores
   vida_5s: num.min(0).max(100.5).optional(), vida_1s: num.min(0).max(100.5).optional(),
   dano_5s: nat.optional(), cura_5s: nat.optional(),
+  repaso: repaso.optional(),
 }).strict();
 
 const apoyo = z.object({
@@ -118,7 +132,12 @@ export const esquemaRaid = z.object({
   d.dps_intento.forEach((x, i) => { if (!nombres.has(x.jugador)) err(['dps_intento', i], 'jugador desconocido'); });
   for (const [n, det] of Object.entries(d.detalle)) {
     det.apoyo?.cura_obj.forEach((o, i) => { if (!nombres.has(o.jugador)) err(['detalle', n, 'apoyo', 'cura_obj', i], 'jugador desconocido'); });
-    det.muertes.forEach((m, i) => { if (m.intento > maxIntento) err(['detalle', n, 'muertes', i], 'intento que no existe'); });
+    det.muertes.forEach((m, i) => {
+      if (m.intento > maxIntento) err(['detalle', n, 'muertes', i], 'intento que no existe');
+      if (!m.repaso) return;
+      if (m.repaso.vivos > m.repaso.companeros || m.repaso.sanadores > m.repaso.vivos) err(['detalle', n, 'muertes', i, 'repaso', 'vivos'], 'más vivos que compañeros');
+      m.repaso.curas.forEach((c, k) => { if (c.jugador && !nombres.has(c.jugador)) err(['detalle', n, 'muertes', i, 'repaso', 'curas', k], 'jugador desconocido'); });
+    });
   }
   const vistas = new Set<string>();
   (d.mecanicas ?? []).forEach((m, i) => {
@@ -135,6 +154,7 @@ export const esquemaRaid = z.object({
 
 export type DatosRaid = z.infer<typeof esquemaRaid>;
 export type Mecanica = z.infer<typeof mecanica>;
+export type RepasoMuerte = z.infer<typeof repaso>;
 export type DetalleJugador = z.infer<typeof detalleJugador>;
 
 /** Valida y devuelve los datos tipados, o los problemas en texto legible (ruta: mensaje). */

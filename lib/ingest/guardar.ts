@@ -133,7 +133,7 @@ export async function guardarRaid(opciones: {
       for (const m of det.muertes) {
         const orden = porIntento.get(m.intento) ?? 0; porIntento.set(m.intento, orden + 1);
         muertes.push({ raidId, jugadorId, intento: m.intento, orden, t: m.t, habilidad: m.habilidad, origen: m.origen, golpeMax: m.golpe_max,
-          vida5s: m.vida_5s ?? null, vida1s: m.vida_1s ?? null, dano5s: m.dano_5s ?? null, cura5s: m.cura_5s ?? null });
+          vida5s: m.vida_5s ?? null, vida1s: m.vida_1s ?? null, dano5s: m.dano_5s ?? null, cura5s: m.cura_5s ?? null, repaso: m.repaso ?? null });
       }
     }
     await meter(t.desglose, desglose);

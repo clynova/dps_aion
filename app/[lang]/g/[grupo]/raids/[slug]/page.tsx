@@ -7,6 +7,7 @@ import { MontarRaid } from '@/components/legado/Montar';
 import BotonAnalizarIA from '@/components/raid/BotonAnalizarIA';
 import Mecanicas from '@/components/raid/Mecanicas';
 import PlantillaRaid from '@/components/raid/PlantillaRaid';
+import Repaso from '@/components/raid/Repaso';
 import Seguimiento from '@/components/raid/Seguimiento';
 import { iaConfigurada } from '@/lib/analisis/deepseek';
 import { estadoAnalisisIA } from '@/lib/analisis/ia';
@@ -42,6 +43,7 @@ async function Contenido({ params }: { params: Props['params'] }) {
   return (
     <>
       <PlantillaRaid key={`p-${grupo}-${slug}`} t={t} volver={rutaEn(idioma, `/g/${grupo}`)} accion={accion}
+        repaso={<Repaso t={t} idioma={idioma} datos={r.datos} nombres={r.nombres} />}
         mecanicas={<Mecanicas t={t} idioma={idioma} datos={r.datos} nombres={r.nombres} />}
         seguimiento={r.anterior ? <Seguimiento t={t} idioma={idioma} grupo={grupo} nombres={r.nombres} datos={r.datos} anterior={r.anterior} /> : null} />
       <MontarRaid key={`m-${grupo}-${slug}`} idioma={idioma} datos={r.datos} analisis={r.analisis} soloEs={r.soloEs} nombres={r.nombres} />

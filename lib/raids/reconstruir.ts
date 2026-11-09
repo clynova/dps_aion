@@ -70,6 +70,7 @@ export async function reconstruirRaid(raidId: string) {
       muertes: (muertesDe.get(j.jugadorId) ?? []).map((m) => ({
         intento: m.intento, t: m.t, habilidad: m.habilidad, origen: m.origen, golpe_max: m.golpeMax,
         ...(m.vida5s !== null ? { vida_5s: m.vida5s, vida_1s: m.vida1s, dano_5s: m.dano5s, cura_5s: m.cura5s } : {}),
+        ...(m.repaso ? { repaso: m.repaso } : {}),
       })),
     };
     if (j.curacion !== null) {

@@ -2,6 +2,7 @@
 // en tests/unit/analisis-ia.test.ts. Las reglas son las de «Analiza la última raid» de CLAUDE.md.
 import { esquemaAnalisis, type Analisis } from '@/lib/ingest/analisis';
 import { analizarMecanicas, fallosParaIA, type MecanicaDato } from '@/lib/raids/mecanicas';
+import { analizarRepaso, repasoParaIA, type MuerteDato } from '@/lib/raids/repaso';
 import { idsEnTexto, type seguimientoParaIA } from '@/lib/raids/seguimiento';
 
 export type SeguimientoIA = ReturnType<typeof seguimientoParaIA>;
@@ -38,10 +39,18 @@ export function resumenParaIA(d: Datos, nombres: Nombres, historial: Historial, 
   const porJugador: Record<string, [number, number][]> = {};
   for (const x of [...(dps_intento ?? [])].sort((a, b) => a.intento - b.intento)) (porJugador[x.jugador] ??= []).push([x.dps, x.muertes]);
 
-  const raid = { ...resto, casteos_jefe: casteosJefe, dps_y_muertes_por_intento: porJugador };
+  // El repaso de cada muerte (sus 10 s anteriores) tampoco va en crudo: se quita de cada muerte y se mandan las cuentas
+  // ya hechas (lib/raids/repaso.ts)
+  const rep = analizarRepaso(Object.fromEntries(Object.entries(det).map(([n, x]) => [n, (x.muertes ?? []) as MuerteDato[]])), d.meta.grupo);
+  const repaso = rep.conRepaso ? repasoParaIA(rep) : null;
+  const detalle = Object.fromEntries(Object.entries(det).map(([n, x]) => [n, x.muertes
+    ? { ...x, muertes: x.muertes.map((m) => { const { repaso: _r, ...sin } = m as MuerteDato; void _r; return sin; }) } : x]));
+
+  const raid = { ...resto, ...(d.detalle ? { detalle } : {}), casteos_jefe: casteosJefe, dps_y_muertes_por_intento: porJugador };
   // Diccionario de nombres para cada id que aparece (apodo > nombre de habilidad > nombre de npc)
   const ids = new Set<string>();
   for (const x of fallos?.ataques ?? []) ids.add(x.habilidad);
+  for (const x of repaso?.primera_muerte_de_cada_intento ?? []) if (x.habilidad) ids.add(x.habilidad);
   for (const r of seguimiento?.recomendaciones_anteriores ?? []) for (const id of idsEnTexto(r.titulo)) ids.add(id);
   const recorrer = (v: unknown, clave = ''): void => {
     if (Array.isArray(v)) v.forEach((x) => recorrer(x, clave));
@@ -54,6 +63,7 @@ export function resumenParaIA(d: Datos, nombres: Nombres, historial: Historial, 
   return {
     raid, nombres: dic, clasificaciones: clasificaciones(d as { jugadores?: unknown; detalle?: unknown; intentos?: unknown }),
     ...(fallos ? { fallos_de_mecanica: fallos } : {}),
+    ...(repaso ? { repaso_de_muertes: repaso } : {}),
     raids_anteriores_del_mismo_jefe: historial,
     ...(seguimiento ? { seguimiento_de_la_raid_anterior: seguimiento } : {}),
   };
@@ -148,6 +158,7 @@ Qué mirar:
 - dps_y_muertes_por_intento: [dps, muertes] de cada jugador en cada intento.
 - raids_anteriores_del_mismo_jefe: compara con ellas si hay (tendencia del mejor %, muertes, dps del grupo).
 - fallos_de_mecanica (si viene): de los ataques del jefe que NO dan a todo el grupo, cuántas veces le dieron a cada jugador y cuántas le habrían dado al ritmo de sus compañeros. por_jugador va de quien más recibe de más a quien menos (diferencia_pct = % sobre lo esperado; ataques_donde_recibe_de_mas son ids); en ataques, de_mas lista «Jugador veces/salidas». Es una DEDUCCIÓN (el registro no dice qué ataques se pueden esquivar, y quien tanquea o pelea cuerpo a cuerpo está más expuesto): dilo como tal («recibe 13 de 22, el doble que el resto: probablemente se puede evitar»). Úsalo en los consejos personales de quien destaque; no acuses al objetivo fijo de un ataque (tipo «objetivo fijo»).
+- repaso_de_muertes (si viene): cada muerte clasificada por sus 10 s anteriores. de_un_golpe = un solo golpe se lo llevó, con la vida al 80 % o más o con un golpe que quita el 80 % de su vida máxima (es de mecánica: no lo arregla la curación); en_rafaga = estaba bien 3 s antes y cayó con varios golpes seguidos; por_desgaste = llevaba 3 s o más con la vida baja (ahí sí cuenta la curación). sin_sanador_vivo y con_el_grupo_caido (más de la mitad de sus compañeros ya muertos) son muertes que arrastra un intento ya perdido: no las cargues a quien muere. con_defensivo_sin_usar = murió en ráfaga o por desgaste con un escudo propio que probablemente tenía disponible. primera_muerte_de_cada_intento dice quién abre cada cadena de muertes y con qué. Es una DEDUCCIÓN con umbrales fijos: dilo como tal. Úsalo para decir si el problema del grupo es de mecánica o de aguante, y en el consejo personal de quien destaque.
 - seguimiento_de_la_raid_anterior (si viene): qué pasó con las recomendaciones de la raid anterior de este jefe: cifras de antes y de ahora del grupo, de los ataques que nombraban y de cada jugador. Di en el titular o en una recomendación qué mejoró y qué sigue igual, con esas cifras; no repitas un consejo ya cumplido.
 - clasificaciones: listas ya ordenadas de mayor a menor (dps, curacion, dano_recibido, muertes, resurrecciones, segundos_vivo; e intentos_por_dps_grupo e intentos_por_progreso, como [intento, valor]). Para decir que alguien es «el que más» o «el que menos» de algo, o su puesto, mira SIEMPRE estas listas; no lo deduzcas tú.
 

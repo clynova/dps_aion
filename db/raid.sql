@@ -217,6 +217,54 @@ select habilidad, count(*) olas, rd1(avg(alcanzados)) alcance,
   (select count(*) from mh where mh.habilidad = mo.habilidad) golpes
 from mo group by habilidad;
 
+-- Repaso de cada muerte: los 10 s anteriores. Vida (% del máximo) 10 s antes y cada lectura desde entonces, como
+-- [segundos respecto a la muerte, %], y su vida máxima (la de la última lectura); los golpes recibidos (los 12 últimos, uno a uno) con su total; la curación que
+-- le llegó, por sanador y habilidad (las 5 mayores) con su total; lo que absorbieron sus escudos; cuántos compañeros
+-- del grupo seguían vivos (y cuántos de ellos eran sanadores: clérigos y cantores), y sus defensivos.
+-- Defensivo = habilidad que el jugador castea y que le pone un escudo a él mismo en esta raid; de cada uno, hace
+-- cuántos segundos lo usó en ese intento (null = no lo había usado) y su recarga, que es la menor separación entre dos
+-- usos suyos seguidos en la raid (null con menos de 3 usos). Las dos cosas son reglas deducidas de los datos.
+create or replace temp table qd as   -- defensivos de cada jugador y su recarga deducida
+select nombre, hab, case when count(*) >= 3 then min(dt) end recarga_ms from (
+  select nombre, hab, t_ms - lag(t_ms) over (partition by enc, entidad, hab order by t_ms) dt
+  from ru where coalesce(parada, '') <> 'interrupted') u
+where exists (select 1 from pi join escudos e on e.enc = pi.enc and e.dueno = pi.entidad and e.objetivo = pi.entidad
+              where pi.nombre = u.nombre and (e.habilidad // 10000) * 10000 = u.hab)
+group by all;
+create or replace temp table qr as
+select d.intento, d.orden, json_object(
+  'vida_10s', rd(least(100, coalesce((select arg_max(100 * v.vida / v.vida_max, v.t_ms) from vida v
+      where v.enc = d.enc and v.entidad = d.ent and v.vida_max > 0 and v.t_ms <= d.t_ms - 10000), 100))),
+  'vida', coalesce((select to_json(list(json_array(rd1((v.t_ms - d.t_ms) / 1000), rd(least(100, 100 * v.vida / v.vida_max))) order by v.t_ms))
+      from vida v where v.enc = d.enc and v.entidad = d.ent and v.vida_max > 0 and v.t_ms > d.t_ms - 10000 and v.t_ms <= d.t_ms + 50), '[]'::json),
+  'vida_max', coalesce((select arg_max(v.vida_max, v.t_ms) from vida v where v.enc = d.enc and v.entidad = d.ent and v.vida_max > 0 and v.t_ms <= d.t_ms + 50), 0),
+  'golpes_10s', (select count(*) from recibido x where x.enc = d.enc and x.objetivo = d.ent and x.t_ms between d.t_ms - 10000 and d.t_ms + 50),
+  'dano_10s', rd(coalesce((select sum(x.dano) from recibido x where x.enc = d.enc and x.objetivo = d.ent and x.t_ms between d.t_ms - 10000 and d.t_ms + 50), 0)),
+  'golpes', coalesce((select to_json(list(json_object('t', rd1((t_ms - d.t_ms) / 1000), 'hab', coalesce(nullif(habilidad, 0)::varchar, ''),
+        'dano', rd(dano), 'mit', mitigacion) order by t_ms, orden))
+      from (select x.t_ms, x.orden, x.habilidad, x.dano, x.mitigacion from recibido x
+            where x.enc = d.enc and x.objetivo = d.ent and x.t_ms between d.t_ms - 10000 and d.t_ms + 50
+            order by x.t_ms desc, x.orden desc limit 12)), '[]'::json),
+  'cura_10s', rd(coalesce((select sum(c.cantidad) from curaciones c where c.enc = d.enc and c.objetivo = d.ent and c.t_ms between d.t_ms - 10000 and d.t_ms), 0)),
+  'curas', coalesce((select to_json(list(json_object('jugador', jugador, 'hab', hab, 'cantidad', rd(cantidad), 'n', n) order by cantidad desc, jugador, hab))
+      from (select coalesce(o.nombre, '') jugador, coalesce(nullif(c.habilidad, 0)::varchar, '') hab, sum(c.cantidad) cantidad, count(*) n
+            from curaciones c left join ji o on o.enc = c.enc and o.entidad = c.dueno
+            where c.enc = d.enc and c.objetivo = d.ent and c.t_ms between d.t_ms - 10000 and d.t_ms
+            group by all order by cantidad desc, jugador, hab limit 5)), '[]'::json),
+  'escudo_10s', rd(coalesce((select sum(a.cantidad) from absorciones a where a.enc = d.enc and a.objetivo = d.ent and a.t_ms between d.t_ms - 10000 and d.t_ms), 0)),
+  'companeros', (select count(*) from ji o where o.enc = d.enc and o.nombre <> d.nombre),
+  'vivos', (select count(*) from ji o where o.enc = d.enc and o.nombre <> d.nombre
+      and not exists (select 1 from mm where mm.enc = o.enc and mm.nombre = o.nombre and mm.desde < d.t_ms and mm.hasta > d.t_ms)),
+  'sanadores', (select count(*) from ji o where o.enc = d.enc and o.nombre <> d.nombre and o.clase in ('cleric', 'chanter')
+      and not exists (select 1 from mm where mm.enc = o.enc and mm.nombre = o.nombre and mm.desde < d.t_ms and mm.hasta > d.t_ms)),
+  'defensivos', coalesce((select to_json(list(json_object('hab', qd.hab::varchar,
+        'hace_s', (select rd1((d.t_ms - max(ru.t_ms)) / 1000) from ru where ru.enc = d.enc and ru.entidad = d.ent and ru.hab = qd.hab
+                   and ru.t_ms <= d.t_ms and coalesce(ru.parada, '') <> 'interrupted'),
+        'recarga_s', rd1(qd.recarga_ms / 1000)) order by qd.hab))
+      from qd where qd.nombre = d.nombre), '[]'::json)
+) repaso
+from de0 d;
+
 select json_object(
   'meta', json_object(
     'slug', getvariable('slug'), 'run', (select run from r), 'fecha', getvariable('fecha'), 'mazmorra', (select mazmorra from r),
@@ -268,7 +316,9 @@ select json_object(
         from (select * from dtk where dtk.nombre = jv.jugador order by dano desc, habilidad limit 8)), '[]'::json),
       'muertes', coalesce((select to_json(list(json_object('intento', intento, 't', rd(t_ms / 1000), 'habilidad', habilidad,
           'origen', origen, 'golpe_max', rd(golpe_max), 'vida_5s', rd(vida_5s), 'vida_1s', rd(vida_1s),
-          'dano_5s', rd(dano_5s), 'cura_5s', rd(cura_5s)) order by intento, orden)) from de where de.nombre = jv.jugador), '[]'::json),
+          'dano_5s', rd(dano_5s), 'cura_5s', rd(cura_5s),
+          'repaso', (select qr.repaso from qr where qr.intento = de.intento and qr.orden = de.orden)) order by intento, orden))
+        from de where de.nombre = jv.jugador), '[]'::json),
       'apoyo', (select json_object('curacion', rd(ap.curacion), 'escudos', rd(ap.escudos), 'absorbido', rd(ap.absorbido),
           'cura_hab', coalesce((select to_json(list(json_object('habilidad', habilidad::varchar, 'cantidad', rd(cantidad),
               'pct', rd1(100 * cantidad / greatest(1, ap.curacion)), 'golpes', golpes) order by cantidad desc, habilidad))

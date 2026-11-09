@@ -152,6 +152,24 @@ a:focus-visible, button:focus-visible, summary:focus-visible { outline: 2px soli
 .rx-table.rx-mec-resto td:first-child { font-weight: 400; white-space: normal; }
 .rx-details .rx-table-wrap { margin-top: var(--gap-sm); }
 
+/* Repaso de las muertes (components/raid/Repaso.tsx) */
+.rx-table.rx-rep-tabla td:first-child { font-weight: 400; }
+.rx-table.rx-rep-tabla tr.rx-rep-total td { font-weight: 600; }
+.rx-rep-intento { margin-top: var(--gap-sm); }
+.rx-rep-intento summary { font-size: inherit; color: var(--fg); }
+.rx-table.rx-rep th, .rx-table.rx-rep td { text-align: left; vertical-align: top; white-space: normal; padding: var(--pad-xs) var(--pad-sm); font-size: var(--fs-caption); }
+.rx-table.rx-rep th:first-child, .rx-table.rx-rep td:first-child { text-align: right; font-weight: 400; }
+.rx-table.rx-rep td:nth-child(3) { min-width: 9rem; }
+.rx-table.rx-rep td:nth-child(6) { min-width: 10rem; }
+.rx-table.rx-rep small { display: block; color: var(--fg-muted); }
+.rx-table.rx-rep small.rx-rep-libre { color: var(--bad); }
+.rx-rep-t { white-space: nowrap; padding-left: .5rem; border-left: 3px solid var(--chart-muted); }
+.rx-rep-t.is-golpe { border-left-color: var(--critical); font-weight: 600; }
+.rx-rep-t.is-rafaga { border-left-color: var(--series-2); }
+.rx-rep-vida { display: block; }
+.rx-rep-vida path { fill: none; stroke: var(--series-1); stroke-width: 1.5; stroke-linejoin: round; }
+.rx-rep-vida line { stroke: var(--line); stroke-width: 1; }
+
 /* Desde la raid anterior (components/raid/Seguimiento.tsx) */
 .rx-pill.is-bad { color: var(--bad); border-color: currentColor; }
 .rx-seg-ok { color: var(--ok); }

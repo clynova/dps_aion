@@ -2,6 +2,7 @@
 // Las medias de grupo y de clase y las causas de muerte NO se guardan: son vistas y consultas.
 // Decimales en double precision (los JSON traen 1 decimal y deben volver idénticos en la prueba de paridad).
 import { bigint, boolean, doublePrecision, index, integer, jsonb, pgEnum, pgTable, primaryKey, serial, text, timestamp, unique, uuid } from 'drizzle-orm/pg-core';
+import type { RepasoMuerte } from '../../ingest/esquema';
 import { user } from './auth';
 import { grupos, visibilidadEnum } from './grupos';
 
@@ -116,6 +117,8 @@ export const muertes = pgTable('muertes', {
   raidId: raidRef(), jugadorId: jugadorRef(), intento: integer('intento').notNull(), orden: integer('orden').notNull(),
   t: integer('t').notNull(), habilidad: text('habilidad'), origen: text('origen'), golpeMax: n('golpe_max'),
   vida5s: integer('vida_5s'), vida1s: integer('vida_1s'), dano5s: n('dano_5s'), cura5s: n('cura_5s'),
+  /** Los 10 s anteriores (detalle.<jugador>.muertes[].repaso, tal cual; raids extraídas desde el 9/11/2026). */
+  repaso: jsonb('repaso').$type<RepasoMuerte>(),
 }, (t) => [primaryKey({ columns: [t.raidId, t.jugadorId, t.intento, t.orden] }), index('muertes_jugador_idx').on(t.jugadorId)]);
 
 export const tipoDesgloseEnum = pgEnum('tipo_desglose', ['dano', 'recibido', 'cura', 'escudo', 'casteo', 'buff']);
