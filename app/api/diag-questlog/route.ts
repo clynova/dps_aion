@@ -1,6 +1,7 @@
 // TEMPORAL: comprueba si questlog.gg responde desde Vercel. Se borra tras el diagnóstico.
-export const dynamic = 'force-dynamic';
+import { connection } from 'next/server';
 export async function GET() {
+  await connection();
   const out: unknown[] = [];
   for (const p of ['combatLog.entities.skills', 'combatLog.entities.names']) {
     const t = Date.now();
