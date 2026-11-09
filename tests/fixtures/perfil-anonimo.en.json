@@ -1,7 +1,7 @@
 {
   "actualizado": "2026-11-07",
   "raids": 5,
-  "resumen": "Cleric and **main healer** in all 5 raids (4.8–5.3k HPS, 2.5 to 3.3 times the group average) who also adds 37–44k DPS. With the usual group, Veterano5 lasts longer than almost anyone: in 35 of the 50 attempts where Veterano5 died, the wipe came within the next 10 s, so that death usually closes the attempt rather than causing it (inference). New on Nov 7 19:06: 17440000 was not used and DPS was the lowest of all 5 nights.",
+  "resumen": "Cleric and **main healer** in all 5 raids (4.8–5.3k HPS, 2.5 to 3.3 times the group average) who also adds 37–44k DPS. With the usual group, Veterano1 lasts longer than almost anyone: in 35 of the 50 attempts where Veterano1 died, the wipe came within the next 10 s, so that death usually closes the attempt rather than causing it (inference). New on Nov 7 19:06: 17440000 was not used and DPS was the lowest of all 5 nights.",
   "fortalezas": [
     "First death comes later than the group average in all 5 raids (138 s versus 119 s on Nov 6; 142 s versus 132 s on Nov 7 19:06).",
     "Falls first in only 5 of 62 attempts and last in 22 (ties included).",
@@ -9,9 +9,9 @@
     "Keeps healing steady (4.8–5.3k HPS) even on the longest nights."
   ],
   "mejorar": [
-    "On Nov 7 19:06, 17440000 does not appear at all; on the other 4 nights it made up 9 to 11% of Veterano5’s damage. DPS was 36.8k (14% below average, the lowest of all nights) and 17350000 rose to 41% of the total.",
-    "That night Veterano5’s crit rate dropped to 26.7% (31.6–32.2% on the others). Veterano1 (48.6 → 38.4%) and Veterano6 (38.2 → 28.3%) dropped too and there was no Chanter in the group: the missing Chanter buffs are the likely reason, not something Veterano5 alone did (inference).",
-    "With the usual group, in 18 of those 50 attempts Veterano5 died before 100 s, ahead of the zone phase: besides the 130–175 s wall there are early wipes.",
+    "On Nov 7 19:06, 17440000 does not appear at all; on the other 4 nights it made up 9 to 11% of Veterano1’s damage. DPS was 36.8k (14% below average, the lowest of all nights) and 17350000 rose to 41% of the total.",
+    "That night Veterano1’s crit rate dropped to 26.7% (31.6–32.2% on the others). Veterano2 (48.6 → 38.4%) and Veterano6 (38.2 → 28.3%) dropped too and there was no Chanter in the group: the missing Chanter buffs are the likely reason, not something Veterano1 alone did (inference).",
+    "With the usual group, in 18 of those 50 attempts Veterano1 died before 100 s, ahead of the zone phase: besides the 130–175 s wall there are early wipes.",
     "Top killers: 1802750 (8 times), 1802716 from 2920725 (8), 1802720 (8) and 1802850 from 2920718 (7). 16 deaths have no recorded ability."
   ],
   "recomendaciones": [
