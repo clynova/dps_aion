@@ -181,6 +181,7 @@ function Sql-Version {
   (-join ($h | ForEach-Object { $_.ToString('x2') })).Substring(0, 12)
 }
 
+$extraidoAhora = -not $Archivo
 if (-not $Archivo) {
   $extra = @{ Repo = $Repo; Api = $cfg.api }
   if ($cfg.bypass) { $extra.Bypass = $cfg.bypass }
@@ -193,8 +194,8 @@ if (-not $Archivo) {
 $texto = [IO.File]::ReadAllText((Resolve-Path $Archivo).Path, [Text.Encoding]::UTF8).Trim()
 if (-not $texto.StartsWith('{')) { throw "$Archivo no es un JSON de raid." }
 # Versión del formato y del SQL, delante del resto (sin volver a serializar: ConvertTo-Json de PowerShell 5.1 cambia
-# números y listas vacías)
-if ($texto -notmatch '^\{\s*"esquema_version"') { $texto = '{"esquema_version":2,"sql_version":"' + (Sql-Version) + '",' + $texto.Substring(1) }
+# números y listas vacías). Solo si se acaba de extraer: un data.json antiguo (-Archivo) va tal cual, como v1.
+if ($extraidoAhora -and $texto -notmatch '^\{\s*"esquema_version"') { $texto = '{"esquema_version":2,"sql_version":"' + (Sql-Version) + '",' + $texto.Substring(1) }
 
 $consulta = @()
 if ($Visibilidad) { $consulta += "visibilidad=$Visibilidad" }
