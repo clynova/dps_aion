@@ -7,7 +7,7 @@ import { z } from 'zod';
 import { usuarioActual } from '@/lib/auth/sesion';
 import {
   ErrorDatos, ErrorPermiso, aceptarInvitacion, actualizarAjustes, borrarGrupo, cambiarRol, crearGrupo, crearInvitacion,
-  expulsar, crearToken, grupoPorSlug, revocarInvitacion, revocarToken,
+  expulsar, crearToken, grupoPorSlug, guardarWebhook, revocarInvitacion, revocarToken,
 } from '@/lib/db/grupos';
 import { esIdioma, rutaEn, type Clave, type Idioma } from '@/lib/i18n';
 import { ROLES, VISIBILIDADES } from '@/lib/permisos';
@@ -24,7 +24,7 @@ async function intentar(fn: (usuarioId: string) => Promise<void>): Promise<Resul
   catch (e) {
     if (e instanceof ErrorPermiso) return { error: 'comun.sinPermiso' };
     if (e instanceof ErrorDatos) {
-      const claves: Record<string, Clave> = { nombre: 'grupos.error.nombre', slug: 'grupos.error.slug', 'slug-ocupado': 'grupos.error.slugOcupado', invitacion: 'unirse.invalida', confirmacion: 'ajustes.borrar.noCoincide' };
+      const claves: Record<string, Clave> = { nombre: 'grupos.error.nombre', slug: 'grupos.error.slug', 'slug-ocupado': 'grupos.error.slugOcupado', invitacion: 'unirse.invalida', confirmacion: 'ajustes.borrar.noCoincide', webhook: 'ajustes.webhook.invalido', 'webhook-inexistente': 'ajustes.webhook.inexistente' };
       return { error: claves[e.clave] ?? 'comun.error' };
     }
     if (e instanceof z.ZodError) return { error: 'comun.error' };
@@ -138,5 +138,14 @@ export async function accionRevocarToken(_: Resultado, f: FormData): Promise<Res
     const g = await grupoDe(f);
     await revocarToken(uid, g.id, z.uuid().parse(f.get('id')));
     revalidatePath('/[lang]/g/[grupo]/ajustes', 'page');
+  });
+}
+
+/** Guarda (o, con `quitar`, borra) el webhook de Discord del grupo para «Solicitar análisis». */
+export async function accionWebhook(_: Resultado, f: FormData): Promise<Resultado> {
+  return intentar(async (uid) => {
+    const g = await grupoDe(f);
+    await guardarWebhook(uid, g.id, f.get('quitar') ? null : z.string().max(300).parse(f.get('url')));
+    revalidatePath('/[lang]/g/[grupo]', 'layout');
   });
 }

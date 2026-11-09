@@ -34,7 +34,8 @@ async function Contenido({ params }: { params: Props['params'] }) {
     <>
       <PlantillaGrupo key={`p-${slug}`} t={t} nombre={r.grupo.nombre} eyebrow={eyebrow} enlaceAjustes={enlace}
         enlaceSubir={puede(r.rol, 'subir_raid') ? { href: rutaEn(idioma, `/g/${slug}/subir`), texto: t('subir.enlace') } : null} />
-      <MontarGrupo key={`m-${slug}`} idioma={idioma} grupo={slug} raids={datos.raids} jugadores={datos.jugadores} nombres={datos.nombres} />
+      <MontarGrupo key={`m-${slug}`} idioma={idioma} grupo={slug} raids={datos.raids} jugadores={datos.jugadores} nombres={datos.nombres}
+        conSolicitud={!!r.grupo.discordWebhookCifrado} />
     </>
   );
 }

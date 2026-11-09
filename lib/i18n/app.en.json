@@ -147,5 +147,20 @@
   "ia.espera": "This raid was already analyzed with AI; it can be analyzed again on {d}.",
   "ia.listo": "AI analysis done; it can be repeated on {d}.",
   "ia.error": "The AI analysis couldn’t be done. Try again in a few minutes.",
-  "ia.confirmar": "This raid already has an analysis. Replace it with a new AI analysis? It can’t be repeated for 24 hours afterwards."
+  "ia.confirmar": "This raid already has an analysis. Replace it with a new AI analysis? It can’t be repeated for 24 hours afterwards.",
+  "ajustes.webhook": "Discord notification",
+  "ajustes.webhook.nota": "With a Discord webhook, anyone who looks up their name on the group page can press “Request my profile analysis” and the notice reaches that channel (at most one every 10 minutes per player). Create it in Discord: Channel settings → Integrations → Webhooks. The address is stored encrypted and is never shown again.",
+  "ajustes.webhook.url": "Webhook address",
+  "ajustes.webhook.cambiar": "Replace with another address",
+  "ajustes.webhook.vacio": "No webhook: the “Request analysis” button is hidden.",
+  "ajustes.webhook.configurado": "Webhook set",
+  "ajustes.webhook.quitar": "Remove",
+  "ajustes.webhook.confirmarQuitar": "Remove the webhook? The “Request analysis” button will be hidden.",
+  "ajustes.webhook.invalido": "That doesn’t look like a Discord webhook address (https://discord.com/api/webhooks/…).",
+  "ajustes.webhook.inexistente": "Discord doesn’t recognise that webhook. Check that you copied all of it and that it hasn’t been deleted.",
+  "solicitud.titulo": "📊 **{n}** asks for their profile analysis",
+  "solicitud.cifras": "{raids} raids ({kills} with a kill) · average DPS {dps} · average HPS {hps} · {m} deaths per attempt · GS {gs}",
+  "solicitud.ultima": "Last raid: {d} · Profile written by Claude: {p}",
+  "solicitud.si": "yes",
+  "solicitud.no": "not yet"
 }

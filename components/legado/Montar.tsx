@@ -36,12 +36,13 @@ export function MontarPerfil(p: { idioma: Idioma; datos: unknown; perfilClaude: 
   return null;
 }
 
-export function MontarGrupo(p: { idioma: Idioma; grupo: string; raids: unknown[]; jugadores: unknown[]; nombres: Nombres }) {
+export function MontarGrupo(p: { idioma: Idioma; grupo: string; raids: unknown[]; jugadores: unknown[]; nombres: Nombres; conSolicitud: boolean }) {
   useMontar(() => montarGrupo({
     raids: structuredClone(p.raids), jugadores: p.jugadores, N: p.nombres, ...comun(p.idioma),
     rutaRaid: (slug: string) => rutaEn(p.idioma, `/g/${p.grupo}/raids/${slug}`),
     rutaJugador: (slug: string) => rutaEn(p.idioma, `/jugadores/${slug}`),
-    conSolicitud: false,
+    conSolicitud: p.conSolicitud,
+    rutaSolicitar: (slug: string) => `/api/v1/grupos/${p.grupo}/jugadores/${slug}/solicitar`,
   }));
   return null;
 }

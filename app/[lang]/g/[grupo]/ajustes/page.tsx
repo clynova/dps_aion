@@ -11,7 +11,7 @@ import CopiarEnlace from '@/components/grupos/CopiarEnlace';
 import CrearToken from '@/components/grupos/CrearToken';
 import {
   accionAjustes, accionBorrarGrupo, accionCambiarRol, accionCrearInvitacion, accionExpulsar, accionRevocarInvitacion,
-  accionRevocarToken,
+  accionRevocarToken, accionWebhook,
 } from '@/lib/acciones/grupos';
 import { usuarioActual } from '@/lib/auth/sesion';
 import { grupoParaVer, invitacionesActivas, miembrosDe, raidsDelGrupo, tokensDe } from '@/lib/db/grupos';
@@ -186,6 +186,29 @@ async function Contenido({ params }: { params: PageProps<'/[lang]/g/[grupo]/ajus
           ) : <p className="rx-pending">{t('ajustes.tokens.vacio')}</p>}
           <CrearToken campos={campos} textos={errores} t={{ nombre: t('ajustes.tokens.nombre'), crear: t('ajustes.tokens.crear'),
             nuevo: t('ajustes.tokens.nuevo'), copiar: t('ajustes.inv.copiar').replace(/ .*/, ''), copiado: t('ajustes.inv.copiado') }} />
+        </section>
+      ) : null}
+      {puede(rol, 'ajustes') ? (
+        <section className="rx-section">
+          <h2 className="rx-h2">{t('ajustes.webhook')}</h2>
+          <p className="rx-note">{t('ajustes.webhook.nota')}</p>
+          {grupo.discordWebhookCifrado ? (
+            <div className="cx-fila">
+              <span className="rx-pill is-ok">{t('ajustes.webhook.configurado')}</span>
+              <Formulario accion={accionWebhook} campos={{ ...campos, quitar: '1' }} textos={errores} className="cx-fila"
+                confirmar={t('ajustes.webhook.confirmarQuitar')}>
+                <button type="submit" className="cx-boton cx-boton-peligro">{t('ajustes.webhook.quitar')}</button>
+              </Formulario>
+            </div>
+          ) : <p className="rx-pending">{t('ajustes.webhook.vacio')}</p>}
+          <Formulario accion={accionWebhook} campos={campos} textos={errores} guardado={t('comun.guardado')} className="cx-fila">
+            <div className="cx-campo cx-crece">
+              <label htmlFor="w-url">{grupo.discordWebhookCifrado ? t('ajustes.webhook.cambiar') : t('ajustes.webhook.url')}</label>
+              <input id="w-url" name="url" type="url" className="cx-input" required autoComplete="off" spellCheck={false}
+                maxLength={300} placeholder="https://discord.com/api/webhooks/…" />
+            </div>
+            <button type="submit" className="cx-boton">{t('comun.guardar')}</button>
+          </Formulario>
         </section>
       ) : null}
       {puede(rol, 'borrar_grupo') ? (

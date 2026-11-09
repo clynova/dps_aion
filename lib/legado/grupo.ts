@@ -1,11 +1,11 @@
 /* eslint-disable */
 // @ts-nocheck -- port directo de assets/home.js (portada de la web estática), ahora página de cada grupo. Mismo código
 // de dibujo; solo cambia la entrada: raids y jugadores llegan como parámetros (desde la base). Ver docs/adr/0003.
-// `conSolicitud`: el botón «solicitar análisis» se activa en la fase 8, cuando exista /api/solicitar en la app nueva.
+// `conSolicitud`: el grupo tiene webhook de Discord; entonces el buscador muestra «solicitar análisis» (lib/solicitudes.ts).
 import * as d3 from 'd3';
 
 /** Dibuja la lista de raids, los jugadores y la evolución por jefe. Devuelve la función que lo desmonta. */
-export function montarGrupo({ raids, jugadores, N, T, LANG, LOC, rutaRaid, rutaJugador, conSolicitud }) {
+export function montarGrupo({ raids, jugadores, N, T, LANG, LOC, rutaRaid, rutaJugador, conSolicitud, rutaSolicitar }) {
   const $ = (id) => document.getElementById(id);
   const el = (tag, cls, text) => { const n = document.createElement(tag); if (cls) n.className = cls; if (text != null) n.textContent = text; return n; };
   const nf = new Intl.NumberFormat(LOC, { maximumFractionDigits: 0 });
@@ -44,8 +44,8 @@ export function montarGrupo({ raids, jugadores, N, T, LANG, LOC, rutaRaid, rutaJ
     $('jugadores').hidden = false;
     players.sort((a, b) => b.raids - a.raids || new Date(b.ultima) - new Date(a.ultima) || a.nombre.localeCompare(b.nombre));
     const fold = (s) => s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().trim();
-    // Botón de los resultados de búsqueda: avisa en Discord (api/solicitar.js) de que alguien quiere el análisis de su perfil
-    const pedido = (slug) => { try { return localStorage.getItem('solicitud:' + slug); } catch (e) { return null; } };
+    // Botón de los resultados de búsqueda: avisa en el Discord del grupo de que alguien quiere el análisis de su perfil
+    const pedido = (slug) => { try { return localStorage.getItem('solicitud:' + rutaSolicitar(slug)); } catch (e) { return null; } };
     const request = (p) => {
       const b = el('button', 'hm-request'); b.type = 'button';
       const sent = () => { b.disabled = true; b.textContent = T('home.players.sent'); };
@@ -53,8 +53,8 @@ export function montarGrupo({ raids, jugadores, N, T, LANG, LOC, rutaRaid, rutaJ
       b.textContent = T('home.players.request');
       b.addEventListener('click', async () => {
         b.disabled = true; b.textContent = T('home.players.sending');
-        const r = await fetch('/api/solicitar', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ slug: p.slug }) }).catch(() => null);
-        if (r && r.ok) { try { localStorage.setItem('solicitud:' + p.slug, new Date().toISOString()); } catch (e) { /* sin almacenamiento */ } sent(); }
+        const r = await fetch(rutaSolicitar(p.slug), { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ idioma: LANG }) }).catch(() => null);
+        if (r && r.ok) { try { localStorage.setItem('solicitud:' + rutaSolicitar(p.slug), new Date().toISOString()); } catch (e) { /* sin almacenamiento */ } sent(); }
         else { b.disabled = false; b.textContent = T('home.players.error'); }
       });
       return b;

@@ -147,5 +147,20 @@
   "ia.espera": "Esta raid ya se analizó con IA; se podrá volver a analizar el {d}.",
   "ia.listo": "Análisis con IA hecho; se podrá repetir el {d}.",
   "ia.error": "No se pudo hacer el análisis con IA. Inténtalo de nuevo en unos minutos.",
-  "ia.confirmar": "Esta raid ya tiene un análisis. ¿Sustituirlo por uno nuevo hecho con IA? Después no se podrá repetir en 24 horas."
+  "ia.confirmar": "Esta raid ya tiene un análisis. ¿Sustituirlo por uno nuevo hecho con IA? Después no se podrá repetir en 24 horas.",
+  "ajustes.webhook": "Aviso en Discord",
+  "ajustes.webhook.nota": "Con un webhook de Discord, quien busque su nombre en la página del grupo puede pulsar «Solicitar el análisis de mi perfil» y el aviso llega a ese canal (como mucho uno cada 10 minutos por jugador). Créalo en Discord: Ajustes del canal → Integraciones → Webhooks. La dirección se guarda cifrada y no se vuelve a mostrar.",
+  "ajustes.webhook.url": "Dirección del webhook",
+  "ajustes.webhook.cambiar": "Cambiar por otra dirección",
+  "ajustes.webhook.vacio": "Sin webhook: el botón «Solicitar el análisis» no aparece.",
+  "ajustes.webhook.configurado": "Webhook configurado",
+  "ajustes.webhook.quitar": "Quitar",
+  "ajustes.webhook.confirmarQuitar": "¿Quitar el webhook? El botón «Solicitar el análisis» dejará de aparecer.",
+  "ajustes.webhook.invalido": "No parece la dirección de un webhook de Discord (https://discord.com/api/webhooks/…).",
+  "ajustes.webhook.inexistente": "Discord no reconoce ese webhook. Comprueba que lo copiaste entero y que no se ha borrado.",
+  "solicitud.titulo": "📊 **{n}** pide el análisis de su perfil",
+  "solicitud.cifras": "{raids} raids ({kills} con kill) · DPS medio {dps} · HPS medio {hps} · {m} muertes por intento · GS {gs}",
+  "solicitud.ultima": "Última raid: {d} · Perfil escrito por Claude: {p}",
+  "solicitud.si": "sí",
+  "solicitud.no": "todavía no"
 }

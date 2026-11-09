@@ -5,6 +5,8 @@ import { randomBytes } from 'node:crypto';
 import { and, asc, count, desc, eq, sql } from 'drizzle-orm';
 import { db } from './client';
 import { auditoria, grupos, invitaciones, miembros, tokensApi, user } from './schema';
+import { cifrar, descifrar } from '@/lib/cifrado';
+import { webhookExiste, webhookValido } from '@/lib/discord';
 import { hashToken, nuevoToken } from '@/lib/tokens';
 import {
   puede, puedeCambiarRol, puedeExpulsar, puedeInvitarCon, slugGrupoValido, type Rol, type Visibilidad,
@@ -197,4 +199,24 @@ export async function borrarGrupo(actorId: string, grupoId: string, confirmacion
     // El registro queda sin grupo (el grupo ya no existe), con su dirección y nombre
     await tx.insert(auditoria).values({ grupoId: null, usuarioId: actorId, accion: 'grupo.borrar', ref: g.slug, detalle: { nombre: g.nombre, raids } });
   });
+}
+
+/**
+ * Webhook de Discord para «Solicitar análisis» (admin o más). Se comprueba que Discord lo conoce antes de guardarlo y
+ * se guarda cifrado (lib/cifrado.ts); la dirección no vuelve a mostrarse nunca. `null` lo quita.
+ */
+export async function guardarWebhook(actorId: string, grupoId: string, url: string | null) {
+  if (!puede(await rolEn(grupoId, actorId), 'ajustes')) throw new ErrorPermiso();
+  if (url !== null) {
+    url = url.trim();
+    if (!webhookValido(url)) throw new ErrorDatos('webhook');
+    if (!(await webhookExiste(url))) throw new ErrorDatos('webhook-inexistente');
+  }
+  await db.update(grupos).set({ discordWebhookCifrado: url === null ? null : cifrar(url) }).where(eq(grupos.id, grupoId));
+  await db.insert(auditoria).values({ grupoId, usuarioId: actorId, accion: url === null ? 'webhook.quitar' : 'webhook.guardar' });
+}
+
+/** La dirección del webhook del grupo en claro, o null si no tiene (o ya no se puede descifrar). Solo para el servidor. */
+export function webhookDe(g: Pick<Grupo, 'discordWebhookCifrado'>): string | null {
+  return g.discordWebhookCifrado ? descifrar(g.discordWebhookCifrado) : null;
 }
