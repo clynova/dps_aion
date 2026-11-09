@@ -60,9 +60,13 @@ export default function Asistente({ idioma, grupo, visibilidadDefecto, npcsEs, n
     let r: Response;
     try { r = await fetch(`/api/v1/grupos/${encodeURIComponent(grupo)}/raids?${qs}`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(e.p.json) }); }
     catch { setEstado({ ...e, enviando: false, error: t('subir.errorRed') }); return; }
-    const cuerpo = await r.json().catch(() => ({})) as { slug?: string; nueva?: boolean; existente?: string; problemas?: string[]; error?: string };
+    const cuerpo = await r.json().catch(() => ({})) as { slug?: string; nueva?: boolean; existente?: string; problemas?: string[]; error?: string; limite?: number; libre?: string | null };
     if (r.ok) { setSubidas((s) => new Set(s).add(e.run.id)); setEstado({ fase: 'hecho', runs: e.runs, slug: cuerpo.slug ?? e.p.slug, nueva: !!cuerpo.nueva }); return; }
     if (r.status === 409) { setEstado({ ...e, enviando: false, duplicada: cuerpo.existente }); return; }
+    if (r.status === 429 && cuerpo.error === 'limite-raids') {
+      const d = cuerpo.libre ? new Date(cuerpo.libre).toLocaleDateString(localeDe(idioma), { day: 'numeric', month: 'long' }) : '—';
+      setEstado({ ...e, enviando: false, error: t('subir.errorLimite', { n: cuerpo.limite ?? 0, d }) }); return;
+    }
     if (r.status === 401) { setEstado({ ...e, enviando: false, error: t('subir.errorSesion') }); return; }
     if (r.status === 422) { setEstado({ ...e, enviando: false, error: t('subir.errorFormato', { detalle: (cuerpo.problemas ?? []).slice(0, 3).join(' · ') }) }); return; }
     setEstado({ ...e, enviando: false, error: t('comun.error') });

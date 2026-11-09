@@ -154,6 +154,7 @@ function Fallo($r, [string]$que) {
     401 { throw "$que : el token no vale (revocado o de otro grupo). Crea otro en Ajustes del grupo y ejecuta -Configurar." }
     403 { throw "$que : el token no tiene permiso para esto." }
     404 { throw "$que : no existe ($($d.error))." }
+    429 { if ($d.error -eq 'limite-raids') { throw "$que : el grupo ya subió $($d.limite) raids nuevas en los últimos 30 días (límite de la web). Habrá sitio el $($d.libre)." } else { throw "$que : demasiadas peticiones; espera un poco ($($d.error))." } }
     422 { throw ("$que : la web no aceptó los datos:`n  " + (@($d.problemas) -join "`n  ")) }
     default { throw "$que : error $($r.Estado) ($($d.error))." }
   }

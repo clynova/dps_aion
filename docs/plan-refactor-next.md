@@ -341,6 +341,7 @@ Asistente en `/g/[grupo]/subir`, con el procesado de la fase 1 convertido en pro
 - Página de inicio que explique la web, guía «cómo subir tu primera raid» (es/en) y términos y privacidad: qué se guarda, quién lo ve, cómo borrar un grupo y cómo pedir «ocultar mi nombre».
 - Límites de uso por grupo (raids al mes, tamaño de los brutos) y panel interno de uso.
 - **Hecho cuando:** un grupo de prueba ajeno crea su grupo, sube una raid y la comparte por enlace sin ayuda.
+- **Resultado (9/11/2026):** portada con «Qué es» y «Empieza», guía `/guia`, `/privacidad` (qué se guarda, quién lo ve, Vercel/Neon/Discord/DeepSeek, cookies, borrar y ocultar un personaje, condiciones; contacto clynova.dev@gmail.com, `lib/sitio.ts`), pie con ambos enlaces y enlace desde la subida. Límite de 60 raids nuevas cada 30 días por grupo (`lib/limites.ts`, contadas en `auditoria`; actualizar no cuenta; 429 `limite-raids` con la fecha en que hay sitio, explicado en el asistente y en `publicar.ps1`). Panel interno `/admin/uso` para quien esté en `SITE_ADMINS` (id de Discord o de usuario). Los brutos no se suben, así que no hay límite de tamaño de brutos. Probado con Playwright (es/en, móvil, límite, panel). **Falta:** que un grupo ajeno lo pruebe sin ayuda y que el usuario ponga `SITE_ADMINS` en Vercel.
 
 ### Fase 11 · Después (fuera de este plan, preparado por el diseño)
 - **Reclamar personaje** (vincular la cuenta de Discord con `(nombre, servidor)`), con verificación.

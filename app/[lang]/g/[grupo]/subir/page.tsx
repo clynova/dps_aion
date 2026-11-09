@@ -43,6 +43,7 @@ async function Contenido({ params }: { params: Props['params'] }) {
       <BarraSuperior><Link className="rx-back" href={rutaEn(idioma, `/g/${slug}`)}>{t('comun.volver')}</Link></BarraSuperior>
       <h1 className="rx-title">{t('subir.titulo', { grupo: r.grupo.nombre })}</h1>
       <p className="rx-lede">{t('subir.lede')}</p>
+      <p><Link className="rx-link" href={rutaEn(idioma, '/privacidad')}>{t('subir.queSeGuarda')} →</Link></p>
     </header>
   );
   if (!u) return <>{cabecera}<p className="rx-pending">{t('comun.entrarPrimero')}</p><div><BotonEntrar texto={t('cuenta.entrar')} /></div></>;

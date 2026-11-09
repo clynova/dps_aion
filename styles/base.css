@@ -46,3 +46,12 @@ a.cx-enlace { color: var(--fg); font-weight: 600; }
 .cx-lista a { color: var(--fg); font-weight: 600; text-decoration: none; }
 .cx-lista a:hover { text-decoration: underline; }
 .cx-codigo { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: var(--fs-caption); color: var(--fg-muted); overflow-wrap: anywhere; }
+
+/* Páginas de información (portada, guía, privacidad) */
+.cx-texto { max-width: 46rem; line-height: 1.6; margin: 0; }
+ul.cx-texto { display: block; padding: var(--pad-lg) var(--pad-lg) var(--pad-lg) calc(var(--pad-lg) + 1.1rem); }
+ul.cx-texto > li { display: list-item; }
+.cx-pila { display: flex; flex-direction: column; gap: var(--gap-md); }
+.cx-pie { display: flex; flex-direction: column; gap: var(--gap-xs); }
+.cx-pie p { margin: 0; }
+a.cx-boton { text-decoration: none; display: inline-block; }

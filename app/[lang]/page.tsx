@@ -5,11 +5,12 @@ import Link from 'next/link';
 import { Suspense } from 'react';
 import { count, desc, eq, inArray, max, or } from 'drizzle-orm';
 import BarraSuperior from '@/components/BarraSuperior';
+import PiePagina from '@/components/PiePagina';
 import { usuarioActual } from '@/lib/auth/sesion';
 import { db } from '@/lib/db/client';
 import { gruposDeUsuario } from '@/lib/db/grupos';
 import { grupos, raids } from '@/lib/db/schema';
-import { localeDe, rutaEn } from '@/lib/i18n';
+import { localeDe, rutaEn, type Clave } from '@/lib/i18n';
 import { textos } from '@/lib/i18n/servidor';
 import { apareceEnListados } from '@/lib/permisos';
 
@@ -18,8 +19,10 @@ export async function generateMetadata(): Promise<Metadata> {
   return { title: { absolute: `${t('site.name')} · ${t('home.title')}` }, description: t('portada.lede') };
 }
 
+const QUE = [1, 2, 3, 4] as const;
+
 export default async function Portada() {
-  const { t } = await textos();
+  const { t, idioma } = await textos();
   return (
     <main className="rx">
       <header className="rx-head">
@@ -32,7 +35,26 @@ export default async function Portada() {
         <p className="rx-note">{t('portada.grupos.nota')}</p>
         <Suspense fallback={<p className="rx-note">{t('home.loading')}</p>}><Grupos /></Suspense>
       </section>
-      <p className="rx-foot">{t('home.foot')}</p>
+      <section className="rx-section">
+        <h2 className="rx-h2">{t('portada.que')}</h2>
+        <div className="rx-grid">
+          {QUE.map((n) => (
+            <article key={n} className="rx-card">
+              <h3>{t(`portada.que.${n}.t` as Clave)}</h3>
+              <p className="cx-texto">{t(`portada.que.${n}` as Clave)}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+      <section className="rx-section">
+        <h2 className="rx-h2">{t('portada.empezar')}</h2>
+        <p className="cx-texto">{t('portada.empezar.texto')}</p>
+        <p className="cx-fila">
+          <Link className="cx-boton" href={rutaEn(idioma, '/guia')}>{t('portada.empezar.guia')}</Link>
+          <Link className="cx-boton cx-boton-sec" href={rutaEn(idioma, '/mis-grupos')}>{t('portada.empezar.grupos')}</Link>
+        </p>
+      </section>
+      <PiePagina t={t} idioma={idioma} texto={t('home.foot')} />
     </main>
   );
 }

@@ -3,6 +3,7 @@
 //   ?visibilidad=privada|enlace|publica (si no, la del grupo al crearla; al actualizar se conserva la que tenga).
 //   Duplicados: si otra raid del grupo tiene la misma huella (misma noche grabada por otra persona) responde 409 con
 //   su slug; ?reemplazar=1 borra esa y guarda esta.
+//   Límite: 60 raids nuevas cada 30 días por grupo (lib/limites.ts); actualizar una existente no cuenta → 429.
 import { and, eq, ne } from 'drizzle-orm';
 import { revalidatePath } from 'next/cache';
 import { after } from 'next/server';
@@ -13,6 +14,7 @@ import { auditoria, raids } from '@/lib/db/schema';
 import { validarRaid } from '@/lib/ingest/esquema';
 import { guardarRaid } from '@/lib/ingest/guardar';
 import { huellaRaid } from '@/lib/ingest/huella';
+import { usoRaids } from '@/lib/limites';
 import { iaConfigurada } from '@/lib/analisis/deepseek';
 import { analizarRaid } from '@/lib/analisis/ia';
 import { actualizarNombres } from '@/lib/nombres/actualizar';
@@ -47,6 +49,15 @@ export async function POST(req: Request, { params }: RouteContext<'/api/v1/grupo
   if (dup) {
     if (url.searchParams.get('reemplazar') !== '1') return error(409, 'duplicada', { existente: dup.slug });
     await db.delete(raids).where(eq(raids.id, dup.id));
+  }
+
+  // Límite de raids nuevas (no aplica si se actualiza la misma raid o se reemplaza un duplicado)
+  if (!dup) {
+    const [existe] = await db.select({ id: raids.id }).from(raids).where(and(eq(raids.grupoId, grupo.id), eq(raids.slug, v.datos.meta.slug))).limit(1);
+    if (!existe) {
+      const uso = await usoRaids(grupo.id);
+      if (uso.usadas >= uso.limite) return error(429, 'limite-raids', { limite: uso.limite, libre: uso.libre?.toISOString() ?? null });
+    }
   }
 
   const g = await guardarRaid({ grupoId: grupo.id, datos: v.datos, origen: quien.porToken ? 'pc' : 'navegador', subidoPor: quien.usuarioId, visibilidad: vis ?? undefined });
