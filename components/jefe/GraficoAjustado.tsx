@@ -10,7 +10,8 @@ export default function GraficoAjustado({ ancho, children }: { ancho: number; ch
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
-    const medir = () => { const w = el.clientWidth; if (w) el.style.setProperty('--k', String(Math.min(1.8, Math.max(0.5, ancho / w)))); };
+    // Se mide el SVG, no el contenedor: en el móvil el SVG tiene un ancho mínimo y el contenedor se desplaza
+    const medir = () => { const w = el.querySelector('svg')?.getBoundingClientRect().width || el.clientWidth; if (w) el.style.setProperty('--k', String(Math.min(1.8, Math.max(0.5, ancho / w)))); };
     medir();
     const ro = new ResizeObserver(medir);
     ro.observe(el);

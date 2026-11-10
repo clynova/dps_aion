@@ -26,7 +26,7 @@ export default function PlantillaRaid({ t, volver, accion, enlaceJefe, intentos,
         {accion}
       </header>
 
-      <section className="rx-tiles" id="tiles"></section>
+      <section className="rx-tiles rx-tiles-cab" id="tiles"></section>
 
       {resumenSeguimiento}
 
@@ -34,7 +34,7 @@ export default function PlantillaRaid({ t, volver, accion, enlaceJefe, intentos,
       <div className="rx-soy" id="soy-box" hidden>
         <label htmlFor="soy">{t('soy.label')}</label>
         <select className="cx-select" id="soy"></select>
-        <span className="rx-note">{t('soy.nota')}</span>
+        <span className="rx-note rx-soy-nota">{t('soy.nota')}</span>
       </div>
 
       <section className="rx-top" id="top" hidden>

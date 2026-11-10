@@ -82,7 +82,7 @@ export default function PaginaJefe({ t, idioma, grupo, jefe, a, nombres }: Props
         </p>
       </header>
 
-      <section className="rx-tiles">
+      <section className="rx-tiles rx-tiles-cab">
         <div className="rx-tile"><span className="rx-tile-label">{t('jefe.tile.raids')}</span><span className="rx-tile-value">{n0.format(T.noches)}</span></div>
         <div className="rx-tile">
           <span className="rx-tile-label">{t('jefe.tile.intentos')}</span><span className="rx-tile-value">{n0.format(T.intentos)}</span>

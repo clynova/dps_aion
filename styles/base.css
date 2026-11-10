@@ -208,3 +208,18 @@ ul.rx-seg-recos .rx-seg-lista { margin: var(--gap-sm) 0 var(--gap-xs) calc(6.5re
 .hm-barra { display: block; width: 100%; min-width: 4.5rem; height: 4px; margin-top: 4px; border-radius: 2px; background: var(--chart-grid); overflow: hidden; }
 .hm-barra i { display: block; height: 100%; background: var(--series-1); }
 .hm-barra.is-ok i { background: var(--ok); }
+
+/* ---------- Fase 7: repaso en el móvil (docs/plan-ui.md) ---------- */
+/* Texto pequeño de las tablas (segunda línea de una celda): no menos de 11 px */
+.rx-table small { font-size: max(11px, .85em); }
+@media (max-width: 640px) {
+  /* Cabecera de la raid y del jefe: las cifras en 3 columnas y sin su nota, para llegar antes a las pestañas */
+  .rx-tiles-cab { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--gap-sm) var(--gap-md); }
+  .rx-tiles-cab .rx-tile { padding-top: var(--pad-sm); }
+  .rx-tiles-cab .rx-tile-value { font-size: 1.35rem; }
+  .rx-tiles-cab .rx-tile-note { display: none; }
+  .rx-soy-nota { display: none; }
+  /* Gráficos del jefe: ancho mínimo y desplazamiento lateral, para que no se queden en una franja de 110 px */
+  .jx-chart { overflow-x: auto; }
+  .jx-chart svg { min-width: 560px; }
+}
