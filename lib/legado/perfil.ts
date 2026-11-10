@@ -144,16 +144,33 @@ export function montarPerfil({ D, P, N, IDX, T, LANG, LOC, rutaRaid }) {
   }
 
   // ---------- Perfil escrito por Claude ----------
-  if (!P) $('c-pending').hidden = false;
+  // Arriba de la página va su resumen y las 3 primeras recomendaciones (docs/plan-ui.md, fase 5); en la pestaña
+  // «Perfil», fortalezas y qué mejorar en dos columnas y las recomendaciones enteras. El perfil automático queda
+  // plegado como apoyo si hay texto de Claude, y abierto si no.
+  $('a-det').open = !P;
+  // Sin texto de Claude, una sola tarjeta: el perfil automático, con el aviso dentro
+  if (!P) { $('c-card').hidden = true; $('a-det').append(el('p', 'rx-note pl-auto-pend', T('pl.claude.pending'))); }
   else {
     const body = $('c-body');
-    if (P.resumen) body.append(rich(el('p', 'pl-summary'), P.resumen));
-    [['fortalezas', 'pl.claude.good', 'pl-good'], ['mejorar', 'pl.claude.improve', 'pl-bad'], ['recomendaciones', 'pl.claude.reco', '']].forEach(([key, label, cls]) => {
-      const items = P[key] || []; if (!items.length) return;
+    const lista = (key, label, cls) => {
+      const items = P[key] || []; if (!items.length) return null;
       const sub = el('div', 'rx-sub'); sub.append(el('h4', cls, T(label)));
-      const ul = el('ul', 'rx-reco'); items.forEach((s) => ul.append(rich(el('li'), s))); sub.append(ul); body.append(sub);
-    });
-    if (P.actualizado) body.append(el('p', 'rx-note', T('pl.claude.updated', { d: new Date(/^\d{4}-\d{2}-\d{2}$/.test(P.actualizado) ? P.actualizado + 'T12:00' : P.actualizado).toLocaleDateString(LOC, { day: 'numeric', month: 'long', year: 'numeric' }), n: int(P.raids || R.raids) })));
+      const ul = el('ul', 'rx-reco'); items.forEach((s) => ul.append(rich(el('li'), s))); sub.append(ul); return sub;
+    };
+    const cols = el('div', 'pl-cols');
+    [lista('fortalezas', 'pl.claude.good', 'pl-good'), lista('mejorar', 'pl.claude.improve', 'pl-bad')].forEach((s) => s && cols.append(s));
+    if (cols.childElementCount) body.append(cols);
+    const recos = lista('recomendaciones', 'pl.claude.reco', '');
+    if (recos) body.append(recos);
+    const escrito = P.actualizado ? T('pl.claude.updated', { d: new Date(/^\d{4}-\d{2}-\d{2}$/.test(P.actualizado) ? P.actualizado + 'T12:00' : P.actualizado).toLocaleDateString(LOC, { day: 'numeric', month: 'long', year: 'numeric' }), n: int(P.raids || R.raids) }) : null;
+    if (escrito) body.append(el('p', 'rx-note', escrito));
+    // Arriba también se dice de cuándo es el texto: puede ser de antes de sus últimas raids
+    if (escrito) $('pl-top').insertBefore(el('p', 'rx-note', escrito), $('pl-top').querySelector('a.rx-link'));
+    const top = (P.recomendaciones || []).slice(0, 3);
+    if (P.resumen) rich($('pl-top-resumen'), P.resumen); else $('pl-top-resumen').hidden = true;
+    top.forEach((s) => $('pl-top-reco').append(rich(el('li'), s)));
+    $('pl-top-reco').hidden = !top.length;
+    $('pl-top').hidden = !P.resumen && !top.length;
   }
 
   // ---------- Gráficos ----------
@@ -325,17 +342,24 @@ export function montarPerfil({ D, P, N, IDX, T, LANG, LOC, rutaRaid }) {
   }
 
   // Pestañas: solo se dibuja la visible (en un panel oculto los gráficos no tienen ancho). La pestaña va en el #hash.
-  const charts = { evolucion: [['ch-dps', drawDps], ['ch-surv', drawSurv]], supervivencia: [['ch-deaths', drawDeaths], ['ch-causes', drawCauses], ['ch-mit', drawMit]],
+  const charts = { perfil: [], evolucion: [['ch-dps', drawDps], ['ch-surv', drawSurv]], supervivencia: [['ch-deaths', drawDeaths], ['ch-causes', drawCauses], ['ch-mit', drawMit]],
     apoyo: [['ch-heal', drawHeal], ['ch-healto', drawHealTo], ['ch-buffs', drawBuffs]], dano: [['ch-skills', drawSkills]], rotacion: [['ch-casts', drawCasts]], raids: [] };
   const tabs = [...document.querySelectorAll('#tabs [data-tab]')];
   let current = null;
   const drawTab = (name) => { charts[name].forEach(([id, fn]) => { const b = $(id); if (b.closest('[hidden]')) return; b.replaceChildren(); fn(b); }); };
-  const openTab = (name, push) => {
-    if (!charts[name]) name = 'evolucion';
+  /** `llevar`: baja hasta la pestaña (al llegar desde un enlace de la página, como «Ver el perfil completo») */
+  const openTab = (name, push, llevar) => {
+    if (!charts[name]) name = 'perfil';
+    const cambia = name !== current;
     current = name;
     tabs.forEach((b) => { const on = b.dataset.tab === name; b.setAttribute('aria-selected', on); b.tabIndex = on ? 0 : -1; $(b.dataset.tab).hidden = !on; });
     drawTab(name);
-    if (push) history.replaceState(null, '', name === 'evolucion' ? location.pathname + location.search : '#' + name);
+    if (push) history.replaceState(null, '', name === 'perfil' ? location.pathname + location.search : '#' + name);
+    // Pestañas pegadas arriba: en el móvil se desplazan para enseñar la abierta, y la nueva empieza desde su principio
+    const nav = $('tabs'), btn = tabs.find((b) => b.dataset.tab === name);
+    if (btn && (btn.offsetLeft < nav.scrollLeft || btn.offsetLeft + btn.offsetWidth > nav.scrollLeft + nav.clientWidth)) nav.scrollLeft = Math.max(0, btn.offsetLeft - 16);
+    const y = $(name).getBoundingClientRect().top + scrollY - nav.offsetHeight - 8;
+    if (llevar || (cambia && scrollY > y)) scrollTo({ top: y });
   };
   tabs.forEach((b, i) => {
     b.setAttribute('aria-controls', b.dataset.tab);
@@ -348,7 +372,7 @@ export function montarPerfil({ D, P, N, IDX, T, LANG, LOC, rutaRaid }) {
   const drawAll = () => { drawTab(current); };
   drawTable();
   openTab(decodeURIComponent(location.hash.slice(1)), false);
-  const alCambiarHash = () => openTab(decodeURIComponent(location.hash.slice(1)), false);
+  const alCambiarHash = () => { const h = decodeURIComponent(location.hash.slice(1)); openTab(h, false, !!charts[h]); };
   addEventListener('hashchange', alCambiarHash);
   $('foot').textContent = T('pl.foot', { d: new Date(D.actualizado).toLocaleString(LOC), n: int(R.raids) });
   let lastW = innerWidth, timer;

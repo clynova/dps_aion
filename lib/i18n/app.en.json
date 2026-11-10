@@ -524,5 +524,8 @@
   "soy.nota": "Highlights your name across the page. Saved only in this browser.",
   "soy.t": "Your raid",
   "soy.puesto": "#{n} of {de} in DPS",
-  "soy.ficha": "Open your full card"
+  "soy.ficha": "Open your full card",
+  "pl.top.t": "In short",
+  "pl.top.todo": "See the full profile",
+  "pl.tabs.perfil": "Profile"
 }

@@ -17,28 +17,17 @@ export default function PlantillaPerfil({ t, volver, especializaciones }: { t: T
       </header>
     
       <section className="rx-tiles" id="tiles"></section>
-    
-      <section className="rx-section" id="perfil">
-        <h2 className="rx-h2">{t('pl.sec.profile')}</h2>
-        <div className="rx-grid">
-          <article className="rx-card">
-            <h3>{t('pl.claude')}</h3>
-            <p className="rx-note">{t('pl.claude.note')}</p>
-            <p className="rx-pending" id="c-pending" hidden>{t('pl.claude.pending')}</p>
-            <div id="c-body" className="pl-claude"></div>
-          </article>
-          <article className="rx-card">
-            <h3>{t('pl.auto')}</h3>
-            <p className="rx-note">{t('pl.auto.note')}</p>
-            <div className="pl-auto">
-              <div className="rx-sub"><h4 className="pl-good">{t('pl.strengths')}</h4><ul className="rx-reco" id="a-good"></ul></div>
-              <div className="rx-sub"><h4 className="pl-bad">{t('pl.watch')}</h4><ul className="rx-reco" id="a-bad"></ul></div>
-              <div className="rx-sub"><h4>{t('pl.trend')}</h4><ul className="rx-reco" id="a-trend"></ul></div>
-            </div>
-          </article>
-        </div>
+
+      {/* Arriba, lo que dice su perfil en dos líneas y las 3 primeras recomendaciones (docs/plan-ui.md, fase 5) */}
+      <section className="rx-top" id="pl-top" hidden>
+        <h2 className="rx-top-t">{t('pl.top.t')}</h2>
+        <p className="pl-summary" id="pl-top-resumen"></p>
+        <ol className="rx-reco rx-top-lista" id="pl-top-reco"></ol>
+        <a className="rx-link" href="#perfil">{t('pl.top.todo')} →</a>
       </section>
-      <nav className="pl-tabs" id="tabs" role="tablist" aria-label={t('pl.tabs.aria')}>
+
+      <nav className="pl-tabs rx-tabs" id="tabs" role="tablist" aria-label={t('pl.tabs.aria')}>
+        <button type="button" role="tab" data-tab="perfil">{t('pl.tabs.perfil')}</button>
         <button type="button" role="tab" data-tab="evolucion">{t('pl.sec.evolution')}</button>
         <button type="button" role="tab" data-tab="supervivencia">{t('pl.tab.surv')}</button>
         <button type="button" role="tab" data-tab="apoyo">{t('pl.tab.support')}</button>
@@ -47,7 +36,26 @@ export default function PlantillaPerfil({ t, volver, especializaciones }: { t: T
         <button type="button" role="tab" data-tab="raids">{t('pl.sec.raids')}</button>
       </nav>
     
-      <section className="rx-section pl-panel" id="evolucion" role="tabpanel">
+      {/* Perfil: el de Claude (fortalezas y qué mejorar en dos columnas, recomendaciones) y, como apoyo, el automático;
+          sin análisis de Claude, el automático sale abierto */}
+      <section className="rx-section pl-panel" id="perfil" role="tabpanel">
+        <article className="rx-card" id="c-card">
+          <h3>{t('pl.claude')}</h3>
+          <p className="rx-note">{t('pl.claude.note')}</p>
+          <p className="rx-pending" id="c-pending" hidden>{t('pl.claude.pending')}</p>
+          <div id="c-body" className="pl-claude"></div>
+        </article>
+        <details className="rx-card pl-auto-det" id="a-det">
+          <summary><h3>{t('pl.auto')}</h3> <span className="rx-note">{t('pl.auto.note')}</span></summary>
+          <div className="pl-auto pl-cols">
+            <div className="rx-sub"><h4 className="pl-good">{t('pl.strengths')}</h4><ul className="rx-reco" id="a-good"></ul></div>
+            <div className="rx-sub"><h4 className="pl-bad">{t('pl.watch')}</h4><ul className="rx-reco" id="a-bad"></ul></div>
+            <div className="rx-sub"><h4>{t('pl.trend')}</h4><ul className="rx-reco" id="a-trend"></ul></div>
+          </div>
+        </details>
+      </section>
+
+      <section className="rx-section pl-panel" id="evolucion" role="tabpanel" hidden>
         <div className="rx-grid">
           <article className="rx-card">
             <h3>{t('pl.chart.dps')}</h3>

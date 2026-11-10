@@ -524,5 +524,8 @@
   "soy.nota": "Resalta tu nombre en toda la página. Se guarda solo en este navegador.",
   "soy.t": "Tu raid",
   "soy.puesto": "{n}.º de {de} en DPS",
-  "soy.ficha": "Ver tu ficha completa"
+  "soy.ficha": "Ver tu ficha completa",
+  "pl.top.t": "En resumen",
+  "pl.top.todo": "Ver el perfil completo",
+  "pl.tabs.perfil": "Perfil"
 }

@@ -183,3 +183,17 @@ ul.rx-seg-recos .rx-seg-lista { margin: var(--gap-sm) 0 var(--gap-xs) calc(6.5re
 /* El nombre de la ficha y de «Tu raid» en grande (`.rx-card h3` lo dejaba al tamaño de un título de tarjeta) */
 .rx-card h3.rx-ficha-name { font-family: var(--font-serif); font-weight: 400; font-size: 1.75rem; }
 .rx-mio .rx-tiles { grid-template-columns: repeat(auto-fit, minmax(min(100%, 8rem), 1fr)); }
+
+/* ---------- Fase 5: perfil del jugador (docs/plan-ui.md) ---------- */
+.pl-cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr)); gap: var(--gap-md) var(--gap-xl); align-items: start; }
+.pl-claude .pl-cols .rx-reco, .pl-auto.pl-cols .rx-reco { max-width: none; }
+.pl-auto-det { display: block; }
+.pl-auto-det > summary { cursor: pointer; list-style: none; display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--gap-xs) var(--gap-sm); }
+.pl-auto-det > summary::-webkit-details-marker { display: none; }
+.pl-auto-det > summary h3 { display: inline; }
+.pl-auto-det > summary::after { content: "▸"; color: var(--fg-muted); margin-left: auto; }
+.pl-auto-det[open] > summary::after { content: "▾"; }
+.pl-auto-det[open] > .pl-auto { margin-top: var(--gap-md); }
+#pl-top .pl-summary { max-width: 80ch; }
+.pl-auto-pend { margin-top: var(--gap-md); }
+.rx-card[hidden] { display: none; }
