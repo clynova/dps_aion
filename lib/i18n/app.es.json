@@ -513,5 +513,10 @@
   "ven.deb.todos": "Todos los debuffs ({n})",
   "ven.deb.top": "Los 3 que más mantiene cada jugador.",
   "seg.reco.ataques": "{n} ataques",
-  "seg.reco.ataque1": "1 ataque"
+  "seg.reco.ataque1": "1 ataque",
+  "raid.dps.t": "DPS de la party",
+  "raid.dps.nota": "DPS de cada jugador contra el jefe en toda la raid; la línea es la media del grupo. A la derecha, su % de golpes críticos. Pulsa un jugador para ver su ficha.",
+  "raid.dps.media": "media {n}",
+  "raid.dps.aria": "DPS y crítico de cada jugador",
+  "raid.dps.tip": "Crítico {c} · por la espalda {e}"
 }

@@ -513,5 +513,10 @@
   "ven.deb.todos": "All debuffs ({n})",
   "ven.deb.top": "The 3 each player keeps up the most.",
   "seg.reco.ataques": "{n} attacks",
-  "seg.reco.ataque1": "1 attack"
+  "seg.reco.ataque1": "1 attack",
+  "raid.dps.t": "Party DPS",
+  "raid.dps.nota": "Each player's DPS against the boss over the whole raid; the line is the group average. On the right, their critical hit rate. Click a player to open their card.",
+  "raid.dps.media": "avg {n}",
+  "raid.dps.aria": "DPS and crit of each player",
+  "raid.dps.tip": "Crit {c} · from behind {e}"
 }

@@ -53,12 +53,17 @@ export default function PlantillaRaid({ t, volver, accion, enlaceJefe, intentos,
             <div className="rx-chart" id="ch-progreso"></div>
           </article>
           <article className="rx-card">
-            <h3>{t('card.causes')}</h3>
-            <p className="rx-note">{t('card.causes.note')}</p>
-            <div className="rx-legend"><span><i className="rx-key rx-key-critical"></i><span>{t('legend.oneshot')}</span></span><span><i className="rx-key rx-key-muted"></i><span>{t('legend.rest')}</span></span></div>
-            <div className="rx-chart" id="ch-causas"></div>
+            <h3>{t('raid.dps.t')}</h3>
+            <p className="rx-note">{t('raid.dps.nota')}</p>
+            <div className="rx-chart" id="ch-dps-party"></div>
           </article>
         </div>
+        <article className="rx-card">
+          <h3>{t('card.causes')}</h3>
+          <p className="rx-note">{t('card.causes.note')}</p>
+          <div className="rx-legend"><span><i className="rx-key rx-key-critical"></i><span>{t('legend.oneshot')}</span></span><span><i className="rx-key rx-key-muted"></i><span>{t('legend.rest')}</span></span></div>
+          <div className="rx-chart" id="ch-causas"></div>
+        </article>
       </div>
 
       <div className="pl-panel rx-panel" id="intentos" role="tabpanel" hidden>

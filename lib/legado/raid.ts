@@ -285,6 +285,41 @@ export function montarRaid({ D, A, N, soloEs, T, LANG, LOC, rutaPerfil }) {
       .on('pointerleave', () => t.hide());
   }
 
+  // DPS de la party (pestaña Resumen): una barra por jugador, la media del grupo como línea y su % de críticos a la derecha
+  function drawDpsParty(box) {
+    const rows = D.jugadores.slice().sort((a, b) => b.dps - a.dps);
+    if (!rows.length) return empty(box, T('chart.noData'));
+    const W = width(box), row = 26, m = { t: 22, r: 8, b: 4 }, CR = W < 420 ? 72 : 96; // CR: columna del crítico
+    const H = m.t + m.b + rows.length * row;
+    const svg = svgIn(box, W, H, T('raid.dps.aria'));
+    m.l = Math.min(W * 0.4, Math.ceil(measure(svg, rows.map((r) => r.jugador))) + 10);
+    const xMax = W - m.r - CR - 44; // hueco para la cifra de DPS tras la barra
+    const x = d3.scaleLinear([0, d3.max(rows, (r) => r.dps) || 1], [m.l, xMax]);
+    const y = d3.scaleBand(rows.map((r) => r.jugador), [m.t, H - m.b]).padding(0.28);
+    const avg = d3.mean(rows, (r) => r.dps);
+    const t = tipFor(box);
+    svg.append('text').attr('x', W - m.r).attr('y', 10).attr('text-anchor', 'end').text(T('th.crit'));
+    // Media del grupo, detrás de las barras
+    svg.append('line').attr('x1', x(avg)).attr('x2', x(avg)).attr('y1', m.t - 4).attr('y2', H - m.b).style('stroke', 'var(--fg-muted)').style('stroke-dasharray', '3 3').style('pointer-events', 'none');
+    svg.append('text').attr('x', x(avg)).attr('y', 10).attr('text-anchor', 'middle').text(T('raid.dps.media', { n: k(avg) }));
+    const g = svg.append('g').selectAll('g').data(rows).join('g').style('cursor', 'pointer').on('click', (ev, r) => abrirFicha(r.jugador, true))
+      .on('pointermove', (ev, r) => {
+        const [px, py] = d3.pointer(ev, box);
+        t.show(r.jugador, [`${int(r.dps)} DPS · ${int(r.hps)} HPS`, T('raid.dps.tip', { c: pct(r.crit_pct), e: pct(r.espalda_pct) }), T('tip.deaths', { n: int(r.muertes) }), T('tip.clickCard')], px, py);
+      })
+      .on('pointerleave', () => t.hide());
+    g.append('text').attr('x', m.l - 8).attr('y', (r) => y(r.jugador) + y.bandwidth() / 2).attr('dy', '0.32em').attr('text-anchor', 'end')
+      .attr('class', (r) => (r.jugador === M.personaje ? 'rx-strong' : null)).text((r) => r.jugador).call(ajustar, m.l - 8);
+    g.append('rect').attr('x', m.l).attr('y', (r) => y(r.jugador)).attr('height', y.bandwidth()).attr('width', (r) => Math.max(1, x(r.dps) - m.l)).attr('rx', 3)
+      .style('fill', (r, i) => (i === 0 ? 'var(--series-1)' : 'var(--chart-muted)'));
+    g.append('text').attr('x', (r) => x(r.dps) + 5).attr('y', (r) => y(r.jugador) + y.bandwidth() / 2).attr('dy', '0.32em').text((r) => k(r.dps));
+    // Crítico: cifra y una barrita de 0 a 100 %
+    const cx0 = W - m.r - CR + 4, cw = CR - 40;
+    g.append('rect').attr('x', cx0).attr('y', (r) => y(r.jugador) + y.bandwidth() / 2 - 2).attr('width', cw).attr('height', 4).attr('rx', 2).style('fill', 'var(--chart-grid)');
+    g.append('rect').attr('x', cx0).attr('y', (r) => y(r.jugador) + y.bandwidth() / 2 - 2).attr('width', (r) => cw * Math.min(100, r.crit_pct) / 100).attr('height', 4).attr('rx', 2).style('fill', 'var(--series-2)');
+    g.append('text').attr('x', W - m.r).attr('y', (r) => y(r.jugador) + y.bandwidth() / 2).attr('dy', '0.32em').attr('text-anchor', 'end').text((r) => nf.format(r.crit_pct) + (LANG === 'es' ? ' %' : '%'));
+  }
+
   function drawTabla(tb) {
     tb.replaceChildren();
     const rows = D.jugadores;
@@ -421,7 +456,7 @@ export function montarRaid({ D, A, N, soloEs, T, LANG, LOC, rutaPerfil }) {
   // Como en el perfil: solo se dibuja la pestaña visible (en un panel oculto los gráficos no tienen ancho) y va en el #hash.
   // Un #hash con el nombre de un jugador abre su ficha en «Jugadores» (los enlaces de antes siguen valiendo).
   const porPestana = {
-    resumen: [['ch-progreso', drawProgreso], ['ch-causas', drawCausas]], intentos: [['ch-curva', drawCurva]], muertes: [['ch-casteos', drawCasteos]],
+    resumen: [['ch-progreso', drawProgreso], ['ch-dps-party', drawDpsParty], ['ch-causas', drawCausas]], intentos: [['ch-curva', drawCurva]], muertes: [['ch-casteos', drawCasteos]],
     mecanicas: [], dano: [], jugadores: [['ch-mapa', drawMapa]], analisis: []
   };
   const tabs = [...document.querySelectorAll('#tabs [data-tab]')];
