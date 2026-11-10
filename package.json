@@ -5,16 +5,18 @@
   "type": "module",
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "node --import tsx scripts/validar-contenido.mts && next build",
     "start": "next start",
     "lint": "eslint",
     "typecheck": "next typegen && tsc --noEmit",
     "test": "vitest run",
     "db:generar": "node --env-file-if-exists=.env.local node_modules/drizzle-kit/bin.cjs generate",
     "db:migrar": "node --env-file-if-exists=.env.local node_modules/drizzle-kit/bin.cjs migrate",
-    "build:vercel": "node node_modules/drizzle-kit/bin.cjs migrate && node --conditions=react-server --import tsx scripts/semilla-nombres.mts && next build",
+    "build:vercel": "node --import tsx scripts/validar-contenido.mts && node node_modules/drizzle-kit/bin.cjs migrate && node --conditions=react-server --import tsx scripts/semilla-nombres.mts && next build",
     "sql": "node scripts/generar-sql.mjs",
-    "nombres": "node --env-file=.env.local --conditions=react-server --import tsx scripts/actualizar-nombres.mts"
+    "nombres": "node --env-file=.env.local --conditions=react-server --import tsx scripts/actualizar-nombres.mts",
+    "juego": "node scripts/estructura-juego.mjs",
+    "contenido": "node --import tsx scripts/validar-contenido.mts"
   },
   "dependencies": {
     "@duckdb/duckdb-wasm": "1.32.0",

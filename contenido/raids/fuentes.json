@@ -1,0 +1,30 @@
+{
+ "fuentes": [
+  { "id": "questlog-game-data", "titulo": "game-data-v2.json (app de escritorio de Questlog)", "sitio": "Questlog", "url": null, "tipo": "juego", "idioma": "en", "consultado": "2026-11-10", "temas": ["estructura", "stats"],
+    "nota": { "es": "Datos del cliente que trae la app de Questlog: jefes de cada mazmorra, stats y efectos de los buffs. Se vuelca con scripts/estructura-juego.mjs.", "en": "Client data shipped with the Questlog app: bosses per dungeon, stats and buff effects. Dumped with scripts/estructura-juego.mjs." } },
+  { "id": "questlog-nombres", "titulo": "Nombres de NPC y habilidades (combatLog.entities)", "sitio": "questlog.gg", "url": "https://questlog.gg/aion-2", "tipo": "juego", "idioma": "es", "consultado": "2026-11-10", "temas": ["nombres"] },
+  { "id": "metabot-db", "titulo": "AION 2 Database & Tools", "sitio": "MetaBot", "url": "https://metabot.gg/en/aion-2", "tipo": "base-de-datos", "idioma": "en", "consultado": "2026-11-10", "temas": ["estructura", "botin"] },
+  { "id": "nc-parche-ludra", "titulo": "[Notice] Patch Notes (Abyssal Forge: Ludra)", "sitio": "AION 2 (NCSOFT)", "url": "https://aion2.plaync.com/en-us/board/update/view?articleId=6aead0e86cfe4756db5b913f", "tipo": "oficial", "idioma": "en", "consultado": "2026-11-10", "temas": ["reglas", "botin"] },
+
+  { "id": "mobalytics-ludra", "titulo": "Ludra Boss Guide for Aion 2 Mechanics and Strategy", "sitio": "Mobalytics", "url": "https://mobalytics.gg/gamebase/guides/aion-2-ludra-boss", "tipo": "guia", "idioma": "en", "consultado": "2026-11-10", "temas": ["mecanicas"] },
+  { "id": "mobalytics-rahu", "titulo": "Rahu Boss Guide for the Ludra Raid in Aion 2", "sitio": "Mobalytics", "url": "https://mobalytics.gg/gamebase/guides/aion-2-rahu-boss-guide", "tipo": "guia", "idioma": "en", "consultado": "2026-11-10", "temas": ["mecanicas"] },
+  { "id": "mobalytics-ketu", "titulo": "Ketu Boss Guide for the Ludra Raid in Aion 2", "sitio": "Mobalytics", "url": "https://mobalytics.gg/gamebase/guides/aion-2-ketu-boss", "tipo": "guia", "idioma": "en", "consultado": "2026-11-10", "temas": ["mecanicas"] },
+  { "id": "aion2maps-ludra", "titulo": "Ludra raid boss guide", "sitio": "Aion 2 Maps", "url": "https://aion2maps.com/guides/ludra/", "tipo": "guia", "idioma": "en", "consultado": "2026-11-10", "temas": ["mecanicas"] },
+  { "id": "aion2tierlist-ludra", "titulo": "AION 2 Ludra Raid Guide: Rahu, Ketu and Ludra Mechanics", "sitio": "aion2tierlist", "url": "https://aion2tierlist.com/guides/aion-2-ludra-raid-guide", "tipo": "guia", "idioma": "en", "consultado": "2026-11-10", "temas": ["mecanicas", "composicion"] },
+  { "id": "aion2turkiye-ludra", "titulo": "AION 2 Ludra Raid Guide: Mechanics, 10 Players", "sitio": "aion2turkiye", "url": "https://aion2turkiye.com/en/dungeons/ludra/", "tipo": "guia", "idioma": "en", "consultado": "2026-11-10", "temas": ["mecanicas", "composicion"] },
+  { "id": "expcarry-ludra", "titulo": "AION 2 Ludra Boss Guide: Mechanics & Loot", "sitio": "expcarry", "url": "https://expcarry.com/aion-2-ludra-boss-guide", "tipo": "guia", "idioma": "en", "consultado": "2026-11-10", "temas": ["mecanicas", "botin"] },
+
+  { "id": "aion2maps-precision", "titulo": "Accuracy and Crit", "sitio": "Aion 2 Maps", "url": "https://aion2maps.com/guides/accuracy-and-crit/", "tipo": "guia", "idioma": "en", "consultado": "2026-11-10", "temas": ["stats"] },
+  { "id": "timesaver-precision", "titulo": "AION 2 Accuracy Cap and Crit Cap: What Ludra Needs on Global", "sitio": "timesaver.gg", "url": "https://timesaver.gg/blog/aion-2-accuracy-cap", "tipo": "guia", "idioma": "en", "consultado": "2026-11-10", "temas": ["stats"],
+    "nota": { "es": "Las cifras de Ludra en global son provisionales: parte son proyecciones a partir de las de Corea.", "en": "Global Ludra figures are provisional: some are projections from the Korean ones." } },
+  { "id": "mmoherald-dano", "titulo": "How damage works: stat buckets, Double Chance and the formula", "sitio": "MMO Herald", "url": "https://www.mmoherald.com/aion-2/guides/damage-calculation", "tipo": "guia", "idioma": "en", "consultado": "2026-11-10", "temas": ["stats"] },
+  { "id": "akunito-stats", "titulo": "Stats and combat formulas", "sitio": "aion2.akunito.com", "url": "https://aion2.akunito.com/en/systems/stats/", "tipo": "guia", "idioma": "en", "consultado": "2026-11-10", "temas": ["stats"] },
+  { "id": "mmopixel-equipo", "titulo": "Aion 2 Best Endgame Gear Guide", "sitio": "MMOPIXEL", "url": "https://www.mmopixel.com/news/aion-2-best-endgame-gear-guide", "tipo": "guia", "idioma": "en", "consultado": "2026-11-10", "temas": ["equipo", "stats"] },
+  { "id": "timesaver-gs", "titulo": "AION 2 Gear Score: How to Reach 2,800 for Ludra Normal and 3,000 Hard", "sitio": "timesaver.gg", "url": "https://timesaver.gg/blog/aion-2-gear-score-guide", "tipo": "guia", "idioma": "en", "consultado": "2026-11-10", "temas": ["equipo"] },
+  { "id": "metabot-progresion", "titulo": "AION 2 Gear Progression: BiS Gear, Ludra & IL", "sitio": "MetaBot", "url": "https://metabot.gg/en/aion-2/guides/gear-progression-guide", "tipo": "guia", "idioma": "en", "consultado": "2026-11-10", "temas": ["equipo"] },
+
+  { "id": "metabot-clases", "titulo": "AION 2 Best Class Tier List: PvE, PvP, Solo", "sitio": "MetaBot", "url": "https://metabot.gg/en/aion-2/guides/best-class-tier-list", "tipo": "guia", "idioma": "en", "consultado": "2026-11-10", "temas": ["composicion"] },
+  { "id": "mobalytics-pve", "titulo": "AION 2 PvE Tier List (Best Classes Ranked)", "sitio": "Mobalytics", "url": "https://mobalytics.gg/gamebase/guides/aion-2-pve-tier-list", "tipo": "guia", "idioma": "en", "consultado": "2026-11-10", "temas": ["composicion"] },
+  { "id": "meinmmo-clases", "titulo": "Aion 2 Tier List: The Best Classes in PvE", "sitio": "Mein-MMO", "url": "https://mein-mmo.de/en/aion-2-tier-list-the-best-classes-in-pve,1589844/", "tipo": "guia", "idioma": "en", "consultado": "2026-11-10", "temas": ["composicion"] }
+ ]
+}

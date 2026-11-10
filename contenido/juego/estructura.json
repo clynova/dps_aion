@@ -1,0 +1,5134 @@
+{
+ "fuente": "questlog-game-data",
+ "game_data": "2026-11-10",
+ "generado": "2026-11-10",
+ "mazmorras": [
+  {
+   "id": 600001,
+   "jefes": [
+    2300104,
+    2300108,
+    2300171
+   ]
+  },
+  {
+   "id": 600002,
+   "jefes": [
+    2310104,
+    2310108,
+    2310171
+   ]
+  },
+  {
+   "id": 600004,
+   "jefes": [
+    2320104,
+    2320108,
+    2320171
+   ]
+  },
+  {
+   "id": 600011,
+   "jefes": [
+    2310206,
+    2310207,
+    2310218
+   ]
+  },
+  {
+   "id": 600012,
+   "jefes": [
+    2300206,
+    2300207,
+    2300218
+   ]
+  },
+  {
+   "id": 600013,
+   "jefes": [
+    2320206,
+    2320207,
+    2320218
+   ]
+  },
+  {
+   "id": 600021,
+   "jefes": [
+    2310311,
+    2310312,
+    2310371
+   ]
+  },
+  {
+   "id": 600022,
+   "jefes": [
+    2300311,
+    2300312,
+    2300371
+   ]
+  },
+  {
+   "id": 600023,
+   "jefes": [
+    2320311,
+    2320312,
+    2320371
+   ]
+  },
+  {
+   "id": 600031,
+   "jefes": [
+    2310401,
+    2310403,
+    2310471
+   ]
+  },
+  {
+   "id": 600032,
+   "jefes": [
+    2300401,
+    2300403,
+    2300470,
+    2300471
+   ]
+  },
+  {
+   "id": 600033,
+   "jefes": [
+    2320401,
+    2320403,
+    2320471
+   ]
+  },
+  {
+   "id": 600041,
+   "jefes": [
+    2300502,
+    2300507,
+    2300508,
+    2300509,
+    2300517
+   ]
+  },
+  {
+   "id": 600042,
+   "jefes": [
+    2310507,
+    2310508,
+    2310509
+   ]
+  },
+  {
+   "id": 600053,
+   "jefes": [
+    2320615,
+    2320616,
+    2320601
+   ]
+  },
+  {
+   "id": 600055,
+   "jefes": [
+    2340615,
+    2340616,
+    2340601
+   ]
+  },
+  {
+   "id": 600058,
+   "jefes": [
+    2343615,
+    2343616,
+    2343601
+   ]
+  },
+  {
+   "id": 600063,
+   "jefes": [
+    2330707,
+    2330708,
+    2330709
+   ]
+  },
+  {
+   "id": 600065,
+   "jefes": [
+    2350707,
+    2350708,
+    2350709
+   ]
+  },
+  {
+   "id": 600068,
+   "jefes": [
+    2353707,
+    2353708,
+    2353709
+   ]
+  },
+  {
+   "id": 600071,
+   "jefes": [
+    2310811,
+    2310810,
+    2310812
+   ]
+  },
+  {
+   "id": 600072,
+   "jefes": [
+    2300811,
+    2300810,
+    2300812
+   ]
+  },
+  {
+   "id": 600073,
+   "jefes": [
+    2320811,
+    2320810,
+    2320812
+   ]
+  },
+  {
+   "id": 600082,
+   "jefes": [
+    2301006,
+    2301007,
+    2301008,
+    2301014
+   ]
+  },
+  {
+   "id": 600083,
+   "jefes": [
+    2300282,
+    2300283,
+    2300284,
+    2300290
+   ]
+  },
+  {
+   "id": 600091,
+   "jefes": [
+    2310908,
+    2310909,
+    2310910
+   ]
+  },
+  {
+   "id": 600092,
+   "jefes": [
+    2300908,
+    2300909,
+    2300910
+   ]
+  },
+  {
+   "id": 600093,
+   "jefes": [
+    2320908,
+    2320909,
+    2320910
+   ]
+  },
+  {
+   "id": 600121,
+   "jefes": [
+    2301301,
+    2301302,
+    2301303
+   ]
+  },
+  {
+   "id": 600122,
+   "jefes": [
+    2311301,
+    2311302,
+    2311303
+   ]
+  },
+  {
+   "id": 600123,
+   "jefes": [
+    2321301,
+    2321302,
+    2321303
+   ]
+  },
+  {
+   "id": 600131,
+   "jefes": [
+    2301401,
+    2301402,
+    2301403
+   ]
+  },
+  {
+   "id": 600132,
+   "jefes": [
+    2311401,
+    2311402,
+    2311403
+   ]
+  },
+  {
+   "id": 600133,
+   "jefes": [
+    2321401,
+    2321402,
+    2321403
+   ]
+  },
+  {
+   "id": 600141,
+   "jefes": [
+    2300188,
+    2300189,
+    2300190
+   ]
+  },
+  {
+   "id": 600142,
+   "jefes": [
+    2300200,
+    2300219,
+    2300230
+   ]
+  },
+  {
+   "id": 600143,
+   "jefes": [
+    2300243,
+    2300244,
+    2300245
+   ]
+  },
+  {
+   "id": 600151,
+   "jefes": [
+    2301601,
+    2301602,
+    2301603
+   ]
+  },
+  {
+   "id": 600152,
+   "jefes": [
+    2301701,
+    2301702,
+    2301703
+   ]
+  },
+  {
+   "id": 600153,
+   "jefes": [
+    2301721,
+    2301722,
+    2301723
+   ]
+  },
+  {
+   "id": 610010,
+   "jefes": [
+    2301501,
+    2301502,
+    2301503
+   ]
+  },
+  {
+   "id": 610011,
+   "jefes": [
+    2300000,
+    2300001,
+    2300002
+   ]
+  },
+  {
+   "id": 610012,
+   "jefes": [
+    2300015,
+    2300016,
+    2300017
+   ]
+  },
+  {
+   "id": 610013,
+   "jefes": [
+    2300030,
+    2300031,
+    2300032
+   ]
+  },
+  {
+   "id": 610020,
+   "jefes": [
+    2300259,
+    2300260,
+    2300261
+   ]
+  },
+  {
+   "id": 610021,
+   "jefes": [
+    2300299,
+    2300300,
+    2300317
+   ]
+  },
+  {
+   "id": 610022,
+   "jefes": [
+    2300334,
+    2300335,
+    2300336
+   ]
+  },
+  {
+   "id": 610023,
+   "jefes": [
+    2300353,
+    2300354,
+    2300355
+   ]
+  },
+  {
+   "id": 610044,
+   "jefes": [
+    2300153,
+    2300154,
+    2300155
+   ]
+  },
+  {
+   "id": 610052,
+   "jefes": [
+    2346615,
+    2346616,
+    2346601
+   ]
+  },
+  {
+   "id": 610062,
+   "jefes": [
+    2356707,
+    2356708,
+    2356709
+   ]
+  },
+  {
+   "id": 610070,
+   "jefes": [
+    2300473,
+    2300474,
+    2300475
+   ]
+  },
+  {
+   "id": 610071,
+   "jefes": [
+    2300491,
+    2300492,
+    2300493
+   ]
+  },
+  {
+   "id": 610072,
+   "jefes": [
+    2300527,
+    2300528,
+    2300529
+   ]
+  },
+  {
+   "id": 610073,
+   "jefes": [
+    2300544,
+    2300545,
+    2300546
+   ]
+  },
+  {
+   "id": 620011,
+   "jefes": [
+    2301207,
+    2301208,
+    2301209
+   ]
+  },
+  {
+   "id": 620021,
+   "jefes": [
+    2301059,
+    2301060
+   ]
+  },
+  {
+   "id": 620022,
+   "jefes": [
+    2301089,
+    2301090
+   ]
+  }
+ ],
+ "jefes": {
+  "2300000": {
+   "es": "Emon hundido",
+   "en": "Submerged Emon",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_Gauss_01_V01",
+   "mazmorras": [
+    610011
+   ]
+  },
+  "2300001": {
+   "es": "Pydeon del mar profundo",
+   "en": "Deep Sea Pydeon",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_Kalgolem_03_CV02",
+   "mazmorras": [
+    610011
+   ]
+  },
+  "2300002": {
+   "es": "Ellyde del canto",
+   "en": "Singing Ellyde",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_WaterEle_04_V02",
+   "mazmorras": [
+    610011
+   ]
+  },
+  "2300015": {
+   "es": "Emon hundido",
+   "en": "Submerged Emon",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_Gauss_01_V01",
+   "mazmorras": [
+    610012
+   ]
+  },
+  "2300016": {
+   "es": "Pydeon del mar profundo",
+   "en": "Deep Sea Pydeon",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_Kalgolem_03_CV02",
+   "mazmorras": [
+    610012
+   ]
+  },
+  "2300017": {
+   "es": "Ellyde del canto",
+   "en": "Singing Ellyde",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_WaterEle_04_V02",
+   "mazmorras": [
+    610012
+   ]
+  },
+  "2300030": {
+   "es": "Emon hundido",
+   "en": "Submerged Emon",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_Gauss_01_V01",
+   "mazmorras": [
+    610013
+   ]
+  },
+  "2300031": {
+   "es": "Pydeon del mar profundo",
+   "en": "Deep Sea Pydeon",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_Kalgolem_03_CV02",
+   "mazmorras": [
+    610013
+   ]
+  },
+  "2300032": {
+   "es": "Ellyde del canto",
+   "en": "Singing Ellyde",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_WaterEle_04_V02",
+   "mazmorras": [
+    610013
+   ]
+  },
+  "2300104": {
+   "es": "Harcon mejorado",
+   "en": "Enhanced Harcon",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_KraoElite_03",
+   "mazmorras": [
+    600001
+   ]
+  },
+  "2300108": {
+   "es": "Gadioton descuidado",
+   "en": "Neglected Gadioton",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_KraoElite_03_V01",
+   "mazmorras": [
+    600001
+   ]
+  },
+  "2300153": {
+   "es": "Administrador Nasium",
+   "en": "Manager Nasium",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_BeritraA_01",
+   "mazmorras": [
+    610044
+   ]
+  },
+  "2300154": {
+   "es": "Incubador Nayatman",
+   "en": "Broodkeeper Nayatman",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_BeritraD_01_V01",
+   "mazmorras": [
+    610044
+   ]
+  },
+  "2300155": {
+   "es": "Durvati podrido",
+   "en": "Decaying Durvati",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_Durbati_01",
+   "mazmorras": [
+    610044
+   ]
+  },
+  "2300171": {
+   "es": "Berk definitivo",
+   "en": "Ultimate Berk",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_Berc_01",
+   "mazmorras": [
+    600001
+   ]
+  },
+  "2300188": {
+   "es": "Alturadon despierto",
+   "en": "Awakened Alturadon",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_Alturadon_01",
+   "mazmorras": [
+    600141
+   ]
+  },
+  "2300189": {
+   "es": "Baumnut prudente",
+   "en": "Wise Baumnute",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_Agrint_05_V01",
+   "mazmorras": [
+    600141
+   ]
+  },
+  "2300190": {
+   "es": "Zairpe efusivo",
+   "en": "Expanding Xyrepe",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_ToxFungus_01_V01",
+   "mazmorras": [
+    600141
+   ]
+  },
+  "2300200": {
+   "es": "Alturadon despierto",
+   "en": "Awakened Alturadon",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_Alturadon_01",
+   "mazmorras": [
+    600142
+   ]
+  },
+  "2300206": {
+   "es": "Capitán de la Guardia Raur",
+   "en": "Guardian Captain Raur",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_OwlCom_01",
+   "mazmorras": [
+    600012
+   ]
+  },
+  "2300207": {
+   "es": "Juez Urahum",
+   "en": "Judge Urahum",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_Owlac_01_V01",
+   "mazmorras": [
+    600012
+   ]
+  },
+  "2300218": {
+   "es": "Auldor sagrado",
+   "en": "Divine Auldor",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_Owltros_01_V01",
+   "mazmorras": [
+    600012
+   ]
+  },
+  "2300219": {
+   "es": "Baumnut prudente",
+   "en": "Wise Baumnute",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_Agrint_05_V01",
+   "mazmorras": [
+    600142
+   ]
+  },
+  "2300230": {
+   "es": "Zairpe efusivo",
+   "en": "Expanding Xyrepe",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_ToxFungus_01_V01",
+   "mazmorras": [
+    600142
+   ]
+  },
+  "2300243": {
+   "es": "Alturadon despierto",
+   "en": "Awakened Alturadon",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_Alturadon_01",
+   "mazmorras": [
+    600143
+   ]
+  },
+  "2300244": {
+   "es": "Baumnut prudente",
+   "en": "Wise Baumnute",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_Agrint_05_V01",
+   "mazmorras": [
+    600143
+   ]
+  },
+  "2300245": {
+   "es": "Zairpe efusivo",
+   "en": "Expanding Xyrepe",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_ToxFungus_01_V01",
+   "mazmorras": [
+    600143
+   ]
+  },
+  "2300259": {
+   "es": "Rothar",
+   "en": "Rotar",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_WraPrst_01_V01",
+   "mazmorras": [
+    610020
+   ]
+  },
+  "2300260": {
+   "es": "Robstino",
+   "en": "Robstino",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_EvSpirit_02_V01",
+   "mazmorras": [
+    610020
+   ]
+  },
+  "2300261": {
+   "es": "Abismo de Kromede",
+   "en": "Kromede's Desolation",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_Cromede_01_V02",
+   "mazmorras": [
+    610020
+   ]
+  },
+  "2300282": {
+   "es": "Rahu aislado",
+   "en": "Isolation Specialist Rahu",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_Lagta_01_V01",
+   "mazmorras": [
+    600083
+   ]
+  },
+  "2300283": {
+   "es": "Alas abismales Ketu",
+   "en": "Abyssal Wings Ketu",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_Kashapa_01_V01",
+   "mazmorras": [
+    600083
+   ]
+  },
+  "2300284": {
+   "es": "Reactor de fusión abismal central",
+   "en": "Central Abyss Fusion Reactor",
+   "retrato": null,
+   "mazmorras": [
+    600083
+   ]
+  },
+  "2300290": {
+   "es": "Ludra de la eternidad",
+   "en": "Eternal Ludra",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_Durbati_01_V01",
+   "mazmorras": [
+    600083
+   ]
+  },
+  "2300299": {
+   "es": "Rothar",
+   "en": "Rotar",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_WraPrst_01_V01",
+   "mazmorras": [
+    610021
+   ]
+  },
+  "2300300": {
+   "es": "Robstino",
+   "en": "Robstino",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_EvSpirit_02_V01",
+   "mazmorras": [
+    610021
+   ]
+  },
+  "2300311": {
+   "es": "Fulgor rojo Ignus",
+   "en": "Red Spark Ignus",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_FireGuard_01",
+   "mazmorras": [
+    600022
+   ]
+  },
+  "2300312": {
+   "es": "Humo negro Murute",
+   "en": "Black Smoke Murute",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_AshGuard_01",
+   "mazmorras": [
+    600022
+   ]
+  },
+  "2300317": {
+   "es": "Abismo de Kromede",
+   "en": "Kromede's Desolation",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_Cromede_01_V02",
+   "mazmorras": [
+    610021
+   ]
+  },
+  "2300334": {
+   "es": "Rothar",
+   "en": "Rotar",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_WraPrst_01_V01",
+   "mazmorras": [
+    610022
+   ]
+  },
+  "2300335": {
+   "es": "Robstino",
+   "en": "Robstino",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_EvSpirit_02_V01",
+   "mazmorras": [
+    610022
+   ]
+  },
+  "2300336": {
+   "es": "Abismo de Kromede",
+   "en": "Kromede's Desolation",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_Cromede_01_V02",
+   "mazmorras": [
+    610022
+   ]
+  },
+  "2300353": {
+   "es": "Rothar",
+   "en": "Rotar",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_WraPrst_01_V01",
+   "mazmorras": [
+    610023
+   ]
+  },
+  "2300354": {
+   "es": "Robstino",
+   "en": "Robstino",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_EvSpirit_02_V01",
+   "mazmorras": [
+    610023
+   ]
+  },
+  "2300355": {
+   "es": "Abismo de Kromede",
+   "en": "Kromede's Desolation",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_Cromede_01_V02",
+   "mazmorras": [
+    610023
+   ]
+  },
+  "2300371": {
+   "es": "Ambición de Kromede",
+   "en": "Kromede's Desire",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_Cromede_01",
+   "mazmorras": [
+    600022
+   ]
+  },
+  "2300401": {
+   "es": "Lakshmi de ensueño",
+   "en": "Phantasmal Lakshmi",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_NagaElite_01",
+   "mazmorras": [
+    600032
+   ]
+  },
+  "2300403": {
+   "es": "Saraswati depredador",
+   "en": "Predator Saraswati",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_NagaElite_02",
+   "mazmorras": [
+    600032
+   ]
+  },
+  "2300470": {
+   "es": "Bakarma agonizante",
+   "en": "Afflicted Bakarma",
+   "retrato": null,
+   "mazmorras": [
+    600032
+   ]
+  },
+  "2300471": {
+   "es": "Bakarma trascendido",
+   "en": "Transcendent Bakarma",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_Bakarma_02",
+   "mazmorras": [
+    600032
+   ]
+  },
+  "2300473": {
+   "es": "Kapu",
+   "en": "Kapu",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_KalnifElite_01_V02",
+   "mazmorras": [
+    610070
+   ]
+  },
+  "2300474": {
+   "es": "Dhakan",
+   "en": "Dhakan",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_Lycan_04_V01",
+   "mazmorras": [
+    610070
+   ]
+  },
+  "2300475": {
+   "es": "Gargaum",
+   "en": "Gargaum",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_Ferk_01_V02",
+   "mazmorras": [
+    610070
+   ]
+  },
+  "2300491": {
+   "es": "Kapu",
+   "en": "Kapu",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_KalnifElite_01_V02",
+   "mazmorras": [
+    610071
+   ]
+  },
+  "2300492": {
+   "es": "Dhakan",
+   "en": "Dhakan",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_Lycan_04_V01",
+   "mazmorras": [
+    610071
+   ]
+  },
+  "2300493": {
+   "es": "Gargaum",
+   "en": "Gargaum",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_Ferk_01_V02",
+   "mazmorras": [
+    610071
+   ]
+  },
+  "2300502": {
+   "es": "Durvati podrido (espécimen)",
+   "en": "Decaying Durvati (Specimen)",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_Durbati_01",
+   "mazmorras": [
+    600041
+   ]
+  },
+  "2300507": {
+   "es": "Administrador Nasium",
+   "en": "Manager Nasium",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_BeritraA_01",
+   "mazmorras": [
+    600041
+   ]
+  },
+  "2300508": {
+   "es": "Incubador Nayatman",
+   "en": "Broodkeeper Nayatman",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_BeritraD_01_V01",
+   "mazmorras": [
+    600041
+   ]
+  },
+  "2300509": {
+   "es": "Durvati podrido",
+   "en": "Decaying Durvati",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_Durbati_01",
+   "mazmorras": [
+    600041
+   ]
+  },
+  "2300517": {
+   "es": "Durvati podrido (espécimen)",
+   "en": "Decaying Durvati (Specimen)",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_Durbati_01",
+   "mazmorras": [
+    600041
+   ]
+  },
+  "2300527": {
+   "es": "Kapu",
+   "en": "Kapu",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_KalnifElite_01_V02",
+   "mazmorras": [
+    610072
+   ]
+  },
+  "2300528": {
+   "es": "Dhakan",
+   "en": "Dhakan",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_Lycan_04_V01",
+   "mazmorras": [
+    610072
+   ]
+  },
+  "2300529": {
+   "es": "Gargaum",
+   "en": "Gargaum",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_Ferk_01_V02",
+   "mazmorras": [
+    610072
+   ]
+  },
+  "2300544": {
+   "es": "Kapu",
+   "en": "Kapu",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_KalnifElite_01_V02",
+   "mazmorras": [
+    610073
+   ]
+  },
+  "2300545": {
+   "es": "Dhakan",
+   "en": "Dhakan",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_Lycan_04_V01",
+   "mazmorras": [
+    610073
+   ]
+  },
+  "2300546": {
+   "es": "Gargaum",
+   "en": "Gargaum",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_Ferk_01_V02",
+   "mazmorras": [
+    610073
+   ]
+  },
+  "2300810": {
+   "es": "Tiere",
+   "en": "Tiere",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_Tie_01",
+   "mazmorras": [
+    600072
+   ]
+  },
+  "2300811": {
+   "es": "Thamon",
+   "en": "Thamon",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_Tamon_01",
+   "mazmorras": [
+    600072
+   ]
+  },
+  "2300812": {
+   "es": "Vakron",
+   "en": "Vakron",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_EleKing_01",
+   "mazmorras": [
+    600072
+   ]
+  },
+  "2300908": {
+   "es": "Perro guardián Kwapo",
+   "en": "Watchdog Kwapo",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_KalnifElite_01_V02",
+   "mazmorras": [
+    600092
+   ]
+  },
+  "2300909": {
+   "es": "Duanka nigromante",
+   "en": "Necromancer Duanka",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_Lycan_04_V01",
+   "mazmorras": [
+    600092
+   ]
+  },
+  "2300910": {
+   "es": "Nuakum del Cuerno Feroz",
+   "en": "Ferocious Horn Nuakum",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_Ferk_01_V01",
+   "mazmorras": [
+    600092
+   ]
+  },
+  "2301006": {
+   "es": "Rahu aislado",
+   "en": "Isolation Specialist Rahu",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_Lagta_01_V01",
+   "mazmorras": [
+    600082
+   ]
+  },
+  "2301007": {
+   "es": "Alas abismales Ketu",
+   "en": "Abyssal Wings Ketu",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_Kashapa_01_V01",
+   "mazmorras": [
+    600082
+   ]
+  },
+  "2301008": {
+   "es": "Reactor de fusión abismal central",
+   "en": "Central Abyss Fusion Reactor",
+   "retrato": null,
+   "mazmorras": [
+    600082
+   ]
+  },
+  "2301014": {
+   "es": "Ludra de la eternidad",
+   "en": "Eternal Ludra",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_Durbati_01_V01",
+   "mazmorras": [
+    600082
+   ]
+  },
+  "2301059": {
+   "es": "Iscariel",
+   "en": "Iscariel",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_AltKnife_07_V01",
+   "mazmorras": [
+    620021
+   ]
+  },
+  "2301060": {
+   "es": "Kaldrix",
+   "en": "Kaldrix",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_Ramu_01_V01",
+   "mazmorras": [
+    620021
+   ]
+  },
+  "2301089": {
+   "es": "Iscariel",
+   "en": "Iscariel",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_AltKnife_07_V01",
+   "mazmorras": [
+    620022
+   ]
+  },
+  "2301090": {
+   "es": "Kaldrix",
+   "en": "Kaldrix",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_Ramu_01_V01",
+   "mazmorras": [
+    620022
+   ]
+  },
+  "2301207": {
+   "es": "Blatt de sangre negra",
+   "en": "Black Blood Blatt",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_FafBlood_02_V02",
+   "mazmorras": [
+    620011
+   ]
+  },
+  "2301208": {
+   "es": "Bargott polímero",
+   "en": "Terminator Bargott",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_Bargot_01_V02",
+   "mazmorras": [
+    620011
+   ]
+  },
+  "2301209": {
+   "es": "Klawra devorador",
+   "en": "Devouring Klawfly",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_Neuth_03_V01",
+   "mazmorras": [
+    620011
+   ]
+  },
+  "2301301": {
+   "es": "Bakarma agonizante",
+   "en": "Afflicted Bakarma",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_Bakarma_01_V01",
+   "mazmorras": [
+    600121
+   ]
+  },
+  "2301302": {
+   "es": "Veltiras multidimensional",
+   "en": "Multiverse Veltiras",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_Radvima_01_V03",
+   "mazmorras": [
+    600121
+   ]
+  },
+  "2301303": {
+   "es": "Valkan solemne",
+   "en": "Solemn Valkan",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_BeritraC_08_V01",
+   "mazmorras": [
+    600121
+   ]
+  },
+  "2301401": {
+   "es": "Glassvein",
+   "en": "Glassvein",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_Protect_01_V01",
+   "mazmorras": [
+    600131
+   ]
+  },
+  "2301402": {
+   "es": "Nasarak",
+   "en": "Nazarak",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_Hiladr_01_V01",
+   "mazmorras": [
+    600131
+   ]
+  },
+  "2301403": {
+   "es": "Nathara",
+   "en": "Nathara",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_DarkLeda_02_V01",
+   "mazmorras": [
+    600131
+   ]
+  },
+  "2301501": {
+   "es": "Emon hundido",
+   "en": "Submerged Emon",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_Gauss_01_V01",
+   "mazmorras": [
+    610010
+   ]
+  },
+  "2301502": {
+   "es": "Pydeon del mar profundo",
+   "en": "Deep Sea Pydeon",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_Kalgolem_03_CV02",
+   "mazmorras": [
+    610010
+   ]
+  },
+  "2301503": {
+   "es": "Ellyde del canto",
+   "en": "Singing Ellyde",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_WaterEle_04_V02",
+   "mazmorras": [
+    610010
+   ]
+  },
+  "2301601": {
+   "es": "Turgen, el Obstinado",
+   "en": "Willful Turgen",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_DaevaWar_05_V01",
+   "mazmorras": [
+    600151
+   ]
+  },
+  "2301602": {
+   "es": "Griosa, la Bestia Prohibida de Hex",
+   "en": "Forbidden Hexbeast Griosa",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_Griosa_01",
+   "mazmorras": [
+    600151
+   ]
+  },
+  "2301603": {
+   "es": "Basilus, el Falso",
+   "en": "Basilus the False",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_Idris_01_V01",
+   "mazmorras": [
+    600151
+   ]
+  },
+  "2301701": {
+   "es": "Turgen, el Obstinado",
+   "en": "Willful Turgen",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_DaevaWar_05_V01",
+   "mazmorras": [
+    600152
+   ]
+  },
+  "2301702": {
+   "es": "Griosa, la Bestia Prohibida de Hex",
+   "en": "Forbidden Hexbeast Griosa",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_Griosa_01",
+   "mazmorras": [
+    600152
+   ]
+  },
+  "2301703": {
+   "es": "Basilus, el Falso",
+   "en": "Basilus the False",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_Idris_01_V01",
+   "mazmorras": [
+    600152
+   ]
+  },
+  "2301721": {
+   "es": "Turgen, el Obstinado",
+   "en": "Willful Turgen",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_DaevaWar_05_V01",
+   "mazmorras": [
+    600153
+   ]
+  },
+  "2301722": {
+   "es": "Griosa, la Bestia Prohibida de Hex",
+   "en": "Forbidden Hexbeast Griosa",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_Griosa_01",
+   "mazmorras": [
+    600153
+   ]
+  },
+  "2301723": {
+   "es": "Basilus, el Falso",
+   "en": "Basilus the False",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_Idris_01_V01",
+   "mazmorras": [
+    600153
+   ]
+  },
+  "2310104": {
+   "es": "Harcon mejorado",
+   "en": "Enhanced Harcon",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_KraoElite_03",
+   "mazmorras": [
+    600002
+   ]
+  },
+  "2310108": {
+   "es": "Gadioton descuidado",
+   "en": "Neglected Gadioton",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_KraoElite_03_V01",
+   "mazmorras": [
+    600002
+   ]
+  },
+  "2310171": {
+   "es": "Berk definitivo",
+   "en": "Ultimate Berk",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_Berc_01",
+   "mazmorras": [
+    600002
+   ]
+  },
+  "2310206": {
+   "es": "Capitán de la Guardia Raur",
+   "en": "Guardian Captain Raur",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_OwlCom_01",
+   "mazmorras": [
+    600011
+   ]
+  },
+  "2310207": {
+   "es": "Juez Urahum",
+   "en": "Judge Urahum",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_Owlac_01_V01",
+   "mazmorras": [
+    600011
+   ]
+  },
+  "2310218": {
+   "es": "Auldor sagrado",
+   "en": "Divine Auldor",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_Owltros_01_V01",
+   "mazmorras": [
+    600011
+   ]
+  },
+  "2310311": {
+   "es": "Fulgor rojo Ignus",
+   "en": "Red Spark Ignus",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_FireGuard_01",
+   "mazmorras": [
+    600021
+   ]
+  },
+  "2310312": {
+   "es": "Humo negro Murute",
+   "en": "Black Smoke Murute",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_AshGuard_01",
+   "mazmorras": [
+    600021
+   ]
+  },
+  "2310371": {
+   "es": "Ambición de Kromede",
+   "en": "Kromede's Desire",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_Cromede_01",
+   "mazmorras": [
+    600021
+   ]
+  },
+  "2310401": {
+   "es": "Lakshmi de ensueño",
+   "en": "Phantasmal Lakshmi",
+   "retrato": "Portrait/UT_NPC_Portrait_NagaElite_01",
+   "mazmorras": [
+    600031
+   ]
+  },
+  "2310403": {
+   "es": "Saraswati depredador",
+   "en": "Predator Saraswati",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_NagaElite_02",
+   "mazmorras": [
+    600031
+   ]
+  },
+  "2310471": {
+   "es": "Bakarma trascendido",
+   "en": "Transcendent Bakarma",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_Bakarma_02",
+   "mazmorras": [
+    600031
+   ]
+  },
+  "2310507": {
+   "es": "Administrador Nasium",
+   "en": "Manager Nasium",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_BeritraA_01",
+   "mazmorras": [
+    600042
+   ]
+  },
+  "2310508": {
+   "es": "Incubador Nayatman",
+   "en": "Broodkeeper Nayatman",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_BeritraD_01_V01",
+   "mazmorras": [
+    600042
+   ]
+  },
+  "2310509": {
+   "es": "Durvati podrido",
+   "en": "Decaying Durvati",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_Durbati_01",
+   "mazmorras": [
+    600042
+   ]
+  },
+  "2310810": {
+   "es": "Tiere",
+   "en": "Tiere",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_Tie_01",
+   "mazmorras": [
+    600071
+   ]
+  },
+  "2310811": {
+   "es": "Thamon",
+   "en": "Thamon",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_Tamon_01",
+   "mazmorras": [
+    600071
+   ]
+  },
+  "2310812": {
+   "es": "Vakron",
+   "en": "Vakron",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_EleKing_01",
+   "mazmorras": [
+    600071
+   ]
+  },
+  "2310908": {
+   "es": "Perro guardián Kwapo",
+   "en": "Watchdog Kwapo",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_KalnifElite_01_V02",
+   "mazmorras": [
+    600091
+   ]
+  },
+  "2310909": {
+   "es": "Duanka nigromante",
+   "en": "Necromancer Duanka",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_Lycan_04_V01",
+   "mazmorras": [
+    600091
+   ]
+  },
+  "2310910": {
+   "es": "Nuakum del Cuerno Feroz",
+   "en": "Ferocious Horn Nuakum",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_Ferk_01_V01",
+   "mazmorras": [
+    600091
+   ]
+  },
+  "2311301": {
+   "es": "Bakarma agonizante",
+   "en": "Afflicted Bakarma",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_Bakarma_01_V01",
+   "mazmorras": [
+    600122
+   ]
+  },
+  "2311302": {
+   "es": "Veltiras multidimensional",
+   "en": "Multiverse Veltiras",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_Radvima_01_V03",
+   "mazmorras": [
+    600122
+   ]
+  },
+  "2311303": {
+   "es": "Valkan solemne",
+   "en": "Solemn Valkan",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_BeritraC_08_V01",
+   "mazmorras": [
+    600122
+   ]
+  },
+  "2311401": {
+   "es": "Glassvein",
+   "en": "Glassvein",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_Protect_01_V01",
+   "mazmorras": [
+    600132
+   ]
+  },
+  "2311402": {
+   "es": "Nasarak",
+   "en": "Nazarak",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_Hiladr_01_V01",
+   "mazmorras": [
+    600132
+   ]
+  },
+  "2311403": {
+   "es": "Nathara",
+   "en": "Nathara",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_DarkLeda_02_V01",
+   "mazmorras": [
+    600132
+   ]
+  },
+  "2320104": {
+   "es": "Harcon mejorado",
+   "en": "Enhanced Harcon",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_KraoElite_03",
+   "mazmorras": [
+    600004
+   ]
+  },
+  "2320108": {
+   "es": "Gadioton descuidado",
+   "en": "Neglected Gadioton",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_KraoElite_03_V01",
+   "mazmorras": [
+    600004
+   ]
+  },
+  "2320171": {
+   "es": "Berk definitivo",
+   "en": "Ultimate Berk",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_Berc_01",
+   "mazmorras": [
+    600004
+   ]
+  },
+  "2320206": {
+   "es": "Capitán de la Guardia Raur",
+   "en": "Guardian Captain Raur",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_OwlCom_01",
+   "mazmorras": [
+    600013
+   ]
+  },
+  "2320207": {
+   "es": "Juez Urahum",
+   "en": "Judge Urahum",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_Owlac_01_V01",
+   "mazmorras": [
+    600013
+   ]
+  },
+  "2320218": {
+   "es": "Auldor sagrado",
+   "en": "Divine Auldor",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_Owltros_01_V01",
+   "mazmorras": [
+    600013
+   ]
+  },
+  "2320311": {
+   "es": "Fulgor rojo Ignus",
+   "en": "Red Spark Ignus",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_FireGuard_01",
+   "mazmorras": [
+    600023
+   ]
+  },
+  "2320312": {
+   "es": "Humo negro Murute",
+   "en": "Black Smoke Murute",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_AshGuard_01",
+   "mazmorras": [
+    600023
+   ]
+  },
+  "2320371": {
+   "es": "Ambición de Kromede",
+   "en": "Kromede's Desire",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_Cromede_01",
+   "mazmorras": [
+    600023
+   ]
+  },
+  "2320401": {
+   "es": "Lakshmi de ensueño",
+   "en": "Phantasmal Lakshmi",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_NagaElite_01",
+   "mazmorras": [
+    600033
+   ]
+  },
+  "2320403": {
+   "es": "Saraswati depredador",
+   "en": "Predator Saraswati",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_NagaElite_02",
+   "mazmorras": [
+    600033
+   ]
+  },
+  "2320471": {
+   "es": "Bakarma trascendido",
+   "en": "Transcendent Bakarma",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_Bakarma_02",
+   "mazmorras": [
+    600033
+   ]
+  },
+  "2320601": {
+   "es": "Atiel",
+   "en": "Atiel",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_Atiel_01",
+   "mazmorras": [
+    600053
+   ]
+  },
+  "2320615": {
+   "es": "Nazmun",
+   "en": "Nazmun",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_Lepharist_M_03_V01",
+   "mazmorras": [
+    600053
+   ]
+  },
+  "2320616": {
+   "es": "Gelcos",
+   "en": "Gelcos",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_Gelcos_01",
+   "mazmorras": [
+    600053
+   ]
+  },
+  "2320810": {
+   "es": "Tiere",
+   "en": "Tiere",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_Tie_01",
+   "mazmorras": [
+    600073
+   ]
+  },
+  "2320811": {
+   "es": "Thamon",
+   "en": "Thamon",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_Tamon_01",
+   "mazmorras": [
+    600073
+   ]
+  },
+  "2320812": {
+   "es": "Vakron",
+   "en": "Vakron",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_EleKing_01",
+   "mazmorras": [
+    600073
+   ]
+  },
+  "2320908": {
+   "es": "Perro guardián Kwapo",
+   "en": "Watchdog Kwapo",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_KalnifElite_01_V02",
+   "mazmorras": [
+    600093
+   ]
+  },
+  "2320909": {
+   "es": "Duanka nigromante",
+   "en": "Necromancer Duanka",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_Lycan_04_V01",
+   "mazmorras": [
+    600093
+   ]
+  },
+  "2320910": {
+   "es": "Nuakum del Cuerno Feroz",
+   "en": "Ferocious Horn Nuakum",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_Ferk_01_V01",
+   "mazmorras": [
+    600093
+   ]
+  },
+  "2321301": {
+   "es": "Bakarma agonizante",
+   "en": "Afflicted Bakarma",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_Bakarma_01_V01",
+   "mazmorras": [
+    600123
+   ]
+  },
+  "2321302": {
+   "es": "Veltiras multidimensional",
+   "en": "Multiverse Veltiras",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_Radvima_01_V03",
+   "mazmorras": [
+    600123
+   ]
+  },
+  "2321303": {
+   "es": "Valkan solemne",
+   "en": "Solemn Valkan",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_BeritraC_08_V01",
+   "mazmorras": [
+    600123
+   ]
+  },
+  "2321401": {
+   "es": "Glassvein",
+   "en": "Glassvein",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_Protect_01_V01",
+   "mazmorras": [
+    600133
+   ]
+  },
+  "2321402": {
+   "es": "Nasarak",
+   "en": "Nazarak",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_Hiladr_01_V01",
+   "mazmorras": [
+    600133
+   ]
+  },
+  "2321403": {
+   "es": "Nathara",
+   "en": "Nathara",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_DarkLeda_02_V01",
+   "mazmorras": [
+    600133
+   ]
+  },
+  "2330707": {
+   "es": "Siliator de falsedad",
+   "en": "Siliator of Deceit",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_NagaElite_01_V01",
+   "mazmorras": [
+    600063
+   ]
+  },
+  "2330708": {
+   "es": "Ruthilis del dolor",
+   "en": "Ruthilis of Pain",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_NagaElite_02_V01",
+   "mazmorras": [
+    600063
+   ]
+  },
+  "2330709": {
+   "es": "Talisra del vacío",
+   "en": "Talisra of the Void",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_Thalythra_01",
+   "mazmorras": [
+    600063
+   ]
+  },
+  "2340601": {
+   "es": "Atiel",
+   "en": "Atiel",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_Atiel_01",
+   "mazmorras": [
+    600055
+   ]
+  },
+  "2340615": {
+   "es": "Nazmun",
+   "en": "Nazmun",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_Lepharist_M_03_V01",
+   "mazmorras": [
+    600055
+   ]
+  },
+  "2340616": {
+   "es": "Gelcos",
+   "en": "Gelcos",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_Gelcos_01",
+   "mazmorras": [
+    600055
+   ]
+  },
+  "2343601": {
+   "es": "Atiel",
+   "en": "Atiel",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_Atiel_01",
+   "mazmorras": [
+    600058
+   ]
+  },
+  "2343615": {
+   "es": "Nazmun",
+   "en": "Nazmun",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_Lepharist_M_03_V01",
+   "mazmorras": [
+    600058
+   ]
+  },
+  "2343616": {
+   "es": "Gelcos",
+   "en": "Gelcos",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_Gelcos_01",
+   "mazmorras": [
+    600058
+   ]
+  },
+  "2346601": {
+   "es": "Atiel",
+   "en": "Atiel",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_Atiel_01",
+   "mazmorras": [
+    610052
+   ]
+  },
+  "2346615": {
+   "es": "Nazmun",
+   "en": "Nazmun",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_Lepharist_M_03_V01",
+   "mazmorras": [
+    610052
+   ]
+  },
+  "2346616": {
+   "es": "Gelcos",
+   "en": "Gelcos",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_Gelcos_01",
+   "mazmorras": [
+    610052
+   ]
+  },
+  "2350707": {
+   "es": "Siliator de falsedad",
+   "en": "Siliator of Deceit",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_NagaElite_01_V01",
+   "mazmorras": [
+    600065
+   ]
+  },
+  "2350708": {
+   "es": "Ruthilis del dolor",
+   "en": "Ruthilis of Pain",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_NagaElite_02_V01",
+   "mazmorras": [
+    600065
+   ]
+  },
+  "2350709": {
+   "es": "Talisra del vacío",
+   "en": "Talisra of the Void",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_Thalythra_01",
+   "mazmorras": [
+    600065
+   ]
+  },
+  "2353707": {
+   "es": "Siliator de falsedad",
+   "en": "Siliator of Deceit",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_NagaElite_01_V01",
+   "mazmorras": [
+    600068
+   ]
+  },
+  "2353708": {
+   "es": "Ruthilis del dolor",
+   "en": "Ruthilis of Pain",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_NagaElite_02_V01",
+   "mazmorras": [
+    600068
+   ]
+  },
+  "2353709": {
+   "es": "Talisra del vacío",
+   "en": "Talisra of the Void",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_Thalythra_01",
+   "mazmorras": [
+    600068
+   ]
+  },
+  "2356707": {
+   "es": "Siliator de falsedad",
+   "en": "Siliator of Deceit",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_NagaElite_01_V01",
+   "mazmorras": [
+    610062
+   ]
+  },
+  "2356708": {
+   "es": "Ruthilis del dolor",
+   "en": "Ruthilis of Pain",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_NagaElite_02_V01",
+   "mazmorras": [
+    610062
+   ]
+  },
+  "2356709": {
+   "es": "Talisra del vacío",
+   "en": "Talisra of the Void",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_Thalythra_01",
+   "mazmorras": [
+    610062
+   ]
+  }
+ },
+ "stats": {
+  "abnormalaccuracy": {
+   "stat": 158,
+   "categoria": null,
+   "nombre": "Status Effect Chance",
+   "descripcion": "Increases the chance of landing Status Effect skills by a certain rate."
+  },
+  "abnormalfocus": {
+   "stat": 160,
+   "categoria": null,
+   "nombre": "Suppress Chance",
+   "descripcion": "Increases the chance of landing Suppress skills by a certain rate."
+  },
+  "abnormallower": {
+   "stat": 161,
+   "categoria": null,
+   "nombre": "Suppress Resist",
+   "descripcion": "Reduces the target's chance of landing Suppress skills by a certain rate."
+  },
+  "abnormalresistance": {
+   "stat": 159,
+   "categoria": null,
+   "nombre": "Status Effect Resist",
+   "descripcion": "Reduces the target's chance of landing Status Effect skills by a certain rate."
+  },
+  "abyssamplifydamage": {
+   "stat": 564,
+   "categoria": null,
+   "nombre": "Abyss PvE Damage Boost",
+   "descripcion": "Boosts Damage against Abyss monsters."
+  },
+  "abyssdecreasedamage": {
+   "stat": 565,
+   "categoria": null,
+   "nombre": "Abyss PvE Damage Tolerance",
+   "descripcion": "Weakens Damage taken from Abyss monsters."
+  },
+  "abysspointbonus": {
+   "stat": 517,
+   "categoria": null,
+   "nombre": "Abyss Point Gain increase",
+   "descripcion": "Increases Abyss Point Gain."
+  },
+  "accuracy": {
+   "stat": 104,
+   "categoria": null,
+   "nombre": "Accuracy Bonus",
+   "descripcion": "Prevents attack from missing.\nAffected by target's Evasion."
+  },
+  "accuracyratio": {
+   "stat": 427,
+   "categoria": null,
+   "nombre": "Accuracy increase",
+   "descripcion": "Increases Accuracy by a multiplier."
+  },
+  "addattackrange": {
+   "stat": 192,
+   "categoria": null,
+   "nombre": "Range Bonus",
+   "descripcion": "Increases attack range."
+  },
+  "adddamageearth": {
+   "stat": 167,
+   "categoria": "Property",
+   "nombre": "Earth Attack",
+   "descripcion": "Increases Damage when attacking with Earth."
+  },
+  "adddamagefire": {
+   "stat": 165,
+   "categoria": "Property",
+   "nombre": "Fire Attack",
+   "descripcion": "Increases Damage when attacking with Fire."
+  },
+  "adddamagewater": {
+   "stat": 164,
+   "categoria": "Property",
+   "nombre": "Water Attack",
+   "descripcion": "Increases Damage when attacking with Water."
+  },
+  "adddamagewind": {
+   "stat": 166,
+   "categoria": "Property",
+   "nombre": "Wind Attack",
+   "descripcion": "Increases Damage when attacking with Wind."
+  },
+  "additionalhitrate": {
+   "stat": 146,
+   "categoria": "Resist",
+   "nombre": "Multi-hit Chance",
+   "descripcion": "Increases Multi-hit Chance.\nAdds up to 4 hits, inflicting damage proportional to Attack."
+  },
+  "additionalhitresistrate": {
+   "stat": 147,
+   "categoria": "Resist",
+   "nombre": "Multi-hit Resist",
+   "descripcion": "Reduces target's Multi-hit Chance."
+  },
+  "addweaponrange": {
+   "stat": 249,
+   "categoria": null,
+   "nombre": "Weapon Range",
+   "descripcion": "Weapon attack range."
+  },
+  "adenabonus": {
+   "stat": 217,
+   "categoria": null,
+   "nombre": "Kina Gain Increase",
+   "descripcion": "Increases Kina Gain."
+  },
+  "aerialaccuracy": {
+   "stat": 150,
+   "categoria": "Abnormal",
+   "nombre": "Airborne Chance",
+   "descripcion": "Increases the chance of landing Airborne skills by a certain rate."
+  },
+  "aerialresist": {
+   "stat": 155,
+   "categoria": "Abnormal",
+   "nombre": "Airborne Resist",
+   "descripcion": "Reduces the target's chance of landing Airborne skills by a certain rate."
+  },
+  "aerialtimedecrease": {
+   "stat": 340,
+   "categoria": null,
+   "nombre": "Airborne duration reduction",
+   "descripcion": "Reduces Airborne duration."
+  },
+  "aerialtimeincrease": {
+   "stat": 339,
+   "categoria": null,
+   "nombre": "Airborne duration increase",
+   "descripcion": "Increases Airborne duration."
+  },
+  "agi": {
+   "stat": 5,
+   "categoria": "MainStat",
+   "nombre": "Precision",
+   "descripcion": "Increases Accuracy and Critical Hit."
+  },
+  "allattributedamage": {
+   "stat": 190,
+   "categoria": null,
+   "nombre": "All Elemental Attack",
+   "descripcion": "Increases Damage when attacking with an element."
+  },
+  "allattributedefense": {
+   "stat": 191,
+   "categoria": null,
+   "nombre": "All Elemental Defense",
+   "descripcion": "Reduces Damage taken from Element."
+  },
+  "allattributeresist": {
+   "stat": 189,
+   "categoria": null,
+   "nombre": "All Element Tolerance",
+   "descripcion": "Weakens Damage taken when attacked by Element."
+  },
+  "amplifyaggro": {
+   "stat": 236,
+   "categoria": "Special",
+   "nombre": "Enmity increase",
+   "descripcion": "Attracts the target's attention and makes them attack you.\nNegative value reduces amount of Enmity gained."
+  },
+  "amplifyallattribute": {
+   "stat": 188,
+   "categoria": null,
+   "nombre": "All Element Boost",
+   "descripcion": "Boosts Damage when attacking with Element.\nAffected by target's Element Tolerance."
+  },
+  "amplifyalldamage": {
+   "stat": 28,
+   "categoria": "Attack",
+   "nombre": "Damage Boost",
+   "descripcion": "Boosts Damage.\nAffected by target's Damage Tolerance."
+  },
+  "amplifyalldamageratio": {
+   "stat": 435,
+   "categoria": null,
+   "nombre": "Damage Boost increase",
+   "descripcion": "Increases Damage Boost by a multiplier."
+  },
+  "amplifybackattack": {
+   "stat": 102,
+   "categoria": "Attack",
+   "nombre": "Back Attack Damage Boost",
+   "descripcion": "Boost Damage when successfully attacking from behind.\nIgnores target's Block when attacking from behind."
+  },
+  "amplifybasicatkdamage": {
+   "stat": 30,
+   "categoria": null,
+   "nombre": "Basic Attack Damage Boost",
+   "descripcion": "Boosts Basic Attack Damage."
+  },
+  "amplifycriticaldamage": {
+   "stat": 44,
+   "categoria": "Attack",
+   "nombre": "Critical Damage Boost",
+   "descripcion": "Boosts Critical Hit Damage.\nAffected by target's Critical Damage Tolerance."
+  },
+  "amplifydpget": {
+   "stat": 254,
+   "categoria": null,
+   "nombre": "Divine Power Gain increase",
+   "descripcion": "Increases Divine Power Gain."
+  },
+  "amplifyearth": {
+   "stat": 179,
+   "categoria": "Property",
+   "nombre": "Earth Boost",
+   "descripcion": "Boosts Damage when attacking with Earth.\nAffected by target's Earth Tolerance."
+  },
+  "amplifyfire": {
+   "stat": 177,
+   "categoria": "Property",
+   "nombre": "Fire Boost",
+   "descripcion": "Boosts Damage when attacking with Fire.\nAffected by target's Fire Tolerance."
+  },
+  "amplifyfrontattack": {
+   "stat": 589,
+   "categoria": "Attack",
+   "nombre": "Front Attack Damage Boost",
+   "descripcion": "Boosts Damage when successfully attacking from the front."
+  },
+  "amplifyhpbarrier": {
+   "stat": 373,
+   "categoria": null,
+   "nombre": "Protective Shield Gain increase",
+   "descripcion": "Increases Durability of the Shield gained."
+  },
+  "amplifyhphealget": {
+   "stat": 235,
+   "categoria": "Special",
+   "nombre": "Incoming Heal",
+   "descripcion": "Increases the amount of HP healed with a skill.\nNegative value reduces amount of healing."
+  },
+  "amplifymagiccriticaldamage": {
+   "stat": 46,
+   "categoria": null,
+   "nombre": "Magic Critical Damage Boost",
+   "descripcion": "Boosts Magic Critical Hit Damage.\nAffected by target's Critical Damage Tolerance."
+  },
+  "amplifymagicdamage": {
+   "stat": 27,
+   "categoria": null,
+   "nombre": "Magic Damage Boost",
+   "descripcion": "Boosts Magic Damage."
+  },
+  "amplifymagicskilldamage": {
+   "stat": 85,
+   "categoria": null,
+   "nombre": "Magic Skill Damage Boost",
+   "descripcion": "Boosts Magic Skill Damage."
+  },
+  "amplifyphysiccriticaldamage": {
+   "stat": 45,
+   "categoria": null,
+   "nombre": "Physical Critical Damage Boost",
+   "descripcion": "Boosts Physical Critical Hit Damage.\nAffected by target's Critical Damage Tolerance."
+  },
+  "amplifyphysicdamage": {
+   "stat": 26,
+   "categoria": null,
+   "nombre": "Physical Damage Boost",
+   "descripcion": "Boosts Physical Damage."
+  },
+  "amplifyphysicskilldamage": {
+   "stat": 84,
+   "categoria": null,
+   "nombre": "Physical Skill Damage Boost",
+   "descripcion": "Boosts Physical Skill Damage."
+  },
+  "amplifyskilldamage": {
+   "stat": 29,
+   "categoria": null,
+   "nombre": "Skill Damage Boost",
+   "descripcion": "Boosts Skill Damage."
+  },
+  "amplifywater": {
+   "stat": 176,
+   "categoria": "Property",
+   "nombre": "Water Boost",
+   "descripcion": "Boosts Damage when attacking with Water.\nAffected by target's Water Tolerance."
+  },
+  "amplifyweapondamage": {
+   "stat": 32,
+   "categoria": "Attack",
+   "nombre": "Weapon Damage Boost",
+   "descripcion": "Boosts Weapon Damage.\nAffected by target's Weapon Damage Tolerance."
+  },
+  "amplifywind": {
+   "stat": 178,
+   "categoria": "Property",
+   "nombre": "Wind Boost",
+   "descripcion": "Boosts Damage when attacking with Wind.\nAffected by target's Wind Tolerance."
+  },
+  "aphealrate": {
+   "stat": 581,
+   "categoria": null,
+   "nombre": "Rage Heal Recovery increase",
+   "descripcion": "Increases Rage Heal."
+  },
+  "aphealregen": {
+   "stat": 582,
+   "categoria": null,
+   "nombre": "Rage Heal Recovery",
+   "descripcion": "Increases Rage Heal."
+  },
+  "apmax": {
+   "stat": 575,
+   "categoria": "BookMark",
+   "nombre": "Rage",
+   "descripcion": "Certain skills require Rage for casting them."
+  },
+  "appotionrate": {
+   "stat": 583,
+   "categoria": null,
+   "nombre": "Rage Potion Recovery increase",
+   "descripcion": "Increases Rage Potion Recovery."
+  },
+  "appotionregen": {
+   "stat": 584,
+   "categoria": null,
+   "nombre": "Rage Potion Recovery",
+   "descripcion": "Increases Rage Potion Recovery."
+  },
+  "apregen": {
+   "stat": 577,
+   "categoria": null,
+   "nombre": "Natural Rage Regen",
+   "descripcion": "Recovers Rage at set intervals."
+  },
+  "apusedecrease": {
+   "stat": 580,
+   "categoria": null,
+   "nombre": "Rage Cost reduction",
+   "descripcion": "Reduces the amount of Rage consumed."
+  },
+  "armordefense": {
+   "stat": 307,
+   "categoria": "BookMark",
+   "nombre": "Defense",
+   "descripcion": "Basic Defense.\nHigher Defense reduces Damage taken."
+  },
+  "armordefenseratio": {
+   "stat": 522,
+   "categoria": null,
+   "nombre": "Armor Defense increase",
+   "descripcion": "Increases Armor Defense.\nReduces Damage taken."
+  },
+  "armorevasion": {
+   "stat": 312,
+   "categoria": "BookMark",
+   "nombre": "Evasion",
+   "descripcion": "Evading attacks prevents damage. Max Evasion rate is 30%."
+  },
+  "armorevasionratio": {
+   "stat": 523,
+   "categoria": null,
+   "nombre": "Armor Evasion increase",
+   "descripcion": "Increases Armor Evasion. Max Evasion Rate is 30%."
+  },
+  "attackspeed": {
+   "stat": 202,
+   "categoria": null,
+   "nombre": "Attack Speed",
+   "descripcion": "Increases Attack Speed."
+  },
+  "backattackcritical": {
+   "stat": 100,
+   "categoria": "Resist",
+   "nombre": "Back Attack Critical Hit",
+   "descripcion": "Increases Critical Hit Rate when attacking from behind.\nIgnores target's Block when attacking from behind."
+  },
+  "backattackcriticalresist": {
+   "stat": 101,
+   "categoria": "Resist",
+   "nombre": "Back Attack Critical Hit Resist",
+   "descripcion": "Reduces target's Critical Hit Rate when attacked from behind."
+  },
+  "backattackdamage": {
+   "stat": 98,
+   "categoria": "Attack",
+   "nombre": "Back Attack",
+   "descripcion": "Increases Damage when successfully attacking from behind.\nIgnores target's Block when attacking from behind."
+  },
+  "backattackdefense": {
+   "stat": 99,
+   "categoria": "Attack",
+   "nombre": "Back Defense",
+   "descripcion": "Reduces Damage taken when attacked from behind."
+  },
+  "basicatkdamage": {
+   "stat": 22,
+   "categoria": null,
+   "nombre": "Basic Attack",
+   "descripcion": "Basic Attack"
+  },
+  "basicatkdamagedefense": {
+   "stat": 55,
+   "categoria": null,
+   "nombre": "Basic Attack Defense",
+   "descripcion": "Defense against Basic Attack.\nReduces Basic Attack Damage taken."
+  },
+  "battleapregen": {
+   "stat": 578,
+   "categoria": "Recovery",
+   "nombre": "Combat Natural Rage Regen",
+   "descripcion": "Restores Rage at set intervals during combat."
+  },
+  "battlefpregen": {
+   "stat": 300,
+   "categoria": "Recovery",
+   "nombre": "Combat Natural Flight Power Regen",
+   "descripcion": "Restores Flight Power at set intervals during combat."
+  },
+  "battlehpregen": {
+   "stat": 275,
+   "categoria": "Recovery",
+   "nombre": "Combat Natural HP Regen",
+   "descripcion": "Restores HP at set intervals during combat."
+  },
+  "battlempregen": {
+   "stat": 276,
+   "categoria": "Recovery",
+   "nombre": "Combat Natural MP Regen",
+   "descripcion": "Restores MP at set intervals during combat."
+  },
+  "battlespregen": {
+   "stat": 277,
+   "categoria": "Recovery",
+   "nombre": "Combat Natural Stamina Regen",
+   "descripcion": "Restores Stamina at set intervals during combat."
+  },
+  "beltdefenseratio": {
+   "stat": 505,
+   "categoria": null,
+   "nombre": "Belt Defense increase",
+   "descripcion": "Belt Defense increase."
+  },
+  "bindaccuracy": {
+   "stat": 560,
+   "categoria": "Abnormal",
+   "nombre": "Grab Chance",
+   "descripcion": "Increases the chance of landing Grab skills by a certain rate."
+  },
+  "bindresist": {
+   "stat": 561,
+   "categoria": "Abnormal",
+   "nombre": "Grab Resist",
+   "descripcion": "Reduces the target's chance of landing Grab skills by a certain rate."
+  },
+  "bindtimedecrease": {
+   "stat": 563,
+   "categoria": null,
+   "nombre": "Grab duration reduction",
+   "descripcion": "Reduces Grab duration."
+  },
+  "bindtimeincrease": {
+   "stat": 562,
+   "categoria": null,
+   "nombre": "Grab duration increase",
+   "descripcion": "Increases Grab duration."
+  },
+  "bleedaccuracy": {
+   "stat": 455,
+   "categoria": "Abnormal",
+   "nombre": "Bleed Chance",
+   "descripcion": "Increases the chance of landing Bleed skills by a certain rate."
+  },
+  "bleedresist": {
+   "stat": 463,
+   "categoria": "Abnormal",
+   "nombre": "Bleed Resist",
+   "descripcion": "Reduces the target's chance of landing Bleed skills by a certain rate."
+  },
+  "bleedtimedecrease": {
+   "stat": 476,
+   "categoria": null,
+   "nombre": "Bleed duration reduction",
+   "descripcion": "Reduces Bleed duration."
+  },
+  "bleedtimeincrease": {
+   "stat": 475,
+   "categoria": null,
+   "nombre": "Bleed duration increase",
+   "descripcion": "Increases Bleed duration."
+  },
+  "blindaccuracy": {
+   "stat": 458,
+   "categoria": "Abnormal",
+   "nombre": "Blind Chance",
+   "descripcion": "Increases the chance of landing Blind skills by a certain rate."
+  },
+  "blindresist": {
+   "stat": 466,
+   "categoria": "Abnormal",
+   "nombre": "Blind Resist",
+   "descripcion": "Reduces the target's chance of landing Blind skills by a certain rate."
+  },
+  "blindtimedecrease": {
+   "stat": 482,
+   "categoria": null,
+   "nombre": "Blind duration reduction",
+   "descripcion": "Reduces Blind duration."
+  },
+  "blindtimeincrease": {
+   "stat": 481,
+   "categoria": null,
+   "nombre": "Blind duration increase",
+   "descripcion": "Increases Blind duration."
+  },
+  "block": {
+   "stat": 255,
+   "categoria": "Resist",
+   "nombre": "Block",
+   "descripcion": "Increases Parry Chance and Shield Block Chance.\nCan Parry after blocking with shield.\nAffected by target's Accuracy and Block Penetration.\n※ Block Damage Reduction Rate varies based on Gear Grade."
+  },
+  "blockactiveaccuracy": {
+   "stat": 543,
+   "categoria": "Abnormal",
+   "nombre": "Seal Chance",
+   "descripcion": "Increases the chance of landing Seal skills by a certain rate."
+  },
+  "blockactiveresist": {
+   "stat": 544,
+   "categoria": "Abnormal",
+   "nombre": "Seal Resist",
+   "descripcion": "Reduces the target's chance of landing Seal skills by a certain rate."
+  },
+  "blockactivetimedecrease": {
+   "stat": 546,
+   "categoria": null,
+   "nombre": "Seal duration reduction",
+   "descripcion": "Reduces Seal duration."
+  },
+  "blockactivetimeincrease": {
+   "stat": 545,
+   "categoria": null,
+   "nombre": "Seal duration increase",
+   "descripcion": "Increases Seal duration."
+  },
+  "blockadeaccuracy": {
+   "stat": 547,
+   "categoria": null,
+   "nombre": "Restrain Chance",
+   "descripcion": "Increases the chance of landing Restrain skills by a certain rate."
+  },
+  "blockaderesist": {
+   "stat": 548,
+   "categoria": null,
+   "nombre": "Restrain Resist",
+   "descripcion": "Reduces the target's chance of landing Restrain skills by a certain rate."
+  },
+  "blockadetimedecrease": {
+   "stat": 550,
+   "categoria": null,
+   "nombre": "Restrain duration reduction",
+   "descripcion": "Reduces Restrain duration."
+  },
+  "blockadetimeincrease": {
+   "stat": 549,
+   "categoria": null,
+   "nombre": "Restrain duration increase",
+   "descripcion": "Increases Restrain duration."
+  },
+  "blockpierce": {
+   "stat": 256,
+   "categoria": "Resist",
+   "nombre": "Block Penetration",
+   "descripcion": "Ignores target's Block Chance."
+  },
+  "blockpierceratio": {
+   "stat": 431,
+   "categoria": null,
+   "nombre": "Block Penetration increase",
+   "descripcion": "Increases Block Penetration by a multiplier."
+  },
+  "blockratio": {
+   "stat": 432,
+   "categoria": null,
+   "nombre": "Block increase",
+   "descripcion": "Increases Block Increase by a multiplier."
+  },
+  "bodypropertyaccuracy": {
+   "stat": 329,
+   "categoria": null,
+   "nombre": "Ailment-type Chance",
+   "descripcion": "Increases the chance of landing Ailment-type status effect skills by a certain rate."
+  },
+  "bodypropertyresist": {
+   "stat": 330,
+   "categoria": null,
+   "nombre": "Ailment-type Resist",
+   "descripcion": "Reduces the target's chance of landing Ailment-type status effect skills by a certain rate."
+  },
+  "bodypropertytimedecrease": {
+   "stat": 332,
+   "categoria": null,
+   "nombre": "Ailment-type duration reduction",
+   "descripcion": "Reduces Ailment-type duration."
+  },
+  "bodypropertytimeincrease": {
+   "stat": 331,
+   "categoria": null,
+   "nombre": "Ailment-type duration increase",
+   "descripcion": "Increases Ailment-type duration."
+  },
+  "bootsdefenseratio": {
+   "stat": 504,
+   "categoria": null,
+   "nombre": "Shoes Defense increase",
+   "descripcion": "Shoes Defense increase."
+  },
+  "bossnpcadddamage": {
+   "stat": 50,
+   "categoria": "Amplify",
+   "nombre": "Boss Attack",
+   "descripcion": "Increases Damage when attacking Boss Monster."
+  },
+  "bossnpcamplifydamage": {
+   "stat": 520,
+   "categoria": "Amplify",
+   "nombre": "Boss Damage Boost",
+   "descripcion": "Boosts Damage on Boss.\nAffected by target's Boss Damage Tolerance."
+  },
+  "bossnpcdecreasedamage": {
+   "stat": 521,
+   "categoria": "Amplify",
+   "nombre": "Boss Damage Tolerance",
+   "descripcion": "Weakens Damage taken from Boss."
+  },
+  "bossnpcdefense": {
+   "stat": 51,
+   "categoria": "Amplify",
+   "nombre": "Boss Defense",
+   "descripcion": "Reduces Damage taken when attacked by Boss Monster."
+  },
+  "bowdamageratio": {
+   "stat": 494,
+   "categoria": null,
+   "nombre": "Bow Attack increase",
+   "descripcion": "Bow Attack increase."
+  },
+  "braceletdamageratio": {
+   "stat": 514,
+   "categoria": null,
+   "nombre": "Bracelet Attack increase",
+   "descripcion": "Bracelet Attack increase."
+  },
+  "braceletdefenseratio": {
+   "stat": 515,
+   "categoria": null,
+   "nombre": "Bracelet Defense increase",
+   "descripcion": "Bracelet Defense increase."
+  },
+  "capedefenseratio": {
+   "stat": 506,
+   "categoria": null,
+   "nombre": "Cloak Defense increase",
+   "descripcion": "Cloak Defense increase."
+  },
+  "castingspeed": {
+   "stat": 248,
+   "categoria": null,
+   "nombre": "Cast Speed",
+   "descripcion": "Increases Cast Speed."
+  },
+  "castingtime": {
+   "stat": 270,
+   "categoria": null,
+   "nombre": "Cast duration",
+   "descripcion": "Reduces Skill Cast duration."
+  },
+  "chargespeed": {
+   "stat": 204,
+   "categoria": null,
+   "nombre": "Charge Speed",
+   "descripcion": "Reduces Skill Recharge duration."
+  },
+  "combatspeed": {
+   "stat": 282,
+   "categoria": "BookMark",
+   "nombre": "Combat Speed",
+   "descripcion": "Increases Attack Speed and Spell Action Speed."
+  },
+  "combatspeedratio": {
+   "stat": 434,
+   "categoria": null,
+   "nombre": "Combat Speed increase",
+   "descripcion": "Increases Combat Speed by a multiplier."
+  },
+  "con": {
+   "stat": 4,
+   "categoria": "MainStat",
+   "nombre": "Constitution",
+   "descripcion": "Increases HP."
+  },
+  "cooltimedecrease": {
+   "stat": 215,
+   "categoria": null,
+   "nombre": "Cooldown Reduction",
+   "descripcion": "Reduces Skill Cooldown."
+  },
+  "cooltimedecreaseratio": {
+   "stat": 433,
+   "categoria": null,
+   "nombre": "Increases Cooldown Reduction",
+   "descripcion": "Increases Cooldown reduction by a multiplier."
+  },
+  "cooltimeincrease": {
+   "stat": 385,
+   "categoria": "Special",
+   "nombre": "Cooldown",
+   "descripcion": "Skill Cooldown duration.\nNegative value reduces Cooldown.\nCooldown reduction is capped at 60%."
+  },
+  "critical": {
+   "stat": 128,
+   "categoria": "BookMark",
+   "nombre": "Critical Hit",
+   "descripcion": "Increases Critical Hit Rate.\nMax Critical Hit Rate is 50%, and this is reduced by target's Critical Hit Resist."
+  },
+  "criticaladddamage": {
+   "stat": 38,
+   "categoria": "Attack",
+   "nombre": "Critical Attack",
+   "descripcion": "Increases Damage when a Critical Hit occurs.\nAffected by target's Critical Damage Defense."
+  },
+  "criticaldamagedefense": {
+   "stat": 41,
+   "categoria": "Attack",
+   "nombre": "Critical Damage Defense",
+   "descripcion": "Reduces Damage taken from Critical Hit."
+  },
+  "criticalmagicadddamage": {
+   "stat": 40,
+   "categoria": null,
+   "nombre": "Critical Magic Attack",
+   "descripcion": "Increases Damage when a Magic Critical Hit occurs.\nAffected by target's Critical Damage Defense."
+  },
+  "criticalmagicdamagedefense": {
+   "stat": 43,
+   "categoria": null,
+   "nombre": "Magic Critical Damage Defense",
+   "descripcion": "Reduces Damage taken from Magic Critical Hit."
+  },
+  "criticalphysicadddamage": {
+   "stat": 39,
+   "categoria": null,
+   "nombre": "Critical Physical Attack",
+   "descripcion": "Increases Damage when a Physical Critical Hit occurs.\nAffected by target's Critical Damage Defense."
+  },
+  "criticalphysicdamagedefense": {
+   "stat": 42,
+   "categoria": null,
+   "nombre": "Physical Critical Damage Defense",
+   "descripcion": "Reduces Damage taken from Physical Critical Hit."
+  },
+  "criticalratio": {
+   "stat": 429,
+   "categoria": null,
+   "nombre": "Critical Hit increase",
+   "descripcion": "Increases Critical Hit by a multiplier."
+  },
+  "criticalresist": {
+   "stat": 133,
+   "categoria": "BookMark",
+   "nombre": "Critical Hit Resist",
+   "descripcion": "Reduces chance of receiving Critical Hits."
+  },
+  "criticalresistratio": {
+   "stat": 430,
+   "categoria": null,
+   "nombre": "Critical Hit Resist increase",
+   "descripcion": "Increases Critical Hit Resist by a multiplier."
+  },
+  "daggerdamageratio": {
+   "stat": 493,
+   "categoria": null,
+   "nombre": "Dagger Attack increase",
+   "descripcion": "Dagger Attack increase."
+  },
+  "damageratio": {
+   "stat": 425,
+   "categoria": null,
+   "nombre": "Attack increase",
+   "descripcion": "Increases Attack by a multiplier."
+  },
+  "dark": {
+   "stat": 18,
+   "categoria": "Conqueror",
+   "nombre": "Darkness [Azphel]",
+   "descripcion": "Darkness [Azphel]\n-"
+  },
+  "death": {
+   "stat": 14,
+   "categoria": "Conqueror",
+   "nombre": "Death [Triniel]",
+   "descripcion": "Death [Triniel]\nIncreases Critical Hit and Regeneration Penetration."
+  },
+  "decreaseaggro": {
+   "stat": 237,
+   "categoria": null,
+   "nombre": "Enmity reduction",
+   "descripcion": "Avoids the target's attention and prevents them attacking you."
+  },
+  "decreasebackattack": {
+   "stat": 103,
+   "categoria": "Attack",
+   "nombre": "Back Attack Damage Tolerance",
+   "descripcion": "Weakens Damage taken when attacked from behind."
+  },
+  "decreasebasicatkdamage": {
+   "stat": 75,
+   "categoria": null,
+   "nombre": "Basic Attack Damage Tolerance",
+   "descripcion": "Weakens attack target's Basic Attack Damage."
+  },
+  "decreasecriticaldamage": {
+   "stat": 47,
+   "categoria": "Attack",
+   "nombre": "Critical Damage Tolerance",
+   "descripcion": "Weakens Critical Hit Damage taken from Critical Hit."
+  },
+  "decreasedamage": {
+   "stat": 70,
+   "categoria": "Attack",
+   "nombre": "Damage Tolerance",
+   "descripcion": "Weakens Damage taken."
+  },
+  "decreasedamageratio": {
+   "stat": 436,
+   "categoria": null,
+   "nombre": "Damage reduction increase",
+   "descripcion": "Increases Damage reduction by a multiplier."
+  },
+  "decreasefrontattack": {
+   "stat": 590,
+   "categoria": "Attack",
+   "nombre": "Front Attack Damage Tolerance",
+   "descripcion": "Weakens Damage taken when attacked from the front."
+  },
+  "decreasemagiccriticaldamage": {
+   "stat": 49,
+   "categoria": null,
+   "nombre": "Magic Critical Damage Tolerance",
+   "descripcion": "Weakens Magic Critical Hit Damage taken from Magic Critical Hit."
+  },
+  "decreasemagicdamage": {
+   "stat": 72,
+   "categoria": null,
+   "nombre": "Magic Damage Tolerance",
+   "descripcion": "Weakens Magic Damage taken."
+  },
+  "decreasemagicskilldamage": {
+   "stat": 87,
+   "categoria": null,
+   "nombre": "Magic Skill Damage Tolerance",
+   "descripcion": "Weakens Magic Skill Damage taken."
+  },
+  "decreasephysiccriticaldamage": {
+   "stat": 48,
+   "categoria": null,
+   "nombre": "Physical Critical Damage Tolerance",
+   "descripcion": "Weakens Physical Critical Hit Damage taken from Physical Critical Hit."
+  },
+  "decreasephysicdamage": {
+   "stat": 71,
+   "categoria": null,
+   "nombre": "Physical Damage Tolerance",
+   "descripcion": "Weakens Physical Damage taken."
+  },
+  "decreasephysicskilldamage": {
+   "stat": 86,
+   "categoria": null,
+   "nombre": "Physical Skill Damage Tolerance",
+   "descripcion": "Weakens Physical Skill Damage taken."
+  },
+  "decreaseshieldblock": {
+   "stat": 89,
+   "categoria": null,
+   "nombre": "Shield Block Damage Reduction Rate",
+   "descripcion": "Reduces more Damage when Shield Block activates."
+  },
+  "decreaseskilldamage": {
+   "stat": 73,
+   "categoria": null,
+   "nombre": "Skill Damage Tolerance",
+   "descripcion": "Weakens Skill Damage taken."
+  },
+  "decreaseweaponblock": {
+   "stat": 93,
+   "categoria": null,
+   "nombre": "Parry Damage Reduction Rate",
+   "descripcion": "Reduces Parry Damage Reduction Rate when target successfully parries."
+  },
+  "decreaseweapondamage": {
+   "stat": 74,
+   "categoria": "Attack",
+   "nombre": "Weapon Damage Tolerance",
+   "descripcion": "Weakens attack target's Weapon Attack."
+  },
+  "defense": {
+   "stat": 52,
+   "categoria": null,
+   "nombre": "Defense Bonus",
+   "descripcion": "Defense.\nReduces Damage taken."
+  },
+  "defensepierce": {
+   "stat": 284,
+   "categoria": "Attack",
+   "nombre": "Penetration",
+   "descripcion": "Ignores target's Defense.\nDefense does not fall below 0."
+  },
+  "defenseratio": {
+   "stat": 426,
+   "categoria": null,
+   "nombre": "Defense increase",
+   "descripcion": "Increases Defense by a multiplier."
+  },
+  "destiny": {
+   "stat": 16,
+   "categoria": "Conqueror",
+   "nombre": "Destiny [Marchutan]",
+   "descripcion": "Destiny [Marchutan]\nIncreases MP and Endurance Chance."
+  },
+  "destruction": {
+   "stat": 13,
+   "categoria": "Conqueror",
+   "nombre": "Destruction [Zikel]",
+   "descripcion": "Destruction [Zikel]\nIncreases Attack and Perfect Resist."
+  },
+  "dex": {
+   "stat": 2,
+   "categoria": "MainStat",
+   "nombre": "Dexterity",
+   "descripcion": "Increases Evasion, Block, and Critical Hit Resist."
+  },
+  "divecost": {
+   "stat": 296,
+   "categoria": null,
+   "nombre": "Diving Gauge Cost Reduction Rate",
+   "descripcion": "Reduces Diving Gauge consumed while diving."
+  },
+  "dphealrate": {
+   "stat": 231,
+   "categoria": null,
+   "nombre": "Divine Power Heal Recovery increase",
+   "descripcion": "Increases Divine Power Heal."
+  },
+  "dphealregen": {
+   "stat": 232,
+   "categoria": null,
+   "nombre": "Divine Power Heal Recovery",
+   "descripcion": "Increases Divine Power Heal."
+  },
+  "dpmax": {
+   "stat": 252,
+   "categoria": null,
+   "nombre": "Divine Power",
+   "descripcion": "Divine energy required for using Divine skills.\nObtained by defeating targets possessing Divine Power."
+  },
+  "dppotionrate": {
+   "stat": 233,
+   "categoria": null,
+   "nombre": "Divine Power Potion Recovery increase",
+   "descripcion": "Increases Divine Power Potion Recovery."
+  },
+  "dppotionregen": {
+   "stat": 234,
+   "categoria": null,
+   "nombre": "Divine Power Potion Recovery",
+   "descripcion": "Increases Divine Power Potion Recovery."
+  },
+  "dpregen": {
+   "stat": 287,
+   "categoria": null,
+   "nombre": "Natural Divine Power Regen",
+   "descripcion": "Restores Divine Power at set intervals."
+  },
+  "earringdamageratio": {
+   "stat": 510,
+   "categoria": null,
+   "nombre": "Earrings Attack increase",
+   "descripcion": "Earrings Attack increase."
+  },
+  "earringdefenseratio": {
+   "stat": 511,
+   "categoria": null,
+   "nombre": "Earrings Defense increase",
+   "descripcion": "Earrings Defense increase."
+  },
+  "earthdamagedefense": {
+   "stat": 173,
+   "categoria": "Property",
+   "nombre": "Earth Defense",
+   "descripcion": "Reduces Damage taken from Earth."
+  },
+  "elementalistdespawnhpregen": {
+   "stat": 377,
+   "categoria": null,
+   "nombre": "Spirit Recovery",
+   "descripcion": "Recovers Spirit HP."
+  },
+  "elementalsummonlifetime": {
+   "stat": 378,
+   "categoria": null,
+   "nombre": "Spirit duration increase",
+   "descripcion": "Increases Spirit duration."
+  },
+  "evasion": {
+   "stat": 116,
+   "categoria": null,
+   "nombre": "Evasion Bonus",
+   "descripcion": "Evading attacks prevents damage. Max Evasion rate is 30%."
+  },
+  "evasionratio": {
+   "stat": 428,
+   "categoria": null,
+   "nombre": "Evasion increase",
+   "descripcion": "Increases Evasion by a multiplier."
+  },
+  "experiencebonus": {
+   "stat": 216,
+   "categoria": null,
+   "nombre": "EXP Gain Increase",
+   "descripcion": "Increases EXP Gain."
+  },
+  "fallingspeed": {
+   "stat": 213,
+   "categoria": null,
+   "nombre": "Descent Speed",
+   "descripcion": "Increases Fall Speed."
+  },
+  "fearaccuracy": {
+   "stat": 535,
+   "categoria": "Abnormal",
+   "nombre": "Fear Chance",
+   "descripcion": "Increases the chance of landing Fear skills by a certain rate."
+  },
+  "fearresist": {
+   "stat": 536,
+   "categoria": "Abnormal",
+   "nombre": "Fear Resist",
+   "descripcion": "Reduces the target's chance of landing Fear skills by a certain rate."
+  },
+  "feartimedecrease": {
+   "stat": 538,
+   "categoria": null,
+   "nombre": "Fear duration reduction",
+   "descripcion": "Reduces Fear duration."
+  },
+  "feartimeincrease": {
+   "stat": 537,
+   "categoria": null,
+   "nombre": "Fear duration increase",
+   "descripcion": "Increases Fear duration."
+  },
+  "feralaccuracy": {
+   "stat": 403,
+   "categoria": "Race",
+   "nombre": "Fera Accuracy",
+   "descripcion": "Accuracy added when attacking Fera.\nOffset by the Fera's Evasion and Block."
+  },
+  "feralamplifydamage": {
+   "stat": 485,
+   "categoria": "Race",
+   "nombre": "Fera Damage Boost",
+   "descripcion": "Boosts Damage when attacking Fera.\nAffected by target's Fera Damage Tolerance."
+  },
+  "feralblock": {
+   "stat": 408,
+   "categoria": "Race",
+   "nombre": "Fera Block",
+   "descripcion": "Increases Block Chance when attacked by Fera."
+  },
+  "feralblockpierce": {
+   "stat": 407,
+   "categoria": "Race",
+   "nombre": "Fera Block Penetration",
+   "descripcion": "Ignores Fera Block Chance when attacking Fera."
+  },
+  "feralcritical": {
+   "stat": 405,
+   "categoria": "Race",
+   "nombre": "Fera Critical Hit",
+   "descripcion": "Increases Critical Hit Rate when attacking Fera."
+  },
+  "feralcriticalresist": {
+   "stat": 406,
+   "categoria": "Race",
+   "nombre": "Fera Critical Hit Resist",
+   "descripcion": "Reduces Critical Hit Rate when attacked by Fera."
+  },
+  "feraldamage": {
+   "stat": 401,
+   "categoria": "Race",
+   "nombre": "Fera Attack",
+   "descripcion": "Increases Damage when attacking Fera."
+  },
+  "feraldecreasedamage": {
+   "stat": 486,
+   "categoria": "Race",
+   "nombre": "Fera Damage Tolerance",
+   "descripcion": "Weakens Damage taken when attacked by Fera."
+  },
+  "feraldefense": {
+   "stat": 402,
+   "categoria": "Race",
+   "nombre": "Fera Defense",
+   "descripcion": "Reduces Damage taken from Fera."
+  },
+  "feralevasion": {
+   "stat": 404,
+   "categoria": "Race",
+   "nombre": "Fera Evasion",
+   "descripcion": "Increases chance to evade incoming attacks when attacked by Fera."
+  },
+  "firedamagedefense": {
+   "stat": 171,
+   "categoria": "Property",
+   "nombre": "Fire Defense",
+   "descripcion": "Reduces Damage taken from Fire."
+  },
+  "fixingdamage": {
+   "stat": 19,
+   "categoria": null,
+   "nombre": "Attack Bonus",
+   "descripcion": "Basic Attack.\nAffects Damage."
+  },
+  "flycost": {
+   "stat": 247,
+   "categoria": null,
+   "nombre": "Flight Stamina Cost Reduction Rate",
+   "descripcion": "Reduces Flight Power Cost when flying."
+  },
+  "flydamage": {
+   "stat": 524,
+   "categoria": null,
+   "nombre": "Flight Attack",
+   "descripcion": "Increases Damage while flying."
+  },
+  "flydefense": {
+   "stat": 525,
+   "categoria": null,
+   "nombre": "Flight Defense",
+   "descripcion": "Reduces Damage taken while flying."
+  },
+  "flyfallspeed": {
+   "stat": 257,
+   "categoria": null,
+   "nombre": "Gliding Landing Stamina Cost Reduction Rate",
+   "descripcion": "Reduces Stamina Cost when gliding."
+  },
+  "flylimitheight": {
+   "stat": 211,
+   "categoria": null,
+   "nombre": "Flight Altitude",
+   "descripcion": "Max altitude achievable while flying."
+  },
+  "flymagicdamage": {
+   "stat": 280,
+   "categoria": null,
+   "nombre": "Flight Magic Attack",
+   "descripcion": "Increases Magic Damage while flying."
+  },
+  "flymagicdefense": {
+   "stat": 281,
+   "categoria": null,
+   "nombre": "Flight Magic Defense",
+   "descripcion": "flymagicdefense"
+  },
+  "flyphysicdamage": {
+   "stat": 278,
+   "categoria": null,
+   "nombre": "Flight Physical Attack",
+   "descripcion": "Increases Physical Damage while flying."
+  },
+  "flyphysicdefense": {
+   "stat": 279,
+   "categoria": null,
+   "nombre": "Flight Physical Defense",
+   "descripcion": "flyphysicdefense"
+  },
+  "flyspeed": {
+   "stat": 214,
+   "categoria": "Special",
+   "nombre": "Flight Speed",
+   "descripcion": "Increases Flight Speed."
+  },
+  "fphealrate": {
+   "stat": 304,
+   "categoria": null,
+   "nombre": "Flight Power Heal Recovery increase",
+   "descripcion": "Increases Flight Power Heal."
+  },
+  "fphealregen": {
+   "stat": 303,
+   "categoria": null,
+   "nombre": "Flight Power Heal Recovery",
+   "descripcion": "Increases Flight Power Heal."
+  },
+  "fpmax": {
+   "stat": 298,
+   "categoria": "Recovery",
+   "nombre": "Flight Power",
+   "descripcion": "Consumed when flying.\nCollect a variety of wings to increase Flight Power."
+  },
+  "fppotionrate": {
+   "stat": 306,
+   "categoria": null,
+   "nombre": "Flight Power Potion Recovery increase",
+   "descripcion": "Increases Flight Power Potion Recovery."
+  },
+  "fppotionregen": {
+   "stat": 305,
+   "categoria": null,
+   "nombre": "Flight Power Potion Recovery",
+   "descripcion": "Increases Flight Power Potion Recovery."
+  },
+  "fpregen": {
+   "stat": 299,
+   "categoria": null,
+   "nombre": "Natural Flight Power Regen",
+   "descripcion": "Restores Flight Power at set intervals."
+  },
+  "fpregenratio": {
+   "stat": 302,
+   "categoria": null,
+   "nombre": "Natural Flight Power Regen increase",
+   "descripcion": "Increases Flight Power Regen."
+  },
+  "freedom": {
+   "stat": 8,
+   "categoria": "Conqueror",
+   "nombre": "Freedom [Vaizel]",
+   "descripcion": "Freedom [Vaizel]\nIncreases Accuracy and Evasion."
+  },
+  "frontattackcritical": {
+   "stat": 591,
+   "categoria": "Resist",
+   "nombre": "Front Attack Critical Hit",
+   "descripcion": "Increases Critical Hit Rate when attacking from the front."
+  },
+  "frontattackcriticalresist": {
+   "stat": 592,
+   "categoria": "Resist",
+   "nombre": "Front Attack Critical Hit Resist",
+   "descripcion": "Reduces target's Critical Hit Rate when attacked from the front."
+  },
+  "frontattackdamage": {
+   "stat": 587,
+   "categoria": "Attack",
+   "nombre": "Front Attack",
+   "descripcion": "Increases Damage when successfully attacking from the front."
+  },
+  "frontattackdefense": {
+   "stat": 588,
+   "categoria": "Attack",
+   "nombre": "Front Defense",
+   "descripcion": "Reduces Damage taken when attacked from the front."
+  },
+  "frozenaccuracy": {
+   "stat": 250,
+   "categoria": "Abnormal",
+   "nombre": "Frost Chance",
+   "descripcion": "Increases the chance of landing Frost skills by a certain rate."
+  },
+  "frozenresist": {
+   "stat": 251,
+   "categoria": "Abnormal",
+   "nombre": "Frost Resist",
+   "descripcion": "Reduces the target's chance of landing Frost skills by a certain rate."
+  },
+  "frozentimedecrease": {
+   "stat": 344,
+   "categoria": null,
+   "nombre": "Frost duration reduction",
+   "descripcion": "Reduces Frost duration."
+  },
+  "frozentimeincrease": {
+   "stat": 343,
+   "categoria": null,
+   "nombre": "Frost duration increase",
+   "descripcion": "Increases Frost duration."
+  },
+  "gauntletdamageratio": {
+   "stat": 586,
+   "categoria": null,
+   "nombre": "Fist Attack increase",
+   "descripcion": "Fist Attack increase."
+  },
+  "glovesdefenseratio": {
+   "stat": 503,
+   "categoria": null,
+   "nombre": "Gloves Defense increase",
+   "descripcion": "Gloves Defense increase."
+  },
+  "greatsworddamageratio": {
+   "stat": 492,
+   "categoria": null,
+   "nombre": "Greatsword Attack increase",
+   "descripcion": "Greatsword Attack increase."
+  },
+  "groundvehiclespeed": {
+   "stat": 208,
+   "categoria": "Special",
+   "nombre": "Mount Ground Move Speed",
+   "descripcion": "Increases Move Speed while riding a pet."
+  },
+  "guarderdamageratio": {
+   "stat": 499,
+   "categoria": null,
+   "nombre": "Guard Attack increase",
+   "descripcion": "Guard Attack increase."
+  },
+  "hardhit": {
+   "stat": 443,
+   "categoria": "Resist",
+   "nombre": "Double Chance",
+   "descripcion": "Increases Double activation chance.\nAffected by target's Double Resist.\n※ Double: Deals greatly increased Damage based on Final Damage."
+  },
+  "hardhitresist": {
+   "stat": 447,
+   "categoria": "Resist",
+   "nombre": "Double Resist",
+   "descripcion": "Reduces target's Double chance when attacked."
+  },
+  "healcostaprate": {
+   "stat": 585,
+   "categoria": "Recovery",
+   "nombre": "Rage Gain increase",
+   "descripcion": "Increases amount of Rage restored with skills."
+  },
+  "healcostmprate": {
+   "stat": 516,
+   "categoria": "Recovery",
+   "nombre": "MP Gain increase",
+   "descripcion": "Increases amount of MP restored with skills."
+  },
+  "helmetdefenseratio": {
+   "stat": 500,
+   "categoria": null,
+   "nombre": "Helm Defense increase",
+   "descripcion": "Helm Defense increase."
+  },
+  "holdaccuracy": {
+   "stat": 149,
+   "categoria": "Abnormal",
+   "nombre": "Root Chance",
+   "descripcion": "Increases the chance of landing Root skills by a certain rate."
+  },
+  "holdresist": {
+   "stat": 154,
+   "categoria": "Abnormal",
+   "nombre": "Root Resist",
+   "descripcion": "Reduces the target's chance of landing Root skills by a certain rate."
+  },
+  "holdtimedecrease": {
+   "stat": 336,
+   "categoria": null,
+   "nombre": "Root duration reduction",
+   "descripcion": "Reduces Root duration."
+  },
+  "holdtimeincrease": {
+   "stat": 335,
+   "categoria": null,
+   "nombre": "Root duration increase",
+   "descripcion": "Increases Root duration."
+  },
+  "hpdrain": {
+   "stat": 372,
+   "categoria": null,
+   "nombre": "HP Absorption",
+   "descripcion": "Absorbs a portion of HP when attacking."
+  },
+  "hphealgetreduce": {
+   "stat": 222,
+   "categoria": null,
+   "nombre": "Incoming Heal reduction",
+   "descripcion": "Reduces HP recovery amount when healed with a skill."
+  },
+  "hphealrate": {
+   "stat": 218,
+   "categoria": "Special",
+   "nombre": "Heal Boost",
+   "descripcion": "Boosts amount of HP healed."
+  },
+  "hphealregen": {
+   "stat": 219,
+   "categoria": null,
+   "nombre": "Heal Recovery",
+   "descripcion": "Increases HP Heal."
+  },
+  "hpmax": {
+   "stat": 193,
+   "categoria": "BookMark",
+   "nombre": "HP",
+   "descripcion": "Character HP.\nCharacter dies when HP drops to 0."
+  },
+  "hppotionrate": {
+   "stat": 220,
+   "categoria": "Recovery",
+   "nombre": "HP Potion Recovery increase",
+   "descripcion": "Boosts HP Potion Recovery."
+  },
+  "hppotionregen": {
+   "stat": 221,
+   "categoria": "Recovery",
+   "nombre": "HP Potion Recovery",
+   "descripcion": "Increases amount recovered when using HP Potion."
+  },
+  "hpregen": {
+   "stat": 194,
+   "categoria": null,
+   "nombre": "Natural HP Regen",
+   "descripcion": "Restores HP at set intervals."
+  },
+  "ignoredecreaseshieldblock": {
+   "stat": 88,
+   "categoria": null,
+   "nombre": "Shield Block Damage Reduction Penetration",
+   "descripcion": "Reduces target's Damage Reduction Rate when it succeeds in Shield Block."
+  },
+  "ignoredecreaseweaponblock": {
+   "stat": 92,
+   "categoria": null,
+   "nombre": "Parry Reduction Penetration",
+   "descripcion": "Reduces target's Parry Success Chance."
+  },
+  "ignoredefense": {
+   "stat": 552,
+   "categoria": null,
+   "nombre": "Penetration Rate",
+   "descripcion": "Penetration Rate"
+  },
+  "ignoreimmune": {
+   "stat": 529,
+   "categoria": null,
+   "nombre": "Immunity Penetration",
+   "descripcion": "Reduces target's Immunity Chance."
+  },
+  "ignoreironwall": {
+   "stat": 449,
+   "categoria": "Resist",
+   "nombre": "Endurance Penetration",
+   "descripcion": "Ignores target's Endurance activation chance."
+  },
+  "ignorerestoration": {
+   "stat": 448,
+   "categoria": "Resist",
+   "nombre": "Regeneration Penetration",
+   "descripcion": "Ignores target's Regeneration activation chance."
+  },
+  "ignoreshieldblockdefense": {
+   "stat": 90,
+   "categoria": null,
+   "nombre": "Shield Block Defense Penetration",
+   "descripcion": "Reduces Shield Block Defense when the target succeeds in Shield Block."
+  },
+  "ignoreweaponblockdefense": {
+   "stat": 94,
+   "categoria": null,
+   "nombre": "Parry Defense Penetration",
+   "descripcion": "Reduces target's Parry Defense on successful Parry."
+  },
+  "illusion": {
+   "stat": 9,
+   "categoria": "Conqueror",
+   "nombre": "Illusion [Kaisinel]",
+   "descripcion": "Illusion [Kaisinel]\nReduces Cooldown and increases Endurance Penetration."
+  },
+  "immune": {
+   "stat": 528,
+   "categoria": null,
+   "nombre": "Immune",
+   "descripcion": "Can ignore Attack.\nMax Immunity is 50%."
+  },
+  "int": {
+   "stat": 3,
+   "categoria": "MainStat",
+   "nombre": "Intelligence",
+   "descripcion": "Increases Status Effect Chance."
+  },
+  "intellectaccuracy": {
+   "stat": 395,
+   "categoria": "Race",
+   "nombre": "Cogni Accuracy",
+   "descripcion": "Accuracy added when attacking Cogni.\nOffset by the Cogni's Evasion and Block."
+  },
+  "intellectamplifydamage": {
+   "stat": 483,
+   "categoria": "Race",
+   "nombre": "Cogni Damage Boost",
+   "descripcion": "Boosts Damage when attacking Cogni.\nAffected by target's Cogni Damage Tolerance."
+  },
+  "intellectblock": {
+   "stat": 400,
+   "categoria": "Race",
+   "nombre": "Cogni Block",
+   "descripcion": "Increases Block Chance when attacked by Cogni."
+  },
+  "intellectblockpierce": {
+   "stat": 399,
+   "categoria": "Race",
+   "nombre": "Cogni Block Penetration",
+   "descripcion": "Ignores Cogni Block Chance when attacking Cogni."
+  },
+  "intellectcritical": {
+   "stat": 397,
+   "categoria": "Race",
+   "nombre": "Cogni Critical Hit",
+   "descripcion": "Increases Critical Hit Rate when attacking Cogni."
+  },
+  "intellectcriticalresist": {
+   "stat": 398,
+   "categoria": "Race",
+   "nombre": "Cogni Critical Hit Resist",
+   "descripcion": "Reduces Critical Hit Rate when attacked by Cogni."
+  },
+  "intellectdamage": {
+   "stat": 393,
+   "categoria": "Race",
+   "nombre": "Cogni Attack",
+   "descripcion": "Increases Damage when attacking Cogni."
+  },
+  "intellectdecreasedamage": {
+   "stat": 484,
+   "categoria": "Race",
+   "nombre": "Cogni Damage Tolerance",
+   "descripcion": "Weakens Damage taken when attacked by Cogni."
+  },
+  "intellectdefense": {
+   "stat": 394,
+   "categoria": "Race",
+   "nombre": "Cogni Defense",
+   "descripcion": "Reduces Damage taken from Cogni."
+  },
+  "intellectevasion": {
+   "stat": 396,
+   "categoria": "Race",
+   "nombre": "Cogni Evasion",
+   "descripcion": "Increases chance to evade incoming attacks when attacked by Cogni."
+  },
+  "ironwall": {
+   "stat": 445,
+   "categoria": "Resist",
+   "nombre": "Endurance",
+   "descripcion": "Increases Endurance activation chance.\nAffected by target's Endurance Penetration.\n※ Endurance: Reduces Damage by half."
+  },
+  "justice": {
+   "stat": 7,
+   "categoria": "Conqueror",
+   "nombre": "Justice [Nezekan]",
+   "descripcion": "Justice [Nezekan]\nIncreases Defense and Perfect activation chance."
+  },
+  "knockdowninstantaccuracy": {
+   "stat": 381,
+   "categoria": "Abnormal",
+   "nombre": "Knockdown Chance",
+   "descripcion": "Increases the chance of landing Knockdown skills by a certain rate."
+  },
+  "knockdowninstantresist": {
+   "stat": 382,
+   "categoria": "Abnormal",
+   "nombre": "Knockdown Resist",
+   "descripcion": "Reduces the target's chance of landing Knockdown skills by a certain rate."
+  },
+  "knockdowninstanttimedecrease": {
+   "stat": 384,
+   "categoria": null,
+   "nombre": "Knockdown duration reduction",
+   "descripcion": "Reduces Knockdown duration."
+  },
+  "knockdowninstanttimeincrease": {
+   "stat": 383,
+   "categoria": null,
+   "nombre": "Knockdown duration increase",
+   "descripcion": "Increases Knockdown duration."
+  },
+  "life": {
+   "stat": 10,
+   "categoria": "Conqueror",
+   "nombre": "Life [Yustiel]",
+   "descripcion": "Life [Yustiel]\nIncreases HP and Regeneration Activation Chance."
+  },
+  "light": {
+   "stat": 12,
+   "categoria": "Conqueror",
+   "nombre": "Light [Ariel]",
+   "descripcion": "Light [Ariel]\n-"
+  },
+  "limitaccuracy": {
+   "stat": 530,
+   "categoria": null,
+   "nombre": "[Amplify] Accuracy",
+   "descripcion": "Character's Accuracy Bonus.\nPrevents attack from missing."
+  },
+  "limitcritical": {
+   "stat": 532,
+   "categoria": null,
+   "nombre": "[Amplify] Critical Hit",
+   "descripcion": "Character's Critical Hit Bonus.\nAffected by target's Critical Hit Resist."
+  },
+  "limitcriticalresist": {
+   "stat": 533,
+   "categoria": null,
+   "nombre": "[Amplify] Critical Hit Resist",
+   "descripcion": "Character's Critical Hit Resist Bonus.\nReduces target's Critical Hit Rate when attacked."
+  },
+  "limitevasion": {
+   "stat": 531,
+   "categoria": null,
+   "nombre": "[Amplify] Evasion",
+   "descripcion": "Character's Evasion Bonus.\nMax Evasion is 30%."
+  },
+  "limitmagicaccuracy": {
+   "stat": 259,
+   "categoria": null,
+   "nombre": "[Amplify] Magic Chance",
+   "descripcion": "Character's Magic Chance Bonus.\nPrevents Magic Attack from missing."
+  },
+  "limitmagiccritical": {
+   "stat": 263,
+   "categoria": null,
+   "nombre": "[Amplify] Magic Critical Hit",
+   "descripcion": "Character's Magic Critical Hit Bonus.\nAffected by target's Critical Hit Resist."
+  },
+  "limitmagiccriticalresist": {
+   "stat": 265,
+   "categoria": null,
+   "nombre": "[Amplify] Magic Critical Hit Resist",
+   "descripcion": "Character's Magic Critical Hit Resist Bonus.\nReduces target's Critical Hit Rate when attacked."
+  },
+  "limitmagicevasion": {
+   "stat": 261,
+   "categoria": null,
+   "nombre": "[Amplify] Magic Resist",
+   "descripcion": "Character's Magic Evasion Bonus.\nMax Evasion is 30%."
+  },
+  "limitphysicaccuracy": {
+   "stat": 258,
+   "categoria": null,
+   "nombre": "[Amplify] Physical Accuracy",
+   "descripcion": "Character's Physical Accuracy Bonus.\nPrevents Physical Attack from missing."
+  },
+  "limitphysiccritical": {
+   "stat": 262,
+   "categoria": null,
+   "nombre": "[Amplify] Physical Critical Hit",
+   "descripcion": "Character's Physical Critical Hit Bonus.\nAffected by target's Critical Hit Resist."
+  },
+  "limitphysiccriticalresist": {
+   "stat": 264,
+   "categoria": null,
+   "nombre": "[Amplify] Physical Critical Hit Resist",
+   "descripcion": "Character's Physical Critical Hit Resist Bonus.\nReduces target's Critical Hit Rate when attacked."
+  },
+  "limitphysicevasion": {
+   "stat": 260,
+   "categoria": null,
+   "nombre": "[Amplify] Physical Evasion",
+   "descripcion": "Character's Physical Evasion Bonus.\nMax Evasion is 30%."
+  },
+  "limitshieldblock": {
+   "stat": 268,
+   "categoria": null,
+   "nombre": "[Amplify] Shield Block",
+   "descripcion": "Character's Shield Block Bonus.\nAffected by target's Accuracy and Block Penetration.\n※ Block Damage Reduction Rate varies based on Gear Grade."
+  },
+  "limitshieldblockpierce": {
+   "stat": 269,
+   "categoria": null,
+   "nombre": "[Amplify] Shield Block Penetration",
+   "descripcion": "Character's Shield Block Penetration Bonus.\nReduces target's Shield Block Chance."
+  },
+  "limitweaponblock": {
+   "stat": 266,
+   "categoria": null,
+   "nombre": "[Amplify] Parry",
+   "descripcion": "Character's Parry Bonus.\nAffected by target's Accuracy and Block Penetration.\n※ Block Damage Reduction Rate varies based on Gear Grade."
+  },
+  "limitweaponblockpierce": {
+   "stat": 267,
+   "categoria": null,
+   "nombre": "[Amplify] Parry Penetration",
+   "descripcion": "Character's Parry Penetration Bonus.\nReduces target's Parry Chance."
+  },
+  "macedamageratio": {
+   "stat": 496,
+   "categoria": null,
+   "nombre": "Mace Attack increase",
+   "descripcion": "Mace Attack increase."
+  },
+  "magicaccuracy": {
+   "stat": 106,
+   "categoria": null,
+   "nombre": "Magic Chance Bonus",
+   "descripcion": "Prevents magic attack from missing.\nAffected by target's Evasion."
+  },
+  "magicarmordefense": {
+   "stat": 309,
+   "categoria": null,
+   "nombre": "Magic Defense",
+   "descripcion": "Basic Magic Defense.\nHigher Defense reduces Magic Damage taken."
+  },
+  "magicarmordefenseratio": {
+   "stat": 311,
+   "categoria": null,
+   "nombre": "Armor Magic Defense increase",
+   "descripcion": "Increases Armor Magic Defense.\nReduces Magic Damage taken."
+  },
+  "magicarmorevasion": {
+   "stat": 314,
+   "categoria": null,
+   "nombre": "Magic Resist",
+   "descripcion": "Evading magic attacks prevents damage. Max Evasion rate is 30%."
+  },
+  "magicarmorevasionratio": {
+   "stat": 316,
+   "categoria": null,
+   "nombre": "Armor Magic Resist increase",
+   "descripcion": "Increases Armor Magic Evasion. Max Evasion Rate is 30%."
+  },
+  "magicbookdamageratio": {
+   "stat": 495,
+   "categoria": null,
+   "nombre": "Spellbook Attack increase",
+   "descripcion": "Spellbook Attack increase."
+  },
+  "magiccritical": {
+   "stat": 130,
+   "categoria": null,
+   "nombre": "Magic Critical Hit",
+   "descripcion": "Increases Magic Critical Hit Rate.\nMax Critical Hit Rate is 50%, and this is reduced by target's Critical Hit Resist."
+  },
+  "magiccriticalresist": {
+   "stat": 135,
+   "categoria": null,
+   "nombre": "Magic Critical Hit Resist",
+   "descripcion": "Reduces target's Magic Critical Hit Rate when attacked."
+  },
+  "magicdamage": {
+   "stat": 21,
+   "categoria": null,
+   "nombre": "Magic Attack Bonus",
+   "descripcion": "Magic Attack.\nAffects Magic Damage."
+  },
+  "magicdamagedefense": {
+   "stat": 54,
+   "categoria": null,
+   "nombre": "Magic Defense Bonus",
+   "descripcion": "Magic Defense.\nReduces Magic Damage taken."
+  },
+  "magicdamageratio": {
+   "stat": 272,
+   "categoria": null,
+   "nombre": "Magic Attack increase",
+   "descripcion": "Magic Attack increase"
+  },
+  "magicdefensepierce": {
+   "stat": 286,
+   "categoria": null,
+   "nombre": "Magic Penetration",
+   "descripcion": "Ignores target's Magic Defense.\nDefense does not fall below 0."
+  },
+  "magicdefenseratio": {
+   "stat": 274,
+   "categoria": null,
+   "nombre": "Magic Defense increase",
+   "descripcion": "Magic Defense.\nReduces Magic Damage taken."
+  },
+  "magicevasion": {
+   "stat": 118,
+   "categoria": null,
+   "nombre": "Magic Resist Bonus",
+   "descripcion": "Evading magic attacks prevents damage. Max Evasion rate is 30%."
+  },
+  "magicignoreimmune": {
+   "stat": 141,
+   "categoria": null,
+   "nombre": "Magic Penetration Immunity",
+   "descripcion": "Reduces target's Magic Immunity Chance."
+  },
+  "magicimmune": {
+   "stat": 139,
+   "categoria": null,
+   "nombre": "Magic Immunity",
+   "descripcion": "Can ignore Magic Attack.\nMax Immunity is 50%."
+  },
+  "magicskillaccuracy": {
+   "stat": 109,
+   "categoria": null,
+   "nombre": "Magic Skill Chance",
+   "descripcion": "Prevents skill attack from missing.\nAffected by target's Evasion."
+  },
+  "magicskilldamage": {
+   "stat": 25,
+   "categoria": null,
+   "nombre": "Magic Skill Attack",
+   "descripcion": "Magic Skill Attack"
+  },
+  "magicskilldefense": {
+   "stat": 83,
+   "categoria": null,
+   "nombre": "Magic Skill Defense",
+   "descripcion": "Defense against Magic Skill Attack.\nReduces Magic Skill Damage taken."
+  },
+  "magicskillevasion": {
+   "stat": 121,
+   "categoria": null,
+   "nombre": "Magic Skill Resist",
+   "descripcion": "Magic Skill Resist.\nResisting Magic Skills prevents Damage. Max Resist Rate is 30%."
+  },
+  "magicweaponaccuracy": {
+   "stat": 320,
+   "categoria": null,
+   "nombre": "Magic Chance",
+   "descripcion": "Prevents magic attack from missing.\nAffected by target's Evasion."
+  },
+  "magicweapondamage": {
+   "stat": 36,
+   "categoria": null,
+   "nombre": "Max Magic Attack",
+   "descripcion": "Max Magic Attack."
+  },
+  "magicweaponfixingdamage": {
+   "stat": 376,
+   "categoria": null,
+   "nombre": "Magic Attack",
+   "descripcion": "Magic Attack."
+  },
+  "magicweaponmindamage": {
+   "stat": 37,
+   "categoria": null,
+   "nombre": "Min Magic Attack",
+   "descripcion": "Min Magic Attack."
+  },
+  "maxapratio": {
+   "stat": 576,
+   "categoria": null,
+   "nombre": "Max Rage increase",
+   "descripcion": "Increases Rage by a multiplier."
+  },
+  "maxdpratio": {
+   "stat": 253,
+   "categoria": null,
+   "nombre": "Divine Power increase",
+   "descripcion": "Increases Divine Power."
+  },
+  "maxhpratio": {
+   "stat": 196,
+   "categoria": null,
+   "nombre": "HP increase",
+   "descripcion": "Increases HP by a multiplier."
+  },
+  "maxmpratio": {
+   "stat": 197,
+   "categoria": null,
+   "nombre": "MP increase",
+   "descripcion": "Increases MP by a multiplier."
+  },
+  "maxshieldblock": {
+   "stat": 97,
+   "categoria": null,
+   "nombre": "Shield Block Damage Reduction Amount",
+   "descripcion": "Reduces more Damage when Shield Block activates."
+  },
+  "maxweaponblock": {
+   "stat": 96,
+   "categoria": null,
+   "nombre": "Parry Damage Reduction Amount",
+   "descripcion": "Reduces more Damage when Parry activates."
+  },
+  "mentalpropertyaccuracy": {
+   "stat": 325,
+   "categoria": null,
+   "nombre": "Mental-type Chance",
+   "descripcion": "Increases the chance of landing Mental-type status effect skills by a certain rate."
+  },
+  "mentalpropertyresist": {
+   "stat": 326,
+   "categoria": null,
+   "nombre": "Mental-type Resist",
+   "descripcion": "Reduces the target's chance of landing Mental-type status effect skills by a certain rate."
+  },
+  "mentalpropertytimedecrease": {
+   "stat": 328,
+   "categoria": null,
+   "nombre": "Mental-type duration reduction",
+   "descripcion": "Reduces Mental-type duration."
+  },
+  "mentalpropertytimeincrease": {
+   "stat": 327,
+   "categoria": null,
+   "nombre": "Mental-type duration increase",
+   "descripcion": "Increases Mental-type duration."
+  },
+  "movespeed": {
+   "stat": 205,
+   "categoria": "BookMark",
+   "nombre": "Move Speed",
+   "descripcion": "Increases Walk Speed or Run Speed.\nMove Speed cannot exceed 150%."
+  },
+  "mphealrate": {
+   "stat": 223,
+   "categoria": null,
+   "nombre": "MP Heal Recovery increase",
+   "descripcion": "Increases MP Heal."
+  },
+  "mphealregen": {
+   "stat": 224,
+   "categoria": null,
+   "nombre": "MP Heal Recovery",
+   "descripcion": "Increases MP Heal."
+  },
+  "mpmax": {
+   "stat": 199,
+   "categoria": "BookMark",
+   "nombre": "MP",
+   "descripcion": "Certain skills require MP for casting them."
+  },
+  "mppotionrate": {
+   "stat": 225,
+   "categoria": null,
+   "nombre": "MP Potion Recovery increase",
+   "descripcion": "Increases MP Potion Recovery."
+  },
+  "mppotionregen": {
+   "stat": 226,
+   "categoria": null,
+   "nombre": "MP Potion Recovery",
+   "descripcion": "Increases MP Potion Recovery."
+  },
+  "mpregen": {
+   "stat": 200,
+   "categoria": null,
+   "nombre": "Natural MP Regen",
+   "descripcion": "Restores MP at set intervals."
+  },
+  "mpusedecrease": {
+   "stat": 198,
+   "categoria": null,
+   "nombre": "MP Cost Reduction",
+   "descripcion": "Reduces the amount of MP consumed."
+  },
+  "mpuseincrease": {
+   "stat": 386,
+   "categoria": "Recovery",
+   "nombre": "MP Cost",
+   "descripcion": "Resource needed for MP Skills.\nNegative value reduces costs.\nMP cost reduction is capped at 60%."
+  },
+  "natureaccuracy": {
+   "stat": 411,
+   "categoria": "Race",
+   "nombre": "Natura Accuracy",
+   "descripcion": "Accuracy added when attacking Natura.\nOffset by the Natura's Evasion and Block."
+  },
+  "natureamplifydamage": {
+   "stat": 487,
+   "categoria": "Race",
+   "nombre": "Natura Damage Boost",
+   "descripcion": "Boosts Damage when attacking Natura.\nAffected by target's Natura Damage Tolerance."
+  },
+  "natureblock": {
+   "stat": 416,
+   "categoria": "Race",
+   "nombre": "Natura Block",
+   "descripcion": "Increases Block Chance when attacked by Natura."
+  },
+  "natureblockpierce": {
+   "stat": 415,
+   "categoria": "Race",
+   "nombre": "Natura Block Penetration",
+   "descripcion": "Ignores Natura Block Chance when attacking Natura."
+  },
+  "naturecritical": {
+   "stat": 413,
+   "categoria": "Race",
+   "nombre": "Natura Critical Hit",
+   "descripcion": "Increases Critical Hit Rate when attacking Natura."
+  },
+  "naturecriticalresist": {
+   "stat": 414,
+   "categoria": "Race",
+   "nombre": "Natura Critical Hit Resist",
+   "descripcion": "Reduces Critical Hit Rate when attacked by Natura."
+  },
+  "naturedamage": {
+   "stat": 409,
+   "categoria": "Race",
+   "nombre": "Natura Attack",
+   "descripcion": "Increases Damage when attacking Natura."
+  },
+  "naturedecreasedamage": {
+   "stat": 488,
+   "categoria": "Race",
+   "nombre": "Natura Damage Tolerance",
+   "descripcion": "Weakens Damage taken when attacked by Natura."
+  },
+  "naturedefense": {
+   "stat": 410,
+   "categoria": "Race",
+   "nombre": "Natura Defense",
+   "descripcion": "Reduces Damage taken from Natura."
+  },
+  "natureevasion": {
+   "stat": 412,
+   "categoria": "Race",
+   "nombre": "Natura Evasion",
+   "descripcion": "Increases chance to evade incoming attacks when attacked by Natura."
+  },
+  "necklacedamageratio": {
+   "stat": 508,
+   "categoria": null,
+   "nombre": "Necklace Attack increase",
+   "descripcion": "Necklace Attack increase."
+  },
+  "necklacedefenseratio": {
+   "stat": 509,
+   "categoria": null,
+   "nombre": "Necklace Defense increase",
+   "descripcion": "Necklace Defense increase."
+  },
+  "opmax": {
+   "stat": 295,
+   "categoria": null,
+   "nombre": "Diving Gauge",
+   "descripcion": "Consumed when diving underwater."
+  },
+  "opregen": {
+   "stat": 297,
+   "categoria": null,
+   "nombre": "Diving Gauge Recovery",
+   "descripcion": "Recovers Diving Gauge at set intervals."
+  },
+  "orbdamageratio": {
+   "stat": 498,
+   "categoria": null,
+   "nombre": "Orb Attack increase",
+   "descripcion": "Orb Attack increase."
+  },
+  "pantsdefenseratio": {
+   "stat": 502,
+   "categoria": null,
+   "nombre": "Legs Defense increase",
+   "descripcion": "Legs Defense increase."
+  },
+  "paralysisaccuracy": {
+   "stat": 453,
+   "categoria": "Abnormal",
+   "nombre": "Paralyze Chance",
+   "descripcion": "Increases the chance of landing Paralyze skills by a certain rate."
+  },
+  "paralysisresist": {
+   "stat": 461,
+   "categoria": "Abnormal",
+   "nombre": "Paralyze Resist",
+   "descripcion": "Reduces the target's chance of landing Paralyze skills by a certain rate."
+  },
+  "paralysistimedecrease": {
+   "stat": 472,
+   "categoria": null,
+   "nombre": "Paralyze duration reduction",
+   "descripcion": "Reduces Paralyze duration."
+  },
+  "paralysistimeincrease": {
+   "stat": 471,
+   "categoria": null,
+   "nombre": "Paralyze duration increase",
+   "descripcion": "Increases Paralyze duration."
+  },
+  "perfect": {
+   "stat": 442,
+   "categoria": "Resist",
+   "nombre": "Perfect Chance",
+   "descripcion": "Increases Perfect activation chance.\nAffected by target's Perfect Resist.\n※ Perfect: Deals increased Damage based on weapon's Max Attack."
+  },
+  "perfectresist": {
+   "stat": 446,
+   "categoria": "Resist",
+   "nombre": "Perfect Resist",
+   "descripcion": "Reduces target's Perfect activation chance when attacked."
+  },
+  "physicaccuracy": {
+   "stat": 105,
+   "categoria": null,
+   "nombre": "Physical Accuracy Bonus",
+   "descripcion": "Prevents physical attack from missing.\nAffected by target's Evasion."
+  },
+  "physicarmordefense": {
+   "stat": 308,
+   "categoria": null,
+   "nombre": "Physical Defense",
+   "descripcion": "Basic Physical Defense.\nHigher Defense reduces Physical Damage taken."
+  },
+  "physicarmordefenseratio": {
+   "stat": 310,
+   "categoria": null,
+   "nombre": "Armor Physical Defense increase",
+   "descripcion": "Increases Armor Physical Defense.\nReduces Physical Damage taken."
+  },
+  "physicarmorevasion": {
+   "stat": 313,
+   "categoria": null,
+   "nombre": "Physical Evasion",
+   "descripcion": "Evading physical attacks prevents damage. Max Evasion rate is 30%."
+  },
+  "physicarmorevasionratio": {
+   "stat": 315,
+   "categoria": null,
+   "nombre": "Armor Physical Evasion increase",
+   "descripcion": "Increases Armor Physical Evasion. Max Evasion Rate is 30%."
+  },
+  "physiccritical": {
+   "stat": 129,
+   "categoria": null,
+   "nombre": "Physical Critical Hit",
+   "descripcion": "Increases Physical Critical Hit Rate.\nMax Critical Hit Rate is 50%, and this is reduced by target's Critical Hit Resist."
+  },
+  "physiccriticalresist": {
+   "stat": 134,
+   "categoria": null,
+   "nombre": "Physical Critical Hit Resist",
+   "descripcion": "Reduces target's Physical Critical Hit Rate when attacked."
+  },
+  "physicdamage": {
+   "stat": 20,
+   "categoria": null,
+   "nombre": "Physical Attack Bonus",
+   "descripcion": "Physical Attack.\nAffects Physical Damage."
+  },
+  "physicdamagedefense": {
+   "stat": 53,
+   "categoria": null,
+   "nombre": "Physical Defense Bonus",
+   "descripcion": "Physical Defense.\nReduces Physical Damage taken."
+  },
+  "physicdamageratio": {
+   "stat": 271,
+   "categoria": null,
+   "nombre": "Physical Attack increase",
+   "descripcion": "Physical Attack increase"
+  },
+  "physicdefensepierce": {
+   "stat": 285,
+   "categoria": null,
+   "nombre": "Physical Penetration",
+   "descripcion": "Ignores target's Physical Defense.\nDefense does not fall below 0."
+  },
+  "physicdefenseratio": {
+   "stat": 273,
+   "categoria": null,
+   "nombre": "Physical Defense increase",
+   "descripcion": "Physical Defense.\nReduces Physical Damage taken."
+  },
+  "physicevasion": {
+   "stat": 117,
+   "categoria": null,
+   "nombre": "Physical Evasion Bonus",
+   "descripcion": "Evading physical attacks prevents damage. Max Evasion rate is 30%."
+  },
+  "physicignoreimmune": {
+   "stat": 140,
+   "categoria": null,
+   "nombre": "Physical Penetration Immunity",
+   "descripcion": "Reduces target's Physical Immunity Chance."
+  },
+  "physicimmune": {
+   "stat": 138,
+   "categoria": null,
+   "nombre": "Physical Immunity",
+   "descripcion": "Can ignore Physical Attack.\nMax Immunity is 50%."
+  },
+  "physicskillaccuracy": {
+   "stat": 108,
+   "categoria": null,
+   "nombre": "Physical Skill Accuracy",
+   "descripcion": "Prevents skill attack from missing.\nAffected by target's Evasion."
+  },
+  "physicskilldamage": {
+   "stat": 24,
+   "categoria": null,
+   "nombre": "Physical Skill Attack",
+   "descripcion": "Physical Skill Attack"
+  },
+  "physicskilldefense": {
+   "stat": 82,
+   "categoria": null,
+   "nombre": "Physical Skill Defense",
+   "descripcion": "Defense against Physical Skill Attack.\nReduces Physical Skill Damage taken."
+  },
+  "physicskillevasion": {
+   "stat": 120,
+   "categoria": null,
+   "nombre": "Physical Skill Evasion",
+   "descripcion": "Physical Skill Evasion.\nEvading Physical Skills prevents Damage. Max Evasion Rate is 30%."
+  },
+  "physicweaponaccuracy": {
+   "stat": 319,
+   "categoria": null,
+   "nombre": "Physical Accuracy",
+   "descripcion": "Prevents physical attack from missing.\nAffected by target's Evasion."
+  },
+  "physicweapondamage": {
+   "stat": 34,
+   "categoria": null,
+   "nombre": "Max Physical Attack",
+   "descripcion": "Max Physical Attack."
+  },
+  "physicweaponfixingdamage": {
+   "stat": 375,
+   "categoria": null,
+   "nombre": "Physical Attack",
+   "descripcion": "Physical Attack."
+  },
+  "physicweaponmindamage": {
+   "stat": 35,
+   "categoria": null,
+   "nombre": "Min Physical Attack",
+   "descripcion": "Min Physical Attack."
+  },
+  "poisonaccuracy": {
+   "stat": 454,
+   "categoria": "Abnormal",
+   "nombre": "Poison Chance",
+   "descripcion": "Increases the chance of landing Poison skills by a certain rate."
+  },
+  "poisonresist": {
+   "stat": 462,
+   "categoria": "Abnormal",
+   "nombre": "Poison Resist",
+   "descripcion": "Reduces the target's chance of landing Poison skills by a certain rate."
+  },
+  "poisontimedecrease": {
+   "stat": 474,
+   "categoria": null,
+   "nombre": "Poison duration reduction",
+   "descripcion": "Reduces Poison duration."
+  },
+  "poisontimeincrease": {
+   "stat": 473,
+   "categoria": null,
+   "nombre": "Poison duration increase",
+   "descripcion": "Increases Poison duration."
+  },
+  "polymorphaccuracy": {
+   "stat": 539,
+   "categoria": "Abnormal",
+   "nombre": "Polymorph Chance",
+   "descripcion": "Increases the chance of landing Polymorph skills by a certain rate."
+  },
+  "polymorphresist": {
+   "stat": 540,
+   "categoria": "Abnormal",
+   "nombre": "Polymorph Resist",
+   "descripcion": "Reduces the target's chance of landing Polymorph skills by a certain rate."
+  },
+  "polymorphtimedecrease": {
+   "stat": 542,
+   "categoria": null,
+   "nombre": "Polymorph duration reduction",
+   "descripcion": "Reduces Polymorph duration."
+  },
+  "polymorphtimeincrease": {
+   "stat": 541,
+   "categoria": null,
+   "nombre": "Polymorph duration increase",
+   "descripcion": "Increases Polymorph duration."
+  },
+  "proxympusedecrease": {
+   "stat": 374,
+   "categoria": null,
+   "nombre": "Illusion MP Consumed reduction",
+   "descripcion": "Reduces the amount of Illusion MP consumed."
+  },
+  "puremaxdamage": {
+   "stat": 519,
+   "categoria": null,
+   "nombre": "Max Guaranteed Damage",
+   "descripcion": "Max Guaranteed Damage."
+  },
+  "puremindamage": {
+   "stat": 518,
+   "categoria": null,
+   "nombre": "Min Guaranteed Damage",
+   "descripcion": "Min Guaranteed Damage."
+  },
+  "pveaccuracy": {
+   "stat": 110,
+   "categoria": "Amplify",
+   "nombre": "PvE Accuracy",
+   "descripcion": "Accuracy added when attacking monsters.\nOffset by monsters' Evasion and Block."
+  },
+  "pveadddamage": {
+   "stat": 56,
+   "categoria": "Amplify",
+   "nombre": "PvE Attack",
+   "descripcion": "Increases Damage when attacking Monster."
+  },
+  "pveamplifydamage": {
+   "stat": 379,
+   "categoria": "Amplify",
+   "nombre": "PvE Damage Boost",
+   "descripcion": "Boosts Damage on Monster.\nAffected by target's PvE Damage Tolerance."
+  },
+  "pvedamagedefense": {
+   "stat": 57,
+   "categoria": "Amplify",
+   "nombre": "PvE Defense",
+   "descripcion": "Reduces Damage taken when attacked by Monster."
+  },
+  "pvedecreasedamage": {
+   "stat": 380,
+   "categoria": "Amplify",
+   "nombre": "PvE Damage Tolerance",
+   "descripcion": "Weakens Damage taken when attacked by Monster."
+  },
+  "pvedefensepierce": {
+   "stat": 556,
+   "categoria": null,
+   "nombre": "PvE Penetration",
+   "descripcion": "PvE Penetration"
+  },
+  "pveevasion": {
+   "stat": 122,
+   "categoria": "Amplify",
+   "nombre": "PvE Evasion",
+   "descripcion": "Additional Evasion against Monster."
+  },
+  "pveignoredefense": {
+   "stat": 558,
+   "categoria": null,
+   "nombre": "PvE Penetration Rate",
+   "descripcion": "PvE Penetration Rate"
+  },
+  "pvemagicaccuracy": {
+   "stat": 112,
+   "categoria": null,
+   "nombre": "PvE Magic Chance",
+   "descripcion": "Accuracy added when attacking Monster.\nAffected by Monster's Evasion."
+  },
+  "pvemagicevasion": {
+   "stat": 124,
+   "categoria": null,
+   "nombre": "PvE Magic Resist",
+   "descripcion": "Additional Evasion against Monster."
+  },
+  "pvephysicaccuracy": {
+   "stat": 111,
+   "categoria": null,
+   "nombre": "PvE Physical Accuracy",
+   "descripcion": "Accuracy added when attacking Monster.\nAffected by Monster's Evasion."
+  },
+  "pvephysicevasion": {
+   "stat": 123,
+   "categoria": null,
+   "nombre": "PvE Physical Evasion",
+   "descripcion": "Additional Evasion against Monster."
+  },
+  "pvpabnormalfocus": {
+   "stat": 162,
+   "categoria": null,
+   "nombre": "PvP Suppress Chance",
+   "descripcion": "Increases chance to inflict Suppress on Character.\nAffected by Suppress Resist."
+  },
+  "pvpabnormallower": {
+   "stat": 163,
+   "categoria": null,
+   "nombre": "PvP Suppress Resist",
+   "descripcion": "Reduces chance to be affected by Suppress when attacked by Character."
+  },
+  "pvpaccuracy": {
+   "stat": 113,
+   "categoria": "PVP",
+   "nombre": "PvP Accuracy",
+   "descripcion": "Accuracy added when attacking characters.\nOffset by the character's Evasion and Block."
+  },
+  "pvpadddamage": {
+   "stat": 58,
+   "categoria": "PVP",
+   "nombre": "PvP Attack",
+   "descripcion": "Increases Damage when attacking Character."
+  },
+  "pvpamplifybowdamage": {
+   "stat": 596,
+   "categoria": null,
+   "nombre": "PvP Bow Damage Boost",
+   "descripcion": "Equip a Bow to Boost damage when attacking characters.\nAffected by the target's PvP Damage Tolerance."
+  },
+  "pvpamplifydaggerdamage": {
+   "stat": 595,
+   "categoria": null,
+   "nombre": "PvP Dagger Damage Boost",
+   "descripcion": "Equip a Dagger to Boost damage when attacking characters.\nAffected by the target's PvP Damage Tolerance."
+  },
+  "pvpamplifydamage": {
+   "stat": 65,
+   "categoria": "PVP",
+   "nombre": "PvP Damage Boost",
+   "descripcion": "Boosts damage when attacking characters.\nAffected by the target's PvP Damage Tolerance."
+  },
+  "pvpamplifygauntletdamage": {
+   "stat": 601,
+   "categoria": null,
+   "nombre": "PvP Fist Damage Boost",
+   "descripcion": "Equip a Fist to Boost damage when attacking characters.\nAffected by the target's PvP Damage Tolerance."
+  },
+  "pvpamplifygreatsworddamage": {
+   "stat": 593,
+   "categoria": null,
+   "nombre": "PvP Greatsword Damage Boost",
+   "descripcion": "Equip a Greatsword to Boost damage when attacking characters.\nAffected by the target's PvP Damage Tolerance."
+  },
+  "pvpamplifymacedamage": {
+   "stat": 599,
+   "categoria": null,
+   "nombre": "PvP Mace Damage Boost",
+   "descripcion": "Equip a Mace to Boost damage when attacking characters.\nAffected by the target's PvP Damage Tolerance."
+  },
+  "pvpamplifymagicbookdamage": {
+   "stat": 597,
+   "categoria": null,
+   "nombre": "PvP Spellbook Damage Boost",
+   "descripcion": "Equip a Spellbook to Boost damage when attacking characters.\nAffected by the target's PvP Damage Tolerance."
+  },
+  "pvpamplifymagicdamage": {
+   "stat": 68,
+   "categoria": null,
+   "nombre": "PvP Magic Damage Boost",
+   "descripcion": "Boosts Magic Damage when attacking Character."
+  },
+  "pvpamplifyorbdamage": {
+   "stat": 598,
+   "categoria": null,
+   "nombre": "PvP Orb Damage Boost",
+   "descripcion": "Equip an Orb to Boost damage when attacking characters.\nAffected by the target's PvP Damage Tolerance."
+  },
+  "pvpamplifyphysicdamage": {
+   "stat": 67,
+   "categoria": null,
+   "nombre": "PvP Physical Damage Boost",
+   "descripcion": "Boosts Physical Damage when attacking Character."
+  },
+  "pvpamplifyskilldamage": {
+   "stat": 64,
+   "categoria": null,
+   "nombre": "PvP Skill Damage Boost",
+   "descripcion": "Boosts Skill Damage when attacking Character."
+  },
+  "pvpamplifystaffdamage": {
+   "stat": 600,
+   "categoria": null,
+   "nombre": "PvP Staff Damage Boost",
+   "descripcion": "Equip a Staff to Boost damage when attacking characters.\nAffected by the target's PvP Damage Tolerance."
+  },
+  "pvpamplifysworddamage": {
+   "stat": 594,
+   "categoria": null,
+   "nombre": "PvP Longsword Damage Boost",
+   "descripcion": "Equip a Longsword to Boost damage when attacking characters.\nAffected by the target's PvP Damage Tolerance."
+  },
+  "pvpamplifyweapondamage": {
+   "stat": 66,
+   "categoria": null,
+   "nombre": "PvP Weapon Damage Boost",
+   "descripcion": "Boosts Weapon Damage when attacking Character."
+  },
+  "pvpblock": {
+   "stat": 569,
+   "categoria": "PVP",
+   "nombre": "PvP Block",
+   "descripcion": "Increases Parry Chance and Shield Block Chance against players.\nCan Parry after blocking with shield.\nAffected by target's Accuracy and Block Penetration.\n※ Block Damage Reduction Rate varies based on Gear Grade."
+  },
+  "pvpblockpierce": {
+   "stat": 570,
+   "categoria": "PVP",
+   "nombre": "PvP Block Penetration",
+   "descripcion": "Ignores player Block Chance."
+  },
+  "pvpcritical": {
+   "stat": 132,
+   "categoria": "PVP",
+   "nombre": "PvP Critical Hit",
+   "descripcion": "Increases Critical Hit Rate when attacking Character."
+  },
+  "pvpcriticalresist": {
+   "stat": 136,
+   "categoria": "PVP",
+   "nombre": "PvP Critical Hit Resist",
+   "descripcion": "Reduces target's Critical Hit Rate when attacked by Character."
+  },
+  "pvpdamagedefense": {
+   "stat": 61,
+   "categoria": "PVP",
+   "nombre": "PvP Defense",
+   "descripcion": "Reduces Damage taken when attacked by Character."
+  },
+  "pvpdecreasedamage": {
+   "stat": 76,
+   "categoria": "PVP",
+   "nombre": "PvP Damage Tolerance",
+   "descripcion": "Weakens Damage taken when attacked by Character."
+  },
+  "pvpdecreasemagicdamage": {
+   "stat": 79,
+   "categoria": null,
+   "nombre": "PvP Magic Damage Tolerance",
+   "descripcion": "Weakens Magic Damage taken when attacked by Character."
+  },
+  "pvpdecreasephysicdamage": {
+   "stat": 78,
+   "categoria": null,
+   "nombre": "PvP Physical Damage Tolerance",
+   "descripcion": "Weakens Physical Damage taken when attacked by Character."
+  },
+  "pvpdecreaseskilldamage": {
+   "stat": 80,
+   "categoria": null,
+   "nombre": "PvP Skill Damage Tolerance",
+   "descripcion": "Weakens Skill Damage taken when attacked by Character."
+  },
+  "pvpdecreaseweapondamage": {
+   "stat": 77,
+   "categoria": null,
+   "nombre": "PvP Weapon Damage Tolerance",
+   "descripcion": "Weakens Weapon Damage taken when attacked by Character."
+  },
+  "pvpdefensepierce": {
+   "stat": 555,
+   "categoria": null,
+   "nombre": "PvP Penetration",
+   "descripcion": "PvP Penetration"
+  },
+  "pvpevasion": {
+   "stat": 125,
+   "categoria": "PVP",
+   "nombre": "PvP Evasion",
+   "descripcion": "Evades Character's Attack. Max Evasion Rate is 30%."
+  },
+  "pvpignoredefense": {
+   "stat": 557,
+   "categoria": null,
+   "nombre": "PvP Penetration Rate",
+   "descripcion": "PvP Penetration Rate"
+  },
+  "pvpmagicaccuracy": {
+   "stat": 115,
+   "categoria": null,
+   "nombre": "PvP Magic Chance",
+   "descripcion": "Magic Accuracy added when attacking Character.\nAffected by Character's Evasion."
+  },
+  "pvpmagicadddamage": {
+   "stat": 60,
+   "categoria": null,
+   "nombre": "PvP Magic Attack",
+   "descripcion": "Increases Magic Damage when attacking Character."
+  },
+  "pvpmagicdamagedefense": {
+   "stat": 63,
+   "categoria": null,
+   "nombre": "PvP Magic Defense",
+   "descripcion": "Reduces Magic Damage taken when attacked by Character."
+  },
+  "pvpmagicevasion": {
+   "stat": 127,
+   "categoria": null,
+   "nombre": "PvP Magic Resist",
+   "descripcion": "Evades Character's Magic Attack. Max Evasion Rate is 30%."
+  },
+  "pvpphysicaccuracy": {
+   "stat": 114,
+   "categoria": null,
+   "nombre": "PvP Physical Accuracy",
+   "descripcion": "Physical Accuracy added when attacking Character.\nAffected by Character's Evasion."
+  },
+  "pvpphysicadddamage": {
+   "stat": 59,
+   "categoria": null,
+   "nombre": "PvP Physical Attack",
+   "descripcion": "Increases Physical Damage when attacking Character."
+  },
+  "pvpphysicdamagedefense": {
+   "stat": 62,
+   "categoria": null,
+   "nombre": "PvP Physical Defense",
+   "descripcion": "Reduces Physical Damage taken when attacked by Character."
+  },
+  "pvpphysicevasion": {
+   "stat": 126,
+   "categoria": null,
+   "nombre": "PvP Physical Evasion",
+   "descripcion": "Evades Character's Physical Attack. Max Evasion Rate is 30%."
+  },
+  "resistearth": {
+   "stat": 185,
+   "categoria": "Property",
+   "nombre": "Earth Tolerance",
+   "descripcion": "Weakens Damage taken when attacked by Earth."
+  },
+  "resistfire": {
+   "stat": 183,
+   "categoria": "Property",
+   "nombre": "Fire Tolerance",
+   "descripcion": "Weakens Damage taken when attacked by Fire."
+  },
+  "resistwater": {
+   "stat": 182,
+   "categoria": "Property",
+   "nombre": "Water Tolerance",
+   "descripcion": "Weakens Damage taken when attacked by Water."
+  },
+  "resistwind": {
+   "stat": 184,
+   "categoria": "Property",
+   "nombre": "Wind Tolerance",
+   "descripcion": "Weakens Damage taken when attacked by Wind."
+  },
+  "restapregen": {
+   "stat": 579,
+   "categoria": "Recovery",
+   "nombre": "Out-of-Combat Natural Rage Regen",
+   "descripcion": "Restores Rage at set intervals when out of combat."
+  },
+  "restfpregen": {
+   "stat": 301,
+   "categoria": "Recovery",
+   "nombre": "Out-of-Combat Natural Flight Power Regen",
+   "descripcion": "Restores Flight Power at set intervals when out of combat."
+  },
+  "resthpregen": {
+   "stat": 195,
+   "categoria": "Recovery",
+   "nombre": "Out-of-Combat Natural HP Regen",
+   "descripcion": "Restores HP at set intervals when out of combat."
+  },
+  "restmpregen": {
+   "stat": 201,
+   "categoria": "Recovery",
+   "nombre": "Out-of-Combat Natural MP Regen",
+   "descripcion": "Restores MP at set intervals when out of combat."
+  },
+  "restoration": {
+   "stat": 444,
+   "categoria": "Resist",
+   "nombre": "Regeneration",
+   "descripcion": "Increases Regeneration activation chance.\nAffected by target's Regeneration Penetration.\n※ Regeneration: Recovers a portion of Damage as HP."
+  },
+  "restspregen": {
+   "stat": 244,
+   "categoria": "Recovery",
+   "nombre": "Out-of-Combat Natural Stamina Regen",
+   "descripcion": "Restores Stamina at set intervals when out of combat."
+  },
+  "ringdamageratio": {
+   "stat": 512,
+   "categoria": null,
+   "nombre": "Ring Attack increase",
+   "descripcion": "Ring Attack increase."
+  },
+  "ringdefenseratio": {
+   "stat": 513,
+   "categoria": null,
+   "nombre": "Ring Defense increase",
+   "descripcion": "Ring Defense increase."
+  },
+  "sealstoneadddamage": {
+   "stat": 69,
+   "categoria": "Attack",
+   "nombre": "Power Shard Damage Bonus",
+   "descripcion": "Increases Damage when using Power Shard."
+  },
+  "sealstoneamplifydamage": {
+   "stat": 534,
+   "categoria": null,
+   "nombre": "Power Shard Damage Boost",
+   "descripcion": "Boosts Damage when using Power Shard."
+  },
+  "sealstonepvpignoredefense": {
+   "stat": 559,
+   "categoria": null,
+   "nombre": "Power Shard PvP Penetration Rate",
+   "descripcion": "Boosts Damage when using Power Shard."
+  },
+  "shieldblock": {
+   "stat": 144,
+   "categoria": null,
+   "nombre": "Shield Block",
+   "descripcion": "Increases Parry Chance and Shield Block Chance.\nCan Parry after blocking with shield.\nAffected by target's Accuracy and Block Penetration.\n※ Block Damage Reduction Rate varies based on Gear Grade."
+  },
+  "shieldblockdefense": {
+   "stat": 91,
+   "categoria": null,
+   "nombre": "Shield Block Defense",
+   "descripcion": "Reduces more Damage when Shield Block activates."
+  },
+  "shieldblockpierce": {
+   "stat": 145,
+   "categoria": null,
+   "nombre": "Shield Block Penetration",
+   "descripcion": "Reduces target's Shield Block Chance."
+  },
+  "shockpropertyaccuracy": {
+   "stat": 321,
+   "categoria": null,
+   "nombre": "Impact-type Chance",
+   "descripcion": "Increases the chance of landing Impact-type status effect skills by a certain rate."
+  },
+  "shockpropertyresist": {
+   "stat": 322,
+   "categoria": null,
+   "nombre": "Impact-type Resist",
+   "descripcion": "Reduces the target's chance of landing Impact-type status effect skills by a certain rate."
+  },
+  "shockpropertytimedecrease": {
+   "stat": 324,
+   "categoria": null,
+   "nombre": "Impact-type duration reduction",
+   "descripcion": "Reduces Impact-type status duration."
+  },
+  "shockpropertytimeincrease": {
+   "stat": 323,
+   "categoria": null,
+   "nombre": "Impact-type duration increase",
+   "descripcion": "Increases Impact-type status duration."
+  },
+  "shoulderdefenseratio": {
+   "stat": 507,
+   "categoria": null,
+   "nombre": "Pauldrons Defense increase",
+   "descripcion": "Pauldrons Defense increase."
+  },
+  "silenceaccuracy": {
+   "stat": 152,
+   "categoria": null,
+   "nombre": "Silence Chance",
+   "descripcion": "Increases the chance of landing Silence skills by a certain rate."
+  },
+  "silenceresist": {
+   "stat": 157,
+   "categoria": null,
+   "nombre": "Silence Resist",
+   "descripcion": "Reduces the target's chance of landing Silence skills by a certain rate."
+  },
+  "silencetimedecrease": {
+   "stat": 342,
+   "categoria": null,
+   "nombre": "Silence duration reduction",
+   "descripcion": "Reduces Silence duration."
+  },
+  "silencetimeincrease": {
+   "stat": 341,
+   "categoria": null,
+   "nombre": "Silence duration increase",
+   "descripcion": "Increases Silence duration."
+  },
+  "skillaccuracy": {
+   "stat": 107,
+   "categoria": null,
+   "nombre": "Skill Accuracy",
+   "descripcion": "Prevents skill attack from missing.\nAffected by target's Evasion."
+  },
+  "skillcritical": {
+   "stat": 131,
+   "categoria": null,
+   "nombre": "Skill Critical Hit",
+   "descripcion": "Attacking with a skill has a chance to deal a critical hit.\nAffected by target's Skill Critical Hit Resist."
+  },
+  "skillcriticalresist": {
+   "stat": 137,
+   "categoria": null,
+   "nombre": "Skill Critical Hit Resist",
+   "descripcion": "Reduces target's Skill Critical Hit Rate when attacked."
+  },
+  "skilldamage": {
+   "stat": 23,
+   "categoria": null,
+   "nombre": "Skill Attack",
+   "descripcion": "Skill Attack"
+  },
+  "skilldefense": {
+   "stat": 81,
+   "categoria": null,
+   "nombre": "Skill Defense",
+   "descripcion": "Defense against Skill Attack.\nReduces Skill Damage taken."
+  },
+  "skillevasion": {
+   "stat": 119,
+   "categoria": null,
+   "nombre": "Skill Evasion",
+   "descripcion": "Evading skills prevents damage. Max Evasion rate is 30%."
+  },
+  "skillspeed": {
+   "stat": 203,
+   "categoria": null,
+   "nombre": "Spell Action Speed",
+   "descripcion": "Increases Spell Action Speed."
+  },
+  "sleepaccuracy": {
+   "stat": 451,
+   "categoria": "Abnormal",
+   "nombre": "Sleep Chance",
+   "descripcion": "Increases the chance of landing Sleep skills by a certain rate."
+  },
+  "sleepresist": {
+   "stat": 459,
+   "categoria": "Abnormal",
+   "nombre": "Sleep Resist",
+   "descripcion": "Reduces the target's chance of landing Sleep skills by a certain rate."
+  },
+  "sleeptimedecrease": {
+   "stat": 468,
+   "categoria": null,
+   "nombre": "Sleep duration reduction",
+   "descripcion": "Reduces Sleep duration."
+  },
+  "sleeptimeincrease": {
+   "stat": 467,
+   "categoria": null,
+   "nombre": "Sleep duration increase",
+   "descripcion": "Increases Sleep duration."
+  },
+  "slowaccuracy": {
+   "stat": 457,
+   "categoria": "Abnormal",
+   "nombre": "Lethargy Chance",
+   "descripcion": "Increases the chance of landing Lethargy skills by a certain rate."
+  },
+  "slowresist": {
+   "stat": 465,
+   "categoria": "Abnormal",
+   "nombre": "Lethargy Resist",
+   "descripcion": "Reduces the target's chance of landing Lethargy skills by a certain rate."
+  },
+  "slowtimedecrease": {
+   "stat": 480,
+   "categoria": null,
+   "nombre": "Lethargy duration reduction",
+   "descripcion": "Reduces Lethargy duration."
+  },
+  "slowtimeincrease": {
+   "stat": 479,
+   "categoria": null,
+   "nombre": "Lethargy duration increase",
+   "descripcion": "Increases Lethargy duration."
+  },
+  "snareaccuracy": {
+   "stat": 456,
+   "categoria": "Abnormal",
+   "nombre": "Slow Chance",
+   "descripcion": "Increases the chance of landing Slow skills by a certain rate."
+  },
+  "snareresist": {
+   "stat": 464,
+   "categoria": "Abnormal",
+   "nombre": "Slow Resist",
+   "descripcion": "Reduces the target's chance of landing Slow skills by a certain rate."
+  },
+  "snaretimedecrease": {
+   "stat": 478,
+   "categoria": null,
+   "nombre": "Slow duration reduction",
+   "descripcion": "Reduces Slow duration."
+  },
+  "snaretimeincrease": {
+   "stat": 477,
+   "categoria": null,
+   "nombre": "Slow duration increase",
+   "descripcion": "Increases Slow duration."
+  },
+  "space": {
+   "stat": 17,
+   "categoria": "Conqueror",
+   "nombre": "Space [Israphel]",
+   "descripcion": "Space [Israphel]\nIncreases Move Speed and Block Chance."
+  },
+  "spellspeed": {
+   "stat": 283,
+   "categoria": null,
+   "nombre": "Spell Speed",
+   "descripcion": "Increases Spell Speed."
+  },
+  "sphealrate": {
+   "stat": 227,
+   "categoria": null,
+   "nombre": "Stamina Heal Recovery increase",
+   "descripcion": "Increases Stamina Heal."
+  },
+  "sphealregen": {
+   "stat": 228,
+   "categoria": null,
+   "nombre": "Stamina Heal Recovery",
+   "descripcion": "Increases Stamina Heal."
+  },
+  "spmax": {
+   "stat": 242,
+   "categoria": "Recovery",
+   "nombre": "Stamina",
+   "descripcion": "Consumed when sprinting or evading.\nApplies when sprinting normally or while riding a pet."
+  },
+  "sppotionrate": {
+   "stat": 229,
+   "categoria": null,
+   "nombre": "Stamina Potion Recovery increase",
+   "descripcion": "Increases Stamina Potion Recovery."
+  },
+  "sppotionregen": {
+   "stat": 230,
+   "categoria": null,
+   "nombre": "Stamina Potion Recovery",
+   "descripcion": "Increases Stamina Potion Recovery."
+  },
+  "spregen": {
+   "stat": 243,
+   "categoria": null,
+   "nombre": "Natural Stamina Regen",
+   "descripcion": "Restores Stamina at set intervals."
+  },
+  "spregenratio": {
+   "stat": 245,
+   "categoria": null,
+   "nombre": "Natural Stamina Regen increase",
+   "descripcion": "Increases Stamina Regen."
+  },
+  "sprintcost": {
+   "stat": 246,
+   "categoria": null,
+   "nombre": "Sprint Stamina Cost Reduction Rate",
+   "descripcion": "Reduces Stamina Cost when sprinting."
+  },
+  "sprintspeed": {
+   "stat": 241,
+   "categoria": "Special",
+   "nombre": "Sprinting Speed",
+   "descripcion": "Increases Sprint Speed."
+  },
+  "staffdamageratio": {
+   "stat": 497,
+   "categoria": null,
+   "nombre": "Staff Attack increase",
+   "descripcion": "Staff Attack increase."
+  },
+  "stoneaccuracy": {
+   "stat": 452,
+   "categoria": null,
+   "nombre": "Petrify Chance",
+   "descripcion": "Increases the chance of landing Petrify skills by a certain rate."
+  },
+  "stoneresist": {
+   "stat": 460,
+   "categoria": null,
+   "nombre": "Petrify Resist",
+   "descripcion": "Reduces the target's chance of landing Petrify skills by a certain rate."
+  },
+  "stonetimedecrease": {
+   "stat": 470,
+   "categoria": null,
+   "nombre": "Petrify duration reduction",
+   "descripcion": "Reduces Petrify duration."
+  },
+  "stonetimeincrease": {
+   "stat": 469,
+   "categoria": null,
+   "nombre": "Petrify duration increase",
+   "descripcion": "Increases Petrify duration."
+  },
+  "str": {
+   "stat": 1,
+   "categoria": "MainStat",
+   "nombre": "Might",
+   "descripcion": "Increases Attack."
+  },
+  "stunaccuracy": {
+   "stat": 148,
+   "categoria": "Abnormal",
+   "nombre": "Stun Chance",
+   "descripcion": "Increases the chance of landing Stun skills by a certain rate."
+  },
+  "stunresist": {
+   "stat": 153,
+   "categoria": "Abnormal",
+   "nombre": "Stun Resist",
+   "descripcion": "Reduces the target's chance of landing Stun skills by a certain rate."
+  },
+  "stuntimedecrease": {
+   "stat": 334,
+   "categoria": null,
+   "nombre": "Stun duration reduction",
+   "descripcion": "Reduces Stun duration."
+  },
+  "stuntimeincrease": {
+   "stat": 333,
+   "categoria": null,
+   "nombre": "Stun duration increase",
+   "descripcion": "Increases Stun duration."
+  },
+  "swimmingdamage": {
+   "stat": 526,
+   "categoria": null,
+   "nombre": "Underwater Attack",
+   "descripcion": "Increases Damage when attacking underwater."
+  },
+  "swimmingdefense": {
+   "stat": 527,
+   "categoria": null,
+   "nombre": "Underwater Defense",
+   "descripcion": "Reduces Damage taken underwater."
+  },
+  "swimmingmagicdamage": {
+   "stat": 289,
+   "categoria": null,
+   "nombre": "Underwater Magic Attack",
+   "descripcion": "Increases Magic Damage when attacking underwater."
+  },
+  "swimmingmagicdefense": {
+   "stat": 291,
+   "categoria": null,
+   "nombre": "Underwater Magic Defense",
+   "descripcion": "swimmingmagicdefense"
+  },
+  "swimmingphysicdamage": {
+   "stat": 288,
+   "categoria": null,
+   "nombre": "Underwater Physical Attack",
+   "descripcion": "Increases Physical Damage when attacking underwater."
+  },
+  "swimmingphysicdefense": {
+   "stat": 290,
+   "categoria": null,
+   "nombre": "Underwater Physical Defense",
+   "descripcion": "swimmingphysicdefense"
+  },
+  "swimmingspeed": {
+   "stat": 292,
+   "categoria": null,
+   "nombre": "Swimming Speed",
+   "descripcion": "Increases Move Speed underwater."
+  },
+  "swimmingsprintcost": {
+   "stat": 294,
+   "categoria": null,
+   "nombre": "Sprint Stamina Cost Reduction Rate",
+   "descripcion": "Reduces Stamina Cost when swimming fast."
+  },
+  "swimmingsprintspeed": {
+   "stat": 293,
+   "categoria": null,
+   "nombre": "Underwater Sprinting Speed",
+   "descripcion": "Increases Sprint Speed underwater."
+  },
+  "sworddamageratio": {
+   "stat": 491,
+   "categoria": null,
+   "nombre": "Longsword Attack increase",
+   "descripcion": "Longsword Attack increase."
+  },
+  "tauntaccuracy": {
+   "stat": 151,
+   "categoria": "Abnormal",
+   "nombre": "Taunt Chance",
+   "descripcion": "Increases the chance of landing Taunt skills by a certain rate."
+  },
+  "tauntresist": {
+   "stat": 156,
+   "categoria": "Abnormal",
+   "nombre": "Taunt Resist",
+   "descripcion": "Reduces the target's chance of landing Taunt skills by a certain rate."
+  },
+  "taunttimedecrease": {
+   "stat": 338,
+   "categoria": null,
+   "nombre": "Taunt duration reduction",
+   "descripcion": "Reduces Taunt duration."
+  },
+  "taunttimeincrease": {
+   "stat": 337,
+   "categoria": null,
+   "nombre": "Taunt duration increase",
+   "descripcion": "Increases Taunt duration."
+  },
+  "time": {
+   "stat": 11,
+   "categoria": "Conqueror",
+   "nombre": "Time [Siel]",
+   "descripcion": "Time [Siel]\nIncreases Combat Speed and Double Resist."
+  },
+  "torsodefenseratio": {
+   "stat": 501,
+   "categoria": null,
+   "nombre": "Top Defense increase",
+   "descripcion": "Top Defense increase."
+  },
+  "transaccuracy": {
+   "stat": 419,
+   "categoria": "Race",
+   "nombre": "Varian Accuracy",
+   "descripcion": "Accuracy added when attacking Varian.\nOffset by the Varian's Evasion and Block."
+  },
+  "transamplifydamage": {
+   "stat": 489,
+   "categoria": "Race",
+   "nombre": "Varian Damage Boost",
+   "descripcion": "Boosts Damage when attacking Varian.\nAffected by target's Varian Damage Tolerance."
+  },
+  "transblock": {
+   "stat": 424,
+   "categoria": "Race",
+   "nombre": "Varian Block",
+   "descripcion": "Increases Block Chance when attacked by Varian."
+  },
+  "transblockpierce": {
+   "stat": 423,
+   "categoria": "Race",
+   "nombre": "Varian Block Penetration",
+   "descripcion": "Ignores Varian Block Chance when attacking Varian."
+  },
+  "transcritical": {
+   "stat": 421,
+   "categoria": "Race",
+   "nombre": "Varian Critical Hit",
+   "descripcion": "Increases Critical Hit Rate when attacking Varian."
+  },
+  "transcriticalresist": {
+   "stat": 422,
+   "categoria": "Race",
+   "nombre": "Varian Critical Hit Resist",
+   "descripcion": "Reduces Critical Hit Rate when attacked by Varian."
+  },
+  "transdamage": {
+   "stat": 417,
+   "categoria": "Race",
+   "nombre": "Varian Attack",
+   "descripcion": "Increases Damage when attacking Varian."
+  },
+  "transdecreasedamage": {
+   "stat": 490,
+   "categoria": "Race",
+   "nombre": "Varian Damage Tolerance",
+   "descripcion": "Weakens Damage taken when attacked by Varian."
+  },
+  "transdefense": {
+   "stat": 418,
+   "categoria": "Race",
+   "nombre": "Varian Defense",
+   "descripcion": "Reduces Damage taken from Varian."
+  },
+  "transevasion": {
+   "stat": 420,
+   "categoria": "Race",
+   "nombre": "Varian Evasion",
+   "descripcion": "Increases chance to evade incoming attacks when attacked by Varian."
+  },
+  "vehiclespeed": {
+   "stat": 207,
+   "categoria": null,
+   "nombre": "Mount Move Speed",
+   "descripcion": "Basic Move Speed while riding a pet."
+  },
+  "vehiclesprintcost": {
+   "stat": 210,
+   "categoria": "Special",
+   "nombre": "Mount Sprint Stamina Cost Reduction Rate",
+   "descripcion": "Reduces Stamina consumed when sprinting while riding a pet."
+  },
+  "vehiclesprintspeed": {
+   "stat": 209,
+   "categoria": null,
+   "nombre": "Mount Sprint Speed",
+   "descripcion": "Increases Move Speed when sprinting while riding a pet."
+  },
+  "walkspeed": {
+   "stat": 238,
+   "categoria": null,
+   "nombre": "Walking Speed",
+   "descripcion": "Increases Walk Speed."
+  },
+  "waterdamagedefense": {
+   "stat": 170,
+   "categoria": "Property",
+   "nombre": "Water Defense",
+   "descripcion": "Reduces Damage taken from Water."
+  },
+  "weaponaccuracy": {
+   "stat": 318,
+   "categoria": "BookMark",
+   "nombre": "Accuracy",
+   "descripcion": "Prevents attack from missing.\nOffset by target's Evasion and Block."
+  },
+  "weaponblock": {
+   "stat": 142,
+   "categoria": null,
+   "nombre": "Parry",
+   "descripcion": "Increases Parry Chance.\nAffected by target's Accuracy and Block Penetration.\n※ Block Damage Reduction Rate varies based on Gear Grade."
+  },
+  "weaponblockdefense": {
+   "stat": 95,
+   "categoria": null,
+   "nombre": "Parry Defense",
+   "descripcion": "Reduces more Damage when Parry activates."
+  },
+  "weaponblockpierce": {
+   "stat": 143,
+   "categoria": null,
+   "nombre": "Parry Penetration",
+   "descripcion": "Reduces target's Parry Chance."
+  },
+  "weapondamage": {
+   "stat": 31,
+   "categoria": null,
+   "nombre": "Max Attack",
+   "descripcion": "Max Attack of the weapon.\nPerfect scales with Max Attack."
+  },
+  "weaponfixingdamage": {
+   "stat": 317,
+   "categoria": "BookMark",
+   "nombre": "Attack",
+   "descripcion": "Basic Attack.\nHigher Attack deals more damage."
+  },
+  "weaponmindamage": {
+   "stat": 33,
+   "categoria": null,
+   "nombre": "Min Attack",
+   "descripcion": "Min Attack of the weapon."
+  },
+  "winddamagedefense": {
+   "stat": 172,
+   "categoria": "Property",
+   "nombre": "Wind Defense",
+   "descripcion": "Reduces Damage taken from Wind."
+  },
+  "wis": {
+   "stat": 6,
+   "categoria": "MainStat",
+   "nombre": "Willpower",
+   "descripcion": "Increases Status Effect Resist."
+  },
+  "wisdom": {
+   "stat": 15,
+   "categoria": "Conqueror",
+   "nombre": "Wisdom [Lumiel]",
+   "descripcion": "Wisdom [Lumiel]\nReduces MP Consumption and increases Double Chance."
+  }
+ }
+}
