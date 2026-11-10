@@ -5,9 +5,9 @@ import type { ReactNode } from 'react';
 import BarraSuperior from '@/components/BarraSuperior';
 import type { Traductor } from '@/lib/i18n';
 
-/** `repaso`, `mecanicas`, `ventanas` y `seguimiento` son secciones que llegan ya pintadas del servidor (components/raid/Repaso, Mecanicas, Ventanas, Seguimiento). */
-export default function PlantillaRaid({ t, volver, accion, repaso, mecanicas, ventanas, seguimiento }: {
-  t: Traductor; volver: string; accion?: ReactNode; repaso?: ReactNode; mecanicas?: ReactNode; ventanas?: ReactNode; seguimiento?: ReactNode;
+/** `intentos`, `repaso`, `mecanicas`, `ventanas` y `seguimiento` son secciones que llegan ya pintadas del servidor (components/raid/Intentos, Repaso, Mecanicas, Ventanas, Seguimiento). */
+export default function PlantillaRaid({ t, volver, accion, intentos, repaso, mecanicas, ventanas, seguimiento }: {
+  t: Traductor; volver: string; accion?: ReactNode; intentos?: ReactNode; repaso?: ReactNode; mecanicas?: ReactNode; ventanas?: ReactNode; seguimiento?: ReactNode;
 }) {
   return (
     <main className="rx">
@@ -39,6 +39,8 @@ export default function PlantillaRaid({ t, volver, accion, repaso, mecanicas, ve
           </article>
         </div>
       </section>
+
+      {intentos}
     
       <section className="rx-section" id="muertes">
         <h2 className="rx-h2">{t('sec.deaths')}</h2>

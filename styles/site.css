@@ -177,6 +177,29 @@ a:focus-visible, button:focus-visible, summary:focus-visible { outline: 2px soli
 .rx-table.rx-ven-deb th:nth-child(2), .rx-table.rx-ven-deb td:nth-child(2) { text-align: left; white-space: normal; }
 .rx-table.rx-ven-deb tr.rx-ven-primero td { border-top: 1px solid var(--line); }
 
+/* Contra el mejor intento (components/raid/Intentos.tsx) */
+.rx-cmp-cuentas { display: flex; flex-wrap: wrap; align-items: center; gap: var(--pad-xs); margin: var(--gap-sm) 0; font-size: var(--fs-caption); }
+.rx-table.rx-cmp th, .rx-table.rx-cmp td { text-align: left; vertical-align: top; white-space: normal; padding: var(--pad-xs) var(--pad-sm); font-size: var(--fs-caption); }
+.rx-table.rx-cmp th:first-child, .rx-table.rx-cmp td:first-child, .rx-table.rx-cmp th:nth-child(2), .rx-table.rx-cmp td:nth-child(2) { text-align: right; white-space: nowrap; }
+.rx-table.rx-cmp td:nth-child(3) { white-space: nowrap; }
+.rx-table.rx-cmp td:nth-child(4) { min-width: 8rem; }
+.rx-table.rx-cmp td:nth-child(5) { min-width: 14rem; }
+.rx-table.rx-cmp td:nth-child(6) { min-width: 8rem; }
+.rx-table.rx-cmp small { display: block; color: var(--fg-muted); }
+.rx-table.rx-cmp small.rx-cmp-en { display: inline; }
+.rx-cmp-nadie { color: var(--fg-muted); }
+.rx-cmp-cortos { margin-top: var(--gap-sm); }
+.rx-table.rx-cmp-hitos { width: auto; }
+.rx-table.rx-cmp-hitos th, .rx-table.rx-cmp-hitos td { padding: var(--pad-xs) var(--pad-sm); font-size: var(--fs-caption); min-width: 4.5rem; }
+.rx-table.rx-cmp-hitos th:nth-child(2), .rx-table.rx-cmp-hitos td:nth-child(2) { text-align: right; }
+.rx-table.rx-cmp-hitos td:first-child { font-weight: 400; }
+.rx-table.rx-cmp-hitos tr.rx-cmp-ref td { font-weight: 600; }
+.rx-table.rx-cmp-hitos small { color: var(--fg-muted); }
+.rx-table.rx-cmp-hitos small.rx-bad, .rx-table.rx-cmp small.rx-bad { color: var(--bad); }
+.rx-table.rx-cmp-jug { width: auto; min-width: min(100%, 28rem); }
+.rx-table.rx-cmp-jug td:first-child { font-weight: 400; }
+.rx-table.rx-cmp-jug th:nth-child(2), .rx-table.rx-cmp-jug td:nth-child(2) { text-align: right; }
+
 /* Desde la raid anterior (components/raid/Seguimiento.tsx) */
 .rx-pill.is-bad { color: var(--bad); border-color: currentColor; }
 .rx-seg-ok { color: var(--ok); }

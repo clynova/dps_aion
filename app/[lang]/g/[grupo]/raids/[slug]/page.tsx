@@ -5,6 +5,7 @@ import { Suspense } from 'react';
 import BarraSuperior from '@/components/BarraSuperior';
 import { MontarRaid } from '@/components/legado/Montar';
 import BotonAnalizarIA from '@/components/raid/BotonAnalizarIA';
+import Intentos from '@/components/raid/Intentos';
 import Mecanicas from '@/components/raid/Mecanicas';
 import PlantillaRaid from '@/components/raid/PlantillaRaid';
 import Repaso from '@/components/raid/Repaso';
@@ -44,6 +45,7 @@ async function Contenido({ params }: { params: Props['params'] }) {
   return (
     <>
       <PlantillaRaid key={`p-${grupo}-${slug}`} t={t} volver={rutaEn(idioma, `/g/${grupo}`)} accion={accion}
+        intentos={<Intentos t={t} idioma={idioma} datos={r.datos} nombres={r.nombres} />}
         repaso={<Repaso t={t} idioma={idioma} datos={r.datos} nombres={r.nombres} />}
         mecanicas={<Mecanicas t={t} idioma={idioma} datos={r.datos} nombres={r.nombres} />}
         ventanas={<Ventanas t={t} idioma={idioma} datos={r.datos} nombres={r.nombres} />}
