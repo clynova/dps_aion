@@ -5,6 +5,7 @@ import { Fragment } from 'react';
 import { localeDe, type Clave, type Idioma, type Traductor } from '@/lib/i18n';
 import { compararIntentos, type FilaIntento, type IntentoDato, type MuerteDato, type PuntoCurva } from '@/lib/raids/intentos';
 import Explicacion from '@/components/ui/Explicacion';
+import NombreJugador from '@/components/raid/NombreJugador';
 
 type Datos = { meta: unknown; intentos?: IntentoDato[]; curva?: PuntoCurva[]; detalle?: Record<string, unknown> };
 type NombresHab = { apodos: Record<string, string>; habilidades: Record<string, string>; npcs: Record<string, string> };
@@ -73,7 +74,7 @@ export default function Intentos({ t, idioma, datos, nombres }: { t: Traductor; 
                   <td>{enPunto(f)}</td>
                   <td>
                     {f.caidas.length ? f.caidas.map((x, i) => (
-                      <Fragment key={x.jugador}>{i ? ', ' : ''}{x.jugador} <small className="rx-cmp-en">{t('cmp.caida', { s: s(x.t), h: hab(x.habilidad) })}</small></Fragment>
+                      <Fragment key={x.jugador}>{i ? ', ' : ''}<NombreJugador n={x.jugador} /> <small className="rx-cmp-en">{t('cmp.caida', { s: s(x.t), h: hab(x.habilidad) })}</small></Fragment>
                     )) : <span className="rx-cmp-nadie">{t('cmp.nadie')}</span>}
                     {f.causa ? <small>{t('cmp.causa', { h: hab(f.causa.habilidad), n: f.causa.muertes, i: ref.intento, r: f.causa.ref })}</small> : null}
                   </td>
@@ -139,7 +140,7 @@ export default function Intentos({ t, idioma, datos, nombres }: { t: Traductor; 
               <tbody>
                 {repetidos.map((j) => (
                   <tr key={j.jugador}>
-                    <td>{j.jugador}</td>
+                    <td><NombreJugador n={j.jugador} /></td>
                     <td>{t('cmp.veces', { n: j.intentos.length, de: c.cuentas.comparables })}</td>
                     <td>{j.intentos.join(', ')}</td>
                   </tr>

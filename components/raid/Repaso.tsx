@@ -4,6 +4,7 @@
 import { localeDe, type Idioma, type Traductor } from '@/lib/i18n';
 import { analizarRepaso, type Cuenta, type MuerteDato, type MuerteRepasada } from '@/lib/raids/repaso';
 import Explicacion from '@/components/ui/Explicacion';
+import NombreJugador from '@/components/raid/NombreJugador';
 
 type Datos = { meta: unknown; detalle: Record<string, unknown> };
 type NombresHab = { apodos: Record<string, string>; habilidades: Record<string, string> };
@@ -65,7 +66,7 @@ export default function Repaso({ t, idioma, datos, nombres }: { t: Traductor; id
             const chips = [['rep.chip.sinSanador', j.sinSanador], ['rep.chip.grupoCaido', j.grupoCaido], ['rep.chip.defensivo', j.conDefensivo]] as const;
             return (
               <li key={j.jugador}>
-                <span className="rx-apil-n">{j.jugador}</span>
+                <span className="rx-apil-n"><NombreJugador n={j.jugador} /></span>
                 <span className="rx-apil-pista">
                   <span className="rx-apil-barra" style={{ width: `${(j.muertes / maxMuertes) * 100}%` }} role="img"
                     aria-label={t('rep.barra.aria', { j: j.jugador, n: j.muertes, g: j.golpe, r: j.rafaga, d: j.desgaste })}>
@@ -94,7 +95,7 @@ export default function Repaso({ t, idioma, datos, nombres }: { t: Traductor; id
               </thead>
               <tbody>
                 <tr className="rx-rep-total"><td>{t('rep.total')}</td>{celdas(a.grupo)}</tr>
-                {a.jugadores.map((j) => <tr key={j.jugador}><td>{j.jugador}</td>{celdas(j)}</tr>)}
+                {a.jugadores.map((j) => <tr key={j.jugador}><td><NombreJugador n={j.jugador} /></td>{celdas(j)}</tr>)}
               </tbody>
             </table>
           </div>
@@ -123,7 +124,7 @@ export default function Repaso({ t, idioma, datos, nombres }: { t: Traductor; id
                     return (
                       <tr key={k}>
                         <td>{m.t}</td>
-                        <td>{m.jugador}</td>
+                        <td><NombreJugador n={m.jugador} /></td>
                         <td>{hab(m.habilidad)}{m.golpe_max ? <small>{t('rep.final', { d: compacto.format(m.golpe_max) })}</small> : null}</td>
                         <td><span className={`rx-rep-t is-${m.tipo}`}>{tipo(m)}</span></td>
                         <td>

@@ -165,3 +165,21 @@ ul.rx-seg-recos .rx-seg-lista { margin: var(--gap-sm) 0 var(--gap-xs) calc(6.5re
 @media (max-width: 640px) {
   .rx-table.rx-mec th:first-child, .rx-table.rx-mec td:first-child { min-width: 7.5rem; max-width: 9rem; }
 }
+
+/* ---------- Fase 4: nombres enlazados y «Soy…» (docs/plan-ui.md) ---------- */
+.rx-jug { color: inherit; text-decoration: none; border-radius: 3px; }
+.rx-jug:hover { color: var(--series-1); text-decoration: underline; text-underline-offset: 2px; }
+.rx-jug:focus-visible { outline: 2px solid var(--series-1); outline-offset: 1px; }
+.rx-jug.is-yo { color: var(--series-1); font-weight: 700; }
+.rx-table tr:has(> td .rx-jug.is-yo) > td { background: color-mix(in srgb, var(--series-1) 8%, transparent); }
+.rx-apil li:has(.rx-jug.is-yo), .rx-dest li:has(.rx-jug.is-yo) { background: color-mix(in srgb, var(--series-1) 8%, transparent); border-radius: var(--radius); box-shadow: 0 0 0 4px color-mix(in srgb, var(--series-1) 8%, transparent); }
+.rx-reco-jug-item:has(.rx-jug.is-yo) { border-color: var(--series-1); }
+.rx-soy { display: flex; flex-wrap: wrap; align-items: center; gap: var(--gap-sm); font-size: var(--fs-caption); }
+.rx-soy[hidden] { display: none; }
+.rx-soy label { font-weight: 600; }
+.rx-mio { border-color: var(--series-1); gap: var(--gap-md); }
+.rx-mio[hidden] { display: none; }
+.rx-mio .rx-ficha-head { align-items: baseline; flex-wrap: wrap; }
+/* El nombre de la ficha y de «Tu raid» en grande (`.rx-card h3` lo dejaba al tamaño de un título de tarjeta) */
+.rx-card h3.rx-ficha-name { font-family: var(--font-serif); font-weight: 400; font-size: 1.75rem; }
+.rx-mio .rx-tiles { grid-template-columns: repeat(auto-fit, minmax(min(100%, 8rem), 1fr)); }

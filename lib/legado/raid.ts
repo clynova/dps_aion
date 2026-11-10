@@ -95,7 +95,7 @@ export function montarRaid({ D, A, N, soloEs, T, LANG, LOC, rutaPerfil }) {
   conConsejo.forEach((j) => {
     const item = el('div', 'rx-reco-jug-item');
     const h = el('h4');
-    if (orden.includes(j)) { const a = el('a', 'rx-link', j); a.href = '#' + encodeURIComponent(j); h.append(a); } else h.textContent = j;
+    if (orden.includes(j)) { const a = el('a', 'rx-link rx-jug', j); a.href = '#' + encodeURIComponent(j); a.dataset.jugador = j; h.append(a); } else h.textContent = j;
     const ul = el('ul', 'rx-reco');
     consejos[j].forEach((tx) => ul.append(rich(el('li'), tx)));
     item.append(h, ul);
@@ -309,7 +309,7 @@ export function montarRaid({ D, A, N, soloEs, T, LANG, LOC, rutaPerfil }) {
       })
       .on('pointerleave', () => t.hide());
     g.append('text').attr('x', m.l - 8).attr('y', (r) => y(r.jugador) + y.bandwidth() / 2).attr('dy', '0.32em').attr('text-anchor', 'end')
-      .attr('class', (r) => (r.jugador === M.personaje ? 'rx-strong' : null)).text((r) => r.jugador).call(ajustar, m.l - 8);
+      .attr('class', (r) => (r.jugador === yo() ? 'rx-strong' : null)).text((r) => r.jugador).call(ajustar, m.l - 8);
     g.append('rect').attr('x', m.l).attr('y', (r) => y(r.jugador)).attr('height', y.bandwidth()).attr('width', (r) => Math.max(1, x(r.dps) - m.l)).attr('rx', 3)
       .style('fill', (r, i) => (i === 0 ? 'var(--series-1)' : 'var(--chart-muted)'));
     g.append('text').attr('x', (r) => x(r.dps) + 5).attr('y', (r) => y(r.jugador) + y.bandwidth() / 2).attr('dy', '0.32em').text((r) => k(r.dps));
@@ -325,7 +325,7 @@ export function montarRaid({ D, A, N, soloEs, T, LANG, LOC, rutaPerfil }) {
     const rows = D.jugadores;
     const maxDps = d3.max(rows, (r) => r.dps), maxDeaths = d3.max(rows, (r) => r.muertes);
     rows.forEach((r) => {
-      const tr = el('tr', r.jugador === M.personaje ? 'is-self' : null);
+      const tr = el('tr', r.jugador === yo() ? 'is-self' : null);
       tr.dataset.jugador = r.jugador; tr.tabIndex = 0;
       if (r.jugador === abierto) tr.classList.add('is-open');
       const td = (text, cls) => tr.appendChild(el('td', cls, text));
@@ -359,7 +359,7 @@ export function montarRaid({ D, A, N, soloEs, T, LANG, LOC, rutaPerfil }) {
     const y = d3.scaleBand(players, [m.t, H - m.b]).padding(0.08);
     const op = d3.scaleLinear(d3.extent(rows, (d) => d.dps), [0.12, 0.9]);
     players.forEach((p) => svg.append('text').attr('x', m.l - 8).attr('y', y(p) + y.bandwidth() / 2).attr('dy', '0.32em').attr('text-anchor', 'end')
-      .attr('class', p === M.personaje ? 'rx-strong' : null).style('cursor', 'pointer').text(p).on('click', () => abrirFicha(p, true)));
+      .attr('class', p === yo() ? 'rx-strong' : null).style('cursor', 'pointer').text(p).on('click', () => abrirFicha(p, true)));
     const every = Math.ceil(16 / x.bandwidth());
     tries.forEach((tr, i) => { if (i % every === 0) svg.append('text').attr('x', x(tr) + x.bandwidth() / 2).attr('y', H - m.b + 16).attr('text-anchor', 'middle').text(tr); });
     const t = tipFor(box);
@@ -375,25 +375,66 @@ export function montarRaid({ D, A, N, soloEs, T, LANG, LOC, rutaPerfil }) {
     });
   }
 
+  // ---------- «Soy…» ----------
+  // Quien mira elige su personaje: se resalta en toda la página y su resumen sale arriba del Resumen. Solo en este
+  // navegador (localStorage, con try/catch: puede no estar disponible). Sin elegir, se destaca a quien grabó la raid.
+  const CLAVE_SOY = 'dps-aion:soy';
+  const leerSoy = () => { try { return localStorage.getItem(CLAVE_SOY) || ''; } catch { return ''; } };
+  const guardarSoy = (v) => { try { if (v) localStorage.setItem(CLAVE_SOY, v); else localStorage.removeItem(CLAVE_SOY); } catch { /* sin almacenamiento */ } };
+  let soy = D.jugadores.some((j) => j.jugador === leerSoy()) ? leerSoy() : '';
+  const yo = () => soy || M.personaje;
+
   // ---------- Ficha de jugador ----------
   let abierto = null;
   const media = (f) => d3.mean(D.jugadores, f);
+  const vs = (v, m, fmt) => {
+    const diff = m ? (v - m) / m * 100 : 0;
+    const word = Math.abs(diff) < 3 ? T('f.avg') : T(diff > 0 ? 'f.above' : 'f.below', { p: nf.format(Math.abs(diff)) });
+    return `${word} (${fmt(m)})`;
+  };
+  // «Tu raid»: arriba del Resumen, las cifras y los consejos de quien eligió «Soy…»
+  function drawMio() {
+    const r = soy && D.jugadores.find((j) => j.jugador === soy);
+    $('mio').hidden = !r;
+    if (!r) return;
+    const puesto = D.jugadores.slice().sort((a, b) => b.dps - a.dps).indexOf(r) + 1;
+    $('mio-sub').textContent = `${T('soy.t')} · ${className(r)} · ${T('soy.puesto', { n: puesto, de: D.jugadores.length })}`;
+    $('mio-nombre').textContent = r.jugador;
+    $('mio-ficha').href = '#' + encodeURIComponent(r.jugador);
+    const mt = $('mio-tiles'); mt.replaceChildren();
+    tile(mt, 'DPS', int(r.dps), vs(r.dps, media((j) => j.dps), int));
+    tile(mt, 'HPS', int(r.hps), vs(r.hps, media((j) => j.hps), int));
+    tile(mt, T('f.deaths.tile'), int(r.muertes), vs(r.muertes, media((j) => j.muertes), (v) => nf1.format(v)));
+    tile(mt, T('th.crit'), pct(r.crit_pct), vs(r.crit_pct, media((j) => j.crit_pct), pct));
+    const recos = A.pendiente ? [] : ((A.jugadores || {})[r.jugador] || []);
+    $('mio-reco').replaceChildren(...recos.map((tx) => rich(el('li'), tx)));
+    $('mio-reco-pend').hidden = recos.length > 0;
+  }
+  function aplicarSoy() {
+    document.querySelectorAll('.rx-jug').forEach((a) => a.classList.toggle('is-yo', !!soy && a.dataset.jugador === soy));
+    drawMio();
+  }
+  {
+    const sel = $('soy');
+    sel.append(el('option', null, T('soy.nadie')));
+    sel.firstChild.value = '';
+    D.jugadores.map((j) => j.jugador).sort((a, b) => a.localeCompare(b, LOC)).forEach((n) => { const o = el('option', null, n); o.value = n; sel.append(o); });
+    sel.value = soy;
+    sel.addEventListener('change', () => { soy = sel.value; guardarSoy(soy); aplicarSoy(); dibujarPestana(actual); });
+    $('soy-box').hidden = false;
+  }
+
   function drawFicha() {
     const r = D.jugadores.find((j) => j.jugador === abierto);
     if (!r) { $('ficha').hidden = true; return; }
     const det = (D.detalle || {})[r.jugador] || { habilidades: [], recibido: [], muertes: [] };
     $('ficha').hidden = false;
-    $('f-clase').textContent = className(r) + (r.jugador === M.personaje ? ' · ' + T('f.you') : '');
+    $('f-clase').textContent = className(r) + (r.jugador === yo() ? ' · ' + T('f.you') : '');
     $('f-nombre').textContent = r.jugador;
     $('f-equipo').textContent = `GS ${int(r.gs)} · CP ${int(r.cp)}`;
     const slug = r.jugador.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
     $('f-perfil').href = rutaPerfil(slug);
     const ft = $('f-tiles'); ft.replaceChildren();
-    const vs = (v, m, fmt) => {
-      const diff = m ? (v - m) / m * 100 : 0;
-      const word = Math.abs(diff) < 3 ? T('f.avg') : T(diff > 0 ? 'f.above' : 'f.below', { p: nf.format(Math.abs(diff)) });
-      return `${word} (${fmt(m)})`;
-    };
     tile(ft, 'DPS', int(r.dps), vs(r.dps, media((j) => j.dps), int));
     tile(ft, 'HPS', int(r.hps), vs(r.hps, media((j) => j.hps), int));
     tile(ft, T('f.deaths.tile'), int(r.muertes), vs(r.muertes, media((j) => j.muertes), (v) => nf1.format(v)));
@@ -494,6 +535,7 @@ export function montarRaid({ D, A, N, soloEs, T, LANG, LOC, rutaPerfil }) {
     } else abrirPestana(h, false, llevar && !!porPestana[h]);
   }
   desdeHash(false);
+  aplicarSoy();
   const alCambiarHash = () => desdeHash(true);
   addEventListener('hashchange', alCambiarHash);
 

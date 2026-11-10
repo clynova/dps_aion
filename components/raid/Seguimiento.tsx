@@ -2,6 +2,7 @@
 // con las recomendaciones de aquel análisis (lib/raids/seguimiento.ts). Sale del servidor ya calculado y traducido.
 import { localeDe, rutaEn, type Idioma, type Traductor } from '@/lib/i18n';
 import { seguir, type AnalisisSeg, type AtaqueSeg, type Medida, type RaidSeg, type Veredicto } from '@/lib/raids/seguimiento';
+import NombreJugador from '@/components/raid/NombreJugador';
 
 type NombresHab = { apodos: Record<string, string>; habilidades: Record<string, string>; npcs: Record<string, string> };
 type Props = {
@@ -148,7 +149,7 @@ export default function Seguimiento({ t, idioma, grupo, nombres, datos, anterior
               <tbody>
                 {s.jugadores.map((j) => (
                   <tr key={j.jugador}>
-                    <td>{j.jugador}</td>
+                    <td><NombreJugador n={j.jugador} /></td>
                     <td>{cambio(j.muertes, n2)}</td>
                     <td>{cambio(j.dps, n0)}</td>
                     <td>{j.ataques.length ? <ul className="rx-seg-lista">{j.ataques.map(ataque)}</ul> : null}</td>

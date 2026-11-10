@@ -4,6 +4,7 @@
 import { localeDe, type Idioma, type Traductor } from '@/lib/i18n';
 import { analizarVentanas, type VentanasDato } from '@/lib/raids/ventanas';
 import Explicacion from '@/components/ui/Explicacion';
+import NombreJugador from '@/components/raid/NombreJugador';
 
 type Datos = { meta: unknown; ventanas?: VentanasDato };
 type NombresHab = { apodos: Record<string, string>; habilidades: Record<string, string> };
@@ -37,7 +38,7 @@ export default function Ventanas({ t, idioma, datos, nombres }: { t: Traductor; 
         <tbody>
           {a.debuffs.flatMap((d) => d.lista.slice(0, max).map((x, i) => (
             <tr key={`${d.jugador}-${x.habilidad}`} className={i === 0 ? 'rx-ven-primero' : undefined}>
-              <td>{i === 0 ? d.jugador : ''}</td>
+              <td>{i === 0 ? <NombreJugador n={d.jugador} /> : ''}</td>
               <td>{hab(x.habilidad)}</td>
               <td>{barra(x.activo_pct)}</td>
               <td>{barra(x.rotura_pct)}</td>
@@ -70,7 +71,7 @@ export default function Ventanas({ t, idioma, datos, nombres }: { t: Traductor; 
                   </tr>
                   {a.jugadores.map((j) => (
                     <tr key={j.jugador}>
-                      <td>{j.jugador}</td>
+                      <td><NombreJugador n={j.jugador} /></td>
                       <td className={j.presentes < j.roturas ? 'rx-ven-falta' : undefined}>{t('ven.vivo', { n: j.presentes, de: j.roturas })}</td>
                       <td>{dps(j.dpsRotura)}</td>
                       <td>{dps(j.dpsFuera)}</td>

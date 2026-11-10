@@ -7,6 +7,7 @@ import { localeDe, type Clave, type Idioma, type Traductor } from '@/lib/i18n';
 import { analizarBuffs, type BuffDato } from '@/lib/raids/buffs';
 import { analizarEspecializaciones, formatoOpciones, type EspecializacionDato } from '@/lib/raids/especializaciones';
 import Explicacion from '@/components/ui/Explicacion';
+import NombreJugador from '@/components/raid/NombreJugador';
 
 type Datos = { meta: unknown; jugadores?: { jugador: string; clase_id: string | null }[]; especializaciones?: EspecializacionDato[]; buffs_recibidos?: BuffDato[] };
 type NombresHab = { apodos: Record<string, string>; habilidades: Record<string, string> };
@@ -34,7 +35,7 @@ export default function Builds({ t, idioma, datos, nombres }: { t: Traductor; id
             {varios.map((x) => (
               <div key={x.clase} className="bx-clase">
                 <h4>{clase(x.clase)} <span className="rx-note">{x.distintas ? t('bx.esp.distintas', { n: x.distintas }) : t('bx.esp.iguales')}</span></h4>
-                <TablaEspecializaciones t={t} tabla={x} nombreHab={nombreHab} />
+                <TablaEspecializaciones t={t} tabla={x} nombreHab={nombreHab} enlazar />
               </div>
             ))}
           </div>
@@ -43,7 +44,7 @@ export default function Builds({ t, idioma, datos, nombres }: { t: Traductor; id
               <summary>{t('bx.esp.solos', { n: solos.length })}</summary>
               {solos.map((x) => (
                 <p key={x.clase} className="rx-note">
-                  <b>{x.jugadores[0]}</b> ({clase(x.clase)}): {x.filas.map((f) => `${nombreHab(f.habilidad)} ${formatoOpciones(f.opciones[0]!)}`).join(' · ')}
+                  <b><NombreJugador n={x.jugadores[0]!} /></b> ({clase(x.clase)}): {x.filas.map((f) => `${nombreHab(f.habilidad)} ${formatoOpciones(f.opciones[0]!)}`).join(' · ')}
                 </p>
               ))}
             </details>
@@ -73,9 +74,9 @@ export default function Builds({ t, idioma, datos, nombres }: { t: Traductor; id
                   {b.buffs.map((g) => (
                     <tr key={`${g.lanzador}-${g.habilidad}`}>
                       <td>{nombreHab(g.habilidad)}</td>
-                      <td>{g.lanzador}</td>
+                      <td><NombreJugador n={g.lanzador} /></td>
                       <td>{g.receptores.map((r, k) => (
-                        <span key={r.jugador} className={r.bajo ? 'rx-bad' : undefined}>{k ? ' · ' : ''}{r.jugador} {pct(r.pct)}</span>
+                        <span key={r.jugador} className={r.bajo ? 'rx-bad' : undefined}>{k ? ' · ' : ''}<NombreJugador n={r.jugador} /> {pct(r.pct)}</span>
                       ))}</td>
                     </tr>
                   ))}

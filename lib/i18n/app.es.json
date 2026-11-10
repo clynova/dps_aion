@@ -507,7 +507,7 @@
   "rep.chip.grupoCaido": "{n} con medio grupo caído",
   "rep.chip.defensivo": "{n} con un defensivo libre",
   "mec.det": "{r} recibidos · {e} esperados · {m} muertes por estos ataques",
-  "mec.nadaDestaca": "Nada que destaque: {l}.",
+  "mec.nadaDestaca": "Nada que destaque:",
   "mec.mapa.solo": "Solo los ataques en los que alguien recibe bastante más que el resto ({n} de {de}).",
   "mec.mapa.otros": "Los otros {n} ataques",
   "ven.deb.todos": "Todos los debuffs ({n})",
@@ -518,5 +518,11 @@
   "raid.dps.nota": "DPS de cada jugador contra el jefe en toda la raid; la línea es la media del grupo. A la derecha, su % de golpes críticos. Pulsa un jugador para ver su ficha.",
   "raid.dps.media": "media {n}",
   "raid.dps.aria": "DPS y crítico de cada jugador",
-  "raid.dps.tip": "Crítico {c} · por la espalda {e}"
+  "raid.dps.tip": "Crítico {c} · por la espalda {e}",
+  "soy.label": "Soy",
+  "soy.nadie": "— elige tu personaje —",
+  "soy.nota": "Resalta tu nombre en toda la página. Se guarda solo en este navegador.",
+  "soy.t": "Tu raid",
+  "soy.puesto": "{n}.º de {de} en DPS",
+  "soy.ficha": "Ver tu ficha completa"
 }

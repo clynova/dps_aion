@@ -1,10 +1,12 @@
 # Plan de mejora visual: la misma información, más fácil de leer
 
-Fecha: 10 de noviembre de 2026 · Estado: fases 0–2 desplegadas (a17918e); fase 3 hecha; el resto, pendiente
+Fecha: 10 de noviembre de 2026 · Estado: fases 0–3 desplegadas (a17918e, eaf877b, ecbe94f); fase 4 hecha; quedan 5–7
 
 Fase 3 (10/11/2026): «Cómo muere cada uno» como barra apilada por jugador con avisos en chips (la tabla, plegada); «Quién recibe golpes que el resto evita» enseña solo a quien destaca, con barra de diferencia, y al resto en una línea; «Ataque por ataque» enseña los ataques con algún ▲ (los otros, plegados) y fija la columna del ataque; debuffs: los 3 que más mantiene cada jugador, con barras (todos, plegados); «Qué pasó con las recomendaciones», una línea por recomendación con sus ataques al desplegarla; en las gráficas, las etiquetas que no caben se recortan con «…» y el nombre entero va en el tooltip; en el móvil la barra de pestañas enseña la abierta.
 
 Pedido del usuario (10/11/2026): «DPS de la party» en el Resumen, al lado de la vida quitada (barra por jugador, media del grupo, % de críticos a la derecha; pulsar abre la ficha). La **precisión** no se muestra: el registro no trae la estadística de precisión del jugador (solo GS y CP) y los únicos «fallos» contra el jefe son `resist` que casi siempre llegan en el mismo instante que un golpe de la misma habilidad que sí hizo daño (efecto resistido, no ataque fallado); solo 1–2 jugadores por raid los tienen. Comprobado con `db/aion.duckdb` en las raids del 8–10/11.
+
+Fase 4 (10/11/2026): todos los nombres de jugador de las secciones del servidor enlazan a su ficha (`components/raid/NombreJugador.tsx`, `#<jugador>`); selector «Soy…» (localStorage `dps-aion:soy`, solo comodidad) que resalta a ese jugador en toda la página (filas con `:has()`, negrita en las gráficas) y pone «Tu raid» arriba del Resumen: puesto en DPS, DPS/HPS/muertes/crítico frente a la media y sus consejos.
 
 Hecho el 10/11/2026:
 - Fase 0: `scripts/capturas.mts` (una captura por ruta, ancho, tema y pestaña, con `alturas.tsv`).

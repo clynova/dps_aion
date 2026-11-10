@@ -3,10 +3,13 @@
 // (components/raid/Builds.tsx) y el perfil (components/jugador/Especializaciones.tsx).
 import type { Traductor } from '@/lib/i18n';
 import { formatoOpciones, type TablaClase } from '@/lib/raids/especializaciones';
+import NombreJugador from '@/components/raid/NombreJugador';
 
-type Props = { t: Traductor; tabla: TablaClase; nombreHab: (id: string) => string; destacar?: string; subtitulos?: (string | null)[] };
+type Props = { t: Traductor; tabla: TablaClase; nombreHab: (id: string) => string; destacar?: string; subtitulos?: (string | null)[];
+  /** En la página de la raid, cada nombre enlaza a su ficha */
+  enlazar?: boolean };
 
-export default function TablaEspecializaciones({ t, tabla, nombreHab, destacar, subtitulos }: Props) {
+export default function TablaEspecializaciones({ t, tabla, nombreHab, destacar, subtitulos, enlazar }: Props) {
   return (
     <div className="rx-table-wrap">
       <table className="rx-table bx-esp">
@@ -14,7 +17,7 @@ export default function TablaEspecializaciones({ t, tabla, nombreHab, destacar, 
           <tr>
             <th>{t('bx.th.habilidad')}</th>
             {tabla.jugadores.map((j, k) => (
-              <th key={j} className={j === destacar ? 'is-yo' : undefined}>{j}{subtitulos?.[k] ? <small>{subtitulos[k]}</small> : null}</th>
+              <th key={j} className={j === destacar ? 'is-yo' : undefined}>{enlazar ? <NombreJugador n={j} /> : j}{subtitulos?.[k] ? <small>{subtitulos[k]}</small> : null}</th>
             ))}
           </tr>
         </thead>

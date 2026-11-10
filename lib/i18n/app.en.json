@@ -507,7 +507,7 @@
   "rep.chip.grupoCaido": "{n} with half the group down",
   "rep.chip.defensivo": "{n} with a defensive ready",
   "mec.det": "{r} taken · {e} expected · {m} deaths from these attacks",
-  "mec.nadaDestaca": "Nothing stands out: {l}.",
+  "mec.nadaDestaca": "Nothing stands out:",
   "mec.mapa.solo": "Only the attacks where someone gets hit far more than the rest ({n} of {de}).",
   "mec.mapa.otros": "The other {n} attacks",
   "ven.deb.todos": "All debuffs ({n})",
@@ -518,5 +518,11 @@
   "raid.dps.nota": "Each player's DPS against the boss over the whole raid; the line is the group average. On the right, their critical hit rate. Click a player to open their card.",
   "raid.dps.media": "avg {n}",
   "raid.dps.aria": "DPS and crit of each player",
-  "raid.dps.tip": "Crit {c} · from behind {e}"
+  "raid.dps.tip": "Crit {c} · from behind {e}",
+  "soy.label": "I am",
+  "soy.nadie": "— pick your character —",
+  "soy.nota": "Highlights your name across the page. Saved only in this browser.",
+  "soy.t": "Your raid",
+  "soy.puesto": "#{n} of {de} in DPS",
+  "soy.ficha": "Open your full card"
 }

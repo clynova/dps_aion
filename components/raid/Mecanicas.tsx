@@ -1,10 +1,11 @@
 // «Fallos de mecánica» de la página de una raid: quién recibe golpes que sus compañeros evitan (lib/raids/mecanicas.ts).
 // Sale del servidor ya calculado y traducido; no necesita JavaScript. Las raids extraídas antes del 9/11/2026 no traen
 // «mecanicas» y muestran un aviso.
-import type { CSSProperties } from 'react';
+import { Fragment, type CSSProperties } from 'react';
 import { localeDe, type Idioma, type Traductor } from '@/lib/i18n';
 import { analizarMecanicas, type Celda, type MecanicaDato } from '@/lib/raids/mecanicas';
 import Explicacion from '@/components/ui/Explicacion';
+import NombreJugador from '@/components/raid/NombreJugador';
 
 type Datos = {
   meta: unknown; causas: { habilidad: string; muertes: number }[]; detalle: Record<string, unknown>; mecanicas?: MecanicaDato[];
@@ -49,7 +50,7 @@ export default function Mecanicas({ t, idioma, datos, nombres }: { t: Traductor;
         <thead>
           <tr>
             <th>{t('mec.th.ataque')}</th><th>{t('mec.th.veces')}</th><th>{t('th.deaths')}</th>
-            {orden.map((n) => <th key={n} className="rx-mec-j" title={n}>{n}</th>)}
+            {orden.map((n) => <th key={n} className="rx-mec-j" title={n}><NombreJugador n={n} /></th>)}
           </tr>
         </thead>
         <tbody>
@@ -91,7 +92,7 @@ export default function Mecanicas({ t, idioma, datos, nombres }: { t: Traductor;
                   const p = j.indice === null ? null : Math.round((j.indice - 1) * 100);
                   return (
                     <li key={j.jugador}>
-                      <span className="rx-dest-n">{j.jugador}</span>
+                      <span className="rx-dest-n"><NombreJugador n={j.jugador} /></span>
                       <span className="rx-div" aria-hidden="true">
                         {p ? <i className={p > 0 ? 'is-mas' : 'is-menos'} style={{ width: `${Math.min(Math.abs(p), 100) / 2}%` }} /> : null}
                       </span>
@@ -113,7 +114,7 @@ export default function Mecanicas({ t, idioma, datos, nombres }: { t: Traductor;
               </ul>
             ) : null}
             {tranquilos.length ? (
-              <p className="rx-note">{t('mec.nadaDestaca', { l: tranquilos.map((j) => (j.indice === null ? j.jugador : `${j.jugador} (${dif(j.indice)})`)).join(', ') })}</p>
+              <p className="rx-note">{t('mec.nadaDestaca')}{tranquilos.map((j, i) => <Fragment key={j.jugador}>{i ? ', ' : ' '}<NombreJugador n={j.jugador} />{j.indice === null ? '' : ` (${dif(j.indice)})`}</Fragment>)}.</p>
             ) : null}
             <details className="rx-details">
               <summary>{t('ui.verTabla')}</summary>
@@ -128,7 +129,7 @@ export default function Mecanicas({ t, idioma, datos, nombres }: { t: Traductor;
                   <tbody>
                     {a.jugadores.map((j) => (
                       <tr key={j.jugador}>
-                        <td>{j.jugador}</td>
+                        <td><NombreJugador n={j.jugador} /></td>
                         <td>{j.recibidos}</td>
                         <td>{nf.format(j.esperados)}</td>
                         <td>{j.indice === null ? '—' : <>{j.indice >= 1.3 ? <span aria-hidden="true">▲ </span> : j.indice <= 0.75 ? <span aria-hidden="true">▽ </span> : null}{dif(j.indice)}</>}</td>

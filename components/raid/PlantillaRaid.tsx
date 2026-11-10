@@ -30,6 +30,13 @@ export default function PlantillaRaid({ t, volver, accion, enlaceJefe, intentos,
 
       {resumenSeguimiento}
 
+      {/* «Soy…»: lo rellena lib/legado/raid.ts con los jugadores de la raid (docs/plan-ui.md, fase 4) */}
+      <div className="rx-soy" id="soy-box" hidden>
+        <label htmlFor="soy">{t('soy.label')}</label>
+        <select className="cx-select" id="soy"></select>
+        <span className="rx-note">{t('soy.nota')}</span>
+      </div>
+
       <section className="rx-top" id="top" hidden>
         <h2 className="rx-top-t">{t('raid.top.t')}</h2>
         <ol className="rx-reco rx-top-lista" id="reco-top"></ol>
@@ -45,6 +52,18 @@ export default function PlantillaRaid({ t, volver, accion, enlaceJefe, intentos,
       </nav>
 
       <div className="pl-panel rx-panel" id="resumen" role="tabpanel">
+        <article className="rx-card rx-mio" id="mio" hidden aria-live="polite">
+          <div className="rx-ficha-head">
+            <div>
+              <p className="rx-eyebrow" id="mio-sub"></p>
+              <h3 className="rx-ficha-name" id="mio-nombre"></h3>
+            </div>
+            <a className="rx-link" id="mio-ficha" href="#">{t('soy.ficha')} →</a>
+          </div>
+          <div className="rx-tiles" id="mio-tiles"></div>
+          <p className="rx-note" id="mio-reco-pend" hidden>{t('f.reco.none')}</p>
+          <ul className="rx-reco" id="mio-reco"></ul>
+        </article>
         <div className="rx-grid">
           <article className="rx-card">
             <h3>{t('card.progress')}</h3>
