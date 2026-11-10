@@ -5,9 +5,9 @@ import type { ReactNode } from 'react';
 import BarraSuperior from '@/components/BarraSuperior';
 import type { Traductor } from '@/lib/i18n';
 
-/** `repaso`, `mecanicas` y `seguimiento` son secciones que llegan ya pintadas del servidor (components/raid/Repaso, Mecanicas, Seguimiento). */
-export default function PlantillaRaid({ t, volver, accion, repaso, mecanicas, seguimiento }: {
-  t: Traductor; volver: string; accion?: ReactNode; repaso?: ReactNode; mecanicas?: ReactNode; seguimiento?: ReactNode;
+/** `repaso`, `mecanicas`, `ventanas` y `seguimiento` son secciones que llegan ya pintadas del servidor (components/raid/Repaso, Mecanicas, Ventanas, Seguimiento). */
+export default function PlantillaRaid({ t, volver, accion, repaso, mecanicas, ventanas, seguimiento }: {
+  t: Traductor; volver: string; accion?: ReactNode; repaso?: ReactNode; mecanicas?: ReactNode; ventanas?: ReactNode; seguimiento?: ReactNode;
 }) {
   return (
     <main className="rx">
@@ -60,6 +60,8 @@ export default function PlantillaRaid({ t, volver, accion, repaso, mecanicas, se
       {repaso}
 
       {mecanicas}
+
+      {ventanas}
 
       <section className="rx-section" id="jugadores">
         <h2 className="rx-h2">{t('sec.players')}</h2>

@@ -43,6 +43,13 @@
       "when": 1794263248642,
       "tag": "0005_repaso_muertes",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1794278266588,
+      "tag": "0006_ventanas",
+      "breakpoints": true
     }
   ]
 }

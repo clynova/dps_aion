@@ -19,10 +19,15 @@ from intentos i join jugadores j on j.enc = i.enc and (j.grupo or j.yo)
 where exists (select 1 from golpes g where g.enc = i.enc and g.dueno = j.entidad and g.dano > 0)
    or j.yo;
 
--- Jugadores del grupo en cada intento, con su entidad (para unir con golpes, curaciones, recibido…).
+-- Jugadores del grupo en cada intento, con su entidad (para unir con golpes, curaciones, recibido…). Si un jugador
+-- sale dos veces en un encuentro (salió y volvió a entrar), la entidad con más eventos, como en db/raid.sql.
 create or replace view jugador_intento as
 select i.raid, i.intento, i.enc, i.duracion_s, j.entidad, j.nombre, j.clase, j.gs, j.cp
-from intentos i join jugadores j on j.enc = i.enc join grupo gr on gr.raid = i.raid and gr.nombre = j.nombre;
+from intentos i join jugadores j on j.enc = i.enc join grupo gr on gr.raid = i.raid and gr.nombre = j.nombre
+left join (select enc, ent, count(*) n from (
+    select enc, dueno ent from golpes union all select enc, objetivo from recibido union all select enc, dueno from curaciones) group by all
+  ) ev on ev.enc = j.enc and ev.ent = j.entidad
+qualify row_number() over (partition by i.raid, i.enc, j.nombre order by coalesce(ev.n, 0) desc, j.entidad desc) = 1;
 
 -- Muertes del grupo en cada intento (desde el inicio del combate), en segundos.
 create or replace view muertes_intento as

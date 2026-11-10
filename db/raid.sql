@@ -18,9 +18,16 @@ select i.intento, i.enc, i.duracion_s dur, i.matado, j.entidad jefe, j.vida_max,
   case when i.matado then 100 else rd1(100 * j.dano / j.vida_max) end bp
 from intentos i join jefe_enc j on j.enc = i.enc where i.raid = getvariable('slug');
 
+-- Un jugador puede salir dos veces en un encuentro, con dos entidades (sale de la mazmorra y vuelve a entrar): se
+-- queda la entidad con más eventos (golpes dados y recibidos y curaciones) y, a igualdad, la más alta. Una fila por
+-- intento y jugador: todo lo demás (dps_intento, las claves de la base) cuenta con eso.
 create or replace temp table ji as
 select it.intento, it.enc, it.dur, it.jefe, j.entidad, j.nombre, j.servidor, j.clase, j.gs, j.cp
-from it join jugadores j on j.enc = it.enc join grupo g on g.raid = getvariable('slug') and g.nombre = j.nombre;
+from it join jugadores j on j.enc = it.enc join grupo g on g.raid = getvariable('slug') and g.nombre = j.nombre
+left join (select enc, ent, count(*) n from (
+    select enc, dueno ent from golpes union all select enc, objetivo from recibido union all select enc, dueno from curaciones) group by all
+  ) ev on ev.enc = j.enc and ev.ent = j.entidad
+qualify row_number() over (partition by it.enc, j.nombre order by coalesce(ev.n, 0) desc, j.entidad desc) = 1;
 
 -- Daño al jefe, curación y daño recibido de cada jugador en cada intento
 create or replace temp table pi as
@@ -38,7 +45,7 @@ from ji;
 -- 1 s antes (la última lectura hasta ese momento; 100 si aún no había ninguna) y el daño y la curación recibidos en esos 5 s.
 create or replace temp table de0 as
 select it.intento, m.enc, m.orden, m.nombre, m.t_ms, m.habilidad hab, m.npc,
-  (select max_by(j.entidad, j.entidad) from jugadores j where j.enc = m.enc and j.nombre = m.nombre) ent
+  (select max(ji.entidad) from ji where ji.enc = m.enc and ji.nombre = m.nombre) ent
 from it join muertes m on m.enc = it.enc
 where m.t_ms >= 0 and m.nombre in (select nombre from grupo where raid = getvariable('slug'));
 create or replace temp table de as
@@ -265,6 +272,51 @@ select d.intento, d.orden, json_object(
 ) repaso
 from de0 d;
 
+-- Ventanas de daño. Rotura = tramo en que la barra de aturdimiento del jefe está rota (recortado al intento; los de
+-- menos de 1 s, que salen al acabar un intento, no cuentan). De cada jugador, en los intentos con rotura: daño al jefe
+-- y segundos vivo dentro de las roturas y fuera de ellas, y en cuántas roturas estaba vivo al empezar. Debuffs = los
+-- efectos de habilidades de clase que cada jugador mantiene sobre el jefe: % del tiempo de sus intentos que están
+-- activos (uniendo los tramos que se solapan) y % del tiempo de rotura.
+create or replace temp table vw as
+select it.intento, it.enc, greatest(b.t_ms, 0) desde, least(b.hasta_ms, it.dur * 1000) hasta
+from it join roturas b on b.enc = it.enc
+where b.hasta_ms is not null and coalesce(b.npc, (select npc from r)) = (select npc from r)
+  and least(b.hasta_ms, it.dur * 1000) - greatest(b.t_ms, 0) >= 1000;
+create or replace temp table vj0 as   -- por jugador e intento con rotura
+select pi.nombre, pi.dur * 1000 dur_ms, pi.dmg,
+  coalesce((select sum(greatest(0, least(mm.hasta, pi.dur * 1000) - greatest(mm.desde, 0))) from mm where mm.enc = pi.enc and mm.nombre = pi.nombre), 0) muerto_ms,
+  (select sum(vw.hasta - vw.desde) from vw where vw.enc = pi.enc) rot_ms,
+  coalesce((select sum(greatest(0, least(mm.hasta, vw.hasta) - greatest(mm.desde, vw.desde))) from vw join mm on mm.enc = vw.enc
+            where vw.enc = pi.enc and mm.nombre = pi.nombre), 0) muerto_rot_ms,
+  (select count(*) from vw where vw.enc = pi.enc and not exists (select 1 from mm where mm.enc = vw.enc and mm.nombre = pi.nombre
+            and mm.desde < vw.desde and mm.hasta > vw.desde)) presentes,
+  (select count(*) from vw where vw.enc = pi.enc) roturas,
+  coalesce((select sum(g.dano) from golpes g where g.enc = pi.enc and g.dueno = pi.entidad and g.objetivo = pi.jefe
+            and exists (select 1 from vw where vw.enc = g.enc and g.t_ms >= vw.desde and g.t_ms < vw.hasta)), 0) dano_rot
+from pi where exists (select 1 from vw where vw.enc = pi.enc);
+create or replace temp table vj as
+select nombre, sum(roturas) roturas, sum(presentes) presentes, sum(dano_rot) dano_rotura, sum(greatest(0, rot_ms - muerto_rot_ms)) / 1000 s_rotura,
+  sum(dmg - dano_rot) dano_fuera, sum(greatest(0, dur_ms - muerto_ms - greatest(0, rot_ms - muerto_rot_ms))) / 1000 s_fuera
+from vj0 group by nombre;
+create or replace temp table vd0 as
+select l.nombre, l.enc, (b.habilidad // 10000) * 10000 hab,
+  greatest(b.desde_ms, 0) desde, least(coalesce(b.hasta_ms, l.dur * 1000), l.dur * 1000) hasta
+from pi l join buffs b on b.enc = l.enc and b.lanzador = l.entidad and b.entidad = l.jefe
+where b.habilidad between 11000000 and 19999999;
+create or replace temp table vd1 as   -- tramos unidos (islas) por debuff
+select nombre, enc, hab, min(desde) desde, max(hasta) hasta from (
+  select *, sum(nuevo) over (partition by nombre, enc, hab order by desde, hasta rows unbounded preceding) isla from (
+    select *, case when desde > max(hasta) over (partition by nombre, enc, hab order by desde, hasta rows between unbounded preceding and 1 preceding) then 1 else 0 end nuevo
+    from vd0 where hasta > desde)
+) group by nombre, enc, hab, isla;
+create or replace temp table vd as
+select nombre, hab, sum(hasta - desde) activo_ms,
+  (select sum(pi.dur * 1000) from pi where pi.nombre = vd1.nombre) posible_ms,
+  coalesce((select sum(greatest(0, least(x.hasta, vw.hasta) - greatest(x.desde, vw.desde))) from vd1 x join vw on vw.enc = x.enc
+            where x.nombre = vd1.nombre and x.hab = vd1.hab), 0) rot_ms,
+  (select sum(vw.hasta - vw.desde) from vw join pi on pi.enc = vw.enc where pi.nombre = vd1.nombre) rot_posible_ms
+from vd1 group by nombre, hab;
+
 select json_object(
   'meta', json_object(
     'slug', getvariable('slug'), 'run', (select run from r), 'fecha', getvariable('fecha'), 'mazmorra', (select mazmorra from r),
@@ -350,5 +402,12 @@ select json_object(
           order by coalesce(mg.golpes, 0) desc, mx.nombre))
         from mx left join mg on mg.habilidad = mx.habilidad and mg.nombre = mx.nombre where mx.habilidad = mk.habilidad))
       order by golpes desc, habilidad))
-    from (select * from mk order by golpes desc, habilidad limit 40) mk), '[]'::json)
+    from (select * from mk order by golpes desc, habilidad limit 40) mk), '[]'::json),
+  'ventanas', json_object(
+    'roturas', coalesce((select to_json(list(json_object('intento', intento, 'desde', rd1(desde / 1000), 'hasta', rd1(hasta / 1000)) order by intento, desde)) from vw), '[]'::json),
+    'jugadores', coalesce((select to_json(list(json_object('jugador', nombre, 'roturas', roturas, 'presentes', presentes, 'dano_rotura', rd(dano_rotura),
+        's_rotura', rd1(s_rotura), 'dano_fuera', rd(dano_fuera), 's_fuera', rd1(s_fuera)) order by nombre)) from vj), '[]'::json),
+    'debuffs', coalesce((select to_json(list(json_object('jugador', nombre, 'habilidad', hab::varchar, 'activo_pct', rd1(100 * activo_ms / greatest(1, posible_ms)),
+        'rotura_pct', case when rot_posible_ms > 0 then rd1(100 * rot_ms / rot_posible_ms) end) order by nombre, activo_ms desc, hab))
+      from (select * from vd where 20 * activo_ms >= posible_ms order by activo_ms desc, nombre, hab limit 80)), '[]'::json))
 ) as raid_json;

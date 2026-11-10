@@ -3,6 +3,7 @@
 import { esquemaAnalisis, type Analisis } from '@/lib/ingest/analisis';
 import { analizarMecanicas, fallosParaIA, type MecanicaDato } from '@/lib/raids/mecanicas';
 import { analizarRepaso, repasoParaIA, type MuerteDato } from '@/lib/raids/repaso';
+import { analizarVentanas, ventanasParaIA, type VentanasDato } from '@/lib/raids/ventanas';
 import { idsEnTexto, type seguimientoParaIA } from '@/lib/raids/seguimiento';
 
 export type SeguimientoIA = ReturnType<typeof seguimientoParaIA>;
@@ -19,7 +20,7 @@ const mediana = (xs: number[]) => { const s = [...xs].sort((a, b) => a - b); con
 
 /** La raid compacta: sin la curva de vida (los intentos ya traen su progreso) y con los casteos del jefe agrupados. */
 export function resumenParaIA(d: Datos, nombres: Nombres, historial: Historial, seguimiento?: SeguimientoIA) {
-  const { curva: _curva, casteos, dps_intento, mecanicas, ...resto } = d;
+  const { curva: _curva, casteos, dps_intento, mecanicas, ventanas: ventanasCrudas, ...resto } = d;
   void _curva;
   // Las mecánicas no van en crudo (40 ataques × 10 jugadores): solo lo que destaca, ya comparado (lib/raids/mecanicas.ts)
   const det = (d.detalle ?? {}) as Record<string, { muertes?: { habilidad: string }[] }>;
@@ -46,11 +47,16 @@ export function resumenParaIA(d: Datos, nombres: Nombres, historial: Historial, 
   const detalle = Object.fromEntries(Object.entries(det).map(([n, x]) => [n, x.muertes
     ? { ...x, muertes: x.muertes.map((m) => { const { repaso: _r, ...sin } = m as MuerteDato; void _r; return sin; }) } : x]));
 
+  // Las ventanas de daño, igual: ya comparadas (lib/raids/ventanas.ts)
+  const ven = ventanasCrudas ? ventanasParaIA(analizarVentanas(ventanasCrudas as VentanasDato, d.meta.grupo)) : null;
+  const ventanas = ven && (ven.roturas_de_barra || ven.debuffs_sobre_el_jefe.length) ? ven : null;
+
   const raid = { ...resto, ...(d.detalle ? { detalle } : {}), casteos_jefe: casteosJefe, dps_y_muertes_por_intento: porJugador };
   // Diccionario de nombres para cada id que aparece (apodo > nombre de habilidad > nombre de npc)
   const ids = new Set<string>();
   for (const x of fallos?.ataques ?? []) ids.add(x.habilidad);
   for (const x of repaso?.primera_muerte_de_cada_intento ?? []) if (x.habilidad) ids.add(x.habilidad);
+  for (const x of ventanas?.debuffs_sobre_el_jefe ?? []) ids.add(x.habilidad);
   for (const r of seguimiento?.recomendaciones_anteriores ?? []) for (const id of idsEnTexto(r.titulo)) ids.add(id);
   const recorrer = (v: unknown, clave = ''): void => {
     if (Array.isArray(v)) v.forEach((x) => recorrer(x, clave));
@@ -64,6 +70,7 @@ export function resumenParaIA(d: Datos, nombres: Nombres, historial: Historial, 
     raid, nombres: dic, clasificaciones: clasificaciones(d as { jugadores?: unknown; detalle?: unknown; intentos?: unknown }),
     ...(fallos ? { fallos_de_mecanica: fallos } : {}),
     ...(repaso ? { repaso_de_muertes: repaso } : {}),
+    ...(ventanas ? { ventanas_de_dano: ventanas } : {}),
     raids_anteriores_del_mismo_jefe: historial,
     ...(seguimiento ? { seguimiento_de_la_raid_anterior: seguimiento } : {}),
   };
@@ -159,6 +166,7 @@ Qué mirar:
 - raids_anteriores_del_mismo_jefe: compara con ellas si hay (tendencia del mejor %, muertes, dps del grupo).
 - fallos_de_mecanica (si viene): de los ataques del jefe que NO dan a todo el grupo, cuántas veces le dieron a cada jugador y cuántas le habrían dado al ritmo de sus compañeros. por_jugador va de quien más recibe de más a quien menos (diferencia_pct = % sobre lo esperado; ataques_donde_recibe_de_mas son ids); en ataques, de_mas lista «Jugador veces/salidas». Es una DEDUCCIÓN (el registro no dice qué ataques se pueden esquivar, y quien tanquea o pelea cuerpo a cuerpo está más expuesto): dilo como tal («recibe 13 de 22, el doble que el resto: probablemente se puede evitar»). Úsalo en los consejos personales de quien destaque; no acuses al objetivo fijo de un ataque (tipo «objetivo fijo»).
 - repaso_de_muertes (si viene): cada muerte clasificada por sus 10 s anteriores. de_un_golpe = un solo golpe se lo llevó, con la vida al 80 % o más o con un golpe que quita el 80 % de su vida máxima (es de mecánica: no lo arregla la curación); en_rafaga = estaba bien 3 s antes y cayó con varios golpes seguidos; por_desgaste = llevaba 3 s o más con la vida baja (ahí sí cuenta la curación). sin_sanador_vivo y con_el_grupo_caido (más de la mitad de sus compañeros ya muertos) son muertes que arrastra un intento ya perdido: no las cargues a quien muere. con_defensivo_sin_usar = murió en ráfaga o por desgaste con un escudo propio que probablemente tenía disponible. primera_muerte_de_cada_intento dice quién abre cada cadena de muertes y con qué. Es una DEDUCCIÓN con umbrales fijos: dilo como tal. Úsalo para decir si el problema del grupo es de mecánica o de aguante, y en el consejo personal de quien destaque.
+- ventanas_de_dano (si viene): el daño de cada jugador mientras la barra del jefe está rota (el jefe aturdido recibe más daño: es el momento de gastar lo fuerte) frente al resto de esos intentos, por segundo vivo. multiplicador = cuánto sube su dps en la rotura; compáralo con el del grupo (frente_al_grupo ya lo dice cuando destaca). roturas_vivo = en cuántas roturas estaba vivo al empezar: quien llega muerto pierde la ventana. Es normal que quien cura o tanquea suba menos: no se lo reproches. debuffs_sobre_el_jefe = % del tiempo que cada jugador mantiene cada efecto sobre el jefe, en total y durante la rotura. Úsalo en una recomendación al grupo si se pierde daño en la rotura y en el consejo personal de quien destaque, por arriba o por abajo.
 - seguimiento_de_la_raid_anterior (si viene): qué pasó con las recomendaciones de la raid anterior de este jefe: cifras de antes y de ahora del grupo, de los ataques que nombraban y de cada jugador. Di en el titular o en una recomendación qué mejoró y qué sigue igual, con esas cifras; no repitas un consejo ya cumplido.
 - clasificaciones: listas ya ordenadas de mayor a menor (dps, curacion, dano_recibido, muertes, resurrecciones, segundos_vivo; e intentos_por_dps_grupo e intentos_por_progreso, como [intento, valor]). Para decir que alguien es «el que más» o «el que menos» de algo, o su puesto, mira SIEMPRE estas listas; no lo deduzcas tú.
 
@@ -201,10 +209,12 @@ export function formasVosotros(textos: string[]): string[] {
 const textosDe = (a: Analisis) => [a.titular, ...a.recomendaciones.flatMap((r) => [r.titulo, r.texto]), ...Object.values(a.jugadores ?? {}).flat(), ...(a.notas ?? []).flatMap((n) => [n.termino, n.texto])];
 
 /** Ids de habilidades de cada jugador: todo lo que sale en su detalle (habilidades, recibido, apoyo, rotación…). */
-export function habilidadesPorJugador(d: { detalle?: Record<string, unknown> }): Record<string, Set<string>> {
+export function habilidadesPorJugador(d: { detalle?: Record<string, unknown>; ventanas?: unknown }): Record<string, Set<string>> {
   const res: Record<string, Set<string>> = {};
+  // y los debuffs que mantiene sobre el jefe (ventanas.debuffs)
+  for (const x of (d.ventanas as { debuffs?: { jugador: string; habilidad: string }[] } | undefined)?.debuffs ?? []) (res[x.jugador] ??= new Set<string>()).add(x.habilidad);
   for (const [n, det] of Object.entries(d.detalle ?? {})) {
-    const s = (res[n] = new Set<string>());
+    const s = (res[n] ??= new Set<string>());
     const recorrer = (v: unknown, clave = ''): void => {
       if (Array.isArray(v)) v.forEach((x) => recorrer(x, clave));
       else if (v && typeof v === 'object') for (const [k, x] of Object.entries(v)) recorrer(x, k);

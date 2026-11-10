@@ -105,6 +105,16 @@ const mecanica = z.object({
   jugadores: z.array(z.object({ jugador: nombre, golpes: nat, olas: nat, expuesto: nat, dano: nat, golpe_max: nat }).strict()).min(1),
 }).strict();
 
+// Desde el 9/11/2026: daño dentro y fuera de las roturas de la barra del jefe y debuffs que cada jugador le mantiene.
+// Tiempos en segundos del intento; s_rotura y s_fuera son segundos vivo. Ver db/raid.sql y lib/raids/ventanas.ts.
+const ventanas = z.object({
+  roturas: z.array(z.object({ intento: ent.positive(), desde: pos, hasta: pos }).strict()).max(300),
+  jugadores: z.array(z.object({
+    jugador: nombre, roturas: nat, presentes: nat, dano_rotura: nat, s_rotura: pos, dano_fuera: nat, s_fuera: pos,
+  }).strict()),
+  debuffs: z.array(z.object({ jugador: nombre, habilidad: hab, activo_pct: pct, rotura_pct: pct.nullable() }).strict()).max(80),
+}).strict();
+
 export const esquemaRaid = z.object({
   esquema_version: z.literal(2).optional(),
   sql_version: z.string().max(80).optional(),
@@ -118,6 +128,7 @@ export const esquemaRaid = z.object({
   casteos: z.array(casteo),
   detalle: z.record(nombre, detalleJugador),
   mecanicas: z.array(mecanica).max(60).optional(),
+  ventanas: ventanas.optional(),
 }).strict().superRefine((d, ctx) => {
   const err = (path: (string | number)[], message: string) => ctx.addIssue({ code: 'custom', path, message });
   if (d.intentos.length !== d.resumen.intentos) err(['resumen', 'intentos'], `dice ${d.resumen.intentos} intentos y hay ${d.intentos.length}`);
@@ -129,7 +140,13 @@ export const esquemaRaid = z.object({
   const maxIntento = d.intentos.length;
   const fuera = (arr: { intento: number }[], campo: string) => arr.forEach((x, i) => { if (x.intento > maxIntento) err([campo, i], 'intento que no existe'); });
   fuera(d.curva, 'curva'); fuera(d.dps_intento, 'dps_intento'); fuera(d.casteos, 'casteos');
-  d.dps_intento.forEach((x, i) => { if (!nombres.has(x.jugador)) err(['dps_intento', i], 'jugador desconocido'); });
+  const pares = new Set<string>();
+  d.dps_intento.forEach((x, i) => {
+    if (!nombres.has(x.jugador)) err(['dps_intento', i], 'jugador desconocido');
+    const par = x.intento + '|' + x.jugador;
+    if (pares.has(par)) err(['dps_intento', i], 'jugador repetido en el mismo intento');
+    pares.add(par);
+  });
   for (const [n, det] of Object.entries(d.detalle)) {
     det.apoyo?.cura_obj.forEach((o, i) => { if (!nombres.has(o.jugador)) err(['detalle', n, 'apoyo', 'cura_obj', i], 'jugador desconocido'); });
     det.muertes.forEach((m, i) => {
@@ -138,6 +155,17 @@ export const esquemaRaid = z.object({
       if (m.repaso.vivos > m.repaso.companeros || m.repaso.sanadores > m.repaso.vivos) err(['detalle', n, 'muertes', i, 'repaso', 'vivos'], 'más vivos que compañeros');
       m.repaso.curas.forEach((c, k) => { if (c.jugador && !nombres.has(c.jugador)) err(['detalle', n, 'muertes', i, 'repaso', 'curas', k], 'jugador desconocido'); });
     });
+  }
+  if (d.ventanas) {
+    fuera(d.ventanas.roturas, 'ventanas.roturas');
+    d.ventanas.roturas.forEach((x, i) => { if (x.hasta <= x.desde) err(['ventanas', 'roturas', i], 'acaba antes de empezar'); });
+    const suyos = new Set<string>();
+    d.ventanas.jugadores.forEach((j, i) => {
+      if (!nombres.has(j.jugador) || suyos.has(j.jugador)) err(['ventanas', 'jugadores', i], 'jugador desconocido o repetido');
+      if (j.presentes > j.roturas) err(['ventanas', 'jugadores', i, 'presentes'], 'más roturas vivo que roturas');
+      suyos.add(j.jugador);
+    });
+    d.ventanas.debuffs.forEach((x, i) => { if (!nombres.has(x.jugador)) err(['ventanas', 'debuffs', i], 'jugador desconocido'); });
   }
   const vistas = new Set<string>();
   (d.mecanicas ?? []).forEach((m, i) => {
@@ -155,6 +183,7 @@ export const esquemaRaid = z.object({
 export type DatosRaid = z.infer<typeof esquemaRaid>;
 export type Mecanica = z.infer<typeof mecanica>;
 export type RepasoMuerte = z.infer<typeof repaso>;
+export type VentanasRaid = z.infer<typeof ventanas>;
 export type DetalleJugador = z.infer<typeof detalleJugador>;
 
 /** Valida y devuelve los datos tipados, o los problemas en texto legible (ruta: mensaje). */

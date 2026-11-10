@@ -92,6 +92,8 @@ export async function idsUsados(grupoId?: string) {
     union select 'h', e.value->>'hab' from muertes x join raids r on r.id = x.raid_id
       cross join lateral jsonb_array_elements(coalesce(x.repaso->'golpes', '[]'::jsonb) || coalesce(x.repaso->'curas', '[]'::jsonb) || coalesce(x.repaso->'defensivos', '[]'::jsonb)) e
       where ${g} and x.repaso is not null
+    union select 'h', e.value->>'habilidad' from raids r cross join lateral jsonb_array_elements(coalesce(r.ventanas->'debuffs', '[]'::jsonb)) e
+      where ${g} and r.ventanas is not null
     union select 'h', x.ultima_causa from intentos x join raids r on r.id = x.raid_id where ${g} and x.ultima_causa is not null
     union select 'n', r.npc_jefe::text from raids r where ${g}
     union select 'n', x.npc::text from raid_otros x join raids r on r.id = x.raid_id where ${g}

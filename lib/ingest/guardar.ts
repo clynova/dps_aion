@@ -60,7 +60,7 @@ export async function guardarRaid(opciones: {
       jefe: d.meta.jefe, intentos: r.intentos, matado: r.matado, killS: r.kill_s, minutosCombate: r.minutos_combate,
       mejorPct: r.mejor_pct, mejorIntento: r.mejor_intento, muertesGrupo: r.muertes_grupo, dpsGrupoMedio: r.dps_grupo_medio,
       hpJefe: r.hp_jefe, runMin: d.meta.run_min, limiteMin: d.meta.limite_min, reseteos: d.meta.reseteos,
-      grabadoPor: d.meta.personaje, meta: d.meta as Record<string, unknown>, origen, esquemaVersion: d.esquema_version ?? 1,
+      grabadoPor: d.meta.personaje, meta: d.meta as Record<string, unknown>, ventanas: d.ventanas ?? null, origen, esquemaVersion: d.esquema_version ?? 1,
       sqlVersion: d.sql_version ?? null, extraido: isNaN(Date.parse(d.meta.extraido)) ? null : new Date(d.meta.extraido),
       publicado: new Date(), ...(opciones.subidoPor !== undefined ? { subidoPor: opciones.subidoPor } : {}),
     };

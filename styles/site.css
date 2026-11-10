@@ -170,6 +170,13 @@ a:focus-visible, button:focus-visible, summary:focus-visible { outline: 2px soli
 .rx-rep-vida path { fill: none; stroke: var(--series-1); stroke-width: 1.5; stroke-linejoin: round; }
 .rx-rep-vida line { stroke: var(--line); stroke-width: 1; }
 
+/* Ventanas de daño (components/raid/Ventanas.tsx) */
+.rx-table.rx-ven td:first-child, .rx-table.rx-ven-deb td:first-child { font-weight: 400; }
+.rx-table.rx-ven td.rx-ven-falta { color: var(--bad); }
+.rx-table.rx-ven-deb th, .rx-table.rx-ven-deb td { padding-top: var(--pad-xs); padding-bottom: var(--pad-xs); font-size: var(--fs-caption); border-bottom: 0; }
+.rx-table.rx-ven-deb th:nth-child(2), .rx-table.rx-ven-deb td:nth-child(2) { text-align: left; white-space: normal; }
+.rx-table.rx-ven-deb tr.rx-ven-primero td { border-top: 1px solid var(--line); }
+
 /* Desde la raid anterior (components/raid/Seguimiento.tsx) */
 .rx-pill.is-bad { color: var(--bad); border-color: currentColor; }
 .rx-seg-ok { color: var(--ok); }

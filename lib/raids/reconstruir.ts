@@ -122,6 +122,7 @@ export async function reconstruirRaid(raidId: string) {
     detalle,
     // Solo las raids extraídas desde el 9/11/2026 (una raid sin ningún golpe recibido también queda sin la clave)
     ...(mecanicas.length ? { mecanicas } : {}),
+    ...(raid.ventanas ? { ventanas: raid.ventanas } : {}),
   };
 }
 

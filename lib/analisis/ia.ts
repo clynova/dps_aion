@@ -38,7 +38,7 @@ export async function generarAnalisis(datos: Parameters<typeof resumenParaIA>[0]
   const uso: Uso = { entrada: 0, salida: 0, cache: 0 };
   const grupo = datos.meta.grupo;
   const entrada = JSON.stringify(resumenParaIA(datos, nombres, historial, seguimiento));
-  const habilidades = habilidadesPorJugador(datos as { detalle?: Record<string, unknown> });
+  const habilidades = habilidadesPorJugador(datos as { detalle?: Record<string, unknown>; ventanas?: unknown });
   const es = await pedirValidado(llamar, [{ role: 'system', content: PROMPT_SISTEMA }, { role: 'user', content: entrada }], grupo, undefined, uso, habilidades);
   const en = await pedirValidado(llamar, [{ role: 'system', content: PROMPT_TRADUCIR }, { role: 'user', content: JSON.stringify(es) }], grupo, es, uso, habilidades);
   const ids = idsDeLaRaid(datos);
