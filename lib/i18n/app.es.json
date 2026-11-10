@@ -527,5 +527,12 @@
   "soy.ficha": "Ver tu ficha completa",
   "pl.top.t": "En resumen",
   "pl.top.todo": "Ver el perfil completo",
-  "pl.tabs.perfil": "Perfil"
+  "pl.tabs.perfil": "Perfil",
+  "jefe.estado.t": "Dónde se atasca",
+  "jefe.estado.muro": "El tramo con más wipes es el {a}–{b} % de vida quitada: {n} de {de} intentos sin kill acaban ahí.",
+  "jefe.estado.marca": "Justo ahí sale {h} (marca {l}, al {p}): probablemente es una fase que el grupo aún no supera (deducción).",
+  "jefe.estado.cierre": "Lo que más cierra esos intentos: {h} ({n}).",
+  "jefe.estado.ver": "Ver dónde se atascan los intentos",
+  "home.otros1": "+1 jefe más",
+  "home.otrosN": "+{n} jefes más"
 }

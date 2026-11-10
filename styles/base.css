@@ -197,3 +197,14 @@ ul.rx-seg-recos .rx-seg-lista { margin: var(--gap-sm) 0 var(--gap-xs) calc(6.5re
 #pl-top .pl-summary { max-width: 80ch; }
 .pl-auto-pend { margin-top: var(--gap-md); }
 .rx-card[hidden] { display: none; }
+
+/* ---------- Fase 6: jefe y grupo (docs/plan-ui.md) ---------- */
+/* Página del jefe: el texto de los SVG del servidor se ve a 11 px sea cual sea el ancho (components/jefe/GraficoAjustado.tsx) */
+.jx-chart svg text { font-size: calc(11px * var(--k, 1)); }
+/* Página del grupo: raids agrupadas por día, jefes secundarios en una línea y barra del mejor intento */
+.hm-dia { color: var(--fg-muted); font-size: var(--fs-caption); letter-spacing: .04em; text-transform: uppercase; margin-top: var(--gap-md); }
+.hm-dia:first-child { margin-top: 0; }
+.hm-otros { cursor: help; text-decoration: underline dotted; text-underline-offset: 3px; }
+.hm-barra { display: block; width: 100%; min-width: 4.5rem; height: 4px; margin-top: 4px; border-radius: 2px; background: var(--chart-grid); overflow: hidden; }
+.hm-barra i { display: block; height: 100%; background: var(--series-1); }
+.hm-barra.is-ok i { background: var(--ok); }

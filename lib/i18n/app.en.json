@@ -527,5 +527,12 @@
   "soy.ficha": "Open your full card",
   "pl.top.t": "In short",
   "pl.top.todo": "See the full profile",
-  "pl.tabs.perfil": "Profile"
+  "pl.tabs.perfil": "Profile",
+  "jefe.estado.t": "Where it gets stuck",
+  "jefe.estado.muro": "The band with the most wipes is {a}–{b}% of health removed: {n} of {de} attempts without a kill end there.",
+  "jefe.estado.marca": "Right there {h} comes out (mark {l}, at {p}): probably a phase the group has not got past yet (an inference).",
+  "jefe.estado.cierre": "What ends those attempts most: {h} ({n}).",
+  "jefe.estado.ver": "See where attempts get stuck",
+  "home.otros1": "+1 more boss",
+  "home.otrosN": "+{n} more bosses"
 }

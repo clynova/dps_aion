@@ -2,6 +2,7 @@
 // traducida, con los gráficos en SVG; no necesita JavaScript.
 import Link from 'next/link';
 import BarraSuperior from '@/components/BarraSuperior';
+import GraficoAjustado from '@/components/jefe/GraficoAjustado';
 import { localeDe, rutaEn, type Idioma, type Traductor } from '@/lib/i18n';
 import { MIN_PCT, type AnalisisJefe, type AtaqueCronograma } from '@/lib/raids/jefe';
 
@@ -33,6 +34,14 @@ export default function PaginaJefe({ t, idioma, grupo, jefe, a, nombres }: Props
   const frecuentes = a.cronograma.filter((c) => c.intentos >= Math.max(2, FRECUENTE * c.posibles));
   const raros = a.cronograma.filter((c) => !frecuentes.includes(c));
   const porVida = a.cronograma.filter((c) => c.disparador === 'vida' && c.primeroPct >= MIN_PCT).sort((x, y) => x.primeroPct - y.primeroPct);
+  // «Dónde se atasca» (sin kill): el tramo con más wipes y, si cae en él (±2,5 %), el ataque que sale a ese % de vida
+  const atasco = (() => {
+    if (T.kill || !a.muro.some((m) => m.wipes)) return null;
+    const tramo = a.muro.reduce((x, m) => (m.wipes > x.wipes ? m : x));
+    const total = a.muro.reduce((s, m) => s + m.wipes, 0);
+    const cerca = porVida.map((c, k) => ({ c, k, d: Math.abs(c.primeroPct - (tramo.desde + 2.5)) })).filter((x) => x.d <= 5).sort((x, y) => x.d - y.d);
+    return { tramo, total, marca: cerca[0] ?? null };
+  })();
   const nochesCausas = a.noches.slice(-MAX_NOCHES);
   const desde = a.noches.length - nochesCausas.length;
 
@@ -87,6 +96,18 @@ export default function PaginaJefe({ t, idioma, grupo, jefe, a, nombres }: Props
           </div>
         ) : null}
       </section>
+
+      {atasco ? (
+        <section className="rx-top" id="estado">
+          <h2 className="rx-top-t">{t('jefe.estado.t')}</h2>
+          <p className="pl-summary">
+            {t('jefe.estado.muro', { a: atasco.tramo.desde, b: atasco.tramo.desde + 5, n: atasco.tramo.wipes, de: atasco.total })}
+            {atasco.marca ? <> {t('jefe.estado.marca', { h: hab(atasco.marca.c.habilidad), l: String.fromCharCode(65 + atasco.marca.k), p: pct(atasco.marca.c.primeroPct) })}</> : null}
+            {atasco.tramo.cierre ? <> {t('jefe.estado.cierre', { h: hab(atasco.tramo.cierre.habilidad), n: atasco.tramo.cierre.veces })}</> : null}
+          </p>
+          <a className="rx-link" href="#muro">{t('jefe.estado.ver')} →</a>
+        </section>
+      ) : null}
 
       <section className="rx-section" id="noches">
         <h2 className="rx-h2">{t('jefe.noches.t')}</h2>
@@ -223,7 +244,7 @@ function GraficoNoches({ a, t, dia, hora, pct }: { a: AnalisisJefe; t: Traductor
   const cada = Math.ceil(n / 8);
   const mejores = a.noches.map((no, i) => `${i ? 'L' : 'M'}${x(i).toFixed(1)},${yPct(no.mejor).toFixed(1)}`).join('');
   return (
-    <div className="rx-chart jx-chart">
+    <GraficoAjustado ancho={W}>
       <svg width="100%" viewBox={`0 0 ${W} ${H}`} role="img" aria-label={t('jefe.noches.grafico')}>
         <Rejilla t={t} />
         {n > 1 ? <path d={mejores} className="jx-linea" /> : null}
@@ -246,7 +267,7 @@ function GraficoNoches({ a, t, dia, hora, pct }: { a: AnalisisJefe; t: Traductor
           </g>
         ))}
       </svg>
-    </div>
+    </GraficoAjustado>
   );
 }
 
@@ -266,7 +287,7 @@ function GraficoMuro({ a, t, marcas }: { a: AnalisisJefe; t: Traductor; marcas: 
   const y = (v: number) => arriba + (1 - v / max) * (H - arriba - M.b);
   const pasos = max <= 5 ? Array.from({ length: max + 1 }, (_, k) => k) : [0, Math.round(max / 2), max];
   return (
-    <div className="rx-chart jx-chart">
+    <GraficoAjustado ancho={W}>
       <svg width="100%" viewBox={`0 0 ${W} ${H}`} role="img" aria-label={t('jefe.muro.grafico')}>
         {pasos.map((v) => (
           <g key={v}>
@@ -290,6 +311,6 @@ function GraficoMuro({ a, t, marcas }: { a: AnalisisJefe; t: Traductor; marcas: 
         ))}
         <text x={(M.l + W - M.r) / 2} y={H - 6} textAnchor="middle">{t('jefe.muro.eje')}</text>
       </svg>
-    </div>
+    </GraficoAjustado>
   );
 }

@@ -1,6 +1,6 @@
 # Plan de mejora visual: la misma información, más fácil de leer
 
-Fecha: 10 de noviembre de 2026 · Estado: fases 0–4 desplegadas (hasta ce37cfb); fase 5 hecha; quedan 6 y 7
+Fecha: 10 de noviembre de 2026 · Estado: fases 0–5 desplegadas (hasta 389bc79); fase 6 hecha; queda la 7
 
 Fase 3 (10/11/2026): «Cómo muere cada uno» como barra apilada por jugador con avisos en chips (la tabla, plegada); «Quién recibe golpes que el resto evita» enseña solo a quien destaca, con barra de diferencia, y al resto en una línea; «Ataque por ataque» enseña los ataques con algún ▲ (los otros, plegados) y fija la columna del ataque; debuffs: los 3 que más mantiene cada jugador, con barras (todos, plegados); «Qué pasó con las recomendaciones», una línea por recomendación con sus ataques al desplegarla; en las gráficas, las etiquetas que no caben se recortan con «…» y el nombre entero va en el tooltip; en el móvil la barra de pestañas enseña la abierta.
 
@@ -9,6 +9,8 @@ Pedido del usuario (10/11/2026): «DPS de la party» en el Resumen, al lado de l
 Fase 4 (10/11/2026): todos los nombres de jugador de las secciones del servidor enlazan a su ficha (`components/raid/NombreJugador.tsx`, `#<jugador>`); selector «Soy…» (localStorage `dps-aion:soy`, solo comodidad) que resalta a ese jugador en toda la página (filas con `:has()`, negrita en las gráficas) y pone «Tu raid» arriba del Resumen: puesto en DPS, DPS/HPS/muertes/crítico frente a la media y sus consejos.
 
 Fase 5 (10/11/2026): perfil del jugador con «En resumen» arriba (resumen de Claude, sus 3 primeras recomendaciones y de cuándo es el texto); pestaña nueva «Perfil», la primera y la que se abre sin #hash, con fortalezas y qué mejorar en dos columnas y las recomendaciones; el perfil automático, plegado debajo si hay texto de Claude y como única tarjeta (abierta, con el aviso) si no; pestañas fijas arriba como en la raid.
+
+Fase 6 (10/11/2026): página del jefe con «Dónde se atasca» arriba cuando no hay kill (tramo con más wipes, el ataque que sale a ese % de vida si cae a 5 puntos o menos —una deducción— y lo que más cierra esos intentos) y el texto de sus SVG a tamaño fijo en pantalla (`components/jefe/GraficoAjustado.tsx` pone `--k`); página del grupo con las raids agrupadas por día, los jefes secundarios en «+N jefes más» (detalle en el tooltip) y barra bajo el mejor intento.
 
 Hecho el 10/11/2026:
 - Fase 0: `scripts/capturas.mts` (una captura por ruta, ancho, tema y pestaña, con `alturas.tsv`).

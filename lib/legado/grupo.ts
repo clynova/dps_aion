@@ -19,19 +19,33 @@ export function montarGrupo({ raids, jugadores, N, T, LANG, LOC, rutaRaid, rutaJ
   const kills = raids.filter((r) => r.matado).length;
   $('lede').textContent = T('home.lede', { n: nf.format(raids.length), raids: T(raids.length === 1 ? 'home.raid1' : 'home.raidN'), k: nf.format(kills) });
 
+  // Raids agrupadas por día (docs/plan-ui.md, fase 6): el día va una vez arriba y cada raid lleva solo su hora; los
+  // jefes secundarios de la run van en un «+N jefes más» con el detalle en el tooltip, y el mejor intento lleva barra.
+  let diaAnterior = null;
   raids.forEach((r) => {
     const d = new Date(r.fecha);
+    const dia = d.toLocaleDateString(LOC, { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+    if (dia !== diaAnterior) { $('lista').append(el('li', 'hm-dia', dia)); diaAnterior = dia; }
     const li = el('li', 'hm-item'); const a = el('a'); a.href = rutaRaid(r.slug);
     const left = el('div');
     left.append(el('div', 'hm-name', r.jefe));
     const sub = el('div', 'hm-sub');
-    sub.append(el('span', null, d.toLocaleDateString(LOC, { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }) + ' · ' + d.toLocaleTimeString(LOC, { hour: '2-digit', minute: '2-digit' })));
-    (r.otros || []).forEach((o) => sub.append(el('span', null, `${o.jefe}: ${T(o.matado ? 'home.killed' : 'home.nokill')}`)));
+    sub.append(el('span', null, d.toLocaleTimeString(LOC, { hour: '2-digit', minute: '2-digit' })));
+    const otros = r.otros || [];
+    if (otros.length) {
+      const o = el('span', 'hm-otros', otros.length === 1 ? T('home.otros1') : T('home.otrosN', { n: nf.format(otros.length) }));
+      o.title = otros.map((x) => `${x.jefe}: ${T(x.matado ? 'home.killed' : 'home.nokill')}`).join('\n');
+      sub.append(o);
+    }
     sub.append(el('span', 'rx-pill' + (r.analizado ? ' is-ok' : ' is-pending'), T(r.analizado ? 'home.analyzed' : 'home.pending')));
     left.append(sub);
     const stats = el('div', 'hm-stats');
-    const stat = (v, l, ok) => { const s = el('div', 'hm-stat'); s.append(el('b', ok ? 'is-ok' : null, v), el('span', null, l)); stats.append(s); };
-    stat(r.matado ? T('home.stat.kill') : pct(r.mejor_pct), T(r.matado ? 'home.stat.killed' : 'home.stat.best'), r.matado);
+    const stat = (v, l, ok, barra) => {
+      const s = el('div', 'hm-stat'); s.append(el('b', ok ? 'is-ok' : null, v), el('span', null, l));
+      if (barra != null) { const b = el('span', 'hm-barra' + (ok ? ' is-ok' : '')); const i = el('i'); i.style.width = Math.max(0, Math.min(100, barra)) + '%'; b.append(i); s.append(b); }
+      stats.append(s);
+    };
+    stat(r.matado ? T('home.stat.kill') : pct(r.mejor_pct), T(r.matado ? 'home.stat.killed' : 'home.stat.best'), r.matado, r.matado ? 100 : r.mejor_pct);
     stat(nf.format(r.intentos), T('home.stat.tries'));
     stat(nf.format(r.muertes), T('home.stat.deaths'));
     stat(cmp.format(r.dps_grupo_medio), T('home.stat.dps'));
