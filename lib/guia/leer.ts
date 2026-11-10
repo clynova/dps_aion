@@ -5,6 +5,11 @@ import { validarContenido } from './validar';
 
 const json = (ruta: string) => JSON.parse(readFileSync(ruta, 'utf8'));
 
+/** Semilla de nombres del repo (nombres.json / nombres.en.json), para el nombre de los ataques de las fichas. */
+export function leerNombres(repo = '.') {
+  return { es: json(join(repo, 'nombres.json')), en: json(join(repo, 'nombres.en.json')) };
+}
+
 export function leerContenido(raiz = 'contenido') {
   const dirRaids = join(raiz, 'raids');
   const archivos: Record<string, unknown> = {};

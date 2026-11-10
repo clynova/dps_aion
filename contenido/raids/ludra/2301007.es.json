@@ -1,0 +1,82 @@
+{
+ "npc": [2301007, 2300283],
+ "raid": "ludra",
+ "revisado": "2026-11-10",
+ "parche": "2026-11-04",
+ "resumen": "El jefe intermedio de la otra party, y según las guías el más difícil de la raid: espíritus, orbes que hay que atrapar, orbes de colores que se miran o no, y una fase final con piedras de alma en la que muchas veces solo sobrevive el Clérigo. Casi no tenemos registros suyos: quien graba en nuestro grupo suele hacer Rahu.",
+ "fases": [],
+ "mecanicas": [
+  {
+   "id": "laseres-y-carga",
+   "titulo": "Láseres y carga",
+   "texto": "Ketu barre la arena con láseres y se lanza contra un jugador marcado con un golpe fuerte de su arma; donde cae el arma queda una onda.",
+   "como": "Esquiva los láseres; contra la carga, apártate del golpe y salta la onda que deja.",
+   "ataques": [],
+   "wipe": false,
+   "roles": ["todos"],
+   "en_datos": "sin_ver",
+   "origen": "guias",
+   "fuentes": ["aion2tierlist-ludra", "expcarry-ludra", "aion2turkiye-ludra"]
+  },
+  {
+   "id": "espiritus",
+   "titulo": "El escondite: espíritus",
+   "texto": "Ketu se va al centro y deja de poder ser atacado; salen espíritus por la arena. Después avanza una zona blanca, y un espíritu vivo que la toca explota y asusta (miedo) a todo el grupo. Al final hay una zona segura en el centro, pero no para todo el daño.",
+   "como": "El grupo se parte en dos lados y mata los espíritus de sur a norte, cada lado en un sentido; las clases a distancia ayudan mucho. Cuando se cierra la zona blanca, todos al centro, y a curar dentro de ella.",
+   "ataques": [],
+   "wipe": false,
+   "roles": ["todos", "dps", "sanador"],
+   "en_datos": "sin_ver",
+   "origen": "guias",
+   "fuentes": ["aion2tierlist-ludra", "metaroad-raid"]
+  },
+  {
+   "id": "orbes-que-caen",
+   "titulo": "Orbes que caen",
+   "texto": "Caen orbes del cielo que hay que atrapar antes de que toquen el suelo.",
+   "como": "Uno por persona, saltando para llegar antes. Conviene contar cuántos caen en el primer intento: las guías cuentan los de la versión de 8 jugadores.",
+   "ataques": [],
+   "wipe": false,
+   "roles": ["todos"],
+   "en_datos": "sin_ver",
+   "origen": "guias",
+   "fuentes": ["aion2tierlist-ludra", "metaroad-raid", "expcarry-ludra"]
+  },
+  {
+   "id": "orbes-de-colores",
+   "titulo": "Orbes de colores: mirar o no mirar",
+   "texto": "Desde la mitad de la vida aparecen orbes que explotan y cuenta hacia dónde mira tu personaje (no la cámara). Primero uno; más adelante, tres seguidos.",
+   "como": "Orbe rojo: mira hacia él. Orbe azul: dale la espalda. Ojo con guías que lo cuentan al revés.",
+   "ataques": [],
+   "wipe": false,
+   "roles": ["todos"],
+   "en_datos": "sin_ver",
+   "origen": "guias",
+   "fuentes": ["aion2tierlist-ludra", "metaroad-raid"]
+  },
+  {
+   "id": "piedras-de-alma",
+   "titulo": "Piedras de alma",
+   "texto": "Todos reciben un cono rojo y aparecen piedras de alma en el borde de la arena; un cono destruye la piedra que toca. Romper una piedra da al jugador unos segundos de invulnerabilidad, y justo después Ketu golpea toda la arena una y otra vez.",
+   "como": "Lo previsto: cada uno rompe su piedra justo antes del golpe y la renueva. Lo habitual: el Clérigo aguanta con su piedra y resucita al grupo, así que su supervivencia es la prioridad.",
+   "ataques": [],
+   "wipe": true,
+   "roles": ["todos", "sanador"],
+   "en_datos": "sin_ver",
+   "origen": "guias",
+   "fuentes": ["aion2tierlist-ludra", "metaroad-raid", "expcarry-ludra"]
+  }
+ ],
+ "consejos": {
+  "todos": [
+   { "texto": "La party de Ketu necesita un Clérigo que resucite, y conviene un Arquero para los espíritus.", "origen": "guias", "fuentes": ["aion2tierlist-ludra", "aion2turkiye-ludra"] }
+  ],
+  "sanador": [
+   { "texto": "En las piedras de alma, si el Clérigo sobrevive, Ketu sigue muriendo aunque caiga el resto: guarda resurrecciones y defensivos para esa fase.", "origen": "guias", "fuentes": ["aion2tierlist-ludra", "metaroad-raid"] }
+  ]
+ },
+ "notas": [
+  { "termino": "Versión", "texto": "Las mecánicas de las guías son de la versión anterior (Corea y acceso anticipado). NCSOFT cambió mecánicas para la vuelta del 4 de noviembre y todavía no hay guías de la nueva: todo lo de Ketu está «sin ver»." },
+  { "termino": "Nuestros datos", "texto": "Solo tenemos 3 intentos de Ketu, de una noche y sin kill, y ninguna raid pública: no hay cifras suficientes para contrastar nada." }
+ ]
+}

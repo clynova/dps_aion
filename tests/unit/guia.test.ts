@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { leerContenido } from '@/lib/guia/leer';
+import { leerContenido, leerNombres } from '@/lib/guia/leer';
 import { diferenciasIdioma, validarContenido } from '@/lib/guia/validar';
 import estructuraReal from '@/contenido/juego/estructura.json';
 
@@ -131,7 +131,7 @@ describe('contenido para las páginas', () => {
     const { contenidoParaPaginas } = await import('@/lib/guia/generar');
     const generado = (await import('@/lib/guia/contenido.generado.json')).default;
     const { contenido } = leerContenido();
-    expect(JSON.parse(JSON.stringify(contenidoParaPaginas(contenido!)))).toEqual(JSON.parse(JSON.stringify(generado)));
+    expect(JSON.parse(JSON.stringify(contenidoParaPaginas(contenido!, leerNombres())))).toEqual(JSON.parse(JSON.stringify(generado)));
   });
   it('Ludra: orden de los jefes, sus npc en los dos modos y las fuentes de la ficha', async () => {
     const { raidGuia, npcsDelJefe, npcsDeRaid, fuentesDe, nombreJefe } = await import('@/lib/guia/contenido');
@@ -141,6 +141,11 @@ describe('contenido para las páginas', () => {
     expect(npcsDeRaid(ludra).sort()).toEqual([2300282, 2300283, 2300284, 2300290, 2301006, 2301007, 2301008, 2301014]);
     expect(fuentesDe(ludra.es)).toContain('timesaver-gs');
     expect(raidGuia('toString')).toBeNull();
+    const { nombreAtaque } = await import('@/lib/guia/contenido');
+    expect(nombreAtaque(1803010, 'es')).toBe('Prueba de Ludra');
+    expect(nombreAtaque(1803010, 'en')).toBe("Ludra's Trial");
+    expect(nombreAtaque(1802570, 'en')).toBe('Attack 1802570');
+    expect(Object.keys(ludra.jefes).sort()).toEqual(['2301006', '2301007', '2301008', '2301014']);
   });
 });
 

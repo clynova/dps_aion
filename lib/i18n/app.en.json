@@ -583,5 +583,22 @@
   "guias.tile.grupos": "Groups",
   "guias.ultima": "latest on {f}",
   "guias.modos": "Modes: {lista}",
-  "guias.cifras.error": "The figures are not available right now."
+  "guias.cifras.error": "The figures are not available right now.",
+  "guias.mecanicas": "Mechanics",
+  "guias.mecanicas.nota": "The ones that wipe come first. Each one says whether we have seen it in our logs of the current version and where it comes from.",
+  "guias.fases": "Phases",
+  "guias.fases.nota": "By boss health %, from our attempts.",
+  "guias.fase.rango": "{d} → {h}%",
+  "guias.consejos": "Tips by role",
+  "guias.rol.todos": "Everyone",
+  "guias.rol.tanque": "Tank",
+  "guias.rol.sanador": "Healer",
+  "guias.rol.dps": "Damage",
+  "guias.rol.apoyo": "Support",
+  "guias.wipe": "Wipes",
+  "guias.endatos.visto": "Seen in our logs",
+  "guias.endatos.probable": "Likely in our logs",
+  "guias.endatos.sin_ver": "Not seen in our logs",
+  "guias.como": "What to do",
+  "guias.ataques": "In the log"
 }

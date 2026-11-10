@@ -1,0 +1,56 @@
+{
+ "npc": [2301008, 2300284],
+ "raid": "ludra",
+ "revisado": "2026-11-10",
+ "parche": "2026-11-04",
+ "resumen": "El primer combate de la raid, con las dos parties juntas. No es un jefe al uso: hay que destruir un reactor que se protege con reactores auxiliares mientras salen enemigos. En nuestras 14 noches cayó siempre al primer intento; en las 9 que tenemos con detalle, en menos de 4 minutos.",
+ "fases": [],
+ "mecanicas": [
+  {
+   "id": "reactores-auxiliares",
+   "titulo": "Reactores auxiliares",
+   "texto": "Cada cierto tiempo aparece un reactor auxiliar a la izquierda, a la derecha o en el centro, y mientras está en pie el reactor central casi no pierde vida. Un aviso en pantalla dice cuál ha salido.",
+   "como": "Uno o dos jugadores, decididos antes de entrar, cruzan por las plataformas de salto, destruyen el auxiliar y vuelven. El resto sigue con los enemigos.",
+   "ataques": [],
+   "wipe": false,
+   "roles": ["dps"],
+   "en_datos": "sin_ver",
+   "origen": "guias",
+   "fuentes": ["aion2tierlist-ludra", "expcarry-ludra", "aion2turkiye-ludra"]
+  },
+  {
+   "id": "anillo-y-cruz",
+   "titulo": "Áreas en anillo y en cruz",
+   "texto": "El reactor alterna dos ataques en área: uno en forma de anillo y otro en forma de cruz o de X, y no para de sacar enemigos.",
+   "como": "Sal de las marcas del suelo antes de que exploten.",
+   "ataques": [],
+   "wipe": false,
+   "roles": ["todos"],
+   "en_datos": "sin_ver",
+   "origen": "guias",
+   "fuentes": ["aion2tierlist-ludra", "expcarry-ludra", "aion2turkiye-ludra"]
+  },
+  {
+   "id": "lo-que-mata",
+   "titulo": "Lo que más mata en nuestros registros",
+   "texto": "El primero de estos ataques es una barra de 3 segundos que da a muchos jugadores a la vez y causa más de un tercio de las muertes en el Reactor; los otros tres le siguen de lejos. Podrían ser las áreas en anillo y en cruz de las guías, pero el registro no dice la forma de un ataque: es una deducción sin confirmar.",
+   "como": "Si alguien muere aquí, casi siempre es por el primero: mira la barra de casteo del reactor y sal de su área antes de que acabe.",
+   "ataques": [1802570, 1802540, 1802530, 1802510],
+   "wipe": false,
+   "roles": ["todos"],
+   "en_datos": "visto",
+   "origen": "datos"
+  }
+ ],
+ "consejos": {
+  "dps": [
+   { "texto": "Si la vida del reactor deja de bajar, hay un auxiliar en pie: no gastes ahí tus habilidades fuertes.", "origen": "guias", "fuentes": ["aion2tierlist-ludra", "expcarry-ludra"] }
+  ],
+  "todos": [
+   { "texto": "Conviene decidir antes de entrar quién va a por los auxiliares, para no perder tiempo cuando salga el aviso.", "origen": "guias", "fuentes": ["aion2tierlist-ludra", "expcarry-ludra"] }
+  ]
+ },
+ "notas": [
+  { "termino": "Versión", "texto": "Las mecánicas de las guías son de la versión anterior (Corea y acceso anticipado). NCSOFT cambió mecánicas para la vuelta del 4 de noviembre y todavía no hay guías de la nueva: lo marcado «sin ver» puede haber cambiado. Lo «visto» sale de nuestras raids del 6 al 10 de noviembre." }
+ ]
+}

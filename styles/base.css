@@ -250,3 +250,10 @@ a.gx-fuente:hover { color: var(--fg); }
 .gx-notas dt { font-weight: 600; }
 .gx-notas dd { margin: 0; color: var(--fg-muted); max-width: 75ch; }
 @media (max-width: 480px) { .gx-retrato-grande { width: 64px; height: 64px; } }
+.gx-fases { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 15rem), 1fr)); gap: var(--gap-sm); }
+.gx-fase-rango { font-family: var(--font-serif); font-size: 1.15rem; color: var(--fg-muted); }
+.gx-chips { display: flex; flex-wrap: wrap; gap: var(--gap-xs); margin: 0; }
+.gx-mecanica.is-wipe { border-color: var(--bad); }
+.gx-endatos.is-visto { color: var(--ok); border-color: currentColor; }
+.gx-endatos.is-probable { color: var(--series-2); border-color: currentColor; }
+.gx-como { margin: 0; }

@@ -1,0 +1,110 @@
+{
+ "npc": [2301006, 2300282],
+ "raid": "ludra",
+ "revisado": "2026-11-10",
+ "parche": "2026-11-04",
+ "resumen": "El jefe intermedio de una de las dos parties, mientras la otra limpia enemigos y consigue mejoras. Su mecánica clave es una marca que hay que ir pasando: cada fallo deja una zona en el suelo y la tercera hace wipe. Nuestro grupo lo mató por primera vez el 7 de noviembre, tras unos 40 intentos; en las noches de Rahu, cada kill ha llevado entre 5 y 9 minutos.",
+ "fases": [
+  { "titulo": "Inicio", "desde_vida": 100, "hasta_vida": 65, "texto": "Golpes al tanque, áreas marcadas y, hacia el 88 % de vida, el primer golpe letal a un objetivo, que vuelve cada 97 segundos.", "origen": "datos" },
+  { "titulo": "Ronzal de dolor", "desde_vida": 65, "hasta_vida": 49, "texto": "Hacia el 65 % de vida Rahu empieza «Ronzal de dolor», una barra de casteo de 15 segundos. Sale casi siempre a ese %, así que es un cambio de fase (deducido).", "origen": "datos" },
+  { "titulo": "Fase de zonas", "desde_vida": 49, "hasta_vida": 32, "texto": "Hacia el 49 % sale un aviso sin daño que abre la fase de zonas, siempre a ese %. Las guías ponen al 50 % la arena partida en cuatro, que probablemente es esta fase.", "origen": "deduccion" },
+  { "titulo": "Tiempo de gula", "desde_vida": 32, "hasta_vida": 0, "texto": "Hacia el 32 % de vida empieza «Tiempo de gula», que se repite cada 5 segundos hasta el final.", "origen": "datos" }
+ ],
+ "mecanicas": [
+  {
+   "id": "bomba",
+   "titulo": "La marca que se pasa",
+   "texto": "Un jugador recibe una marca morada con un contador y va perdiendo vida mientras la lleva. Antes de que acabe el contador, otro jugador tiene que entrar en su círculo y quedársela. Si nadie la recoge, deja en el suelo una zona permanente; con tres, wipe. En nuestros registros creemos que es la «Maldición»: daño continuo a un jugador que es el último golpe de muchos wipes. Es una deducción.",
+   "como": "Hay que pasarla siempre, aunque quede poco contador. Quien la lleva se queda cerca del grupo y los sanadores le curan primero.",
+   "ataques": [1802716, 1802717, 1802718],
+   "wipe": true,
+   "roles": ["todos", "sanador"],
+   "en_datos": "probable",
+   "origen": "guias",
+   "fuentes": ["aion2tierlist-ludra", "metaroad-raid", "expcarry-ludra", "aion2turkiye-ludra"]
+  },
+  {
+   "id": "golpe-letal",
+   "titulo": "Golpe letal a un objetivo",
+   "texto": "Hacia el 88 % de vida, y luego cada 97 segundos, Rahu prepara un golpe a un solo jugador (6 segundos de barra), justo después de otro golpe que lo anuncia. En los intentos que tenemos con detalle, solo uno de cada siete casteos dio a alguien, pero cada vez que dio, mató.",
+   "como": "Casi siempre se evita, así que tiene respuesta: cuando mate a alguien, mira su muerte en «Repaso de las muertes» (si tenía un defensivo libre o dónde estaba).",
+   "ataques": [1802805, 1802880],
+   "wipe": false,
+   "roles": ["todos"],
+   "en_datos": "visto",
+   "origen": "datos"
+  },
+  {
+   "id": "zonas",
+   "titulo": "La arena partida en zonas",
+   "texto": "En la versión de las guías, al 50 % Rahu divide la arena en cuatro y las líneas entre secciones hacen daño. En nuestros datos, hacia el 49 % sale un aviso sin daño, y los impactos de las zonas 8-1 y 8-2 son lo que más muertes suma en este jefe. Que sean la misma mecánica es una deducción.",
+   "como": "El grupo se mueve junto a la sección que toque; no cruces las líneas si no hace falta.",
+   "ataques": [1802860, 1802830, 1802850],
+   "wipe": false,
+   "roles": ["todos"],
+   "en_datos": "probable",
+   "origen": "guias",
+   "fuentes": ["aion2tierlist-ludra", "aion2turkiye-ludra"]
+  },
+  {
+   "id": "estacazo",
+   "titulo": "Estacazo de alma",
+   "texto": "Es el tercer ataque que más mata en nuestras noches de Rahu, sobre todo el 6 y el 7 de noviembre (el 8 y el 9 ya no mató a nadie), y en los wipes con Rahu por debajo del 50 % de vida suele ser el último golpe.",
+   "como": "Si vuelve a matar, revisa en «Repaso de las muertes» quién lo recibió y si tenía un defensivo libre.",
+   "ataques": [1802720],
+   "wipe": false,
+   "roles": ["todos"],
+   "en_datos": "visto",
+   "origen": "datos"
+  },
+  {
+   "id": "mirada",
+   "titulo": "Mirada fija y cono seguro",
+   "texto": "Un jugador queda marcado y casi toda la arena se vuelve zona de muerte, salvo un cono estrecho. Un rayo sigue al marcado durante unos segundos.",
+   "como": "Todos al cono seguro; el marcado se va al lado contrario y apunta el rayo lejos del grupo antes de volver.",
+   "ataques": [],
+   "wipe": false,
+   "roles": ["todos"],
+   "en_datos": "sin_ver",
+   "origen": "guias",
+   "fuentes": ["aion2tierlist-ludra", "metaroad-raid"]
+  },
+  {
+   "id": "anillos",
+   "titulo": "Anillos rojos: juntarse",
+   "texto": "Todos reciben un anillo rojo alrededor y después salen ondas que matan.",
+   "como": "Al revés de lo habitual: todos juntos en un punto, para que los anillos se solapen y quede una zona segura común; salta el anillo cuando explote.",
+   "ataques": [],
+   "wipe": false,
+   "roles": ["todos"],
+   "en_datos": "sin_ver",
+   "origen": "guias",
+   "fuentes": ["aion2tierlist-ludra", "metaroad-raid"]
+  },
+  {
+   "id": "depredadores",
+   "titulo": "Depredadores del abismo",
+   "texto": "En la versión de las guías, hacia el 25 % salen enemigos alrededor de la arena y un jugador recibe un rayo dirigido. Cada enemigo que sobrevive deja otra zona en el suelo, y cuenta para el wipe de tres.",
+   "como": "El jugador con el rayo lo apunta a los enemigos para matarlos; si la marca cambia de jugador, hay que avisarlo en voz.",
+   "ataques": [],
+   "wipe": true,
+   "roles": ["todos", "dps"],
+   "en_datos": "sin_ver",
+   "origen": "guias",
+   "fuentes": ["aion2tierlist-ludra", "metaroad-raid", "expcarry-ludra"]
+  }
+ ],
+ "consejos": {
+  "todos": [
+   { "texto": "El presupuesto son dos fallos: la tercera zona en el suelo hace wipe, venga de la marca o de un enemigo vivo.", "origen": "guias", "fuentes": ["aion2tierlist-ludra", "metaroad-raid"] }
+  ],
+  "sanador": [
+   { "texto": "Quien lleva la marca pierde vida todo el rato: es la prioridad de curación.", "origen": "guias", "fuentes": ["aion2turkiye-ludra", "aion2tierlist-ludra"] }
+  ]
+ },
+ "notas": [
+  { "termino": "Versión", "texto": "Las mecánicas de las guías son de la versión anterior (Corea y acceso anticipado). NCSOFT cambió mecánicas para la vuelta del 4 de noviembre y todavía no hay guías de la nueva: lo marcado «sin ver» puede haber cambiado. Lo «visto» sale de nuestras raids del 6 al 10 de noviembre." },
+  { "termino": "Fases", "texto": "Las guías ponen los cambios de fase al 75, 50 y 25 % de vida; en nuestros datos salen hacia el 65, 49 y 32 %. Puede ser un cambio de la versión nueva." },
+  { "termino": "Las zonas del suelo", "texto": "Casi todas las guías ponen la marca que se pasa y las tres zonas en Rahu; una la pone en Ludra. Nuestros datos encajan con Rahu." }
+ ]
+}

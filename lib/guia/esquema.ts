@@ -65,6 +65,8 @@ export const Rango = z.strictObject({ min: z.number().nonnegative(), max: z.numb
   .refine((r) => r.min <= r.max, 'min mayor que max');
 
 export const ROLES = ['todos', 'tanque', 'sanador', 'dps', 'apoyo'] as const;
+/** Si la mecánica se ve en nuestros registros de la versión actual: visto (sí), probable (deducido de los datos) o sin_ver. */
+export const EN_DATOS = ['visto', 'probable', 'sin_ver'] as const;
 export const MODOS = ['normal', 'dificil'] as const;
 
 const nota = z.strictObject({ termino: corto, texto });
@@ -98,6 +100,7 @@ export const Mecanica = z.strictObject({
   wipe: z.boolean().default(false),
   roles: z.array(z.enum(ROLES)).min(1),
   modos: z.array(z.enum(MODOS)).default([]),
+  en_datos: z.enum(EN_DATOS).default('sin_ver'),
   infografia: slug.optional(),
   ...conOrigen,
 });

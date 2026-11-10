@@ -13,6 +13,8 @@ export const raidsGuia = (): RaidGuia[] => C.orden.map((id) => C.raids[id]);
 export const raidGuia = (id: string): RaidGuia | null => (Object.hasOwn(C.raids, id) ? C.raids[id] : null);
 export const jefeJuego = (npc: number): JefeJuego | null => C.jefes[String(npc)] ?? null;
 export const nombreJefe = (npc: number, idioma: Idioma) => jefeJuego(npc)?.[idioma] ?? String(npc);
+/** Nombre de un ataque citado en una ficha (de la semilla de nombres). */
+export const nombreAtaque = (id: number, idioma: Idioma) => C.ataques[String(id)]?.[idioma] ?? String(id);
 export const fuenteGuia = (id: string): Fuente | null => C.catalogo.fuentes.find((f) => f.id === id) ?? null;
 
 /** Retrato del jefe en el CDN de questlog.gg (ruta corta bajo Texture/). */

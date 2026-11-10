@@ -1,0 +1,280 @@
+{
+ "npc": [
+  2301014,
+  2300290
+ ],
+ "raid": "ludra",
+ "revisado": "2026-11-10",
+ "parche": "2026-11-04",
+ "resumen": "The final boss, with all 10 players together. Twice in the fight, at 51% and 25% health, he casts \"Ludra's Trial\": a board on the floor with a single safe tile that, if not found, kills the whole group. If it is solved, Ludra is staggered for 10 seconds. Our group first killed him on 10 November, in 7:17 minutes.",
+ "fases": [
+  {
+   "titulo": "First phase",
+   "desde_vida": 100,
+   "hasta_vida": 51,
+   "texto": "Opening strikes on the tank and telegraphed hits on players. At around 88% zone 9-1 starts, and it comes back every 79 seconds; between 85 and 70% zones 10, 11-2, 11-3 and 6 join in.",
+   "origen": "datos"
+  },
+  {
+   "titulo": "First Ludra's Trial",
+   "desde_vida": 51,
+   "hasta_vida": 49,
+   "texto": "It comes in every attempt that reaches 51% health. If it is solved, about 20 seconds after the cast Ludra is staggered for 10 seconds.",
+   "origen": "datos"
+  },
+  {
+   "titulo": "Second phase",
+   "desde_vida": 49,
+   "hasta_vida": 25,
+   "texto": "The single-target hit every 9 seconds goes on, starting shortly before the Trial (at around 52%), and at around 43% the final-phase attacks and zone 23-1 come in, the latter every 141 seconds.",
+   "origen": "datos"
+  },
+  {
+   "titulo": "Second Ludra's Trial",
+   "desde_vida": 25,
+   "hasta_vida": 23,
+   "texto": "The same Trial, in every attempt that reaches 25%, with its 10-second stagger afterwards.",
+   "origen": "datos"
+  },
+  {
+   "titulo": "Final",
+   "desde_vida": 23,
+   "hasta_vida": 0,
+   "texto": "The stretch with the most wipes in our nights runs from 25 to 20% health: right after the second Trial.",
+   "origen": "datos"
+  }
+ ],
+ "mecanicas": [
+  {
+   "id": "prueba",
+   "titulo": "Ludra's Trial: the board",
+   "texto": "At 51% and 25% health the floor turns into a board of tiles and Ludra starts an attack that kills the whole group except whoever stands on the safe tile. The safe tile only shows when a player takes the hit that lands on it. In our data it always comes at those % and kills in one hit whoever misses it.",
+   "como": "The board has to be split before entering (in pairs from each corner, or by lanes) to reveal tiles without leaving gaps, and as soon as the safe one shows, everyone onto it. The second one also has rings to jump.",
+   "ataques": [
+    1803010,
+    1803011,
+    1803040,
+    1803041
+   ],
+   "wipe": true,
+   "roles": [
+    "todos"
+   ],
+   "en_datos": "visto",
+   "origen": "guias",
+   "fuentes": [
+    "aion2tierlist-ludra",
+    "metaroad-raid",
+    "expcarry-ludra"
+   ]
+  },
+  {
+   "id": "rotura",
+   "titulo": "The 10-second stagger",
+   "texto": "In our logs, about 20 seconds after each solved Trial Ludra is staggered for 10.1 to 10.2 seconds. It is the clearest damage window of the fight.",
+   "como": "Save your big skills and buffs for those 10 seconds.",
+   "ataques": [],
+   "wipe": false,
+   "roles": [
+    "dps",
+    "apoyo"
+   ],
+   "en_datos": "visto",
+   "origen": "datos"
+  },
+  {
+   "id": "zona-9",
+   "titulo": "Zones 9-1 and 9-2",
+   "texto": "Ludra summons zone 9-1 at around 88% health and then every 79 seconds. Its first impact deals damage and the second, zone 9-2, kills in one hit. Together they add up to the most deaths on our Ludra nights. They could be part of the guides' orb towers: an unconfirmed inference.",
+   "como": "It is the first thing to learn to avoid: \"Death review\" shows where each player was when the impact landed.",
+   "ataques": [
+    1803200,
+    1803203,
+    1803204
+   ],
+   "wipe": false,
+   "roles": [
+    "todos"
+   ],
+   "en_datos": "visto",
+   "origen": "datos"
+  },
+  {
+   "id": "golpes",
+   "titulo": "Area hit and single-target hits",
+   "texto": "Along with the 9 zones, what kills most are the area hit (a 1.5-second cast bar) and the hits on a single player; from 52% health, one every 9 seconds.",
+   "como": "If you heal: the single-target hit comes every 9 seconds in the second phase; do not leave anyone at half health.",
+   "ataques": [
+    1803250,
+    1803110,
+    1803120
+   ],
+   "wipe": false,
+   "roles": [
+    "todos",
+    "sanador"
+   ],
+   "en_datos": "visto",
+   "origen": "datos"
+  },
+  {
+   "id": "zona-23",
+   "titulo": "Zone 23-1",
+   "texto": "From 43% health, and then every 141 seconds, Ludra summons zone 23-1; its lethal impact is among the five attacks that kill most in our nights.",
+   "como": "From the second phase on, it pays to keep count: it comes back after 141 seconds.",
+   "ataques": [
+    1803390,
+    1803395,
+    1803396
+   ],
+   "wipe": false,
+   "roles": [
+    "todos"
+   ],
+   "en_datos": "visto",
+   "origen": "datos"
+  },
+  {
+   "id": "orbes",
+   "titulo": "Blue orbs and the red orb",
+   "texto": "Towers with orbs appear: several blue ones, taken in the air, and a red one, which can only be taken with a block or an immunity active. Taking it unprotected kills.",
+   "como": "The red one is assigned before entering, usually to the tank, with their block or immunity ready; everyone else takes the blue ones.",
+   "ataques": [],
+   "wipe": false,
+   "roles": [
+    "tanque",
+    "todos"
+   ],
+   "en_datos": "sin_ver",
+   "origen": "guias",
+   "fuentes": [
+    "aion2tierlist-ludra",
+    "metaroad-raid",
+    "expcarry-ludra"
+   ]
+  },
+  {
+   "id": "colores",
+   "titulo": "Red and blue: each to their side",
+   "texto": "At around 35% health each player turns red or blue, and if a red and a blue player get close, they lose health very fast. The colour stays through the other mechanics. In our data, an unnamed attack always comes at around 32%: it could be this one, but that is an inference.",
+   "como": "Each colour on one side of the arena, and they must not mix. Guides disagree on which side each colour goes: the group has to pick one.",
+   "ataques": [
+    1803400
+   ],
+   "wipe": false,
+   "roles": [
+    "todos"
+   ],
+   "en_datos": "probable",
+   "origen": "guias",
+   "fuentes": [
+    "aion2tierlist-ludra",
+    "metaroad-raid"
+   ]
+  },
+  {
+   "id": "casillas-finales",
+   "titulo": "Coloured tiles at the end",
+   "texto": "At the end of the fight Ludra winds up a last attack and red and blue tiles appear on the floor, one per player. Guides disagree on the %: 10 or 15.",
+   "como": "Each player onto a tile of their colour, without sharing it, stepping in during the last second and a half or two of the cast.",
+   "ataques": [],
+   "wipe": false,
+   "roles": [
+    "todos"
+   ],
+   "en_datos": "sin_ver",
+   "origen": "guias",
+   "fuentes": [
+    "aion2tierlist-ludra",
+    "metaroad-raid"
+   ]
+  },
+  {
+   "id": "cola",
+   "titulo": "Head and tail",
+   "texto": "Ludra strikes to the front and, when turning, hits whoever is behind with his tail, stunning them.",
+   "como": "The tank turns him away from the group; everyone else to the sides, neither in front nor behind.",
+   "ataques": [],
+   "wipe": false,
+   "roles": [
+    "tanque",
+    "todos"
+   ],
+   "en_datos": "sin_ver",
+   "origen": "guias",
+   "fuentes": [
+    "aion2tierlist-ludra",
+    "expcarry-ludra",
+    "aion2turkiye-ludra"
+   ]
+  },
+  {
+   "id": "anillos",
+   "titulo": "Rings to jump",
+   "texto": "Expanding rings come out and have to be jumped. They cannot be blocked or avoided with an immunity, and two in a row without leaving the first one kill.",
+   "como": "Jump each ring; if they overlap with another mechanic, jump first.",
+   "ataques": [],
+   "wipe": false,
+   "roles": [
+    "todos"
+   ],
+   "en_datos": "sin_ver",
+   "origen": "guias",
+   "fuentes": [
+    "aion2tierlist-ludra",
+    "metaroad-raid"
+   ]
+  }
+ ],
+ "consejos": {
+  "dps": [
+   {
+    "texto": "Save your heavy damage for the 10 seconds of stagger after each solved Trial.",
+    "origen": "datos"
+   }
+  ],
+  "tanque": [
+   {
+    "texto": "Turn Ludra away from the group: behind him, the tail stuns.",
+    "origen": "guias",
+    "fuentes": [
+     "aion2tierlist-ludra",
+     "expcarry-ludra",
+     "aion2turkiye-ludra"
+    ]
+   },
+   {
+    "texto": "The red orb is taken with a block or an immunity active; it pays to decide before entering who takes it.",
+    "origen": "guias",
+    "fuentes": [
+     "aion2tierlist-ludra",
+     "metaroad-raid"
+    ]
+   }
+  ],
+  "todos": [
+   {
+    "texto": "The board has to be split before entering: each pair or lane knows which tiles it reveals.",
+    "origen": "guias",
+    "fuentes": [
+     "aion2tierlist-ludra",
+     "metaroad-raid"
+    ]
+   }
+  ]
+ },
+ "notas": [
+  {
+   "termino": "Version",
+   "texto": "Guide mechanics are from the previous version (Korea and Early Access). NCSOFT changed mechanics for the 4 November return and there are no guides to the new one yet: anything marked \"not seen\" may have changed. \"Seen\" comes from our raids of 6 to 10 November."
+  },
+  {
+   "termino": "What still matches",
+   "texto": "The board still comes at 50 and 25% health, as the guides say, and the stagger afterwards still lasts 10 seconds."
+  },
+  {
+   "termino": "Figures",
+   "texto": "Health % and times are the median of our attempts up to 10 November: take them as a guide."
+  }
+ ]
+}

@@ -115,7 +115,11 @@
     "temas": [
      "mecanicas",
      "composicion"
-    ]
+    ],
+    "nota": {
+     "es": "La versión de acceso anticipado (septiembre de 2026), sacada de un vídeo; actualizada el 30/10, antes de la vuelta del 4/11.",
+     "en": "The Early Access version (September 2026), taken from a video; updated on 30/10, before the 4/11 return."
+    }
    },
    {
     "id": "aion2turkiye-ludra",
@@ -129,6 +133,23 @@
      "mecanicas",
      "composicion"
     ]
+   },
+   {
+    "id": "metaroad-raid",
+    "titulo": "Abyssal Forge: Rahu, Ketu and Ludra",
+    "sitio": "Metaroad",
+    "url": "https://metaroad.gg/aion2/raids/aion-2-rudra-sanctuary-raid-guide",
+    "tipo": "guia",
+    "idioma": "en",
+    "consultado": "2026-11-10",
+    "temas": [
+     "mecanicas",
+     "composicion"
+    ],
+    "nota": {
+     "es": "Describe la versión coreana (8 jugadores); avisa de que la global llega con mecánicas nuevas.",
+     "en": "Describes the Korean version (8 players); warns that Global arrives with new mechanics."
+    }
    },
    {
     "id": "expcarry-ludra",
@@ -446,7 +467,1544 @@
      }
     ]
    },
-   "jefes": {}
+   "jefes": {
+    "2301006": {
+     "es": {
+      "npc": [
+       2301006,
+       2300282
+      ],
+      "raid": "ludra",
+      "revisado": "2026-11-10",
+      "parche": "2026-11-04",
+      "resumen": "El jefe intermedio de una de las dos parties, mientras la otra limpia enemigos y consigue mejoras. Su mecánica clave es una marca que hay que ir pasando: cada fallo deja una zona en el suelo y la tercera hace wipe. Nuestro grupo lo mató por primera vez el 7 de noviembre, tras unos 40 intentos; en las noches de Rahu, cada kill ha llevado entre 5 y 9 minutos.",
+      "fases": [
+       {
+        "titulo": "Inicio",
+        "desde_vida": 100,
+        "hasta_vida": 65,
+        "texto": "Golpes al tanque, áreas marcadas y, hacia el 88 % de vida, el primer golpe letal a un objetivo, que vuelve cada 97 segundos.",
+        "origen": "datos",
+        "fuentes": []
+       },
+       {
+        "titulo": "Ronzal de dolor",
+        "desde_vida": 65,
+        "hasta_vida": 49,
+        "texto": "Hacia el 65 % de vida Rahu empieza «Ronzal de dolor», una barra de casteo de 15 segundos. Sale casi siempre a ese %, así que es un cambio de fase (deducido).",
+        "origen": "datos",
+        "fuentes": []
+       },
+       {
+        "titulo": "Fase de zonas",
+        "desde_vida": 49,
+        "hasta_vida": 32,
+        "texto": "Hacia el 49 % sale un aviso sin daño que abre la fase de zonas, siempre a ese %. Las guías ponen al 50 % la arena partida en cuatro, que probablemente es esta fase.",
+        "origen": "deduccion",
+        "fuentes": []
+       },
+       {
+        "titulo": "Tiempo de gula",
+        "desde_vida": 32,
+        "hasta_vida": 0,
+        "texto": "Hacia el 32 % de vida empieza «Tiempo de gula», que se repite cada 5 segundos hasta el final.",
+        "origen": "datos",
+        "fuentes": []
+       }
+      ],
+      "mecanicas": [
+       {
+        "id": "bomba",
+        "titulo": "La marca que se pasa",
+        "texto": "Un jugador recibe una marca morada con un contador y va perdiendo vida mientras la lleva. Antes de que acabe el contador, otro jugador tiene que entrar en su círculo y quedársela. Si nadie la recoge, deja en el suelo una zona permanente; con tres, wipe. En nuestros registros creemos que es la «Maldición»: daño continuo a un jugador que es el último golpe de muchos wipes. Es una deducción.",
+        "como": "Hay que pasarla siempre, aunque quede poco contador. Quien la lleva se queda cerca del grupo y los sanadores le curan primero.",
+        "ataques": [
+         1802716,
+         1802717,
+         1802718
+        ],
+        "wipe": true,
+        "roles": [
+         "todos",
+         "sanador"
+        ],
+        "modos": [],
+        "en_datos": "probable",
+        "origen": "guias",
+        "fuentes": [
+         "aion2tierlist-ludra",
+         "metaroad-raid",
+         "expcarry-ludra",
+         "aion2turkiye-ludra"
+        ]
+       },
+       {
+        "id": "golpe-letal",
+        "titulo": "Golpe letal a un objetivo",
+        "texto": "Hacia el 88 % de vida, y luego cada 97 segundos, Rahu prepara un golpe a un solo jugador (6 segundos de barra), justo después de otro golpe que lo anuncia. En los intentos que tenemos con detalle, solo uno de cada siete casteos dio a alguien, pero cada vez que dio, mató.",
+        "como": "Casi siempre se evita, así que tiene respuesta: cuando mate a alguien, mira su muerte en «Repaso de las muertes» (si tenía un defensivo libre o dónde estaba).",
+        "ataques": [
+         1802805,
+         1802880
+        ],
+        "wipe": false,
+        "roles": [
+         "todos"
+        ],
+        "modos": [],
+        "en_datos": "visto",
+        "origen": "datos",
+        "fuentes": []
+       },
+       {
+        "id": "zonas",
+        "titulo": "La arena partida en zonas",
+        "texto": "En la versión de las guías, al 50 % Rahu divide la arena en cuatro y las líneas entre secciones hacen daño. En nuestros datos, hacia el 49 % sale un aviso sin daño, y los impactos de las zonas 8-1 y 8-2 son lo que más muertes suma en este jefe. Que sean la misma mecánica es una deducción.",
+        "como": "El grupo se mueve junto a la sección que toque; no cruces las líneas si no hace falta.",
+        "ataques": [
+         1802860,
+         1802830,
+         1802850
+        ],
+        "wipe": false,
+        "roles": [
+         "todos"
+        ],
+        "modos": [],
+        "en_datos": "probable",
+        "origen": "guias",
+        "fuentes": [
+         "aion2tierlist-ludra",
+         "aion2turkiye-ludra"
+        ]
+       },
+       {
+        "id": "estacazo",
+        "titulo": "Estacazo de alma",
+        "texto": "Es el tercer ataque que más mata en nuestras noches de Rahu, sobre todo el 6 y el 7 de noviembre (el 8 y el 9 ya no mató a nadie), y en los wipes con Rahu por debajo del 50 % de vida suele ser el último golpe.",
+        "como": "Si vuelve a matar, revisa en «Repaso de las muertes» quién lo recibió y si tenía un defensivo libre.",
+        "ataques": [
+         1802720
+        ],
+        "wipe": false,
+        "roles": [
+         "todos"
+        ],
+        "modos": [],
+        "en_datos": "visto",
+        "origen": "datos",
+        "fuentes": []
+       },
+       {
+        "id": "mirada",
+        "titulo": "Mirada fija y cono seguro",
+        "texto": "Un jugador queda marcado y casi toda la arena se vuelve zona de muerte, salvo un cono estrecho. Un rayo sigue al marcado durante unos segundos.",
+        "como": "Todos al cono seguro; el marcado se va al lado contrario y apunta el rayo lejos del grupo antes de volver.",
+        "ataques": [],
+        "wipe": false,
+        "roles": [
+         "todos"
+        ],
+        "modos": [],
+        "en_datos": "sin_ver",
+        "origen": "guias",
+        "fuentes": [
+         "aion2tierlist-ludra",
+         "metaroad-raid"
+        ]
+       },
+       {
+        "id": "anillos",
+        "titulo": "Anillos rojos: juntarse",
+        "texto": "Todos reciben un anillo rojo alrededor y después salen ondas que matan.",
+        "como": "Al revés de lo habitual: todos juntos en un punto, para que los anillos se solapen y quede una zona segura común; salta el anillo cuando explote.",
+        "ataques": [],
+        "wipe": false,
+        "roles": [
+         "todos"
+        ],
+        "modos": [],
+        "en_datos": "sin_ver",
+        "origen": "guias",
+        "fuentes": [
+         "aion2tierlist-ludra",
+         "metaroad-raid"
+        ]
+       },
+       {
+        "id": "depredadores",
+        "titulo": "Depredadores del abismo",
+        "texto": "En la versión de las guías, hacia el 25 % salen enemigos alrededor de la arena y un jugador recibe un rayo dirigido. Cada enemigo que sobrevive deja otra zona en el suelo, y cuenta para el wipe de tres.",
+        "como": "El jugador con el rayo lo apunta a los enemigos para matarlos; si la marca cambia de jugador, hay que avisarlo en voz.",
+        "ataques": [],
+        "wipe": true,
+        "roles": [
+         "todos",
+         "dps"
+        ],
+        "modos": [],
+        "en_datos": "sin_ver",
+        "origen": "guias",
+        "fuentes": [
+         "aion2tierlist-ludra",
+         "metaroad-raid",
+         "expcarry-ludra"
+        ]
+       }
+      ],
+      "consejos": {
+       "todos": [
+        {
+         "texto": "El presupuesto son dos fallos: la tercera zona en el suelo hace wipe, venga de la marca o de un enemigo vivo.",
+         "origen": "guias",
+         "fuentes": [
+          "aion2tierlist-ludra",
+          "metaroad-raid"
+         ]
+        }
+       ],
+       "sanador": [
+        {
+         "texto": "Quien lleva la marca pierde vida todo el rato: es la prioridad de curación.",
+         "origen": "guias",
+         "fuentes": [
+          "aion2turkiye-ludra",
+          "aion2tierlist-ludra"
+         ]
+        }
+       ]
+      },
+      "requisitos": {},
+      "notas": [
+       {
+        "termino": "Versión",
+        "texto": "Las mecánicas de las guías son de la versión anterior (Corea y acceso anticipado). NCSOFT cambió mecánicas para la vuelta del 4 de noviembre y todavía no hay guías de la nueva: lo marcado «sin ver» puede haber cambiado. Lo «visto» sale de nuestras raids del 6 al 10 de noviembre."
+       },
+       {
+        "termino": "Fases",
+        "texto": "Las guías ponen los cambios de fase al 75, 50 y 25 % de vida; en nuestros datos salen hacia el 65, 49 y 32 %. Puede ser un cambio de la versión nueva."
+       },
+       {
+        "termino": "Las zonas del suelo",
+        "texto": "Casi todas las guías ponen la marca que se pasa y las tres zonas en Rahu; una la pone en Ludra. Nuestros datos encajan con Rahu."
+       }
+      ]
+     },
+     "en": {
+      "npc": [
+       2301006,
+       2300282
+      ],
+      "raid": "ludra",
+      "revisado": "2026-11-10",
+      "parche": "2026-11-04",
+      "resumen": "The mid-boss for one of the two parties, while the other clears enemies and earns buffs. His key mechanic is a mark that has to be passed on: every failure leaves a zone on the floor and the third one wipes. Our group first killed him on 7 November, after about 40 attempts; on the Rahu nights, each kill took between 5 and 9 minutes.",
+      "fases": [
+       {
+        "titulo": "Opening",
+        "desde_vida": 100,
+        "hasta_vida": 65,
+        "texto": "Tank strikes, marked areas and, at around 88% health, the first lethal single-target strike, which comes back every 97 seconds.",
+        "origen": "datos",
+        "fuentes": []
+       },
+       {
+        "titulo": "Wheel of Torment",
+        "desde_vida": 65,
+        "hasta_vida": 49,
+        "texto": "At around 65% health Rahu starts \"Wheel of Torment\", a 15-second cast bar. It almost always comes at that %, so it is a phase change (inferred).",
+        "origen": "datos",
+        "fuentes": []
+       },
+       {
+        "titulo": "Zone phase",
+        "desde_vida": 49,
+        "hasta_vida": 32,
+        "texto": "At around 49% a no-damage warning opens the zone phase, always at that %. Guides put the arena split into four at 50%, which is probably this phase.",
+        "origen": "deduccion",
+        "fuentes": []
+       },
+       {
+        "titulo": "Feeding Time",
+        "desde_vida": 32,
+        "hasta_vida": 0,
+        "texto": "At around 32% health \"Feeding Time\" starts, and it repeats every 5 seconds until the end.",
+        "origen": "datos",
+        "fuentes": []
+       }
+      ],
+      "mecanicas": [
+       {
+        "id": "bomba",
+        "titulo": "The mark you pass on",
+        "texto": "A player gets a purple mark with a countdown and keeps losing health while carrying it. Before the countdown ends, another player has to step into their circle and take it over. If nobody picks it up, it leaves a permanent zone on the floor; at three, wipe. In our logs we believe it is the \"Curse\": damage over time on one player that is the last hit of many wipes. That is an inference.",
+        "como": "It has to be passed every time, even with little time left. The carrier stays close to the group and healers heal them first.",
+        "ataques": [
+         1802716,
+         1802717,
+         1802718
+        ],
+        "wipe": true,
+        "roles": [
+         "todos",
+         "sanador"
+        ],
+        "modos": [],
+        "en_datos": "probable",
+        "origen": "guias",
+        "fuentes": [
+         "aion2tierlist-ludra",
+         "metaroad-raid",
+         "expcarry-ludra",
+         "aion2turkiye-ludra"
+        ]
+       },
+       {
+        "id": "golpe-letal",
+        "titulo": "Lethal single-target strike",
+        "texto": "At around 88% health, and then every 97 seconds, Rahu winds up a strike on a single player (6-second cast bar), right after another strike that announces it. In the attempts we have in detail, only one in seven casts hit anyone, but every time it hit, it killed.",
+        "como": "It is almost always avoided, so there is an answer: when it kills someone, check their death in \"Death review\" (whether they had a defensive available or where they were).",
+        "ataques": [
+         1802805,
+         1802880
+        ],
+        "wipe": false,
+        "roles": [
+         "todos"
+        ],
+        "modos": [],
+        "en_datos": "visto",
+        "origen": "datos",
+        "fuentes": []
+       },
+       {
+        "id": "zonas",
+        "titulo": "The arena split into zones",
+        "texto": "In the guides' version, at 50% Rahu splits the arena into four and the lines between sections deal damage. In our data, at around 49% a no-damage warning goes out, and the impacts of zones 8-1 and 8-2 add up to the most deaths on this boss. That they are the same mechanic is an inference.",
+        "como": "The group moves together to the section it needs; do not cross the lines unless you have to.",
+        "ataques": [
+         1802860,
+         1802830,
+         1802850
+        ],
+        "wipe": false,
+        "roles": [
+         "todos"
+        ],
+        "modos": [],
+        "en_datos": "probable",
+        "origen": "guias",
+        "fuentes": [
+         "aion2tierlist-ludra",
+         "aion2turkiye-ludra"
+        ]
+       },
+       {
+        "id": "estacazo",
+        "titulo": "Soul Strike",
+        "texto": "It is the third attack that kills most on our Rahu nights, especially on 6 and 7 November (on the 8th and 9th it killed nobody), and in wipes with Rahu below 50% health it is often the last hit.",
+        "como": "If it kills again, check in \"Death review\" who took it and whether they had a defensive available.",
+        "ataques": [
+         1802720
+        ],
+        "wipe": false,
+        "roles": [
+         "todos"
+        ],
+        "modos": [],
+        "en_datos": "visto",
+        "origen": "datos",
+        "fuentes": []
+       },
+       {
+        "id": "mirada",
+        "titulo": "Fixed gaze and safe cone",
+        "texto": "A player is marked and almost the whole arena becomes a kill zone except a narrow cone. A beam follows the marked player for a few seconds.",
+        "como": "Everyone into the safe cone; the marked player goes to the opposite side and points the beam away from the group before coming back.",
+        "ataques": [],
+        "wipe": false,
+        "roles": [
+         "todos"
+        ],
+        "modos": [],
+        "en_datos": "sin_ver",
+        "origen": "guias",
+        "fuentes": [
+         "aion2tierlist-ludra",
+         "metaroad-raid"
+        ]
+       },
+       {
+        "id": "anillos",
+        "titulo": "Red rings: stack up",
+        "texto": "Everyone gets a red ring around them and then lethal waves go out.",
+        "como": "The opposite of the usual: everyone together on one spot, so the rings overlap and leave a shared safe zone; jump the ring when it explodes.",
+        "ataques": [],
+        "wipe": false,
+        "roles": [
+         "todos"
+        ],
+        "modos": [],
+        "en_datos": "sin_ver",
+        "origen": "guias",
+        "fuentes": [
+         "aion2tierlist-ludra",
+         "metaroad-raid"
+        ]
+       },
+       {
+        "id": "depredadores",
+        "titulo": "Abyss Predators",
+        "texto": "In the guides' version, at around 25% enemies appear around the arena and a player gets a directed beam. Every enemy that survives leaves another zone on the floor, and it counts toward the three-zone wipe.",
+        "como": "The player with the beam aims it at the enemies to kill them; if the mark moves to another player, it has to be called out on voice.",
+        "ataques": [],
+        "wipe": true,
+        "roles": [
+         "todos",
+         "dps"
+        ],
+        "modos": [],
+        "en_datos": "sin_ver",
+        "origen": "guias",
+        "fuentes": [
+         "aion2tierlist-ludra",
+         "metaroad-raid",
+         "expcarry-ludra"
+        ]
+       }
+      ],
+      "consejos": {
+       "todos": [
+        {
+         "texto": "The budget is two mistakes: the third zone on the floor wipes, whether it comes from the mark or from a living enemy.",
+         "origen": "guias",
+         "fuentes": [
+          "aion2tierlist-ludra",
+          "metaroad-raid"
+         ]
+        }
+       ],
+       "sanador": [
+        {
+         "texto": "Whoever carries the mark loses health the whole time: they are the healing priority.",
+         "origen": "guias",
+         "fuentes": [
+          "aion2turkiye-ludra",
+          "aion2tierlist-ludra"
+         ]
+        }
+       ]
+      },
+      "requisitos": {},
+      "notas": [
+       {
+        "termino": "Version",
+        "texto": "Guide mechanics are from the previous version (Korea and Early Access). NCSOFT changed mechanics for the 4 November return and there are no guides to the new one yet: anything marked \"not seen\" may have changed. \"Seen\" comes from our raids of 6 to 10 November."
+       },
+       {
+        "termino": "Phases",
+        "texto": "Guides put the phase changes at 75, 50 and 25% health; in our data they come at around 65, 49 and 32%. It may be a change in the new version."
+       },
+       {
+        "termino": "The floor zones",
+        "texto": "Almost every guide puts the passed mark and the three zones on Rahu; one puts them on Ludra. Our data fits Rahu."
+       }
+      ]
+     }
+    },
+    "2301007": {
+     "es": {
+      "npc": [
+       2301007,
+       2300283
+      ],
+      "raid": "ludra",
+      "revisado": "2026-11-10",
+      "parche": "2026-11-04",
+      "resumen": "El jefe intermedio de la otra party, y según las guías el más difícil de la raid: espíritus, orbes que hay que atrapar, orbes de colores que se miran o no, y una fase final con piedras de alma en la que muchas veces solo sobrevive el Clérigo. Casi no tenemos registros suyos: quien graba en nuestro grupo suele hacer Rahu.",
+      "fases": [],
+      "mecanicas": [
+       {
+        "id": "laseres-y-carga",
+        "titulo": "Láseres y carga",
+        "texto": "Ketu barre la arena con láseres y se lanza contra un jugador marcado con un golpe fuerte de su arma; donde cae el arma queda una onda.",
+        "como": "Esquiva los láseres; contra la carga, apártate del golpe y salta la onda que deja.",
+        "ataques": [],
+        "wipe": false,
+        "roles": [
+         "todos"
+        ],
+        "modos": [],
+        "en_datos": "sin_ver",
+        "origen": "guias",
+        "fuentes": [
+         "aion2tierlist-ludra",
+         "expcarry-ludra",
+         "aion2turkiye-ludra"
+        ]
+       },
+       {
+        "id": "espiritus",
+        "titulo": "El escondite: espíritus",
+        "texto": "Ketu se va al centro y deja de poder ser atacado; salen espíritus por la arena. Después avanza una zona blanca, y un espíritu vivo que la toca explota y asusta (miedo) a todo el grupo. Al final hay una zona segura en el centro, pero no para todo el daño.",
+        "como": "El grupo se parte en dos lados y mata los espíritus de sur a norte, cada lado en un sentido; las clases a distancia ayudan mucho. Cuando se cierra la zona blanca, todos al centro, y a curar dentro de ella.",
+        "ataques": [],
+        "wipe": false,
+        "roles": [
+         "todos",
+         "dps",
+         "sanador"
+        ],
+        "modos": [],
+        "en_datos": "sin_ver",
+        "origen": "guias",
+        "fuentes": [
+         "aion2tierlist-ludra",
+         "metaroad-raid"
+        ]
+       },
+       {
+        "id": "orbes-que-caen",
+        "titulo": "Orbes que caen",
+        "texto": "Caen orbes del cielo que hay que atrapar antes de que toquen el suelo.",
+        "como": "Uno por persona, saltando para llegar antes. Conviene contar cuántos caen en el primer intento: las guías cuentan los de la versión de 8 jugadores.",
+        "ataques": [],
+        "wipe": false,
+        "roles": [
+         "todos"
+        ],
+        "modos": [],
+        "en_datos": "sin_ver",
+        "origen": "guias",
+        "fuentes": [
+         "aion2tierlist-ludra",
+         "metaroad-raid",
+         "expcarry-ludra"
+        ]
+       },
+       {
+        "id": "orbes-de-colores",
+        "titulo": "Orbes de colores: mirar o no mirar",
+        "texto": "Desde la mitad de la vida aparecen orbes que explotan y cuenta hacia dónde mira tu personaje (no la cámara). Primero uno; más adelante, tres seguidos.",
+        "como": "Orbe rojo: mira hacia él. Orbe azul: dale la espalda. Ojo con guías que lo cuentan al revés.",
+        "ataques": [],
+        "wipe": false,
+        "roles": [
+         "todos"
+        ],
+        "modos": [],
+        "en_datos": "sin_ver",
+        "origen": "guias",
+        "fuentes": [
+         "aion2tierlist-ludra",
+         "metaroad-raid"
+        ]
+       },
+       {
+        "id": "piedras-de-alma",
+        "titulo": "Piedras de alma",
+        "texto": "Todos reciben un cono rojo y aparecen piedras de alma en el borde de la arena; un cono destruye la piedra que toca. Romper una piedra da al jugador unos segundos de invulnerabilidad, y justo después Ketu golpea toda la arena una y otra vez.",
+        "como": "Lo previsto: cada uno rompe su piedra justo antes del golpe y la renueva. Lo habitual: el Clérigo aguanta con su piedra y resucita al grupo, así que su supervivencia es la prioridad.",
+        "ataques": [],
+        "wipe": true,
+        "roles": [
+         "todos",
+         "sanador"
+        ],
+        "modos": [],
+        "en_datos": "sin_ver",
+        "origen": "guias",
+        "fuentes": [
+         "aion2tierlist-ludra",
+         "metaroad-raid",
+         "expcarry-ludra"
+        ]
+       }
+      ],
+      "consejos": {
+       "todos": [
+        {
+         "texto": "La party de Ketu necesita un Clérigo que resucite, y conviene un Arquero para los espíritus.",
+         "origen": "guias",
+         "fuentes": [
+          "aion2tierlist-ludra",
+          "aion2turkiye-ludra"
+         ]
+        }
+       ],
+       "sanador": [
+        {
+         "texto": "En las piedras de alma, si el Clérigo sobrevive, Ketu sigue muriendo aunque caiga el resto: guarda resurrecciones y defensivos para esa fase.",
+         "origen": "guias",
+         "fuentes": [
+          "aion2tierlist-ludra",
+          "metaroad-raid"
+         ]
+        }
+       ]
+      },
+      "requisitos": {},
+      "notas": [
+       {
+        "termino": "Versión",
+        "texto": "Las mecánicas de las guías son de la versión anterior (Corea y acceso anticipado). NCSOFT cambió mecánicas para la vuelta del 4 de noviembre y todavía no hay guías de la nueva: todo lo de Ketu está «sin ver»."
+       },
+       {
+        "termino": "Nuestros datos",
+        "texto": "Solo tenemos 3 intentos de Ketu, de una noche y sin kill, y ninguna raid pública: no hay cifras suficientes para contrastar nada."
+       }
+      ]
+     },
+     "en": {
+      "npc": [
+       2301007,
+       2300283
+      ],
+      "raid": "ludra",
+      "revisado": "2026-11-10",
+      "parche": "2026-11-04",
+      "resumen": "The mid-boss for the other party, and according to the guides the hardest in the raid: spirits, orbs to catch, coloured orbs you face or turn away from, and a final phase with soul stones where often only the Cleric survives. We have almost no logs of him: the player who records in our group usually does Rahu.",
+      "fases": [],
+      "mecanicas": [
+       {
+        "id": "laseres-y-carga",
+        "titulo": "Lasers and charge",
+        "texto": "Ketu sweeps the arena with lasers and dashes at a marked player with a heavy weapon strike; where the weapon lands, a wave goes out.",
+        "como": "Dodge the lasers; against the charge, step out of the strike and jump the wave it leaves.",
+        "ataques": [],
+        "wipe": false,
+        "roles": [
+         "todos"
+        ],
+        "modos": [],
+        "en_datos": "sin_ver",
+        "origen": "guias",
+        "fuentes": [
+         "aion2tierlist-ludra",
+         "expcarry-ludra",
+         "aion2turkiye-ludra"
+        ]
+       },
+       {
+        "id": "espiritus",
+        "titulo": "Hide and seek: spirits",
+        "texto": "Ketu goes to the centre and can no longer be attacked; spirits spawn around the arena. Then a white zone advances, and a living spirit that touches it explodes and fears the whole group. At the end there is a safe zone in the centre, but it does not stop all the damage.",
+        "como": "The group splits into two sides and kills the spirits from south to north, each side in one direction; ranged classes help a lot. When the white zone closes, everyone to the centre, and keep healing inside it.",
+        "ataques": [],
+        "wipe": false,
+        "roles": [
+         "todos",
+         "dps",
+         "sanador"
+        ],
+        "modos": [],
+        "en_datos": "sin_ver",
+        "origen": "guias",
+        "fuentes": [
+         "aion2tierlist-ludra",
+         "metaroad-raid"
+        ]
+       },
+       {
+        "id": "orbes-que-caen",
+        "titulo": "Falling orbs",
+        "texto": "Orbs fall from the sky and have to be caught before they touch the ground.",
+        "como": "One per person, jumping to get there sooner. It pays to count how many fall on the first attempt: guides count those of the 8-player version.",
+        "ataques": [],
+        "wipe": false,
+        "roles": [
+         "todos"
+        ],
+        "modos": [],
+        "en_datos": "sin_ver",
+        "origen": "guias",
+        "fuentes": [
+         "aion2tierlist-ludra",
+         "metaroad-raid",
+         "expcarry-ludra"
+        ]
+       },
+       {
+        "id": "orbes-de-colores",
+        "titulo": "Coloured orbs: face or turn away",
+        "texto": "From half health, orbs appear that explode, and what counts is where your character faces (not the camera). One at first; later, three in a row.",
+        "como": "Red orb: face it. Blue orb: turn your back to it. Beware of guides that have it the other way round.",
+        "ataques": [],
+        "wipe": false,
+        "roles": [
+         "todos"
+        ],
+        "modos": [],
+        "en_datos": "sin_ver",
+        "origen": "guias",
+        "fuentes": [
+         "aion2tierlist-ludra",
+         "metaroad-raid"
+        ]
+       },
+       {
+        "id": "piedras-de-alma",
+        "titulo": "Soul stones",
+        "texto": "Everyone gets a red cone and soul stones appear at the edge of the arena; a cone destroys any stone it touches. Breaking a stone gives that player a few seconds of invulnerability, and right after Ketu hits the whole arena again and again.",
+        "como": "As intended: each player breaks their stone just before the hit and refreshes it. As usually done: the Cleric survives on their stone and resurrects the group, so their survival is the priority.",
+        "ataques": [],
+        "wipe": true,
+        "roles": [
+         "todos",
+         "sanador"
+        ],
+        "modos": [],
+        "en_datos": "sin_ver",
+        "origen": "guias",
+        "fuentes": [
+         "aion2tierlist-ludra",
+         "metaroad-raid",
+         "expcarry-ludra"
+        ]
+       }
+      ],
+      "consejos": {
+       "todos": [
+        {
+         "texto": "The Ketu party needs a Cleric who can resurrect, and a Ranger helps with the spirits.",
+         "origen": "guias",
+         "fuentes": [
+          "aion2tierlist-ludra",
+          "aion2turkiye-ludra"
+         ]
+        }
+       ],
+       "sanador": [
+        {
+         "texto": "At the soul stones, if the Cleric survives, Ketu still dies even if everyone else falls: save resurrections and defensives for that phase.",
+         "origen": "guias",
+         "fuentes": [
+          "aion2tierlist-ludra",
+          "metaroad-raid"
+         ]
+        }
+       ]
+      },
+      "requisitos": {},
+      "notas": [
+       {
+        "termino": "Version",
+        "texto": "Guide mechanics are from the previous version (Korea and Early Access). NCSOFT changed mechanics for the 4 November return and there are no guides to the new one yet: everything about Ketu is \"not seen\"."
+       },
+       {
+        "termino": "Our data",
+        "texto": "We only have 3 attempts on Ketu, from one night and without a kill, and no public raid: not enough figures to check anything."
+       }
+      ]
+     }
+    },
+    "2301008": {
+     "es": {
+      "npc": [
+       2301008,
+       2300284
+      ],
+      "raid": "ludra",
+      "revisado": "2026-11-10",
+      "parche": "2026-11-04",
+      "resumen": "El primer combate de la raid, con las dos parties juntas. No es un jefe al uso: hay que destruir un reactor que se protege con reactores auxiliares mientras salen enemigos. En nuestras 14 noches cayó siempre al primer intento; en las 9 que tenemos con detalle, en menos de 4 minutos.",
+      "fases": [],
+      "mecanicas": [
+       {
+        "id": "reactores-auxiliares",
+        "titulo": "Reactores auxiliares",
+        "texto": "Cada cierto tiempo aparece un reactor auxiliar a la izquierda, a la derecha o en el centro, y mientras está en pie el reactor central casi no pierde vida. Un aviso en pantalla dice cuál ha salido.",
+        "como": "Uno o dos jugadores, decididos antes de entrar, cruzan por las plataformas de salto, destruyen el auxiliar y vuelven. El resto sigue con los enemigos.",
+        "ataques": [],
+        "wipe": false,
+        "roles": [
+         "dps"
+        ],
+        "modos": [],
+        "en_datos": "sin_ver",
+        "origen": "guias",
+        "fuentes": [
+         "aion2tierlist-ludra",
+         "expcarry-ludra",
+         "aion2turkiye-ludra"
+        ]
+       },
+       {
+        "id": "anillo-y-cruz",
+        "titulo": "Áreas en anillo y en cruz",
+        "texto": "El reactor alterna dos ataques en área: uno en forma de anillo y otro en forma de cruz o de X, y no para de sacar enemigos.",
+        "como": "Sal de las marcas del suelo antes de que exploten.",
+        "ataques": [],
+        "wipe": false,
+        "roles": [
+         "todos"
+        ],
+        "modos": [],
+        "en_datos": "sin_ver",
+        "origen": "guias",
+        "fuentes": [
+         "aion2tierlist-ludra",
+         "expcarry-ludra",
+         "aion2turkiye-ludra"
+        ]
+       },
+       {
+        "id": "lo-que-mata",
+        "titulo": "Lo que más mata en nuestros registros",
+        "texto": "El primero de estos ataques es una barra de 3 segundos que da a muchos jugadores a la vez y causa más de un tercio de las muertes en el Reactor; los otros tres le siguen de lejos. Podrían ser las áreas en anillo y en cruz de las guías, pero el registro no dice la forma de un ataque: es una deducción sin confirmar.",
+        "como": "Si alguien muere aquí, casi siempre es por el primero: mira la barra de casteo del reactor y sal de su área antes de que acabe.",
+        "ataques": [
+         1802570,
+         1802540,
+         1802530,
+         1802510
+        ],
+        "wipe": false,
+        "roles": [
+         "todos"
+        ],
+        "modos": [],
+        "en_datos": "visto",
+        "origen": "datos",
+        "fuentes": []
+       }
+      ],
+      "consejos": {
+       "dps": [
+        {
+         "texto": "Si la vida del reactor deja de bajar, hay un auxiliar en pie: no gastes ahí tus habilidades fuertes.",
+         "origen": "guias",
+         "fuentes": [
+          "aion2tierlist-ludra",
+          "expcarry-ludra"
+         ]
+        }
+       ],
+       "todos": [
+        {
+         "texto": "Conviene decidir antes de entrar quién va a por los auxiliares, para no perder tiempo cuando salga el aviso.",
+         "origen": "guias",
+         "fuentes": [
+          "aion2tierlist-ludra",
+          "expcarry-ludra"
+         ]
+        }
+       ]
+      },
+      "requisitos": {},
+      "notas": [
+       {
+        "termino": "Versión",
+        "texto": "Las mecánicas de las guías son de la versión anterior (Corea y acceso anticipado). NCSOFT cambió mecánicas para la vuelta del 4 de noviembre y todavía no hay guías de la nueva: lo marcado «sin ver» puede haber cambiado. Lo «visto» sale de nuestras raids del 6 al 10 de noviembre."
+       }
+      ]
+     },
+     "en": {
+      "npc": [
+       2301008,
+       2300284
+      ],
+      "raid": "ludra",
+      "revisado": "2026-11-10",
+      "parche": "2026-11-04",
+      "resumen": "The first fight of the raid, with both parties together. Not a regular boss: you destroy a reactor that shields itself with auxiliary reactors while enemies keep spawning. In our 14 nights it always went down on the first attempt; in the 9 we have in detail, in under 4 minutes.",
+      "fases": [],
+      "mecanicas": [
+       {
+        "id": "reactores-auxiliares",
+        "titulo": "Auxiliary reactors",
+        "texto": "Every so often an auxiliary reactor appears on the left, on the right or in the centre, and while it stands the central reactor barely loses health. An on-screen notice says which one appeared.",
+        "como": "One or two players, chosen before entering, cross over the jump pads, destroy the auxiliary and come back. Everyone else keeps on the enemies.",
+        "ataques": [],
+        "wipe": false,
+        "roles": [
+         "dps"
+        ],
+        "modos": [],
+        "en_datos": "sin_ver",
+        "origen": "guias",
+        "fuentes": [
+         "aion2tierlist-ludra",
+         "expcarry-ludra",
+         "aion2turkiye-ludra"
+        ]
+       },
+       {
+        "id": "anillo-y-cruz",
+        "titulo": "Ring and cross areas",
+        "texto": "The reactor alternates two area attacks, one shaped like a ring and one like a cross or an X, and keeps spawning enemies.",
+        "como": "Leave the floor markers before they explode.",
+        "ataques": [],
+        "wipe": false,
+        "roles": [
+         "todos"
+        ],
+        "modos": [],
+        "en_datos": "sin_ver",
+        "origen": "guias",
+        "fuentes": [
+         "aion2tierlist-ludra",
+         "expcarry-ludra",
+         "aion2turkiye-ludra"
+        ]
+       },
+       {
+        "id": "lo-que-mata",
+        "titulo": "What kills most in our logs",
+        "texto": "The first of these attacks is a 3-second cast bar that hits many players at once and causes over a third of the deaths at the Reactor; the other three trail far behind. They could be the ring and cross areas from the guides, but the log does not record an attack's shape: an unconfirmed inference.",
+        "como": "If someone dies here, it is almost always to the first one: watch the reactor's cast bar and leave its area before it ends.",
+        "ataques": [
+         1802570,
+         1802540,
+         1802530,
+         1802510
+        ],
+        "wipe": false,
+        "roles": [
+         "todos"
+        ],
+        "modos": [],
+        "en_datos": "visto",
+        "origen": "datos",
+        "fuentes": []
+       }
+      ],
+      "consejos": {
+       "dps": [
+        {
+         "texto": "If the reactor's health stops dropping, an auxiliary is up: do not spend your big skills there.",
+         "origen": "guias",
+         "fuentes": [
+          "aion2tierlist-ludra",
+          "expcarry-ludra"
+         ]
+        }
+       ],
+       "todos": [
+        {
+         "texto": "It pays to decide before entering who goes for the auxiliaries, so no time is lost when the notice appears.",
+         "origen": "guias",
+         "fuentes": [
+          "aion2tierlist-ludra",
+          "expcarry-ludra"
+         ]
+        }
+       ]
+      },
+      "requisitos": {},
+      "notas": [
+       {
+        "termino": "Version",
+        "texto": "Guide mechanics are from the previous version (Korea and Early Access). NCSOFT changed mechanics for the 4 November return and there are no guides to the new one yet: anything marked \"not seen\" may have changed. \"Seen\" comes from our raids of 6 to 10 November."
+       }
+      ]
+     }
+    },
+    "2301014": {
+     "es": {
+      "npc": [
+       2301014,
+       2300290
+      ],
+      "raid": "ludra",
+      "revisado": "2026-11-10",
+      "parche": "2026-11-04",
+      "resumen": "El jefe final, con las 10 personas juntas. Dos veces en el combate, al 51 % y al 25 % de vida, lanza «Prueba de Ludra»: un tablero en el suelo con una sola casilla segura que, si no se encuentra, mata a todo el grupo. Si se resuelve, Ludra queda roto 10 segundos. Nuestro grupo lo mató por primera vez el 10 de noviembre, en 7:17 minutos.",
+      "fases": [
+       {
+        "titulo": "Primera fase",
+        "desde_vida": 100,
+        "hasta_vida": 51,
+        "texto": "Golpes de apertura al tanque y a jugadores con aviso. Hacia el 88 % empieza la zona 9-1, que vuelve cada 79 segundos, y entre el 85 y el 70 % se suman las zonas 10, 11-2, 11-3 y 6.",
+        "origen": "datos",
+        "fuentes": []
+       },
+       {
+        "titulo": "Primera Prueba de Ludra",
+        "desde_vida": 51,
+        "hasta_vida": 49,
+        "texto": "Sale en todos los intentos que llegan al 51 % de vida. Si se resuelve, unos 20 segundos después del casteo Ludra queda roto 10 segundos.",
+        "origen": "datos",
+        "fuentes": []
+       },
+       {
+        "titulo": "Segunda fase",
+        "desde_vida": 49,
+        "hasta_vida": 25,
+        "texto": "Sigue el golpe a un jugador cada 9 segundos, que empieza poco antes de la Prueba (hacia el 52 %), y hacia el 43 % entran los ataques de la fase final y la zona 23-1, que vuelve cada 141 segundos.",
+        "origen": "datos",
+        "fuentes": []
+       },
+       {
+        "titulo": "Segunda Prueba de Ludra",
+        "desde_vida": 25,
+        "hasta_vida": 23,
+        "texto": "La misma Prueba, en todos los intentos que llegan al 25 %, con su rotura de 10 segundos después.",
+        "origen": "datos",
+        "fuentes": []
+       },
+       {
+        "titulo": "Final",
+        "desde_vida": 23,
+        "hasta_vida": 0,
+        "texto": "El tramo con más wipes de nuestras noches es el que va del 25 al 20 % de vida: justo después de la segunda Prueba.",
+        "origen": "datos",
+        "fuentes": []
+       }
+      ],
+      "mecanicas": [
+       {
+        "id": "prueba",
+        "titulo": "Prueba de Ludra: el tablero",
+        "texto": "Al 51 % y al 25 % de vida el suelo se convierte en un tablero de casillas y Ludra empieza un ataque que mata a todo el grupo salvo a quien esté en la casilla segura. La casilla segura solo se descubre cuando un jugador recibe el golpe que cae sobre ella. En nuestros datos sale siempre a esos % y mata de un golpe a quien la falla.",
+        "como": "Hay que repartir el tablero antes de entrar (por parejas desde cada esquina, o por carriles) para destapar casillas sin dejar huecos, y en cuanto aparezca la segura, todos a ella. En la segunda hay además anillos que saltar.",
+        "ataques": [
+         1803010,
+         1803011,
+         1803040,
+         1803041
+        ],
+        "wipe": true,
+        "roles": [
+         "todos"
+        ],
+        "modos": [],
+        "en_datos": "visto",
+        "origen": "guias",
+        "fuentes": [
+         "aion2tierlist-ludra",
+         "metaroad-raid",
+         "expcarry-ludra"
+        ]
+       },
+       {
+        "id": "rotura",
+        "titulo": "La rotura de 10 segundos",
+        "texto": "En nuestros registros, unos 20 segundos después de cada Prueba resuelta Ludra queda roto entre 10,1 y 10,2 segundos. Es la ventana de daño más clara del combate.",
+        "como": "Guarda las habilidades fuertes y los potenciadores para esos 10 segundos.",
+        "ataques": [],
+        "wipe": false,
+        "roles": [
+         "dps",
+         "apoyo"
+        ],
+        "modos": [],
+        "en_datos": "visto",
+        "origen": "datos",
+        "fuentes": []
+       },
+       {
+        "id": "zona-9",
+        "titulo": "Zonas 9-1 y 9-2",
+        "texto": "Ludra invoca la zona 9-1 hacia el 88 % de vida y luego cada 79 segundos. Su primer impacto hace daño y el segundo, el de la zona 9-2, mata de un golpe. Entre los dos son lo que más muertes suma en nuestras noches de Ludra. Podrían ser parte de las torres de orbes de las guías: es una deducción sin confirmar.",
+        "como": "Es lo primero que hay que aprender a evitar: en «Repaso de las muertes» se ve dónde estaba cada uno cuando cayó el impacto.",
+        "ataques": [
+         1803200,
+         1803203,
+         1803204
+        ],
+        "wipe": false,
+        "roles": [
+         "todos"
+        ],
+        "modos": [],
+        "en_datos": "visto",
+        "origen": "datos",
+        "fuentes": []
+       },
+       {
+        "id": "golpes",
+        "titulo": "Golpe en área y golpes a un jugador",
+        "texto": "Junto a las zonas 9, lo que más mata son el golpe en área (una barra de 1,5 segundos) y los golpes a un solo jugador; desde el 52 % de vida, uno cada 9 segundos.",
+        "como": "Si curas: el golpe a un jugador llega cada 9 segundos en la segunda fase; no dejes a nadie a media vida.",
+        "ataques": [
+         1803250,
+         1803110,
+         1803120
+        ],
+        "wipe": false,
+        "roles": [
+         "todos",
+         "sanador"
+        ],
+        "modos": [],
+        "en_datos": "visto",
+        "origen": "datos",
+        "fuentes": []
+       },
+       {
+        "id": "zona-23",
+        "titulo": "Zona 23-1",
+        "texto": "Desde el 43 % de vida, y luego cada 141 segundos, Ludra invoca la zona 23-1; su impacto letal está entre los cinco ataques que más matan en nuestras noches.",
+        "como": "A partir de la segunda fase, conviene contar el tiempo: vuelve a los 141 segundos.",
+        "ataques": [
+         1803390,
+         1803395,
+         1803396
+        ],
+        "wipe": false,
+        "roles": [
+         "todos"
+        ],
+        "modos": [],
+        "en_datos": "visto",
+        "origen": "datos",
+        "fuentes": []
+       },
+       {
+        "id": "orbes",
+        "titulo": "Orbes azules y el orbe rojo",
+        "texto": "Aparecen torres con orbes: varios azules, que se recogen en el aire, y uno rojo, que solo se puede tomar con un bloqueo o una inmunidad activa. Tomarlo sin protección mata.",
+        "como": "El rojo se asigna antes de entrar, normalmente al tanque, con su bloqueo o inmunidad preparado; el resto, los azules.",
+        "ataques": [],
+        "wipe": false,
+        "roles": [
+         "tanque",
+         "todos"
+        ],
+        "modos": [],
+        "en_datos": "sin_ver",
+        "origen": "guias",
+        "fuentes": [
+         "aion2tierlist-ludra",
+         "metaroad-raid",
+         "expcarry-ludra"
+        ]
+       },
+       {
+        "id": "colores",
+        "titulo": "Rojo y azul: cada uno a su lado",
+        "texto": "Hacia el 35 % de vida cada jugador queda rojo o azul, y si un rojo y un azul se acercan, pierden vida muy rápido. El color se mantiene durante el resto de mecánicas. En nuestros datos, un ataque sin nombre sale siempre hacia el 32 %: podría ser este, pero es una deducción.",
+        "como": "Cada color a un lado de la arena y que no se crucen. Las guías no coinciden en qué lado va cada color: el grupo tiene que elegir uno.",
+        "ataques": [
+         1803400
+        ],
+        "wipe": false,
+        "roles": [
+         "todos"
+        ],
+        "modos": [],
+        "en_datos": "probable",
+        "origen": "guias",
+        "fuentes": [
+         "aion2tierlist-ludra",
+         "metaroad-raid"
+        ]
+       },
+       {
+        "id": "casillas-finales",
+        "titulo": "Casillas de colores al final",
+        "texto": "Al final del combate Ludra prepara un último ataque y aparecen en el suelo casillas rojas y azules, una por jugador. Las guías no coinciden en el %: 10 o 15.",
+        "como": "Cada uno a una casilla de su color, sin compartirla, y entrando en el último segundo y medio o dos del casteo.",
+        "ataques": [],
+        "wipe": false,
+        "roles": [
+         "todos"
+        ],
+        "modos": [],
+        "en_datos": "sin_ver",
+        "origen": "guias",
+        "fuentes": [
+         "aion2tierlist-ludra",
+         "metaroad-raid"
+        ]
+       },
+       {
+        "id": "cola",
+        "titulo": "Cabeza y cola",
+        "texto": "Ludra golpea por delante y, al girar, da con la cola a quien esté detrás, que queda aturdido.",
+        "como": "El tanque lo gira lejos del grupo; el resto, a los lados, ni delante ni detrás.",
+        "ataques": [],
+        "wipe": false,
+        "roles": [
+         "tanque",
+         "todos"
+        ],
+        "modos": [],
+        "en_datos": "sin_ver",
+        "origen": "guias",
+        "fuentes": [
+         "aion2tierlist-ludra",
+         "expcarry-ludra",
+         "aion2turkiye-ludra"
+        ]
+       },
+       {
+        "id": "anillos",
+        "titulo": "Anillos que hay que saltar",
+        "texto": "Salen anillos que se expanden y hay que saltarlos. No se pueden bloquear ni evitar con una inmunidad, y dos seguidos sin salir del primero matan.",
+        "como": "Salta cada anillo; si coinciden con otra mecánica, primero el salto.",
+        "ataques": [],
+        "wipe": false,
+        "roles": [
+         "todos"
+        ],
+        "modos": [],
+        "en_datos": "sin_ver",
+        "origen": "guias",
+        "fuentes": [
+         "aion2tierlist-ludra",
+         "metaroad-raid"
+        ]
+       }
+      ],
+      "consejos": {
+       "dps": [
+        {
+         "texto": "Guarda el daño fuerte para los 10 segundos de rotura que siguen a cada Prueba resuelta.",
+         "origen": "datos",
+         "fuentes": []
+        }
+       ],
+       "tanque": [
+        {
+         "texto": "Gira a Ludra lejos del grupo: detrás de él, la cola aturde.",
+         "origen": "guias",
+         "fuentes": [
+          "aion2tierlist-ludra",
+          "expcarry-ludra",
+          "aion2turkiye-ludra"
+         ]
+        },
+        {
+         "texto": "El orbe rojo se toma con un bloqueo o una inmunidad activa; conviene decidir antes de entrar quién lo toma.",
+         "origen": "guias",
+         "fuentes": [
+          "aion2tierlist-ludra",
+          "metaroad-raid"
+         ]
+        }
+       ],
+       "todos": [
+        {
+         "texto": "Hay que repartir el tablero antes de entrar: cada pareja o carril sabe qué casillas destapa.",
+         "origen": "guias",
+         "fuentes": [
+          "aion2tierlist-ludra",
+          "metaroad-raid"
+         ]
+        }
+       ]
+      },
+      "requisitos": {},
+      "notas": [
+       {
+        "termino": "Versión",
+        "texto": "Las mecánicas de las guías son de la versión anterior (Corea y acceso anticipado). NCSOFT cambió mecánicas para la vuelta del 4 de noviembre y todavía no hay guías de la nueva: lo marcado «sin ver» puede haber cambiado. Lo «visto» sale de nuestras raids del 6 al 10 de noviembre."
+       },
+       {
+        "termino": "Lo que sí coincide",
+        "texto": "El tablero sigue saliendo al 50 y al 25 % de vida, como dicen las guías, y la rotura de después sigue durando 10 segundos."
+       },
+       {
+        "termino": "Cifras",
+        "texto": "Los % de vida y los tiempos son la mediana de nuestros intentos hasta el 10 de noviembre: son orientativos."
+       }
+      ]
+     },
+     "en": {
+      "npc": [
+       2301014,
+       2300290
+      ],
+      "raid": "ludra",
+      "revisado": "2026-11-10",
+      "parche": "2026-11-04",
+      "resumen": "The final boss, with all 10 players together. Twice in the fight, at 51% and 25% health, he casts \"Ludra's Trial\": a board on the floor with a single safe tile that, if not found, kills the whole group. If it is solved, Ludra is staggered for 10 seconds. Our group first killed him on 10 November, in 7:17 minutes.",
+      "fases": [
+       {
+        "titulo": "First phase",
+        "desde_vida": 100,
+        "hasta_vida": 51,
+        "texto": "Opening strikes on the tank and telegraphed hits on players. At around 88% zone 9-1 starts, and it comes back every 79 seconds; between 85 and 70% zones 10, 11-2, 11-3 and 6 join in.",
+        "origen": "datos",
+        "fuentes": []
+       },
+       {
+        "titulo": "First Ludra's Trial",
+        "desde_vida": 51,
+        "hasta_vida": 49,
+        "texto": "It comes in every attempt that reaches 51% health. If it is solved, about 20 seconds after the cast Ludra is staggered for 10 seconds.",
+        "origen": "datos",
+        "fuentes": []
+       },
+       {
+        "titulo": "Second phase",
+        "desde_vida": 49,
+        "hasta_vida": 25,
+        "texto": "The single-target hit every 9 seconds goes on, starting shortly before the Trial (at around 52%), and at around 43% the final-phase attacks and zone 23-1 come in, the latter every 141 seconds.",
+        "origen": "datos",
+        "fuentes": []
+       },
+       {
+        "titulo": "Second Ludra's Trial",
+        "desde_vida": 25,
+        "hasta_vida": 23,
+        "texto": "The same Trial, in every attempt that reaches 25%, with its 10-second stagger afterwards.",
+        "origen": "datos",
+        "fuentes": []
+       },
+       {
+        "titulo": "Final",
+        "desde_vida": 23,
+        "hasta_vida": 0,
+        "texto": "The stretch with the most wipes in our nights runs from 25 to 20% health: right after the second Trial.",
+        "origen": "datos",
+        "fuentes": []
+       }
+      ],
+      "mecanicas": [
+       {
+        "id": "prueba",
+        "titulo": "Ludra's Trial: the board",
+        "texto": "At 51% and 25% health the floor turns into a board of tiles and Ludra starts an attack that kills the whole group except whoever stands on the safe tile. The safe tile only shows when a player takes the hit that lands on it. In our data it always comes at those % and kills in one hit whoever misses it.",
+        "como": "The board has to be split before entering (in pairs from each corner, or by lanes) to reveal tiles without leaving gaps, and as soon as the safe one shows, everyone onto it. The second one also has rings to jump.",
+        "ataques": [
+         1803010,
+         1803011,
+         1803040,
+         1803041
+        ],
+        "wipe": true,
+        "roles": [
+         "todos"
+        ],
+        "modos": [],
+        "en_datos": "visto",
+        "origen": "guias",
+        "fuentes": [
+         "aion2tierlist-ludra",
+         "metaroad-raid",
+         "expcarry-ludra"
+        ]
+       },
+       {
+        "id": "rotura",
+        "titulo": "The 10-second stagger",
+        "texto": "In our logs, about 20 seconds after each solved Trial Ludra is staggered for 10.1 to 10.2 seconds. It is the clearest damage window of the fight.",
+        "como": "Save your big skills and buffs for those 10 seconds.",
+        "ataques": [],
+        "wipe": false,
+        "roles": [
+         "dps",
+         "apoyo"
+        ],
+        "modos": [],
+        "en_datos": "visto",
+        "origen": "datos",
+        "fuentes": []
+       },
+       {
+        "id": "zona-9",
+        "titulo": "Zones 9-1 and 9-2",
+        "texto": "Ludra summons zone 9-1 at around 88% health and then every 79 seconds. Its first impact deals damage and the second, zone 9-2, kills in one hit. Together they add up to the most deaths on our Ludra nights. They could be part of the guides' orb towers: an unconfirmed inference.",
+        "como": "It is the first thing to learn to avoid: \"Death review\" shows where each player was when the impact landed.",
+        "ataques": [
+         1803200,
+         1803203,
+         1803204
+        ],
+        "wipe": false,
+        "roles": [
+         "todos"
+        ],
+        "modos": [],
+        "en_datos": "visto",
+        "origen": "datos",
+        "fuentes": []
+       },
+       {
+        "id": "golpes",
+        "titulo": "Area hit and single-target hits",
+        "texto": "Along with the 9 zones, what kills most are the area hit (a 1.5-second cast bar) and the hits on a single player; from 52% health, one every 9 seconds.",
+        "como": "If you heal: the single-target hit comes every 9 seconds in the second phase; do not leave anyone at half health.",
+        "ataques": [
+         1803250,
+         1803110,
+         1803120
+        ],
+        "wipe": false,
+        "roles": [
+         "todos",
+         "sanador"
+        ],
+        "modos": [],
+        "en_datos": "visto",
+        "origen": "datos",
+        "fuentes": []
+       },
+       {
+        "id": "zona-23",
+        "titulo": "Zone 23-1",
+        "texto": "From 43% health, and then every 141 seconds, Ludra summons zone 23-1; its lethal impact is among the five attacks that kill most in our nights.",
+        "como": "From the second phase on, it pays to keep count: it comes back after 141 seconds.",
+        "ataques": [
+         1803390,
+         1803395,
+         1803396
+        ],
+        "wipe": false,
+        "roles": [
+         "todos"
+        ],
+        "modos": [],
+        "en_datos": "visto",
+        "origen": "datos",
+        "fuentes": []
+       },
+       {
+        "id": "orbes",
+        "titulo": "Blue orbs and the red orb",
+        "texto": "Towers with orbs appear: several blue ones, taken in the air, and a red one, which can only be taken with a block or an immunity active. Taking it unprotected kills.",
+        "como": "The red one is assigned before entering, usually to the tank, with their block or immunity ready; everyone else takes the blue ones.",
+        "ataques": [],
+        "wipe": false,
+        "roles": [
+         "tanque",
+         "todos"
+        ],
+        "modos": [],
+        "en_datos": "sin_ver",
+        "origen": "guias",
+        "fuentes": [
+         "aion2tierlist-ludra",
+         "metaroad-raid",
+         "expcarry-ludra"
+        ]
+       },
+       {
+        "id": "colores",
+        "titulo": "Red and blue: each to their side",
+        "texto": "At around 35% health each player turns red or blue, and if a red and a blue player get close, they lose health very fast. The colour stays through the other mechanics. In our data, an unnamed attack always comes at around 32%: it could be this one, but that is an inference.",
+        "como": "Each colour on one side of the arena, and they must not mix. Guides disagree on which side each colour goes: the group has to pick one.",
+        "ataques": [
+         1803400
+        ],
+        "wipe": false,
+        "roles": [
+         "todos"
+        ],
+        "modos": [],
+        "en_datos": "probable",
+        "origen": "guias",
+        "fuentes": [
+         "aion2tierlist-ludra",
+         "metaroad-raid"
+        ]
+       },
+       {
+        "id": "casillas-finales",
+        "titulo": "Coloured tiles at the end",
+        "texto": "At the end of the fight Ludra winds up a last attack and red and blue tiles appear on the floor, one per player. Guides disagree on the %: 10 or 15.",
+        "como": "Each player onto a tile of their colour, without sharing it, stepping in during the last second and a half or two of the cast.",
+        "ataques": [],
+        "wipe": false,
+        "roles": [
+         "todos"
+        ],
+        "modos": [],
+        "en_datos": "sin_ver",
+        "origen": "guias",
+        "fuentes": [
+         "aion2tierlist-ludra",
+         "metaroad-raid"
+        ]
+       },
+       {
+        "id": "cola",
+        "titulo": "Head and tail",
+        "texto": "Ludra strikes to the front and, when turning, hits whoever is behind with his tail, stunning them.",
+        "como": "The tank turns him away from the group; everyone else to the sides, neither in front nor behind.",
+        "ataques": [],
+        "wipe": false,
+        "roles": [
+         "tanque",
+         "todos"
+        ],
+        "modos": [],
+        "en_datos": "sin_ver",
+        "origen": "guias",
+        "fuentes": [
+         "aion2tierlist-ludra",
+         "expcarry-ludra",
+         "aion2turkiye-ludra"
+        ]
+       },
+       {
+        "id": "anillos",
+        "titulo": "Rings to jump",
+        "texto": "Expanding rings come out and have to be jumped. They cannot be blocked or avoided with an immunity, and two in a row without leaving the first one kill.",
+        "como": "Jump each ring; if they overlap with another mechanic, jump first.",
+        "ataques": [],
+        "wipe": false,
+        "roles": [
+         "todos"
+        ],
+        "modos": [],
+        "en_datos": "sin_ver",
+        "origen": "guias",
+        "fuentes": [
+         "aion2tierlist-ludra",
+         "metaroad-raid"
+        ]
+       }
+      ],
+      "consejos": {
+       "dps": [
+        {
+         "texto": "Save your heavy damage for the 10 seconds of stagger after each solved Trial.",
+         "origen": "datos",
+         "fuentes": []
+        }
+       ],
+       "tanque": [
+        {
+         "texto": "Turn Ludra away from the group: behind him, the tail stuns.",
+         "origen": "guias",
+         "fuentes": [
+          "aion2tierlist-ludra",
+          "expcarry-ludra",
+          "aion2turkiye-ludra"
+         ]
+        },
+        {
+         "texto": "The red orb is taken with a block or an immunity active; it pays to decide before entering who takes it.",
+         "origen": "guias",
+         "fuentes": [
+          "aion2tierlist-ludra",
+          "metaroad-raid"
+         ]
+        }
+       ],
+       "todos": [
+        {
+         "texto": "The board has to be split before entering: each pair or lane knows which tiles it reveals.",
+         "origen": "guias",
+         "fuentes": [
+          "aion2tierlist-ludra",
+          "metaroad-raid"
+         ]
+        }
+       ]
+      },
+      "requisitos": {},
+      "notas": [
+       {
+        "termino": "Version",
+        "texto": "Guide mechanics are from the previous version (Korea and Early Access). NCSOFT changed mechanics for the 4 November return and there are no guides to the new one yet: anything marked \"not seen\" may have changed. \"Seen\" comes from our raids of 6 to 10 November."
+       },
+       {
+        "termino": "What still matches",
+        "texto": "The board still comes at 50 and 25% health, as the guides say, and the stagger afterwards still lasts 10 seconds."
+       },
+       {
+        "termino": "Figures",
+        "texto": "Health % and times are the median of our attempts up to 10 November: take them as a guide."
+       }
+      ]
+     }
+    }
+   }
   }
  },
  "orden": [
@@ -516,6 +2074,116 @@
    "mazmorras": [
     600082
    ]
+  }
+ },
+ "ataques": {
+  "1802510": {
+   "es": "Ataque 1802510",
+   "en": "Attack 1802510"
+  },
+  "1802530": {
+   "es": "Ataque 1802530",
+   "en": "Attack 1802530"
+  },
+  "1802540": {
+   "es": "Ataque 1802540",
+   "en": "Attack 1802540"
+  },
+  "1802570": {
+   "es": "Ataque 1802570",
+   "en": "Attack 1802570"
+  },
+  "1802716": {
+   "es": "Maldición: daño continuo",
+   "en": "Curse: damage over time"
+  },
+  "1802717": {
+   "es": "Maldición (2)",
+   "en": "Curse (2)"
+  },
+  "1802718": {
+   "es": "Maldición (3)",
+   "en": "Curse (3)"
+  },
+  "1802720": {
+   "es": "Estacazo de alma",
+   "en": "Soul Strike"
+  },
+  "1802805": {
+   "es": "Golpe previo al golpe letal",
+   "en": "Hit before the lethal strike"
+  },
+  "1802830": {
+   "es": "Impacto de la zona 8-1",
+   "en": "Zone 8-1 impact"
+  },
+  "1802850": {
+   "es": "Impacto de la zona 8-2",
+   "en": "Zone 8-2 impact"
+  },
+  "1802860": {
+   "es": "Aviso en fase de zonas (sin daño)",
+   "en": "Zone-phase warning (no damage)"
+  },
+  "1802880": {
+   "es": "Golpe letal a un objetivo",
+   "en": "Lethal single-target strike"
+  },
+  "1803010": {
+   "es": "Prueba de Ludra",
+   "en": "Ludra's Trial"
+  },
+  "1803011": {
+   "es": "Prueba de Ludra",
+   "en": "Ludra's Trial"
+  },
+  "1803040": {
+   "es": "Prueba de Ludra",
+   "en": "Ludra's Trial"
+  },
+  "1803041": {
+   "es": "Prueba de Ludra",
+   "en": "Ludra's Trial"
+  },
+  "1803110": {
+   "es": "Golpe a un jugador",
+   "en": "Single-target hit"
+  },
+  "1803120": {
+   "es": "Golpe a un jugador (2)",
+   "en": "Single-target hit (2)"
+  },
+  "1803200": {
+   "es": "Invoca la zona 9-1",
+   "en": "Summons zone 9-1"
+  },
+  "1803203": {
+   "es": "Impacto de la zona 9-1",
+   "en": "Zone 9-1 impact"
+  },
+  "1803204": {
+   "es": "Impacto letal de la zona 9-2",
+   "en": "Lethal impact of zone 9-2"
+  },
+  "1803250": {
+   "es": "Golpe en área",
+   "en": "Area hit"
+  },
+  "1803390": {
+   "es": "Invoca la zona 23-1",
+   "en": "Summons zone 23-1"
+  },
+  "1803395": {
+   "es": "Impacto de la zona 23-1",
+   "en": "Zone 23-1 impact"
+  },
+  "1803396": {
+   "es": "Impacto letal de la zona 23-1",
+   "en": "Lethal impact of zone 23-1"
+  },
+  "1803400": {
+   "es": "Ataque 1803400",
+   "en": "Attack 1803400"
   }
  }
 }

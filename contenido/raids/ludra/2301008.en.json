@@ -1,0 +1,95 @@
+{
+ "npc": [
+  2301008,
+  2300284
+ ],
+ "raid": "ludra",
+ "revisado": "2026-11-10",
+ "parche": "2026-11-04",
+ "resumen": "The first fight of the raid, with both parties together. Not a regular boss: you destroy a reactor that shields itself with auxiliary reactors while enemies keep spawning. In our 14 nights it always went down on the first attempt; in the 9 we have in detail, in under 4 minutes.",
+ "fases": [],
+ "mecanicas": [
+  {
+   "id": "reactores-auxiliares",
+   "titulo": "Auxiliary reactors",
+   "texto": "Every so often an auxiliary reactor appears on the left, on the right or in the centre, and while it stands the central reactor barely loses health. An on-screen notice says which one appeared.",
+   "como": "One or two players, chosen before entering, cross over the jump pads, destroy the auxiliary and come back. Everyone else keeps on the enemies.",
+   "ataques": [],
+   "wipe": false,
+   "roles": [
+    "dps"
+   ],
+   "en_datos": "sin_ver",
+   "origen": "guias",
+   "fuentes": [
+    "aion2tierlist-ludra",
+    "expcarry-ludra",
+    "aion2turkiye-ludra"
+   ]
+  },
+  {
+   "id": "anillo-y-cruz",
+   "titulo": "Ring and cross areas",
+   "texto": "The reactor alternates two area attacks, one shaped like a ring and one like a cross or an X, and keeps spawning enemies.",
+   "como": "Leave the floor markers before they explode.",
+   "ataques": [],
+   "wipe": false,
+   "roles": [
+    "todos"
+   ],
+   "en_datos": "sin_ver",
+   "origen": "guias",
+   "fuentes": [
+    "aion2tierlist-ludra",
+    "expcarry-ludra",
+    "aion2turkiye-ludra"
+   ]
+  },
+  {
+   "id": "lo-que-mata",
+   "titulo": "What kills most in our logs",
+   "texto": "The first of these attacks is a 3-second cast bar that hits many players at once and causes over a third of the deaths at the Reactor; the other three trail far behind. They could be the ring and cross areas from the guides, but the log does not record an attack's shape: an unconfirmed inference.",
+   "como": "If someone dies here, it is almost always to the first one: watch the reactor's cast bar and leave its area before it ends.",
+   "ataques": [
+    1802570,
+    1802540,
+    1802530,
+    1802510
+   ],
+   "wipe": false,
+   "roles": [
+    "todos"
+   ],
+   "en_datos": "visto",
+   "origen": "datos"
+  }
+ ],
+ "consejos": {
+  "dps": [
+   {
+    "texto": "If the reactor's health stops dropping, an auxiliary is up: do not spend your big skills there.",
+    "origen": "guias",
+    "fuentes": [
+     "aion2tierlist-ludra",
+     "expcarry-ludra"
+    ]
+   }
+  ],
+  "todos": [
+   {
+    "texto": "It pays to decide before entering who goes for the auxiliaries, so no time is lost when the notice appears.",
+    "origen": "guias",
+    "fuentes": [
+     "aion2tierlist-ludra",
+     "expcarry-ludra"
+    ]
+   }
+  ]
+ },
+ "notas": [
+  {
+   "termino": "Version",
+   "texto": "Guide mechanics are from the previous version (Korea and Early Access). NCSOFT changed mechanics for the 4 November return and there are no guides to the new one yet: anything marked \"not seen\" may have changed. \"Seen\" comes from our raids of 6 to 10 November."
+  }
+ ]
+}

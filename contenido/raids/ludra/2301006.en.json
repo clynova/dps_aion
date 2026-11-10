@@ -1,0 +1,207 @@
+{
+ "npc": [
+  2301006,
+  2300282
+ ],
+ "raid": "ludra",
+ "revisado": "2026-11-10",
+ "parche": "2026-11-04",
+ "resumen": "The mid-boss for one of the two parties, while the other clears enemies and earns buffs. His key mechanic is a mark that has to be passed on: every failure leaves a zone on the floor and the third one wipes. Our group first killed him on 7 November, after about 40 attempts; on the Rahu nights, each kill took between 5 and 9 minutes.",
+ "fases": [
+  {
+   "titulo": "Opening",
+   "desde_vida": 100,
+   "hasta_vida": 65,
+   "texto": "Tank strikes, marked areas and, at around 88% health, the first lethal single-target strike, which comes back every 97 seconds.",
+   "origen": "datos"
+  },
+  {
+   "titulo": "Wheel of Torment",
+   "desde_vida": 65,
+   "hasta_vida": 49,
+   "texto": "At around 65% health Rahu starts \"Wheel of Torment\", a 15-second cast bar. It almost always comes at that %, so it is a phase change (inferred).",
+   "origen": "datos"
+  },
+  {
+   "titulo": "Zone phase",
+   "desde_vida": 49,
+   "hasta_vida": 32,
+   "texto": "At around 49% a no-damage warning opens the zone phase, always at that %. Guides put the arena split into four at 50%, which is probably this phase.",
+   "origen": "deduccion"
+  },
+  {
+   "titulo": "Feeding Time",
+   "desde_vida": 32,
+   "hasta_vida": 0,
+   "texto": "At around 32% health \"Feeding Time\" starts, and it repeats every 5 seconds until the end.",
+   "origen": "datos"
+  }
+ ],
+ "mecanicas": [
+  {
+   "id": "bomba",
+   "titulo": "The mark you pass on",
+   "texto": "A player gets a purple mark with a countdown and keeps losing health while carrying it. Before the countdown ends, another player has to step into their circle and take it over. If nobody picks it up, it leaves a permanent zone on the floor; at three, wipe. In our logs we believe it is the \"Curse\": damage over time on one player that is the last hit of many wipes. That is an inference.",
+   "como": "It has to be passed every time, even with little time left. The carrier stays close to the group and healers heal them first.",
+   "ataques": [
+    1802716,
+    1802717,
+    1802718
+   ],
+   "wipe": true,
+   "roles": [
+    "todos",
+    "sanador"
+   ],
+   "en_datos": "probable",
+   "origen": "guias",
+   "fuentes": [
+    "aion2tierlist-ludra",
+    "metaroad-raid",
+    "expcarry-ludra",
+    "aion2turkiye-ludra"
+   ]
+  },
+  {
+   "id": "golpe-letal",
+   "titulo": "Lethal single-target strike",
+   "texto": "At around 88% health, and then every 97 seconds, Rahu winds up a strike on a single player (6-second cast bar), right after another strike that announces it. In the attempts we have in detail, only one in seven casts hit anyone, but every time it hit, it killed.",
+   "como": "It is almost always avoided, so there is an answer: when it kills someone, check their death in \"Death review\" (whether they had a defensive available or where they were).",
+   "ataques": [
+    1802805,
+    1802880
+   ],
+   "wipe": false,
+   "roles": [
+    "todos"
+   ],
+   "en_datos": "visto",
+   "origen": "datos"
+  },
+  {
+   "id": "zonas",
+   "titulo": "The arena split into zones",
+   "texto": "In the guides' version, at 50% Rahu splits the arena into four and the lines between sections deal damage. In our data, at around 49% a no-damage warning goes out, and the impacts of zones 8-1 and 8-2 add up to the most deaths on this boss. That they are the same mechanic is an inference.",
+   "como": "The group moves together to the section it needs; do not cross the lines unless you have to.",
+   "ataques": [
+    1802860,
+    1802830,
+    1802850
+   ],
+   "wipe": false,
+   "roles": [
+    "todos"
+   ],
+   "en_datos": "probable",
+   "origen": "guias",
+   "fuentes": [
+    "aion2tierlist-ludra",
+    "aion2turkiye-ludra"
+   ]
+  },
+  {
+   "id": "estacazo",
+   "titulo": "Soul Strike",
+   "texto": "It is the third attack that kills most on our Rahu nights, especially on 6 and 7 November (on the 8th and 9th it killed nobody), and in wipes with Rahu below 50% health it is often the last hit.",
+   "como": "If it kills again, check in \"Death review\" who took it and whether they had a defensive available.",
+   "ataques": [
+    1802720
+   ],
+   "wipe": false,
+   "roles": [
+    "todos"
+   ],
+   "en_datos": "visto",
+   "origen": "datos"
+  },
+  {
+   "id": "mirada",
+   "titulo": "Fixed gaze and safe cone",
+   "texto": "A player is marked and almost the whole arena becomes a kill zone except a narrow cone. A beam follows the marked player for a few seconds.",
+   "como": "Everyone into the safe cone; the marked player goes to the opposite side and points the beam away from the group before coming back.",
+   "ataques": [],
+   "wipe": false,
+   "roles": [
+    "todos"
+   ],
+   "en_datos": "sin_ver",
+   "origen": "guias",
+   "fuentes": [
+    "aion2tierlist-ludra",
+    "metaroad-raid"
+   ]
+  },
+  {
+   "id": "anillos",
+   "titulo": "Red rings: stack up",
+   "texto": "Everyone gets a red ring around them and then lethal waves go out.",
+   "como": "The opposite of the usual: everyone together on one spot, so the rings overlap and leave a shared safe zone; jump the ring when it explodes.",
+   "ataques": [],
+   "wipe": false,
+   "roles": [
+    "todos"
+   ],
+   "en_datos": "sin_ver",
+   "origen": "guias",
+   "fuentes": [
+    "aion2tierlist-ludra",
+    "metaroad-raid"
+   ]
+  },
+  {
+   "id": "depredadores",
+   "titulo": "Abyss Predators",
+   "texto": "In the guides' version, at around 25% enemies appear around the arena and a player gets a directed beam. Every enemy that survives leaves another zone on the floor, and it counts toward the three-zone wipe.",
+   "como": "The player with the beam aims it at the enemies to kill them; if the mark moves to another player, it has to be called out on voice.",
+   "ataques": [],
+   "wipe": true,
+   "roles": [
+    "todos",
+    "dps"
+   ],
+   "en_datos": "sin_ver",
+   "origen": "guias",
+   "fuentes": [
+    "aion2tierlist-ludra",
+    "metaroad-raid",
+    "expcarry-ludra"
+   ]
+  }
+ ],
+ "consejos": {
+  "todos": [
+   {
+    "texto": "The budget is two mistakes: the third zone on the floor wipes, whether it comes from the mark or from a living enemy.",
+    "origen": "guias",
+    "fuentes": [
+     "aion2tierlist-ludra",
+     "metaroad-raid"
+    ]
+   }
+  ],
+  "sanador": [
+   {
+    "texto": "Whoever carries the mark loses health the whole time: they are the healing priority.",
+    "origen": "guias",
+    "fuentes": [
+     "aion2turkiye-ludra",
+     "aion2tierlist-ludra"
+    ]
+   }
+  ]
+ },
+ "notas": [
+  {
+   "termino": "Version",
+   "texto": "Guide mechanics are from the previous version (Korea and Early Access). NCSOFT changed mechanics for the 4 November return and there are no guides to the new one yet: anything marked \"not seen\" may have changed. \"Seen\" comes from our raids of 6 to 10 November."
+  },
+  {
+   "termino": "Phases",
+   "texto": "Guides put the phase changes at 75, 50 and 25% health; in our data they come at around 65, 49 and 32%. It may be a change in the new version."
+  },
+  {
+   "termino": "The floor zones",
+   "texto": "Almost every guide puts the passed mark and the three zones on Rahu; one puts them on Ludra. Our data fits Rahu."
+  }
+ ]
+}

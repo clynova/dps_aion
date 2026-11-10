@@ -1,0 +1,136 @@
+{
+ "npc": [
+  2301007,
+  2300283
+ ],
+ "raid": "ludra",
+ "revisado": "2026-11-10",
+ "parche": "2026-11-04",
+ "resumen": "The mid-boss for the other party, and according to the guides the hardest in the raid: spirits, orbs to catch, coloured orbs you face or turn away from, and a final phase with soul stones where often only the Cleric survives. We have almost no logs of him: the player who records in our group usually does Rahu.",
+ "fases": [],
+ "mecanicas": [
+  {
+   "id": "laseres-y-carga",
+   "titulo": "Lasers and charge",
+   "texto": "Ketu sweeps the arena with lasers and dashes at a marked player with a heavy weapon strike; where the weapon lands, a wave goes out.",
+   "como": "Dodge the lasers; against the charge, step out of the strike and jump the wave it leaves.",
+   "ataques": [],
+   "wipe": false,
+   "roles": [
+    "todos"
+   ],
+   "en_datos": "sin_ver",
+   "origen": "guias",
+   "fuentes": [
+    "aion2tierlist-ludra",
+    "expcarry-ludra",
+    "aion2turkiye-ludra"
+   ]
+  },
+  {
+   "id": "espiritus",
+   "titulo": "Hide and seek: spirits",
+   "texto": "Ketu goes to the centre and can no longer be attacked; spirits spawn around the arena. Then a white zone advances, and a living spirit that touches it explodes and fears the whole group. At the end there is a safe zone in the centre, but it does not stop all the damage.",
+   "como": "The group splits into two sides and kills the spirits from south to north, each side in one direction; ranged classes help a lot. When the white zone closes, everyone to the centre, and keep healing inside it.",
+   "ataques": [],
+   "wipe": false,
+   "roles": [
+    "todos",
+    "dps",
+    "sanador"
+   ],
+   "en_datos": "sin_ver",
+   "origen": "guias",
+   "fuentes": [
+    "aion2tierlist-ludra",
+    "metaroad-raid"
+   ]
+  },
+  {
+   "id": "orbes-que-caen",
+   "titulo": "Falling orbs",
+   "texto": "Orbs fall from the sky and have to be caught before they touch the ground.",
+   "como": "One per person, jumping to get there sooner. It pays to count how many fall on the first attempt: guides count those of the 8-player version.",
+   "ataques": [],
+   "wipe": false,
+   "roles": [
+    "todos"
+   ],
+   "en_datos": "sin_ver",
+   "origen": "guias",
+   "fuentes": [
+    "aion2tierlist-ludra",
+    "metaroad-raid",
+    "expcarry-ludra"
+   ]
+  },
+  {
+   "id": "orbes-de-colores",
+   "titulo": "Coloured orbs: face or turn away",
+   "texto": "From half health, orbs appear that explode, and what counts is where your character faces (not the camera). One at first; later, three in a row.",
+   "como": "Red orb: face it. Blue orb: turn your back to it. Beware of guides that have it the other way round.",
+   "ataques": [],
+   "wipe": false,
+   "roles": [
+    "todos"
+   ],
+   "en_datos": "sin_ver",
+   "origen": "guias",
+   "fuentes": [
+    "aion2tierlist-ludra",
+    "metaroad-raid"
+   ]
+  },
+  {
+   "id": "piedras-de-alma",
+   "titulo": "Soul stones",
+   "texto": "Everyone gets a red cone and soul stones appear at the edge of the arena; a cone destroys any stone it touches. Breaking a stone gives that player a few seconds of invulnerability, and right after Ketu hits the whole arena again and again.",
+   "como": "As intended: each player breaks their stone just before the hit and refreshes it. As usually done: the Cleric survives on their stone and resurrects the group, so their survival is the priority.",
+   "ataques": [],
+   "wipe": true,
+   "roles": [
+    "todos",
+    "sanador"
+   ],
+   "en_datos": "sin_ver",
+   "origen": "guias",
+   "fuentes": [
+    "aion2tierlist-ludra",
+    "metaroad-raid",
+    "expcarry-ludra"
+   ]
+  }
+ ],
+ "consejos": {
+  "todos": [
+   {
+    "texto": "The Ketu party needs a Cleric who can resurrect, and a Ranger helps with the spirits.",
+    "origen": "guias",
+    "fuentes": [
+     "aion2tierlist-ludra",
+     "aion2turkiye-ludra"
+    ]
+   }
+  ],
+  "sanador": [
+   {
+    "texto": "At the soul stones, if the Cleric survives, Ketu still dies even if everyone else falls: save resurrections and defensives for that phase.",
+    "origen": "guias",
+    "fuentes": [
+     "aion2tierlist-ludra",
+     "metaroad-raid"
+    ]
+   }
+  ]
+ },
+ "notas": [
+  {
+   "termino": "Version",
+   "texto": "Guide mechanics are from the previous version (Korea and Early Access). NCSOFT changed mechanics for the 4 November return and there are no guides to the new one yet: everything about Ketu is \"not seen\"."
+  },
+  {
+   "termino": "Our data",
+   "texto": "We only have 3 attempts on Ketu, from one night and without a kill, and no public raid: not enough figures to check anything."
+  }
+ ]
+}

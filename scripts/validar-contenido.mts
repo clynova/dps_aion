@@ -4,7 +4,7 @@
 //   npm run contenido      (tests/unit/guia.test.ts comprueba que el .generado.json está al día)
 import { writeFileSync } from 'node:fs';
 import { contenidoParaPaginas } from '@/lib/guia/generar';
-import { leerContenido } from '@/lib/guia/leer';
+import { leerContenido, leerNombres } from '@/lib/guia/leer';
 
 const { errores, contenido } = leerContenido();
 if (errores.length) {
@@ -12,6 +12,6 @@ if (errores.length) {
   for (const e of errores) console.error(`  - ${e}`);
   process.exit(1);
 }
-writeFileSync('lib/guia/contenido.generado.json', JSON.stringify(contenidoParaPaginas(contenido!), null, 1) + '\n');
+writeFileSync('lib/guia/contenido.generado.json', JSON.stringify(contenidoParaPaginas(contenido!, leerNombres()), null, 1) + '\n');
 const raids = Object.values(contenido!.raids);
 console.log(`contenido: ${contenido!.catalogo.fuentes.length} fuentes, ${raids.length} raids, ${raids.reduce((n, r) => n + Object.keys(r.jefes).length, 0)} fichas de jefe → lib/guia/contenido.generado.json`);

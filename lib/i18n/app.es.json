@@ -583,5 +583,22 @@
   "guias.tile.grupos": "Grupos",
   "guias.ultima": "última, el {f}",
   "guias.modos": "Modos: {lista}",
-  "guias.cifras.error": "Las cifras no están disponibles ahora mismo."
+  "guias.cifras.error": "Las cifras no están disponibles ahora mismo.",
+  "guias.mecanicas": "Mecánicas",
+  "guias.mecanicas.nota": "Las que hacen wipe, primero. Cada una dice si la hemos visto en nuestros registros de la versión actual y de dónde sale.",
+  "guias.fases": "Fases",
+  "guias.fases.nota": "Por % de vida del jefe, de nuestros intentos.",
+  "guias.fase.rango": "{d} → {h} %",
+  "guias.consejos": "Consejos por rol",
+  "guias.rol.todos": "Todos",
+  "guias.rol.tanque": "Tanque",
+  "guias.rol.sanador": "Sanador",
+  "guias.rol.dps": "Daño",
+  "guias.rol.apoyo": "Apoyo",
+  "guias.wipe": "Hace wipe",
+  "guias.endatos.visto": "Visto en nuestros registros",
+  "guias.endatos.probable": "Probable en nuestros registros",
+  "guias.endatos.sin_ver": "Sin ver en nuestros registros",
+  "guias.como": "Qué hacer",
+  "guias.ataques": "En el registro"
 }

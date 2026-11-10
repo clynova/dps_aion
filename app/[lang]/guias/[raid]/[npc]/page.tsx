@@ -1,14 +1,15 @@
-// Ficha de un jefe del módulo «Raids». En la fase 1 solo tiene su nombre, su retrato y las cifras de las raids
-// públicas (sumando sus npc de todos los modos); las mecánicas, fases y consejos llegan con la fase 2–3.
+// Ficha de un jefe del módulo «Raids»: nombre, retrato, su ficha (contenido/raids/<raid>/<npc>.<idioma>.json: fases,
+// mecánicas, consejos, notas y fuentes) si la tiene, y las cifras de las raids públicas (sumando sus npc de todos los modos).
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { Suspense } from 'react';
 import BarraSuperior from '@/components/BarraSuperior';
 import PiePagina from '@/components/PiePagina';
-import { fechaLarga } from '@/components/guia/Piezas';
+import FichaJefe from '@/components/guia/FichaJefe';
+import { fechaLarga, Fuentes } from '@/components/guia/Piezas';
 import { cifrasPublicas } from '@/lib/guia/cifras';
-import { jefeJuego, nombreJefe, npcsDelJefe, raidGuia, urlRetrato, type RaidGuia } from '@/lib/guia/contenido';
+import { fuentesDe, jefeJuego, nombreJefe, npcsDelJefe, raidGuia, urlRetrato, type RaidGuia } from '@/lib/guia/contenido';
 import { localeDe, rutaEn, type Idioma, type Traductor } from '@/lib/i18n';
 import { textos } from '@/lib/i18n/servidor';
 
@@ -42,6 +43,7 @@ async function Contenido({ params }: { params: Props['params'] }) {
   if (!x) notFound();
   const { raid, npc } = x;
   const retrato = urlRetrato(jefeJuego(npc)?.retrato);
+  const ficha = raid.jefes[npc]?.[idioma] ?? null;
   return (
     <main className="rx">
       <header className="rx-head">
@@ -57,7 +59,13 @@ async function Contenido({ params }: { params: Props['params'] }) {
           </div>
         </div>
       </header>
-      <p className="rx-pending">{t('guias.preparacion')}</p>
+      {ficha ? (
+        <>
+          <p className="rx-lede">{ficha.resumen}</p>
+          <p className="rx-note">{t('guias.revisado', { f: fechaLarga(ficha.revisado, idioma), p: fechaLarga(ficha.parche, idioma) })}</p>
+          <FichaJefe t={t} idioma={idioma} ficha={ficha} />
+        </>
+      ) : <p className="rx-pending">{t('guias.preparacion')}</p>}
       <section className="rx-section">
         <h2 className="rx-h2">{t('guias.cifras')}</h2>
         <Suspense fallback={<p className="rx-note">{t('guias.cargando')}</p>}>
@@ -65,6 +73,7 @@ async function Contenido({ params }: { params: Props['params'] }) {
         </Suspense>
         <p className="rx-note">{t('guias.cifras.nota')}</p>
       </section>
+      {ficha ? <><p className="rx-note">{t('guias.origen.leyenda')}</p><Fuentes t={t} idioma={idioma} ids={fuentesDe(ficha)} /></> : null}
       <PiePagina t={t} idioma={idioma} />
     </main>
   );
