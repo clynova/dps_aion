@@ -1,5 +1,6 @@
-// Ficha de un jefe del módulo «Raids»: nombre, retrato, su ficha (contenido/raids/<raid>/<npc>.<idioma>.json: fases,
-// mecánicas, consejos, notas y fuentes) si la tiene, y las cifras de las raids públicas (sumando sus npc de todos los modos).
+// Ficha de un jefe del módulo «Raids»: nombre, retrato y su ficha en pestañas (components/guia/FichaJefe.tsx), con el
+// texto de contenido/raids/<raid>/<npc>.<idioma>.json y los datos en vivo de las raids públicas (lib/guia/datos.ts,
+// lib/guia/datos-jefe.ts) sumando sus npc de todos los modos. Sin ficha, «en preparación» y las cifras.
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
@@ -7,9 +8,13 @@ import { Suspense } from 'react';
 import BarraSuperior from '@/components/BarraSuperior';
 import PiePagina from '@/components/PiePagina';
 import FichaJefe from '@/components/guia/FichaJefe';
-import { fechaLarga, Fuentes } from '@/components/guia/Piezas';
+import { fechaLarga } from '@/components/guia/Piezas';
+import { usuarioActual } from '@/lib/auth/sesion';
 import { cifrasPublicas } from '@/lib/guia/cifras';
-import { fuentesDe, jefeJuego, nombreJefe, npcsDelJefe, raidGuia, urlRetrato, type RaidGuia } from '@/lib/guia/contenido';
+import { jefeJuego, nombreJefe, npcsDelJefe, raidGuia, urlRetrato, type RaidGuia } from '@/lib/guia/contenido';
+import { gruposConJefe, raidsPublicasDelJefe } from '@/lib/guia/datos';
+import { datosJefeGuia } from '@/lib/guia/datos-jefe';
+import type { FichaJefe as Ficha } from '@/lib/guia/esquema';
 import { localeDe, rutaEn, type Idioma, type Traductor } from '@/lib/i18n';
 import { textos } from '@/lib/i18n/servidor';
 
@@ -25,7 +30,8 @@ function buscar(raid: string, npc: string) {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const [{ raid, npc }, { t, idioma }] = await Promise.all([params, textos()]);
   const x = buscar(raid, npc);
-  return x ? { title: `${nombreJefe(x.npc, idioma)} · ${x.raid[idioma].nombre}` } : { title: t('guias.titulo') };
+  if (!x) return { title: t('guias.titulo') };
+  return { title: `${nombreJefe(x.npc, idioma)} · ${x.raid[idioma].nombre}`, description: x.raid.jefes[x.npc]?.[idioma].resumen };
 }
 
 export default async function Pagina({ params }: Props) {
@@ -58,45 +64,53 @@ async function Contenido({ params }: { params: Props['params'] }) {
             <h1 className="rx-title">{nombreJefe(npc, idioma)}</h1>
           </div>
         </div>
+        {ficha ? <p className="rx-lede">{ficha.resumen}</p> : null}
+        {ficha ? <p className="rx-note">{t('guias.revisado', { f: fechaLarga(ficha.revisado, idioma), p: fechaLarga(ficha.parche, idioma) })}</p> : null}
       </header>
       {ficha ? (
-        <>
-          <p className="rx-lede">{ficha.resumen}</p>
-          <p className="rx-note">{t('guias.revisado', { f: fechaLarga(ficha.revisado, idioma), p: fechaLarga(ficha.parche, idioma) })}</p>
-          <FichaJefe t={t} idioma={idioma} ficha={ficha} />
-        </>
-      ) : <p className="rx-pending">{t('guias.preparacion')}</p>}
-      <section className="rx-section">
-        <h2 className="rx-h2">{t('guias.cifras')}</h2>
-        <Suspense fallback={<p className="rx-note">{t('guias.cargando')}</p>}>
-          <Cifras t={t} idioma={idioma} raid={raid} npc={npc} />
+        <Suspense fallback={<FichaJefe t={t} idioma={idioma} ficha={ficha} datos={undefined} nombres={null} cifras={undefined} tuGrupo={[]} />}>
+          <ConDatos t={t} idioma={idioma} raid={raid} npc={npc} ficha={ficha} />
         </Suspense>
-        <p className="rx-note">{t('guias.cifras.nota')}</p>
-      </section>
-      {ficha ? <><p className="rx-note">{t('guias.origen.leyenda')}</p><Fuentes t={t} idioma={idioma} ids={fuentesDe(ficha)} /></> : null}
+      ) : (
+        <>
+          <p className="rx-pending">{t('guias.preparacion')}</p>
+          <Suspense fallback={<p className="rx-note">{t('guias.cargando')}</p>}>
+            <SoloCifras t={t} idioma={idioma} raid={raid} npc={npc} />
+          </Suspense>
+        </>
+      )}
       <PiePagina t={t} idioma={idioma} />
     </main>
   );
 }
 
-async function Cifras({ t, idioma, raid, npc }: { t: Traductor; idioma: Idioma; raid: RaidGuia; npc: number }) {
+type Base = { t: Traductor; idioma: Idioma; raid: RaidGuia; npc: number };
+
+async function ConDatos({ t, idioma, raid, npc, ficha }: Base & { ficha: Ficha }) {
+  const npcs = npcsDelJefe(raid, npc);
+  const [cifras, publicas, u] = await Promise.all([cifrasPublicas({ jefe: npcs }), raidsPublicasDelJefe(npcs, idioma), usuarioActual()]);
+  const tuGrupo = u ? await gruposConJefe(u.id, npcs) : [];
+  const datos = publicas ? datosJefeGuia(publicas.raids, ficha.mecanicas) : null;
+  return (
+    <FichaJefe t={t} idioma={idioma} ficha={ficha} datos={datos} nombres={publicas?.nombres ?? null}
+      cifras={cifras === null ? 'error' : (cifras.get('jefe') ?? null)} tuGrupo={tuGrupo} />
+  );
+}
+
+async function SoloCifras({ t, idioma, raid, npc }: Base) {
   const todas = await cifrasPublicas({ jefe: npcsDelJefe(raid, npc) });
   if (!todas) return <p className="rx-pending">{t('guias.cifras.error')}</p>;
   const c = todas.get('jefe');
   if (!c) return <p className="rx-pending">{t('guias.cifras.vacio')}</p>;
   const n0 = new Intl.NumberFormat(localeDe(idioma));
-  const tile = (etiqueta: string, valor: number, ok = false) => (
-    <div className="rx-tile"><span className="rx-tile-label">{etiqueta}</span><span className={`rx-tile-value${ok ? ' is-ok' : ''}`}>{n0.format(valor)}</span></div>
-  );
+  const tiles: [string, number][] = [[t('guias.tile.noches'), c.noches], [t('guias.tile.intentos'), c.intentos], [t('guias.tile.kills'), c.kills], [t('guias.tile.grupos'), c.grupos]];
   return (
-    <>
+    <section className="rx-section">
+      <h2 className="rx-h2">{t('guias.cifras')}</h2>
       <div className="rx-tiles">
-        {tile(t('guias.tile.noches'), c.noches)}
-        {tile(t('guias.tile.intentos'), c.intentos)}
-        {tile(t('guias.tile.kills'), c.kills, c.kills > 0)}
-        {tile(t('guias.tile.grupos'), c.grupos)}
+        {tiles.map(([e, v]) => <div key={e} className="rx-tile"><span className="rx-tile-label">{e}</span><span className="rx-tile-value">{n0.format(v)}</span></div>)}
       </div>
-      {c.ultima ? <p className="rx-note">{t('guias.ultima', { f: fechaLarga(c.ultima, idioma) })}</p> : null}
-    </>
+      <p className="rx-note">{t('guias.cifras.nota')}</p>
+    </section>
   );
 }

@@ -257,3 +257,14 @@ a.gx-fuente:hover { color: var(--fg); }
 .gx-endatos.is-visto { color: var(--ok); border-color: currentColor; }
 .gx-endatos.is-probable { color: var(--series-2); border-color: currentColor; }
 .gx-como { margin: 0; }
+.gx-mata { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: var(--gap-sm); }
+.gx-mata li { display: grid; grid-template-columns: minmax(0, 14rem) 1fr auto; align-items: center; gap: var(--gap-md); }
+.gx-mata-barra { height: 8px; border-radius: 4px; background: var(--bad); opacity: .75; }
+.gx-datos { margin: 0; font-size: var(--fs-caption); color: var(--fg); background: var(--bg); border-left: 3px solid var(--series-1); padding: .35rem .6rem; border-radius: 0 var(--radius) var(--radius) 0; }
+.gx-fase-banda { fill: var(--panel); stroke: var(--line); }
+.gx-fase-banda.is-1 { fill: var(--line); }
+.gx-fase-texto { fill: var(--fg); }
+@media (max-width: 480px) { .gx-mata li { grid-template-columns: 1fr auto; } .gx-mata-barra { grid-column: 1 / -1; grid-row: 2; } }
+.pl-panel[data-pestana] { display: flex; flex-direction: column; gap: var(--gap-xl); scroll-margin-top: 4rem; }
+.pl-panel[data-pestana][hidden] { display: none; }
+.gx-mecanica { scroll-margin-top: 4rem; }
