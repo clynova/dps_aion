@@ -1,0 +1,28 @@
+{
+ "id": "ludra",
+ "nombre": "Forja Abismal: Ludra",
+ "revisado": "2026-11-10",
+ "parche": "2026-11-04",
+ "resumen": "Raid de santuario para 10 jugadores. Se abre con el Reactor de fusión abismal central, sigue con un jefe intermedio por party (Rahu o Ketu) y acaba con las dos parties juntas contra Ludra de la eternidad.",
+ "mazmorras": [
+  { "id": 600082, "modo": "normal", "origen": "deduccion" },
+  { "id": 600083, "modo": "dificil", "origen": "deduccion" }
+ ],
+ "jugadores": 10,
+ "jefes": [2301008, 2301006, 2301007, 2301014],
+ "gs": {
+  "normal": { "valor": 2800, "origen": "guias", "fuentes": ["timesaver-gs", "senseos-ludra"] },
+  "dificil": { "valor": 3000, "origen": "guias", "fuentes": ["timesaver-gs", "senseos-ludra"] }
+ },
+ "reglas": [
+  { "texto": "Cada entrada tiene un límite de 60 minutos para todos los jefes: así fue en las 10 entradas registradas.", "origen": "datos" },
+  { "texto": "En todas nuestras entradas el orden fue el mismo: primero el Reactor, después el jefe intermedio y al final Ludra.", "origen": "datos" }
+ ],
+ "composicion": [
+  { "texto": "Dos parties de 5. Cada una hace uno de los jefes intermedios: en nuestras entradas, quien graba hizo Rahu 9 veces y Ketu 1, y nunca los dos en la misma entrada.", "origen": "deduccion" },
+  { "texto": "Las guías coinciden en la base de cada party: un Templario de tanque, un Clérigo de sanador y un Cantor de apoyo; el resto, daño.", "origen": "guias", "fuentes": ["metabot-clases", "mobalytics-pve", "meinmmo-clases"] }
+ ],
+ "notas": [
+  { "termino": "Modos", "texto": "Que la mazmorra 600082 sea el modo Normal es una deducción: en nuestras entradas hay jugadores con 2823 de GS, por debajo de los 3000 que piden las guías para el Difícil. Nadie del grupo ha entrado aún en la 600083." }
+ ]
+}

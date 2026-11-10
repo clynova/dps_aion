@@ -1,0 +1,521 @@
+{
+ "catalogo": {
+  "fuentes": [
+   {
+    "id": "questlog-game-data",
+    "titulo": "game-data-v2.json (app de escritorio de Questlog)",
+    "sitio": "Questlog",
+    "url": null,
+    "tipo": "juego",
+    "idioma": "en",
+    "consultado": "2026-11-10",
+    "temas": [
+     "estructura",
+     "stats"
+    ],
+    "nota": {
+     "es": "Datos del cliente que trae la app de Questlog: jefes de cada mazmorra, stats y efectos de los buffs. Se vuelca con scripts/estructura-juego.mjs.",
+     "en": "Client data shipped with the Questlog app: bosses per dungeon, stats and buff effects. Dumped with scripts/estructura-juego.mjs."
+    }
+   },
+   {
+    "id": "questlog-nombres",
+    "titulo": "Nombres de NPC y habilidades (combatLog.entities)",
+    "sitio": "questlog.gg",
+    "url": "https://questlog.gg/aion-2",
+    "tipo": "juego",
+    "idioma": "es",
+    "consultado": "2026-11-10",
+    "temas": [
+     "nombres"
+    ]
+   },
+   {
+    "id": "metabot-db",
+    "titulo": "AION 2 Database & Tools",
+    "sitio": "MetaBot",
+    "url": "https://metabot.gg/en/aion-2",
+    "tipo": "base-de-datos",
+    "idioma": "en",
+    "consultado": "2026-11-10",
+    "temas": [
+     "estructura",
+     "botin"
+    ]
+   },
+   {
+    "id": "nc-parche-ludra",
+    "titulo": "[Notice] Patch Notes (Abyssal Forge: Ludra)",
+    "sitio": "AION 2 (NCSOFT)",
+    "url": "https://aion2.plaync.com/en-us/board/update/view?articleId=6aead0e86cfe4756db5b913f",
+    "tipo": "oficial",
+    "idioma": "en",
+    "consultado": "2026-11-10",
+    "temas": [
+     "reglas",
+     "botin"
+    ]
+   },
+   {
+    "id": "mobalytics-ludra",
+    "titulo": "Ludra Boss Guide for Aion 2 Mechanics and Strategy",
+    "sitio": "Mobalytics",
+    "url": "https://mobalytics.gg/gamebase/guides/aion-2-ludra-boss",
+    "tipo": "guia",
+    "idioma": "en",
+    "consultado": "2026-11-10",
+    "temas": [
+     "mecanicas"
+    ]
+   },
+   {
+    "id": "mobalytics-rahu",
+    "titulo": "Rahu Boss Guide for the Ludra Raid in Aion 2",
+    "sitio": "Mobalytics",
+    "url": "https://mobalytics.gg/gamebase/guides/aion-2-rahu-boss-guide",
+    "tipo": "guia",
+    "idioma": "en",
+    "consultado": "2026-11-10",
+    "temas": [
+     "mecanicas"
+    ]
+   },
+   {
+    "id": "mobalytics-ketu",
+    "titulo": "Ketu Boss Guide for the Ludra Raid in Aion 2",
+    "sitio": "Mobalytics",
+    "url": "https://mobalytics.gg/gamebase/guides/aion-2-ketu-boss",
+    "tipo": "guia",
+    "idioma": "en",
+    "consultado": "2026-11-10",
+    "temas": [
+     "mecanicas"
+    ]
+   },
+   {
+    "id": "aion2maps-ludra",
+    "titulo": "Ludra raid boss guide",
+    "sitio": "Aion 2 Maps",
+    "url": "https://aion2maps.com/guides/ludra/",
+    "tipo": "guia",
+    "idioma": "en",
+    "consultado": "2026-11-10",
+    "temas": [
+     "mecanicas"
+    ]
+   },
+   {
+    "id": "aion2tierlist-ludra",
+    "titulo": "AION 2 Ludra Raid Guide: Rahu, Ketu and Ludra Mechanics",
+    "sitio": "aion2tierlist",
+    "url": "https://aion2tierlist.com/guides/aion-2-ludra-raid-guide",
+    "tipo": "guia",
+    "idioma": "en",
+    "consultado": "2026-11-10",
+    "temas": [
+     "mecanicas",
+     "composicion"
+    ]
+   },
+   {
+    "id": "aion2turkiye-ludra",
+    "titulo": "AION 2 Ludra Raid Guide: Mechanics, 10 Players",
+    "sitio": "aion2turkiye",
+    "url": "https://aion2turkiye.com/en/dungeons/ludra/",
+    "tipo": "guia",
+    "idioma": "en",
+    "consultado": "2026-11-10",
+    "temas": [
+     "mecanicas",
+     "composicion"
+    ]
+   },
+   {
+    "id": "expcarry-ludra",
+    "titulo": "AION 2 Ludra Boss Guide: Mechanics & Loot",
+    "sitio": "expcarry",
+    "url": "https://expcarry.com/aion-2-ludra-boss-guide",
+    "tipo": "guia",
+    "idioma": "en",
+    "consultado": "2026-11-10",
+    "temas": [
+     "mecanicas",
+     "botin"
+    ]
+   },
+   {
+    "id": "aion2maps-precision",
+    "titulo": "Accuracy and Crit",
+    "sitio": "Aion 2 Maps",
+    "url": "https://aion2maps.com/guides/accuracy-and-crit/",
+    "tipo": "guia",
+    "idioma": "en",
+    "consultado": "2026-11-10",
+    "temas": [
+     "stats"
+    ]
+   },
+   {
+    "id": "timesaver-precision",
+    "titulo": "AION 2 Accuracy Cap and Crit Cap: What Ludra Needs on Global",
+    "sitio": "timesaver.gg",
+    "url": "https://timesaver.gg/blog/aion-2-accuracy-cap",
+    "tipo": "guia",
+    "idioma": "en",
+    "consultado": "2026-11-10",
+    "temas": [
+     "stats"
+    ],
+    "nota": {
+     "es": "Las cifras de Ludra en global son provisionales: parte son proyecciones a partir de las de Corea.",
+     "en": "Global Ludra figures are provisional: some are projections from the Korean ones."
+    }
+   },
+   {
+    "id": "mmoherald-dano",
+    "titulo": "How damage works: stat buckets, Double Chance and the formula",
+    "sitio": "MMO Herald",
+    "url": "https://www.mmoherald.com/aion-2/guides/damage-calculation",
+    "tipo": "guia",
+    "idioma": "en",
+    "consultado": "2026-11-10",
+    "temas": [
+     "stats"
+    ]
+   },
+   {
+    "id": "akunito-stats",
+    "titulo": "Stats and combat formulas",
+    "sitio": "aion2.akunito.com",
+    "url": "https://aion2.akunito.com/en/systems/stats/",
+    "tipo": "guia",
+    "idioma": "en",
+    "consultado": "2026-11-10",
+    "temas": [
+     "stats"
+    ]
+   },
+   {
+    "id": "mmopixel-equipo",
+    "titulo": "Aion 2 Best Endgame Gear Guide",
+    "sitio": "MMOPIXEL",
+    "url": "https://www.mmopixel.com/news/aion-2-best-endgame-gear-guide",
+    "tipo": "guia",
+    "idioma": "en",
+    "consultado": "2026-11-10",
+    "temas": [
+     "equipo",
+     "stats"
+    ]
+   },
+   {
+    "id": "timesaver-gs",
+    "titulo": "AION 2 Gear Score: How to Reach 2,800 for Ludra Normal and 3,000 Hard",
+    "sitio": "timesaver.gg",
+    "url": "https://timesaver.gg/blog/aion-2-gear-score-guide",
+    "tipo": "guia",
+    "idioma": "en",
+    "consultado": "2026-11-10",
+    "temas": [
+     "equipo"
+    ]
+   },
+   {
+    "id": "senseos-ludra",
+    "titulo": "When did Ludra come back to AION 2? 4 November, item levels and rewards",
+    "sitio": "SenseOS",
+    "url": "https://senseos.gg/guides/aion-2/ludra-raid/",
+    "tipo": "guia",
+    "idioma": "en",
+    "consultado": "2026-11-10",
+    "temas": [
+     "equipo",
+     "reglas",
+     "botin"
+    ]
+   },
+   {
+    "id": "metabot-progresion",
+    "titulo": "AION 2 Gear Progression: BiS Gear, Ludra & IL",
+    "sitio": "MetaBot",
+    "url": "https://metabot.gg/en/aion-2/guides/gear-progression-guide",
+    "tipo": "guia",
+    "idioma": "en",
+    "consultado": "2026-11-10",
+    "temas": [
+     "equipo"
+    ]
+   },
+   {
+    "id": "metabot-clases",
+    "titulo": "AION 2 Best Class Tier List: PvE, PvP, Solo",
+    "sitio": "MetaBot",
+    "url": "https://metabot.gg/en/aion-2/guides/best-class-tier-list",
+    "tipo": "guia",
+    "idioma": "en",
+    "consultado": "2026-11-10",
+    "temas": [
+     "composicion"
+    ]
+   },
+   {
+    "id": "mobalytics-pve",
+    "titulo": "AION 2 PvE Tier List (Best Classes Ranked)",
+    "sitio": "Mobalytics",
+    "url": "https://mobalytics.gg/gamebase/guides/aion-2-pve-tier-list",
+    "tipo": "guia",
+    "idioma": "en",
+    "consultado": "2026-11-10",
+    "temas": [
+     "composicion"
+    ]
+   },
+   {
+    "id": "meinmmo-clases",
+    "titulo": "Aion 2 Tier List: The Best Classes in PvE",
+    "sitio": "Mein-MMO",
+    "url": "https://mein-mmo.de/en/aion-2-tier-list-the-best-classes-in-pve,1589844/",
+    "tipo": "guia",
+    "idioma": "en",
+    "consultado": "2026-11-10",
+    "temas": [
+     "composicion"
+    ]
+   }
+  ]
+ },
+ "raids": {
+  "ludra": {
+   "es": {
+    "id": "ludra",
+    "nombre": "Forja Abismal: Ludra",
+    "revisado": "2026-11-10",
+    "parche": "2026-11-04",
+    "resumen": "Raid de santuario para 10 jugadores. Se abre con el Reactor de fusión abismal central, sigue con un jefe intermedio por party (Rahu o Ketu) y acaba con las dos parties juntas contra Ludra de la eternidad.",
+    "mazmorras": [
+     {
+      "id": 600082,
+      "modo": "normal",
+      "origen": "deduccion",
+      "fuentes": []
+     },
+     {
+      "id": 600083,
+      "modo": "dificil",
+      "origen": "deduccion",
+      "fuentes": []
+     }
+    ],
+    "jugadores": 10,
+    "jefes": [
+     2301008,
+     2301006,
+     2301007,
+     2301014
+    ],
+    "gs": {
+     "normal": {
+      "valor": 2800,
+      "origen": "guias",
+      "fuentes": [
+       "timesaver-gs",
+       "senseos-ludra"
+      ]
+     },
+     "dificil": {
+      "valor": 3000,
+      "origen": "guias",
+      "fuentes": [
+       "timesaver-gs",
+       "senseos-ludra"
+      ]
+     }
+    },
+    "reglas": [
+     {
+      "texto": "Cada entrada tiene un límite de 60 minutos para todos los jefes: así fue en las 10 entradas registradas.",
+      "origen": "datos",
+      "fuentes": []
+     },
+     {
+      "texto": "En todas nuestras entradas el orden fue el mismo: primero el Reactor, después el jefe intermedio y al final Ludra.",
+      "origen": "datos",
+      "fuentes": []
+     }
+    ],
+    "composicion": [
+     {
+      "texto": "Dos parties de 5. Cada una hace uno de los jefes intermedios: en nuestras entradas, quien graba hizo Rahu 9 veces y Ketu 1, y nunca los dos en la misma entrada.",
+      "origen": "deduccion",
+      "fuentes": []
+     },
+     {
+      "texto": "Las guías coinciden en la base de cada party: un Templario de tanque, un Clérigo de sanador y un Cantor de apoyo; el resto, daño.",
+      "origen": "guias",
+      "fuentes": [
+       "metabot-clases",
+       "mobalytics-pve",
+       "meinmmo-clases"
+      ]
+     }
+    ],
+    "notas": [
+     {
+      "termino": "Modos",
+      "texto": "Que la mazmorra 600082 sea el modo Normal es una deducción: en nuestras entradas hay jugadores con 2823 de GS, por debajo de los 3000 que piden las guías para el Difícil. Nadie del grupo ha entrado aún en la 600083."
+     }
+    ]
+   },
+   "en": {
+    "id": "ludra",
+    "nombre": "Abyssal Forge: Ludra",
+    "revisado": "2026-11-10",
+    "parche": "2026-11-04",
+    "resumen": "Sanctuary raid for 10 players. It opens with the Central Abyss Fusion Reactor, continues with one mid-boss per party (Rahu or Ketu) and ends with both parties together against Eternal Ludra.",
+    "mazmorras": [
+     {
+      "id": 600082,
+      "modo": "normal",
+      "origen": "deduccion",
+      "fuentes": []
+     },
+     {
+      "id": 600083,
+      "modo": "dificil",
+      "origen": "deduccion",
+      "fuentes": []
+     }
+    ],
+    "jugadores": 10,
+    "jefes": [
+     2301008,
+     2301006,
+     2301007,
+     2301014
+    ],
+    "gs": {
+     "normal": {
+      "valor": 2800,
+      "origen": "guias",
+      "fuentes": [
+       "timesaver-gs",
+       "senseos-ludra"
+      ]
+     },
+     "dificil": {
+      "valor": 3000,
+      "origen": "guias",
+      "fuentes": [
+       "timesaver-gs",
+       "senseos-ludra"
+      ]
+     }
+    },
+    "reglas": [
+     {
+      "texto": "Each entry has a 60-minute limit for all bosses: that was the case in all 10 recorded entries.",
+      "origen": "datos",
+      "fuentes": []
+     },
+     {
+      "texto": "In all our entries the order was the same: the Reactor first, then the mid-boss and Ludra last.",
+      "origen": "datos",
+      "fuentes": []
+     }
+    ],
+    "composicion": [
+     {
+      "texto": "Two parties of 5. Each one takes one of the mid-bosses: in our entries, the recording player did Rahu 9 times and Ketu once, and never both in the same entry.",
+      "origen": "deduccion",
+      "fuentes": []
+     },
+     {
+      "texto": "Guides agree on the core of each party: a Templar to tank, a Cleric to heal and a Chanter for support; the rest, damage.",
+      "origen": "guias",
+      "fuentes": [
+       "metabot-clases",
+       "mobalytics-pve",
+       "meinmmo-clases"
+      ]
+     }
+    ],
+    "notas": [
+     {
+      "termino": "Modes",
+      "texto": "That dungeon 600082 is Normal mode is an inference: our entries include players with 2823 gear score, below the 3000 that guides give for Hard. Nobody in the group has entered 600083 yet."
+     }
+    ]
+   },
+   "jefes": {}
+  }
+ },
+ "orden": [
+  "ludra"
+ ],
+ "jefes": {
+  "2300282": {
+   "es": "Rahu aislado",
+   "en": "Isolation Specialist Rahu",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_Lagta_01_V01",
+   "mazmorras": [
+    600083
+   ]
+  },
+  "2300283": {
+   "es": "Alas abismales Ketu",
+   "en": "Abyssal Wings Ketu",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_Kashapa_01_V01",
+   "mazmorras": [
+    600083
+   ]
+  },
+  "2300284": {
+   "es": "Reactor de fusión abismal central",
+   "en": "Central Abyss Fusion Reactor",
+   "retrato": null,
+   "mazmorras": [
+    600083
+   ]
+  },
+  "2300290": {
+   "es": "Ludra de la eternidad",
+   "en": "Eternal Ludra",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_Durbati_01_V01",
+   "mazmorras": [
+    600083
+   ]
+  },
+  "2301006": {
+   "es": "Rahu aislado",
+   "en": "Isolation Specialist Rahu",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_Lagta_01_V01",
+   "mazmorras": [
+    600082
+   ]
+  },
+  "2301007": {
+   "es": "Alas abismales Ketu",
+   "en": "Abyssal Wings Ketu",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_Kashapa_01_V01",
+   "mazmorras": [
+    600082
+   ]
+  },
+  "2301008": {
+   "es": "Reactor de fusión abismal central",
+   "en": "Central Abyss Fusion Reactor",
+   "retrato": null,
+   "mazmorras": [
+    600082
+   ]
+  },
+  "2301014": {
+   "es": "Ludra de la eternidad",
+   "en": "Eternal Ludra",
+   "retrato": "Portrait/Portrait_256/UT_256_MOB_Durbati_01_V01",
+   "mazmorras": [
+    600082
+   ]
+  }
+ }
+}

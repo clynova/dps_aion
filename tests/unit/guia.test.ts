@@ -125,3 +125,38 @@ describe('diferenciasIdioma', () => {
     expect(diferenciasIdioma({ fuentes: ['x'] }, {})).toEqual(['fuentes: falta en en']);
   });
 });
+
+describe('contenido para las páginas', () => {
+  it('lib/guia/contenido.generado.json está al día (si falla: npm run contenido)', async () => {
+    const { contenidoParaPaginas } = await import('@/lib/guia/generar');
+    const generado = (await import('@/lib/guia/contenido.generado.json')).default;
+    const { contenido } = leerContenido();
+    expect(JSON.parse(JSON.stringify(contenidoParaPaginas(contenido!)))).toEqual(JSON.parse(JSON.stringify(generado)));
+  });
+  it('Ludra: orden de los jefes, sus npc en los dos modos y las fuentes de la ficha', async () => {
+    const { raidGuia, npcsDelJefe, npcsDeRaid, fuentesDe, nombreJefe } = await import('@/lib/guia/contenido');
+    const ludra = raidGuia('ludra')!;
+    expect(ludra.es.jefes.map((n) => nombreJefe(n, 'es'))).toEqual(['Reactor de fusión abismal central', 'Rahu aislado', 'Alas abismales Ketu', 'Ludra de la eternidad']);
+    expect(npcsDelJefe(ludra, 2301014)).toEqual([2301014, 2300290]);
+    expect(npcsDeRaid(ludra).sort()).toEqual([2300282, 2300283, 2300284, 2300290, 2301006, 2301007, 2301008, 2301014]);
+    expect(fuentesDe(ludra.es)).toContain('timesaver-gs');
+    expect(raidGuia('toString')).toBeNull();
+  });
+});
+
+describe('sumarCifras', () => {
+  it('suma por etiqueta, sin contar dos veces la misma raid y el mismo npc', async () => {
+    const { sumarCifras } = await import('@/lib/guia/sumar-cifras');
+    const f = (npc: number, grupo: string, raid: string, intentos: number, matado: boolean, dia: string) => ({ npc, grupo, raid, intentos, matado, fecha: new Date(`${dia}T20:00:00Z`) });
+    const filas = [
+      f(2301014, 'g1', 'r1', 8, false, '2026-11-08'), f(2301008, 'g1', 'r1', 1, true, '2026-11-08'),
+      f(2301014, 'g1', 'r2', 5, true, '2026-11-10'), f(2301014, 'g1', 'r2', 5, true, '2026-11-10'), // repetida
+      f(2300290, 'g2', 'r3', 3, false, '2026-11-09'),
+    ];
+    const c = sumarCifras(filas, { ludra: [2301014, 2300290], reactor: [2301008], raid: [2301014, 2300290, 2301008], nadie: [1] });
+    expect(c.get('ludra')).toEqual({ noches: 3, grupos: 2, intentos: 16, kills: 1, ultima: '2026-11-10T20:00:00.000Z' });
+    expect(c.get('reactor')).toMatchObject({ noches: 1, intentos: 1, kills: 1 });
+    expect(c.get('raid')).toMatchObject({ noches: 3, intentos: 17, kills: 2 });
+    expect(c.has('nadie')).toBe(false);
+  });
+});

@@ -223,3 +223,30 @@ ul.rx-seg-recos .rx-seg-lista { margin: var(--gap-sm) 0 var(--gap-xs) calc(6.5re
   .jx-chart { overflow-x: auto; }
   .jx-chart svg { min-width: 560px; }
 }
+
+/* ---------- Módulo «Raids» (prefijo gx-, docs/plan-guia-raids.md) ---------- */
+.rx-topbar .rx-back { white-space: nowrap; }
+.cx-nav { font-size: var(--fs-caption); font-weight: 600; letter-spacing: .04em; color: var(--fg); text-decoration: none; padding: .2rem .65rem; border: 1px solid var(--line); border-radius: 999px; }
+.cx-nav:hover { border-color: var(--fg-muted); }
+.gx-raid .rx-h2 a { color: inherit; text-decoration: none; }
+.gx-raid .rx-h2 a:hover { text-decoration: underline; }
+.gx-jefes a { flex-direction: row; align-items: center; gap: var(--gap-md); }
+.gx-jefe-texto { display: flex; flex-direction: column; gap: var(--gap-xs); min-width: 0; }
+.gx-retrato { flex: none; width: 48px; height: 48px; border-radius: 50%; background: var(--line); object-fit: cover; }
+.gx-retrato-grande { width: 96px; height: 96px; }
+.gx-cabecera { display: flex; align-items: center; gap: var(--gap-md); }
+.gx-cabecera .rx-title { margin: 0; }
+.gx-origen { display: inline-flex; flex-wrap: wrap; align-items: center; gap: .3rem; vertical-align: baseline; }
+.gx-tag { font-size: .72rem; font-weight: 600; letter-spacing: .03em; padding: 0 .45rem; border-radius: 999px; border: 1px solid currentColor; color: var(--fg-muted); white-space: nowrap; }
+.gx-tag.is-juego, .gx-tag.is-oficial { color: var(--ok); }
+.gx-tag.is-datos { color: var(--series-1); }
+.gx-tag.is-guias { color: var(--series-2); }
+.gx-fuente { font-size: .72rem; color: var(--fg-muted); }
+a.gx-fuente:hover { color: var(--fg); }
+.gx-afirmaciones { margin: 0; padding-left: 1.1rem; display: flex; flex-direction: column; gap: var(--gap-sm); max-width: 75ch; }
+.gx-fuentes { list-style: none; margin: 0; display: flex; flex-direction: column; gap: var(--gap-md); }
+.gx-fuentes li { display: flex; flex-direction: column; gap: var(--gap-xs); }
+.gx-notas { margin: 0; display: flex; flex-direction: column; gap: var(--gap-sm); }
+.gx-notas dt { font-weight: 600; }
+.gx-notas dd { margin: 0; color: var(--fg-muted); max-width: 75ch; }
+@media (max-width: 480px) { .gx-retrato-grande { width: 64px; height: 64px; } }

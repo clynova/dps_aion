@@ -1,0 +1,44 @@
+// Acceso al contenido del módulo «Raids» para las páginas: sale de lib/guia/contenido.generado.json (npm run contenido),
+// que ya está validado. Sin base de datos ni disco: se puede usar en cualquier parte.
+import datos from './contenido.generado.json';
+import type { Fuente } from './esquema';
+import type { ContenidoPaginas, JefeJuego } from './generar';
+import type { Idioma } from '@/lib/i18n';
+
+const C = datos as unknown as ContenidoPaginas;
+
+export type RaidGuia = ContenidoPaginas['raids'][string];
+
+export const raidsGuia = (): RaidGuia[] => C.orden.map((id) => C.raids[id]);
+export const raidGuia = (id: string): RaidGuia | null => (Object.hasOwn(C.raids, id) ? C.raids[id] : null);
+export const jefeJuego = (npc: number): JefeJuego | null => C.jefes[String(npc)] ?? null;
+export const nombreJefe = (npc: number, idioma: Idioma) => jefeJuego(npc)?.[idioma] ?? String(npc);
+export const fuenteGuia = (id: string): Fuente | null => C.catalogo.fuentes.find((f) => f.id === id) ?? null;
+
+/** Retrato del jefe en el CDN de questlog.gg (ruta corta bajo Texture/). */
+export const urlRetrato = (r: string | null | undefined) => (r ? `https://cdn.questlog.gg/aion-2/assets/Game/UI/Resource/Texture/${r}.webp` : null);
+
+/** Los npc del mismo jefe en todos los modos de la raid: los de sus mazmorras con el mismo nombre en inglés. */
+export function npcsDelJefe(raid: RaidGuia, npc: number): number[] {
+  const nombre = jefeJuego(npc)?.en;
+  const otros = mazmorrasDe(raid).flatMap((m) => m.jefes).filter((n) => n !== npc && nombre && jefeJuego(n)?.en === nombre);
+  return [npc, ...new Set(otros)];
+}
+
+/** Mazmorras de una raid con sus jefes (de la estructura del juego), en el orden de la ficha. */
+export function mazmorrasDe(raid: RaidGuia): { id: number; modo: string; jefes: number[] }[] {
+  return raid.es.mazmorras.map((m) => ({
+    id: m.id, modo: m.modo,
+    jefes: Object.entries(C.jefes).filter(([, j]) => j.mazmorras.includes(m.id)).map(([n]) => Number(n)).sort((a, b) => a - b),
+  }));
+}
+
+/** Ids de todas las fuentes citadas en una ficha (en el orden en que salen). */
+export function fuentesDe(x: unknown): string[] {
+  if (Array.isArray(x)) return x.flatMap(fuentesDe);
+  if (!x || typeof x !== 'object') return [];
+  return Object.entries(x).flatMap(([k, v]) => (k === 'fuentes' && Array.isArray(v) ? v.map(String) : fuentesDe(v)));
+}
+
+/** Todos los npc de la raid, en todos sus modos. */
+export const npcsDeRaid = (raid: RaidGuia) => [...new Set(mazmorrasDe(raid).flatMap((m) => m.jefes))];

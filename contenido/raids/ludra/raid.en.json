@@ -1,0 +1,28 @@
+{
+ "id": "ludra",
+ "nombre": "Abyssal Forge: Ludra",
+ "revisado": "2026-11-10",
+ "parche": "2026-11-04",
+ "resumen": "Sanctuary raid for 10 players. It opens with the Central Abyss Fusion Reactor, continues with one mid-boss per party (Rahu or Ketu) and ends with both parties together against Eternal Ludra.",
+ "mazmorras": [
+  { "id": 600082, "modo": "normal", "origen": "deduccion" },
+  { "id": 600083, "modo": "dificil", "origen": "deduccion" }
+ ],
+ "jugadores": 10,
+ "jefes": [2301008, 2301006, 2301007, 2301014],
+ "gs": {
+  "normal": { "valor": 2800, "origen": "guias", "fuentes": ["timesaver-gs", "senseos-ludra"] },
+  "dificil": { "valor": 3000, "origen": "guias", "fuentes": ["timesaver-gs", "senseos-ludra"] }
+ },
+ "reglas": [
+  { "texto": "Each entry has a 60-minute limit for all bosses: that was the case in all 10 recorded entries.", "origen": "datos" },
+  { "texto": "In all our entries the order was the same: the Reactor first, then the mid-boss and Ludra last.", "origen": "datos" }
+ ],
+ "composicion": [
+  { "texto": "Two parties of 5. Each one takes one of the mid-bosses: in our entries, the recording player did Rahu 9 times and Ketu once, and never both in the same entry.", "origen": "deduccion" },
+  { "texto": "Guides agree on the core of each party: a Templar to tank, a Cleric to heal and a Chanter for support; the rest, damage.", "origen": "guias", "fuentes": ["metabot-clases", "mobalytics-pve", "meinmmo-clases"] }
+ ],
+ "notas": [
+  { "termino": "Modes", "texto": "That dungeon 600082 is Normal mode is an inference: our entries include players with 2823 gear score, below the 3000 that guides give for Hard. Nobody in the group has entered 600083 yet." }
+ ]
+}
