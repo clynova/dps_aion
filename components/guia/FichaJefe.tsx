@@ -1,8 +1,9 @@
 // Ficha de un jefe del módulo «Raids», en pestañas: Resumen (cifras, lo que hace wipe, consejos, dónde se atasca, qué
 // mata, tu grupo, notas), Mecánicas (con sus cifras en vivo), Fases y tiempos (gráfico por % de vida, fases y
-// cronograma) y Fuentes. El texto sale de contenido/raids/<raid>/<npc>.<idioma>.json; los datos (`datos`), de las raids
+// cronograma), Equipo y grupo (GS, composición de los kills, crítico por clase y lo que dicen el juego y las guías) y Fuentes. El texto sale de contenido/raids/<raid>/<npc>.<idioma>.json; los datos (`datos`), de las raids
 // públicas (lib/guia/datos-jefe.ts): undefined mientras cargan, null si no hay o la base falló. Sin datos se ve el texto.
 import Link from 'next/link';
+import { Fragment } from 'react';
 import type { FichaJefe as Ficha } from '@/lib/guia/esquema';
 import { ROLES } from '@/lib/guia/esquema';
 import { fuentesDe, nombreAtaque } from '@/lib/guia/contenido';
@@ -14,10 +15,12 @@ import LineaVida from './LineaVida';
 import Pestanas from './Pestanas';
 import { Afirmaciones, fechaLarga, Fuentes, Origen } from './Piezas';
 
-export const PESTANAS_JEFE = ['resumen', 'mecanicas', 'fases', 'fuentes'] as const;
+export const PESTANAS_JEFE = ['resumen', 'mecanicas', 'fases', 'equipo', 'fuentes'] as const;
 
 type Props = {
   t: Traductor; idioma: Idioma; ficha: Ficha;
+  /** GS de entrada de la raid por modo (de la ficha de la raid) */
+  gsEntrada: { modo: string; valor: number }[];
   datos: DatosJefeGuia | null | undefined;
   /** Nombres de la base (apodos y habilidades) para los ataques de los datos */
   nombres: { apodos: Record<string, string>; habilidades: Record<string, string> } | null;
@@ -25,7 +28,7 @@ type Props = {
   tuGrupo: { slug: string; nombre: string; npc: number; raids: number }[];
 };
 
-export default function FichaJefe({ t, idioma, ficha, datos, nombres, cifras, tuGrupo }: Props) {
+export default function FichaJefe({ t, idioma, ficha, gsEntrada, datos, nombres, cifras, tuGrupo }: Props) {
   const loc = localeDe(idioma);
   const n0 = new Intl.NumberFormat(loc, { maximumFractionDigits: 0 });
   const n2 = new Intl.NumberFormat(loc, { maximumFractionDigits: 2 });
@@ -225,6 +228,79 @@ export default function FichaJefe({ t, idioma, ficha, datos, nombres, cifras, tu
                 </table>
               </div>
             </article>
+          </section>
+        ) : null}
+      </div>
+
+      {/* ── Equipo y grupo ── */}
+      <div className="pl-panel" id="equipo" data-pestana="equipo" hidden>
+        <section className="rx-section">
+          <h2 className="rx-h2">{t('guias.gs.t')}</h2>
+          <div className="rx-tiles">
+            {gsEntrada.map((g) => <Fragment key={g.modo}>{tile(t('guias.tile.gs', { modo: t(`guias.modo.${g.modo}` as Clave) }), n0.format(g.valor))}</Fragment>)}
+            {datos?.equipo.gsKill ? (
+              <div className="rx-tile">
+                <span className="rx-tile-label">{t('guias.gs.kill')}</span>
+                <span className="rx-tile-value is-ok">{t('guias.gs.rango', { a: n0.format(datos.equipo.gsKill.min), b: n0.format(datos.equipo.gsKill.max) })}</span>
+                <span className="rx-tile-note">{t('guias.gs.nota', { m: n0.format(datos.equipo.gsKill.mediana), n: datos.equipo.gsKill.n })}</span>
+              </div>
+            ) : null}
+            {datos?.equipo.gsTodos ? (
+              <div className="rx-tile">
+                <span className="rx-tile-label">{t('guias.gs.todos')}</span>
+                <span className="rx-tile-value">{t('guias.gs.rango', { a: n0.format(datos.equipo.gsTodos.min), b: n0.format(datos.equipo.gsTodos.max) })}</span>
+                <span className="rx-tile-note">{t('guias.gs.nota', { m: n0.format(datos.equipo.gsTodos.mediana), n: datos.equipo.gsTodos.n })}</span>
+              </div>
+            ) : null}
+          </div>
+        </section>
+
+        {datos ? (
+          <section className="rx-section">
+            <h2 className="rx-h2">{t('guias.comp.t')}</h2>
+            <p className="rx-note">{t('guias.comp.nota')}</p>
+            {datos.equipo.kills.length ? (
+              <ol className="rx-card gx-mata">
+                {datos.equipo.clasesKill.map((c) => (
+                  <li key={c.clase}>
+                    <span>{t(`class.${c.clase}` as Clave)}</span>
+                    <span className="gx-mata-barra is-ok" style={{ width: `${Math.max(4, (c.media / datos.equipo.clasesKill[0].media) * 100)}%` }} aria-hidden="true" />
+                    <span className="hm-sub">{t('guias.comp.fila', { n: n1.format(c.media), k: c.kills, de: datos.equipo.kills.length })}</span>
+                  </li>
+                ))}
+              </ol>
+            ) : <p className="rx-pending">{t('guias.comp.vacio')}</p>}
+          </section>
+        ) : null}
+
+        {datos?.equipo.critico.length ? (
+          <section className="rx-section">
+            <h2 className="rx-h2">{t('guias.crit.t')}</h2>
+            <p className="rx-note">{t('guias.crit.nota')}</p>
+            <ol className="rx-card gx-mata">
+              {datos.equipo.critico.map((c) => (
+                <li key={c.clase}>
+                  <span>{t(`class.${c.clase}` as Clave)} · {t('cmp.pct', { n: n1.format(c.mediana) })}</span>
+                  <span className="gx-mata-barra is-crit" style={{ width: `${Math.max(4, c.mediana)}%` }} aria-hidden="true" />
+                  <span className="hm-sub">{t('guias.crit.fila', { a: n1.format(c.min), b: n1.format(c.max), n: c.n })}</span>
+                </li>
+              ))}
+            </ol>
+          </section>
+        ) : null}
+
+        {ficha.equipo.length || ficha.requisitos.critico ? (
+          <section className="rx-section">
+            <h2 className="rx-h2">{t('guias.equipo.t')}</h2>
+            <div className="rx-card">
+              {ficha.requisitos.critico ? (
+                <p className="cx-texto">
+                  <strong>{t('guias.crit.rango', { a: n0.format(ficha.requisitos.critico.min), b: n0.format(ficha.requisitos.critico.max) })}</strong>{' '}
+                  <Origen t={t} origen={ficha.requisitos.critico.origen} fuentes={ficha.requisitos.critico.fuentes} />
+                </p>
+              ) : null}
+              <Afirmaciones t={t} items={ficha.equipo} />
+            </div>
           </section>
         ) : null}
       </div>

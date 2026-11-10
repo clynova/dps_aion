@@ -23,6 +23,8 @@ export type DatosJefeGuia = {
   atasco: { desde: number; hasta: number; wipes: number; total: number; cierre: string | null } | null;
   /** Ataques que salen siempre al mismo % de vida (marcas del gráfico), de más vida a menos */
   porVida: { habilidad: string; vida: number }[];
+  /** Composición de los kills, GS y crítico por clase (fase 4) */
+  equipo: EquipoJefe;
 };
 
 const r2 = (x: number) => Math.round(x * 100) / 100;
@@ -38,7 +40,7 @@ function momentoDe(cronograma: AtaqueCronograma[], ataques: number[]): DatosMeca
   return { habilidad: c.habilidad, vida: vidaRestante(c.primeroPct), segundo: c.primeroS, cadaS, porVida: c.disparador === 'vida', intentos: c.intentos, posibles: c.posibles };
 }
 
-export function datosJefeGuia(raids: RaidJefe[], mecanicas: { id: string; ataques: number[] }[]): DatosJefeGuia | null {
+export function datosJefeGuia(raids: RaidConGrupo[], mecanicas: { id: string; ataques: number[] }[]): DatosJefeGuia | null {
   if (!raids.length) return null;
   const analisis = analizarJefe(raids);
   const intentos = analisis.totales.intentos;
@@ -63,8 +65,60 @@ export function datosJefeGuia(raids: RaidJefe[], mecanicas: { id: string; ataque
 
   const kills = analisis.noches.map((n) => n.killS).filter((k): k is number => k !== null);
   return {
+    equipo: equipoJefe(raids),
     analisis, intentos, killMasRapido: kills.length ? Math.min(...kills) : null, mecanicas: datosMec, causas, atasco,
     porVida: analisis.cronograma.filter((c) => c.disparador === 'vida' && c.primeroPct >= 5).map((c) => ({ habilidad: c.habilidad, vida: vidaRestante(c.primeroPct) }))
       .sort((a, b) => b.vida - a.vida),
   };
+}
+
+// ── Equipo y grupo (fase 4): composición de los kills, GS y crítico por clase ─────────────────────────────
+
+/** Lo que la guía lee de cada raid además de lo que usa lib/raids/jefe.ts. */
+export type RaidConGrupo = RaidJefe & {
+  datos: RaidJefe['datos'] & {
+    jugadores?: { jugador: string; clase_id: string; gs: number; crit_pct: number }[];
+    dps_intento?: { intento: number; jugador: string }[];
+  };
+};
+type Rango = { min: number; mediana: number; max: number; n: number };
+export type EquipoJefe = {
+  /** Cada kill: cuántos jugadores de cada clase había en el intento del kill */
+  kills: Record<string, number>[];
+  /** Por clase: media de jugadores por kill y en cuántos kills estuvo */
+  clasesKill: { clase: string; media: number; kills: number }[];
+  /** GS de quien estaba en los intentos con kill, y de todos los que lo intentaron */
+  gsKill: Rango | null; gsTodos: Rango | null;
+  /** % de golpes críticos contra el jefe de cada jugador en cada raid, por clase */
+  critico: { clase: string; mediana: number; min: number; max: number; n: number }[];
+};
+
+const med = (xs: number[]) => { const s = [...xs].sort((a, b) => a - b); const m = s.length >> 1; return s.length % 2 ? s[m] : (s[m - 1] + s[m]) / 2; };
+const rango = (xs: number[]): Rango | null => (xs.length ? { min: Math.min(...xs), mediana: Math.round(med(xs)), max: Math.max(...xs), n: xs.length } : null);
+
+export function equipoJefe(raids: RaidConGrupo[]): EquipoJefe {
+  const kills: Record<string, number>[] = [];
+  const gsKill: number[] = [], gsTodos: number[] = [];
+  const crit = new Map<string, number[]>();
+  for (const r of raids) {
+    const js = new Map((r.datos.jugadores ?? []).map((j) => [j.jugador, j]));
+    for (const j of js.values()) {
+      if (j.gs > 0) gsTodos.push(j.gs);
+      if (j.crit_pct > 0) crit.set(j.clase_id, [...(crit.get(j.clase_id) ?? []), j.crit_pct]);
+    }
+    for (const k of r.datos.intentos.filter((i) => i.matado)) {
+      const enKill = [...new Set((r.datos.dps_intento ?? []).filter((d) => d.intento === k.intento).map((d) => d.jugador))].map((n) => js.get(n)).filter((j) => !!j);
+      if (!enKill.length) continue;
+      const c: Record<string, number> = {};
+      for (const j of enKill) { c[j.clase_id] = (c[j.clase_id] ?? 0) + 1; if (j.gs > 0) gsKill.push(j.gs); }
+      kills.push(c);
+    }
+  }
+  const clases = [...new Set(kills.flatMap((k) => Object.keys(k)))];
+  const clasesKill = clases.map((clase) => ({
+    clase, media: Math.round((kills.reduce((s, k) => s + (k[clase] ?? 0), 0) / kills.length) * 10) / 10, kills: kills.filter((k) => k[clase]).length,
+  })).sort((a, b) => b.media - a.media || (a.clase < b.clase ? -1 : 1));
+  const critico = [...crit].map(([clase, xs]) => ({ clase, mediana: Math.round(med(xs) * 10) / 10, min: Math.min(...xs), max: Math.max(...xs), n: xs.length }))
+    .sort((a, b) => b.mediana - a.mediana || (a.clase < b.clase ? -1 : 1));
+  return { kills, clasesKill, gsKill: rango(gsKill), gsTodos: rango(gsTodos), critico };
 }

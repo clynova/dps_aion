@@ -628,5 +628,20 @@
   "guias.sindatos": "No public raids with this boss as the main boss yet: no timeline or wipes by band.",
   "guias.tugrupo.t": "Your group on this boss",
   "guias.datos.momento": "First time: at around {v}% health, at second {s}",
-  "guias.datos.fijo": "always at that %"
+  "guias.datos.fijo": "always at that %",
+  "guias.tab.equipo": "Gear and group",
+  "guias.comp.t": "Which classes have killed it",
+  "guias.comp.nota": "Classes in the kill attempt of each public raid: average players per kill. For mid-bosses only the recording player's party shows.",
+  "guias.comp.fila": "{n} per kill · in {k} of {de}",
+  "guias.comp.vacio": "No kills in the public raids of this boss yet.",
+  "guias.gs.t": "Gear score",
+  "guias.gs.kill": "GS of those who killed it",
+  "guias.gs.todos": "GS of everyone who tried",
+  "guias.gs.rango": "{a}–{b}",
+  "guias.gs.nota": "median {m} · {n} records",
+  "guias.crit.t": "Crit against the boss, by class",
+  "guias.crit.nota": "Share of critical hits against the boss for each player in each public raid (median per class and range). With the boss staggered almost everything crits and some skills have guaranteed crits: that is why some classes go above 50%. Compare yourself with your class, not with 50%.",
+  "guias.crit.fila": "{a}–{b}% · {n} records",
+  "guias.crit.rango": "Critical Hit to reach the cap against this boss: {a}–{b}",
+  "guias.equipo.t": "What the game, the guides and our data say"
 }

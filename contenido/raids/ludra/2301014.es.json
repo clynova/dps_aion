@@ -1,15 +1,48 @@
 {
- "npc": [2301014, 2300290],
+ "npc": [
+  2301014,
+  2300290
+ ],
  "raid": "ludra",
  "revisado": "2026-11-10",
  "parche": "2026-11-04",
  "resumen": "El jefe final, con las 10 personas juntas. Dos veces en el combate, al 51 % y al 25 % de vida, lanza «Prueba de Ludra»: un tablero en el suelo con una sola casilla segura que, si no se encuentra, mata a todo el grupo. Si se resuelve, Ludra queda roto 10 segundos. Nuestro grupo lo mató por primera vez el 10 de noviembre, en 7:17 minutos.",
  "fases": [
-  { "titulo": "Primera fase", "desde_vida": 100, "hasta_vida": 51, "texto": "Golpes de apertura al tanque y a jugadores con aviso. Hacia el 88 % empieza la zona 9-1, que vuelve cada 79 segundos, y entre el 85 y el 70 % se suman las zonas 10, 11-2, 11-3 y 6.", "origen": "datos" },
-  { "titulo": "Primera Prueba de Ludra", "desde_vida": 51, "hasta_vida": 49, "texto": "Sale en todos los intentos que llegan al 51 % de vida. Si se resuelve, unos 20 segundos después del casteo Ludra queda roto 10 segundos.", "origen": "datos" },
-  { "titulo": "Segunda fase", "desde_vida": 49, "hasta_vida": 25, "texto": "Sigue el golpe a un jugador cada 9 segundos, que empieza poco antes de la Prueba (hacia el 52 %), y hacia el 43 % entran los ataques de la fase final y la zona 23-1, que vuelve cada 141 segundos.", "origen": "datos" },
-  { "titulo": "Segunda Prueba de Ludra", "desde_vida": 25, "hasta_vida": 23, "texto": "La misma Prueba, en todos los intentos que llegan al 25 %, con su rotura de 10 segundos después.", "origen": "datos" },
-  { "titulo": "Final", "desde_vida": 23, "hasta_vida": 0, "texto": "El tramo con más wipes de nuestras noches es el que va del 25 al 20 % de vida: justo después de la segunda Prueba.", "origen": "datos" }
+  {
+   "titulo": "Primera fase",
+   "desde_vida": 100,
+   "hasta_vida": 51,
+   "texto": "Golpes de apertura al tanque y a jugadores con aviso. Hacia el 88 % empieza la zona 9-1, que vuelve cada 79 segundos, y entre el 85 y el 70 % se suman las zonas 10, 11-2, 11-3 y 6.",
+   "origen": "datos"
+  },
+  {
+   "titulo": "Primera Prueba de Ludra",
+   "desde_vida": 51,
+   "hasta_vida": 49,
+   "texto": "Sale en todos los intentos que llegan al 51 % de vida. Si se resuelve, unos 20 segundos después del casteo Ludra queda roto 10 segundos.",
+   "origen": "datos"
+  },
+  {
+   "titulo": "Segunda fase",
+   "desde_vida": 49,
+   "hasta_vida": 25,
+   "texto": "Sigue el golpe a un jugador cada 9 segundos, que empieza poco antes de la Prueba (hacia el 52 %), y hacia el 43 % entran los ataques de la fase final y la zona 23-1, que vuelve cada 141 segundos.",
+   "origen": "datos"
+  },
+  {
+   "titulo": "Segunda Prueba de Ludra",
+   "desde_vida": 25,
+   "hasta_vida": 23,
+   "texto": "La misma Prueba, en todos los intentos que llegan al 25 %, con su rotura de 10 segundos después.",
+   "origen": "datos"
+  },
+  {
+   "titulo": "Final",
+   "desde_vida": 23,
+   "hasta_vida": 0,
+   "texto": "El tramo con más wipes de nuestras noches es el que va del 25 al 20 % de vida: justo después de la segunda Prueba.",
+   "origen": "datos"
+  }
  ],
  "mecanicas": [
   {
@@ -17,12 +50,23 @@
    "titulo": "Prueba de Ludra: el tablero",
    "texto": "Al 51 % y al 25 % de vida el suelo se convierte en un tablero de casillas y Ludra empieza un ataque que mata a todo el grupo salvo a quien esté en la casilla segura. La casilla segura solo se descubre cuando un jugador recibe el golpe que cae sobre ella. En nuestros datos sale siempre a esos % y mata de un golpe a quien la falla.",
    "como": "Hay que repartir el tablero antes de entrar (por parejas desde cada esquina, o por carriles) para destapar casillas sin dejar huecos, y en cuanto aparezca la segura, todos a ella. En la segunda hay además anillos que saltar.",
-   "ataques": [1803010, 1803011, 1803040, 1803041],
+   "ataques": [
+    1803010,
+    1803011,
+    1803040,
+    1803041
+   ],
    "wipe": true,
-   "roles": ["todos"],
+   "roles": [
+    "todos"
+   ],
    "en_datos": "visto",
    "origen": "guias",
-   "fuentes": ["aion2tierlist-ludra", "metaroad-raid", "expcarry-ludra"]
+   "fuentes": [
+    "aion2tierlist-ludra",
+    "metaroad-raid",
+    "expcarry-ludra"
+   ]
   },
   {
    "id": "rotura",
@@ -31,7 +75,10 @@
    "como": "Guarda las habilidades fuertes y los potenciadores para esos 10 segundos.",
    "ataques": [],
    "wipe": false,
-   "roles": ["dps", "apoyo"],
+   "roles": [
+    "dps",
+    "apoyo"
+   ],
    "en_datos": "visto",
    "origen": "datos"
   },
@@ -40,9 +87,15 @@
    "titulo": "Zonas 9-1 y 9-2",
    "texto": "Ludra invoca la zona 9-1 hacia el 88 % de vida y luego cada 79 segundos. Su primer impacto hace daño y el segundo, el de la zona 9-2, mata de un golpe. Entre los dos son lo que más muertes suma en nuestras noches de Ludra. Podrían ser parte de las torres de orbes de las guías: es una deducción sin confirmar.",
    "como": "Es lo primero que hay que aprender a evitar: en «Repaso de las muertes» se ve dónde estaba cada uno cuando cayó el impacto.",
-   "ataques": [1803200, 1803203, 1803204],
+   "ataques": [
+    1803200,
+    1803203,
+    1803204
+   ],
    "wipe": false,
-   "roles": ["todos"],
+   "roles": [
+    "todos"
+   ],
    "en_datos": "visto",
    "origen": "datos"
   },
@@ -51,9 +104,16 @@
    "titulo": "Golpe en área y golpes a un jugador",
    "texto": "Junto a las zonas 9, lo que más mata son el golpe en área (una barra de 1,5 segundos) y los golpes a un solo jugador; desde el 52 % de vida, uno cada 9 segundos.",
    "como": "Si curas: el golpe a un jugador llega cada 9 segundos en la segunda fase; no dejes a nadie a media vida.",
-   "ataques": [1803250, 1803110, 1803120],
+   "ataques": [
+    1803250,
+    1803110,
+    1803120
+   ],
    "wipe": false,
-   "roles": ["todos", "sanador"],
+   "roles": [
+    "todos",
+    "sanador"
+   ],
    "en_datos": "visto",
    "origen": "datos"
   },
@@ -62,9 +122,15 @@
    "titulo": "Zona 23-1",
    "texto": "Desde el 43 % de vida, y luego cada 141 segundos, Ludra invoca la zona 23-1; su impacto letal está entre los cinco ataques que más matan en nuestras noches.",
    "como": "A partir de la segunda fase, conviene contar el tiempo: vuelve a los 141 segundos.",
-   "ataques": [1803390, 1803395, 1803396],
+   "ataques": [
+    1803390,
+    1803395,
+    1803396
+   ],
    "wipe": false,
-   "roles": ["todos"],
+   "roles": [
+    "todos"
+   ],
    "en_datos": "visto",
    "origen": "datos"
   },
@@ -75,22 +141,36 @@
    "como": "El rojo se asigna antes de entrar, normalmente al tanque, con su bloqueo o inmunidad preparado; el resto, los azules.",
    "ataques": [],
    "wipe": false,
-   "roles": ["tanque", "todos"],
+   "roles": [
+    "tanque",
+    "todos"
+   ],
    "en_datos": "sin_ver",
    "origen": "guias",
-   "fuentes": ["aion2tierlist-ludra", "metaroad-raid", "expcarry-ludra"]
+   "fuentes": [
+    "aion2tierlist-ludra",
+    "metaroad-raid",
+    "expcarry-ludra"
+   ]
   },
   {
    "id": "colores",
    "titulo": "Rojo y azul: cada uno a su lado",
    "texto": "Hacia el 35 % de vida cada jugador queda rojo o azul, y si un rojo y un azul se acercan, pierden vida muy rápido. El color se mantiene durante el resto de mecánicas. En nuestros datos, un ataque sin nombre sale siempre hacia el 32 %: podría ser este, pero es una deducción.",
    "como": "Cada color a un lado de la arena y que no se crucen. Las guías no coinciden en qué lado va cada color: el grupo tiene que elegir uno.",
-   "ataques": [1803400],
+   "ataques": [
+    1803400
+   ],
    "wipe": false,
-   "roles": ["todos"],
+   "roles": [
+    "todos"
+   ],
    "en_datos": "probable",
    "origen": "guias",
-   "fuentes": ["aion2tierlist-ludra", "metaroad-raid"]
+   "fuentes": [
+    "aion2tierlist-ludra",
+    "metaroad-raid"
+   ]
   },
   {
    "id": "casillas-finales",
@@ -99,10 +179,15 @@
    "como": "Cada uno a una casilla de su color, sin compartirla, y entrando en el último segundo y medio o dos del casteo.",
    "ataques": [],
    "wipe": false,
-   "roles": ["todos"],
+   "roles": [
+    "todos"
+   ],
    "en_datos": "sin_ver",
    "origen": "guias",
-   "fuentes": ["aion2tierlist-ludra", "metaroad-raid"]
+   "fuentes": [
+    "aion2tierlist-ludra",
+    "metaroad-raid"
+   ]
   },
   {
    "id": "cola",
@@ -111,10 +196,17 @@
    "como": "El tanque lo gira lejos del grupo; el resto, a los lados, ni delante ni detrás.",
    "ataques": [],
    "wipe": false,
-   "roles": ["tanque", "todos"],
+   "roles": [
+    "tanque",
+    "todos"
+   ],
    "en_datos": "sin_ver",
    "origen": "guias",
-   "fuentes": ["aion2tierlist-ludra", "expcarry-ludra", "aion2turkiye-ludra"]
+   "fuentes": [
+    "aion2tierlist-ludra",
+    "expcarry-ludra",
+    "aion2turkiye-ludra"
+   ]
   },
   {
    "id": "anillos",
@@ -123,27 +215,118 @@
    "como": "Salta cada anillo; si coinciden con otra mecánica, primero el salto.",
    "ataques": [],
    "wipe": false,
-   "roles": ["todos"],
+   "roles": [
+    "todos"
+   ],
    "en_datos": "sin_ver",
    "origen": "guias",
-   "fuentes": ["aion2tierlist-ludra", "metaroad-raid"]
+   "fuentes": [
+    "aion2tierlist-ludra",
+    "metaroad-raid"
+   ]
   }
  ],
  "consejos": {
   "dps": [
-   { "texto": "Guarda el daño fuerte para los 10 segundos de rotura que siguen a cada Prueba resuelta.", "origen": "datos" }
+   {
+    "texto": "Guarda el daño fuerte para los 10 segundos de rotura que siguen a cada Prueba resuelta.",
+    "origen": "datos"
+   }
   ],
   "tanque": [
-   { "texto": "Gira a Ludra lejos del grupo: detrás de él, la cola aturde.", "origen": "guias", "fuentes": ["aion2tierlist-ludra", "expcarry-ludra", "aion2turkiye-ludra"] },
-   { "texto": "El orbe rojo se toma con un bloqueo o una inmunidad activa; conviene decidir antes de entrar quién lo toma.", "origen": "guias", "fuentes": ["aion2tierlist-ludra", "metaroad-raid"] }
+   {
+    "texto": "Gira a Ludra lejos del grupo: detrás de él, la cola aturde.",
+    "origen": "guias",
+    "fuentes": [
+     "aion2tierlist-ludra",
+     "expcarry-ludra",
+     "aion2turkiye-ludra"
+    ]
+   },
+   {
+    "texto": "El orbe rojo se toma con un bloqueo o una inmunidad activa; conviene decidir antes de entrar quién lo toma.",
+    "origen": "guias",
+    "fuentes": [
+     "aion2tierlist-ludra",
+     "metaroad-raid"
+    ]
+   }
   ],
   "todos": [
-   { "texto": "Hay que repartir el tablero antes de entrar: cada pareja o carril sabe qué casillas destapa.", "origen": "guias", "fuentes": ["aion2tierlist-ludra", "metaroad-raid"] }
+   {
+    "texto": "Hay que repartir el tablero antes de entrar: cada pareja o carril sabe qué casillas destapa.",
+    "origen": "guias",
+    "fuentes": [
+     "aion2tierlist-ludra",
+     "metaroad-raid"
+    ]
+   }
   ]
  },
+ "equipo": [
+  {
+   "texto": "Con Ludra roto, casi todos los golpes son críticos: el 99,5 % en nuestros registros, frente al 41 % del resto del combate. La rotura de 10 segundos vale más que cualquier punto de crítico.",
+   "origen": "datos"
+  },
+  {
+   "texto": "El crítico tiene un tope del 50 % que baja con la resistencia al crítico del objetivo; pasado el tope, más crítico no sirve. Lo dice la descripción de la estadística en el propio juego.",
+   "origen": "juego",
+   "fuentes": [
+    "questlog-game-data"
+   ]
+  },
+  {
+   "texto": "Para llegar al tope contra Ludra, los primeros informes de global hablan de unos 1.700 de crítico; con las cifras de Aion 2 Maps (resistencia de Ludra de unos 1.250–1.350 y unos 6,7 puntos de % por cada 100 de ventaja) harían falta unos 2.000. Con unos 1.200, el crítico contra Ludra es casi nulo. Es una deducción a partir de cifras de jugadores, no de NCSOFT.",
+   "origen": "deduccion",
+   "fuentes": [
+    "timesaver-precision",
+    "aion2maps-precision"
+   ]
+  },
+  {
+   "texto": "La precisión solo sirve contra el bloqueo del jefe y no tiene un tope fijo. Las guías no coinciden en cuánta hace falta para Ludra: unos 1.200 según los primeros informes de global, mientras que Aion 2 Maps mide que solo Ludra en Difícil bloquea, y poco (en torno al 1 % de los golpes de frente o de lado).",
+   "origen": "guias",
+   "fuentes": [
+    "timesaver-precision",
+    "aion2maps-precision"
+   ]
+  },
+  {
+   "texto": "Por la espalda no te pueden bloquear ni parar.",
+   "origen": "guias",
+   "fuentes": [
+    "timesaver-precision",
+    "aion2maps-precision"
+   ]
+  },
+  {
+   "texto": "Por la espalda, el % de críticos sube poco: 2,4 puntos en nuestros registros de Ludra (las guías dicen de 3 a 10).",
+   "origen": "datos"
+  }
+ ],
+ "requisitos": {
+  "critico": {
+   "min": 1700,
+   "max": 2100,
+   "origen": "deduccion",
+   "fuentes": [
+    "timesaver-precision",
+    "aion2maps-precision"
+   ]
+  }
+ },
  "notas": [
-  { "termino": "Versión", "texto": "Las mecánicas de las guías son de la versión anterior (Corea y acceso anticipado). NCSOFT cambió mecánicas para la vuelta del 4 de noviembre y todavía no hay guías de la nueva: lo marcado «sin ver» puede haber cambiado. Lo «visto» sale de nuestras raids del 6 al 10 de noviembre." },
-  { "termino": "Lo que sí coincide", "texto": "El tablero sigue saliendo al 50 y al 25 % de vida, como dicen las guías, y la rotura de después sigue durando 10 segundos." },
-  { "termino": "Cifras", "texto": "Los % de vida y los tiempos son la mediana de nuestros intentos hasta el 10 de noviembre: son orientativos." }
+  {
+   "termino": "Versión",
+   "texto": "Las mecánicas de las guías son de la versión anterior (Corea y acceso anticipado). NCSOFT cambió mecánicas para la vuelta del 4 de noviembre y todavía no hay guías de la nueva: lo marcado «sin ver» puede haber cambiado. Lo «visto» sale de nuestras raids del 6 al 10 de noviembre."
+  },
+  {
+   "termino": "Lo que sí coincide",
+   "texto": "El tablero sigue saliendo al 50 y al 25 % de vida, como dicen las guías, y la rotura de después sigue durando 10 segundos."
+  },
+  {
+   "termino": "Cifras",
+   "texto": "Los % de vida y los tiempos son la mediana de nuestros intentos hasta el 10 de noviembre: son orientativos."
+  }
  ]
 }

@@ -190,6 +190,31 @@
    }
   ]
  },
+ "equipo": [
+  {
+   "texto": "With Rahu staggered, almost every hit is a crit: 98.5% in our logs, against 43% in the rest of the fight.",
+   "origen": "datos"
+  },
+  {
+   "texto": "Critical Hit has a 50% cap, lowered by the target's Critical Hit Resist; past the cap, more Critical Hit does nothing. That is what the stat's own description says in the game.",
+   "origen": "juego",
+   "fuentes": [
+    "questlog-game-data"
+   ]
+  },
+  {
+   "texto": "From behind you cannot be blocked or parried.",
+   "origen": "guias",
+   "fuentes": [
+    "timesaver-precision",
+    "aion2maps-precision"
+   ]
+  },
+  {
+   "texto": "From behind, the crit share rises only a little: 1 point in our Rahu logs (guides say 3 to 10).",
+   "origen": "datos"
+  }
+ ],
  "notas": [
   {
    "termino": "Version",

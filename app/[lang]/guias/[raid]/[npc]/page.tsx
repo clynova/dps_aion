@@ -68,7 +68,7 @@ async function Contenido({ params }: { params: Props['params'] }) {
         {ficha ? <p className="rx-note">{t('guias.revisado', { f: fechaLarga(ficha.revisado, idioma), p: fechaLarga(ficha.parche, idioma) })}</p> : null}
       </header>
       {ficha ? (
-        <Suspense fallback={<FichaJefe t={t} idioma={idioma} ficha={ficha} datos={undefined} nombres={null} cifras={undefined} tuGrupo={[]} />}>
+        <Suspense fallback={<FichaJefe t={t} idioma={idioma} ficha={ficha} gsEntrada={gsEntrada(raid)} datos={undefined} nombres={null} cifras={undefined} tuGrupo={[]} />}>
           <ConDatos t={t} idioma={idioma} raid={raid} npc={npc} ficha={ficha} />
         </Suspense>
       ) : (
@@ -86,13 +86,16 @@ async function Contenido({ params }: { params: Props['params'] }) {
 
 type Base = { t: Traductor; idioma: Idioma; raid: RaidGuia; npc: number };
 
+/** GS de entrada de cada modo de la raid (de su ficha). */
+const gsEntrada = (raid: RaidGuia) => raid.es.mazmorras.flatMap((m) => (raid.es.gs[m.modo] ? [{ modo: m.modo, valor: raid.es.gs[m.modo]!.valor }] : []));
+
 async function ConDatos({ t, idioma, raid, npc, ficha }: Base & { ficha: Ficha }) {
   const npcs = npcsDelJefe(raid, npc);
   const [cifras, publicas, u] = await Promise.all([cifrasPublicas({ jefe: npcs }), raidsPublicasDelJefe(npcs, idioma), usuarioActual()]);
   const tuGrupo = u ? await gruposConJefe(u.id, npcs) : [];
   const datos = publicas ? datosJefeGuia(publicas.raids, ficha.mecanicas) : null;
   return (
-    <FichaJefe t={t} idioma={idioma} ficha={ficha} datos={datos} nombres={publicas?.nombres ?? null}
+    <FichaJefe t={t} idioma={idioma} ficha={ficha} gsEntrada={gsEntrada(raid)} datos={datos} nombres={publicas?.nombres ?? null}
       cifras={cifras === null ? 'error' : (cifras.get('jefe') ?? null)} tuGrupo={tuGrupo} />
   );
 }

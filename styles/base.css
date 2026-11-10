@@ -268,3 +268,6 @@ a.gx-fuente:hover { color: var(--fg); }
 .pl-panel[data-pestana] { display: flex; flex-direction: column; gap: var(--gap-xl); scroll-margin-top: 4rem; }
 .pl-panel[data-pestana][hidden] { display: none; }
 .gx-mecanica { scroll-margin-top: 4rem; }
+.gx-mata-barra.is-ok { background: var(--ok); }
+.gx-mata-barra.is-crit { background: var(--series-1); }
+ol.rx-card.gx-mata { padding: var(--pad-lg); }

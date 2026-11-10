@@ -10,7 +10,7 @@ import { gruposDeUsuario } from '@/lib/db/grupos';
 import { grupos, raids } from '@/lib/db/schema';
 import type { Idioma } from '@/lib/i18n';
 import { apareceEnListados } from '@/lib/permisos';
-import type { RaidJefe } from '@/lib/raids/jefe';
+import type { RaidConGrupo } from './datos-jefe';
 import { reconstruirRaid } from '@/lib/raids/reconstruir';
 import { nombresPara } from '@/lib/raids/vista';
 
@@ -20,7 +20,7 @@ export async function raidsPublicasDelJefe(npcs: number[], idioma: Idioma) {
     const filas = await db.select({ id: raids.id, slug: raids.slug, meta: raids.meta }).from(raids).innerJoin(grupos, eq(grupos.id, raids.grupoId))
       .where(and(eq(raids.visibilidad, 'publica'), eq(grupos.visible, true), inArray(raids.npcJefe, npcs)));
     const [datos, nombres] = await Promise.all([Promise.all(filas.map((r) => reconstruirRaid(r.id))), nombresPara(idioma)]);
-    const lista: RaidJefe[] = filas.flatMap((r, k) => (datos[k] ? [{ slug: r.slug, fecha: (r.meta as { fecha: string }).fecha, datos: datos[k] as unknown as RaidJefe['datos'] }] : []));
+    const lista: RaidConGrupo[] = filas.flatMap((r, k) => (datos[k] ? [{ slug: r.slug, fecha: (r.meta as { fecha: string }).fecha, datos: datos[k] as unknown as RaidConGrupo['datos'] }] : []));
     return { raids: lista, nombres };
   } catch (e) {
     // Solo el tipo: un fallo de conexión de Neon puede llevar la cadena de conexión en el mensaje

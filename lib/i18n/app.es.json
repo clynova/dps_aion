@@ -628,5 +628,20 @@
   "guias.sindatos": "Aún no hay raids públicas con este jefe como principal: sin cronograma ni wipes por tramo.",
   "guias.tugrupo.t": "Tu grupo en este jefe",
   "guias.datos.momento": "Primera vez: hacia el {v} % de vida, en el segundo {s}",
-  "guias.datos.fijo": "siempre a ese %"
+  "guias.datos.fijo": "siempre a ese %",
+  "guias.tab.equipo": "Equipo y grupo",
+  "guias.comp.t": "Con qué clases se ha matado",
+  "guias.comp.nota": "Clases en el intento del kill de cada raid pública: media de jugadores por kill. En los jefes intermedios solo sale la party de quien graba.",
+  "guias.comp.fila": "{n} por kill · en {k} de {de}",
+  "guias.comp.vacio": "Aún no hay kills en las raids públicas de este jefe.",
+  "guias.gs.t": "GS",
+  "guias.gs.kill": "GS de quien lo mató",
+  "guias.gs.todos": "GS de quien lo intentó",
+  "guias.gs.rango": "{a}–{b}",
+  "guias.gs.nota": "mediana {m} · {n} registros",
+  "guias.crit.t": "Crítico contra el jefe, por clase",
+  "guias.crit.nota": "% de golpes críticos contra el jefe de cada jugador en cada raid pública (mediana por clase y rango). Con el jefe roto casi todo es crítico y algunas habilidades tienen crítico garantizado: por eso hay clases por encima del 50 %. Compárate con tu clase, no con el 50 %.",
+  "guias.crit.fila": "{a}–{b} % · {n} registros",
+  "guias.crit.rango": "Crítico para llegar al tope contra este jefe: {a}–{b}",
+  "guias.equipo.t": "Lo que dicen el juego, las guías y nuestros datos"
 }

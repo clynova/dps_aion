@@ -674,6 +674,33 @@
         }
        ]
       },
+      "equipo": [
+       {
+        "texto": "Con Rahu roto, casi todos los golpes son críticos: el 98,5 % en nuestros registros, frente al 43 % del resto del combate.",
+        "origen": "datos",
+        "fuentes": []
+       },
+       {
+        "texto": "El crítico tiene un tope del 50 % que baja con la resistencia al crítico del objetivo; pasado el tope, más crítico no sirve. Lo dice la descripción de la estadística en el propio juego.",
+        "origen": "juego",
+        "fuentes": [
+         "questlog-game-data"
+        ]
+       },
+       {
+        "texto": "Por la espalda no te pueden bloquear ni parar.",
+        "origen": "guias",
+        "fuentes": [
+         "timesaver-precision",
+         "aion2maps-precision"
+        ]
+       },
+       {
+        "texto": "Por la espalda, el % de críticos sube poco: 1 punto en nuestros registros de Rahu (las guías dicen de 3 a 10).",
+        "origen": "datos",
+        "fuentes": []
+       }
+      ],
       "requisitos": {},
       "notas": [
        {
@@ -895,6 +922,33 @@
         }
        ]
       },
+      "equipo": [
+       {
+        "texto": "With Rahu staggered, almost every hit is a crit: 98.5% in our logs, against 43% in the rest of the fight.",
+        "origen": "datos",
+        "fuentes": []
+       },
+       {
+        "texto": "Critical Hit has a 50% cap, lowered by the target's Critical Hit Resist; past the cap, more Critical Hit does nothing. That is what the stat's own description says in the game.",
+        "origen": "juego",
+        "fuentes": [
+         "questlog-game-data"
+        ]
+       },
+       {
+        "texto": "From behind you cannot be blocked or parried.",
+        "origen": "guias",
+        "fuentes": [
+         "timesaver-precision",
+         "aion2maps-precision"
+        ]
+       },
+       {
+        "texto": "From behind, the crit share rises only a little: 1 point in our Rahu logs (guides say 3 to 10).",
+        "origen": "datos",
+        "fuentes": []
+       }
+      ],
       "requisitos": {},
       "notas": [
        {
@@ -1043,6 +1097,7 @@
         }
        ]
       },
+      "equipo": [],
       "requisitos": {},
       "notas": [
        {
@@ -1185,6 +1240,7 @@
         }
        ]
       },
+      "equipo": [],
       "requisitos": {},
       "notas": [
        {
@@ -1291,6 +1347,7 @@
         }
        ]
       },
+      "equipo": [],
       "requisitos": {},
       "notas": [
        {
@@ -1391,6 +1448,7 @@
         }
        ]
       },
+      "equipo": [],
       "requisitos": {},
       "notas": [
        {
@@ -1686,7 +1744,60 @@
         }
        ]
       },
-      "requisitos": {},
+      "equipo": [
+       {
+        "texto": "Con Ludra roto, casi todos los golpes son críticos: el 99,5 % en nuestros registros, frente al 41 % del resto del combate. La rotura de 10 segundos vale más que cualquier punto de crítico.",
+        "origen": "datos",
+        "fuentes": []
+       },
+       {
+        "texto": "El crítico tiene un tope del 50 % que baja con la resistencia al crítico del objetivo; pasado el tope, más crítico no sirve. Lo dice la descripción de la estadística en el propio juego.",
+        "origen": "juego",
+        "fuentes": [
+         "questlog-game-data"
+        ]
+       },
+       {
+        "texto": "Para llegar al tope contra Ludra, los primeros informes de global hablan de unos 1.700 de crítico; con las cifras de Aion 2 Maps (resistencia de Ludra de unos 1.250–1.350 y unos 6,7 puntos de % por cada 100 de ventaja) harían falta unos 2.000. Con unos 1.200, el crítico contra Ludra es casi nulo. Es una deducción a partir de cifras de jugadores, no de NCSOFT.",
+        "origen": "deduccion",
+        "fuentes": [
+         "timesaver-precision",
+         "aion2maps-precision"
+        ]
+       },
+       {
+        "texto": "La precisión solo sirve contra el bloqueo del jefe y no tiene un tope fijo. Las guías no coinciden en cuánta hace falta para Ludra: unos 1.200 según los primeros informes de global, mientras que Aion 2 Maps mide que solo Ludra en Difícil bloquea, y poco (en torno al 1 % de los golpes de frente o de lado).",
+        "origen": "guias",
+        "fuentes": [
+         "timesaver-precision",
+         "aion2maps-precision"
+        ]
+       },
+       {
+        "texto": "Por la espalda no te pueden bloquear ni parar.",
+        "origen": "guias",
+        "fuentes": [
+         "timesaver-precision",
+         "aion2maps-precision"
+        ]
+       },
+       {
+        "texto": "Por la espalda, el % de críticos sube poco: 2,4 puntos en nuestros registros de Ludra (las guías dicen de 3 a 10).",
+        "origen": "datos",
+        "fuentes": []
+       }
+      ],
+      "requisitos": {
+       "critico": {
+        "min": 1700,
+        "max": 2100,
+        "origen": "deduccion",
+        "fuentes": [
+         "timesaver-precision",
+         "aion2maps-precision"
+        ]
+       }
+      },
       "notas": [
        {
         "termino": "Versión",
@@ -1987,7 +2098,60 @@
         }
        ]
       },
-      "requisitos": {},
+      "equipo": [
+       {
+        "texto": "With Ludra staggered, almost every hit is a crit: 99.5% in our logs, against 41% in the rest of the fight. The 10-second stagger is worth more than any Critical Hit point.",
+        "origen": "datos",
+        "fuentes": []
+       },
+       {
+        "texto": "Critical Hit has a 50% cap, lowered by the target's Critical Hit Resist; past the cap, more Critical Hit does nothing. That is what the stat's own description says in the game.",
+        "origen": "juego",
+        "fuentes": [
+         "questlog-game-data"
+        ]
+       },
+       {
+        "texto": "To reach the cap against Ludra, first Global reports say about 1,700 Critical Hit; with Aion 2 Maps' figures (Ludra's Critical Hit Resist around 1,250–1,350 and about 6.7 % points per 100 of lead) it would take about 2,000. At around 1,200, your crit chance against Ludra is close to zero. This is an inference from player figures, not NCSOFT's.",
+        "origen": "deduccion",
+        "fuentes": [
+         "timesaver-precision",
+         "aion2maps-precision"
+        ]
+       },
+       {
+        "texto": "Accuracy only works against the boss's Block and has no fixed cap. Guides disagree on how much Ludra needs: about 1,200 according to first Global reports, while Aion 2 Maps measures that only Hard Ludra blocks, and little (around 1% of front or side hits).",
+        "origen": "guias",
+        "fuentes": [
+         "timesaver-precision",
+         "aion2maps-precision"
+        ]
+       },
+       {
+        "texto": "From behind you cannot be blocked or parried.",
+        "origen": "guias",
+        "fuentes": [
+         "timesaver-precision",
+         "aion2maps-precision"
+        ]
+       },
+       {
+        "texto": "From behind, the crit share rises only a little: 2.4 points in our Ludra logs (guides say 3 to 10).",
+        "origen": "datos",
+        "fuentes": []
+       }
+      ],
+      "requisitos": {
+       "critico": {
+        "min": 1700,
+        "max": 2100,
+        "origen": "deduccion",
+        "fuentes": [
+         "timesaver-precision",
+         "aion2maps-precision"
+        ]
+       }
+      },
       "notas": [
        {
         "termino": "Version",

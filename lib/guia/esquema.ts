@@ -117,6 +117,8 @@ export const FichaJefe = z.strictObject({
   }).refine((f) => f.desde_vida >= f.hasta_vida, 'desde_vida menor que hasta_vida')).default([]),
   mecanicas: z.array(Mecanica).default([]),
   consejos: z.partialRecord(z.enum(ROLES), z.array(Afirmacion).min(1)).default({}),
+  /** Equipo y stats contra este jefe (crítico, precisión…): afirmaciones con su origen */
+  equipo: z.array(Afirmacion).default([]),
   requisitos: z.strictObject({
     precision: Rango.optional(),
     critico: Rango.optional(),

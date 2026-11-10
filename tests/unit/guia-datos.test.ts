@@ -1,12 +1,12 @@
 import { describe, expect, it } from 'vitest';
-import { datosJefeGuia, vidaRestante } from '@/lib/guia/datos-jefe';
+import { datosJefeGuia, equipoJefe, vidaRestante, type RaidConGrupo } from '@/lib/guia/datos-jefe';
 import type { IntentoJefe, RaidJefe } from '@/lib/raids/jefe';
 
 // Dos noches inventadas. En cada intento: 1800100 a los 10 s (por tiempo), 1800200 al 20 % de vida quitada (por vida)
 // y cada 30 s, y su impacto 1800205 un poco después. Mata sobre todo 1800205.
 const intento = (n: number, progreso_pct: number, duracion_s: number, ultima_causa = '1800205', matado = false): IntentoJefe =>
   ({ intento: n, duracion_s, progreso_pct, matado, muertes: 4, ultima_causa });
-const raid = (slug: string, fecha: string, its: IntentoJefe[], causas: RaidJefe['datos']['causas'], ritmos: number[]): RaidJefe => ({
+const raid = (slug: string, fecha: string, its: IntentoJefe[], causas: RaidJefe['datos']['causas'], ritmos: number[]): RaidConGrupo => ({
   slug, fecha,
   datos: {
     resumen: { dps_grupo_medio: 100_000, muertes_grupo: its.length * 4, kill_s: its.find((i) => i.matado)?.duracion_s ?? null },
@@ -60,5 +60,36 @@ describe('datos de la ficha del jefe', () => {
   });
   it('sin raids, nada', () => {
     expect(datosJefeGuia([], [])).toBeNull();
+  });
+});
+
+describe('equipo y grupo', () => {
+  const j = (jugador: string, clase_id: string, gs: number, crit_pct: number) => ({ jugador, clase_id, gs, crit_pct });
+  const base = (slug: string, matado: boolean) => raid(slug, '2026-11-09T21:00:00-03:00', [intento(1, 40, 90), intento(2, matado ? 100 : 60, 200, '', matado)], [], [2, 2]);
+  const r1 = base('a', true), r2 = base('b', false);
+  r1.datos = { ...r1.datos, jugadores: [j('T', 'templar', 3000, 30), j('C', 'cleric', 2900, 40), j('A', 'assassin', 3100, 70), j('B', 'assassin', 2850, 0)],
+    dps_intento: [{ intento: 1, jugador: 'T' }, { intento: 1, jugador: 'B' }, { intento: 2, jugador: 'T' }, { intento: 2, jugador: 'C' }, { intento: 2, jugador: 'A' }] };
+  r2.datos = { ...r2.datos, jugadores: [j('T', 'templar', 3010, 34), j('X', 'cleric', 2800, 20)], dps_intento: [{ intento: 1, jugador: 'T' }, { intento: 2, jugador: 'X' }] };
+  it('composición: solo los del intento del kill', () => {
+    const e = equipoJefe([r1, r2]);
+    expect(e.kills).toEqual([{ templar: 1, cleric: 1, assassin: 1 }]);
+    expect(e.clasesKill.map((c) => c.clase).sort()).toEqual(['assassin', 'cleric', 'templar']);
+  });
+  it('GS de los kills y de todos', () => {
+    const e = equipoJefe([r1, r2]);
+    expect(e.gsKill).toEqual({ min: 2900, mediana: 3000, max: 3100, n: 3 });
+    expect(e.gsTodos).toMatchObject({ min: 2800, max: 3100, n: 6 });
+  });
+  it('crítico por clase, sin los 0 (sin golpes al jefe)', () => {
+    const e = equipoJefe([r1, r2]);
+    expect(e.critico).toEqual([
+      { clase: 'assassin', mediana: 70, min: 70, max: 70, n: 1 },
+      { clase: 'templar', mediana: 32, min: 30, max: 34, n: 2 },
+      { clase: 'cleric', mediana: 30, min: 20, max: 40, n: 2 },
+    ]);
+  });
+  it('sin kills, sin composición', () => {
+    expect(equipoJefe([r2]).kills).toEqual([]);
+    expect(equipoJefe([r2]).gsKill).toBeNull();
   });
 });
