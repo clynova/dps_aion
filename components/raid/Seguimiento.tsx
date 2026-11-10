@@ -12,6 +12,33 @@ type Props = {
 
 const SIGNO: Record<Veredicto, string> = { mejor: '▲', igual: '=', peor: '▼' };
 
+/** Las tres cifras del grupo frente a la raid anterior, en una línea, para la cabecera de la raid. El detalle va en la pestaña «Análisis». */
+export function ResumenSeguimiento({ t, idioma, datos, anterior }: Omit<Props, 'grupo' | 'nombres'>) {
+  const s = seguir(datos as RaidSeg, anterior.datos as RaidSeg, anterior.analisis as AnalisisSeg);
+  const locale = localeDe(idioma);
+  const n2 = new Intl.NumberFormat(locale, { maximumFractionDigits: 2 });
+  const n1 = new Intl.NumberFormat(locale, { maximumFractionDigits: 1 });
+  const compacto = new Intl.NumberFormat(locale, { notation: 'compact', maximumFractionDigits: 1 });
+  const num = (x: number | null, nf: Intl.NumberFormat) => (x === null ? '—' : nf.format(x));
+  const mejor = (pct: number | null, matado: boolean) => (matado ? t('seg.matado') : pct === null ? '—' : t('seg.pct', { n: n1.format(pct) }));
+  const cifras: { k: 'mejor' | 'muertes' | 'dps'; texto: string; v: Veredicto | null }[] = [
+    { k: 'mejor', texto: t('seg.cambio', { a: mejor(s.grupo.mejor_pct.antes, s.anterior.matado), b: mejor(s.grupo.mejor_pct.ahora, s.actual.matado) }), v: s.grupo.mejor_pct.veredicto },
+    { k: 'muertes', texto: t('seg.cambio', { a: num(s.grupo.muertes.antes, n2), b: num(s.grupo.muertes.ahora, n2) }), v: s.grupo.muertes.veredicto },
+    { k: 'dps', texto: t('seg.cambio', { a: num(s.grupo.dps.antes, compacto), b: num(s.grupo.dps.ahora, compacto) }), v: s.grupo.dps.veredicto },
+  ];
+  return (
+    <div className="rx-seg-res">
+      <span className="rx-seg-res-t">{t('seg.res.t')}</span>
+      {cifras.map((c) => (
+        <span key={c.k} className={`rx-pill${c.v === 'mejor' ? ' is-ok' : c.v === 'peor' ? ' is-bad' : ''}`} title={c.v ? t(`seg.v.${c.v}`) : undefined}>
+          {t(`seg.m.${c.k}`)}: {c.texto}{c.v ? <span aria-hidden="true"> {SIGNO[c.v]}</span> : null}
+        </span>
+      ))}
+      <a className="rx-link" href="#analisis">{t('seg.res.ver')} →</a>
+    </div>
+  );
+}
+
 export default function Seguimiento({ t, idioma, grupo, nombres, datos, anterior }: Props) {
   const s = seguir(datos as RaidSeg, anterior.datos as RaidSeg, anterior.analisis as AnalisisSeg);
   const locale = localeDe(idioma);

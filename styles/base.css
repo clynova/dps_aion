@@ -55,3 +55,45 @@ ul.cx-texto > li { display: list-item; }
 .cx-pie { display: flex; flex-direction: column; gap: var(--gap-xs); }
 .cx-pie p { margin: 0; }
 a.cx-boton { text-decoration: none; display: inline-block; }
+
+/* ---------- Mejora visual (docs/plan-ui.md) ---------- */
+/* Jerarquía: el título de una sección se distingue del de sus tarjetas */
+.rx-h2 { font-family: var(--font-serif); font-weight: 400; font-size: 1.5rem; line-height: 1.2; }
+
+/* «Cómo se calcula» plegado bajo el subtítulo de una tarjeta (components/ui/Explicacion.tsx) */
+.rx-metodo { font-size: var(--fs-caption); color: var(--fg-muted); }
+.rx-metodo summary { cursor: pointer; width: fit-content; list-style: none; display: inline-flex; align-items: center; gap: .4rem; }
+.rx-metodo summary::-webkit-details-marker { display: none; }
+.rx-metodo summary::before { content: "?"; display: inline-grid; place-items: center; width: 1.05rem; height: 1.05rem; border: 1px solid currentColor; border-radius: 50%; font-size: .68rem; font-weight: 600; line-height: 1; }
+.rx-metodo summary:hover { color: var(--fg); }
+.rx-metodo summary:focus-visible { outline: 2px solid var(--series-1); outline-offset: 2px; border-radius: 4px; }
+.rx-metodo p { margin: var(--gap-xs) 0 0; max-width: 90ch; line-height: 1.5; padding: var(--pad-sm) var(--pad-md); background: color-mix(in srgb, var(--fg) 4%, transparent); border-radius: var(--radius); }
+
+/* Raid: «Qué cambiar» (las 3 primeras recomendaciones) arriba */
+.rx-top { display: flex; flex-direction: column; gap: var(--gap-sm); padding: var(--pad-lg); background: color-mix(in srgb, var(--series-1) 6%, var(--panel)); border: 1px solid color-mix(in srgb, var(--series-1) 28%, var(--line)); border-radius: var(--radius); }
+.rx-top[hidden] { display: none; }
+.rx-top-t { font-size: var(--fs-heading); font-weight: 600; margin: 0; }
+.rx-top-lista { font-weight: 500; gap: var(--gap-xs); }
+
+/* Raid: «Desde la raid anterior» en una línea */
+.rx-seg-res { display: flex; flex-wrap: wrap; align-items: center; gap: var(--gap-sm); }
+.rx-seg-res-t { font-size: var(--fs-caption); color: var(--fg-muted); margin-right: var(--gap-xs); }
+.rx-seg-res .rx-pill { white-space: normal; }
+
+/* Raid: pestañas, pegadas arriba al bajar */
+.rx-tabs { position: sticky; top: 0; z-index: 5; background: var(--bg); }
+.rx-tabs button { font-size: var(--fs-body); }
+.rx-panel { display: flex; flex-direction: column; gap: var(--gap-xl); scroll-margin-top: 3.5rem; }
+.rx-panel[hidden] { display: none; }
+.rx-ficha { scroll-margin-top: 3.5rem; }
+
+/* Raid: consejos de cada jugador (pestaña «Análisis») */
+.rx-reco-jug { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 26rem), 1fr)); gap: var(--gap-md); }
+.rx-reco-jug-item { background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); padding: var(--pad-md) var(--pad-lg); display: flex; flex-direction: column; gap: var(--gap-xs); }
+.rx-reco-jug-item h4 { margin: 0; }
+.rx-reco-jug-item h4 .rx-link { font-size: var(--fs-body); }
+.rx-reco-jug-item .rx-reco { font-size: var(--fs-caption); padding-left: 1.1rem; gap: var(--gap-xs); }
+
+/* Raid: tablas de especializaciones en rejilla (antes, apiladas al 40 % del ancho) */
+.bx-clases { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 22rem), 1fr)); gap: var(--gap-sm) var(--gap-lg); align-items: start; }
+.bx-clases .rx-table.bx-esp { width: 100%; min-width: 0; }

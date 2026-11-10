@@ -3,6 +3,7 @@
 // el repaso y muestran un aviso.
 import { localeDe, type Idioma, type Traductor } from '@/lib/i18n';
 import { analizarRepaso, type Cuenta, type MuerteDato, type MuerteRepasada } from '@/lib/raids/repaso';
+import Explicacion from '@/components/ui/Explicacion';
 
 type Datos = { meta: unknown; detalle: Record<string, unknown> };
 type NombresHab = { apodos: Record<string, string>; habilidades: Record<string, string> };
@@ -47,7 +48,7 @@ export default function Repaso({ t, idioma, datos, nombres }: { t: Traductor; id
       {titulo}
       <article className="rx-card">
         <h3>{t('rep.tabla.t')}</h3>
-        <p className="rx-note">{t('rep.tabla.nota')}</p>
+        <Explicacion t={t} corto={t('rep.tabla.corto')} metodo={t('rep.tabla.nota')} />
         <div className="rx-table-wrap">
           <table className="rx-table rx-rep-tabla">
             <thead>
@@ -67,7 +68,7 @@ export default function Repaso({ t, idioma, datos, nombres }: { t: Traductor; id
 
       <article className="rx-card">
         <h3>{t('rep.lista.t')}</h3>
-        <p className="rx-note">{t('rep.lista.nota')}</p>
+        <Explicacion t={t} corto={t('rep.lista.corto')} metodo={t('rep.lista.nota')} />
         {a.intentos.map((i) => (
           <details className="rx-details rx-rep-intento" key={i.intento}>
             <summary>{t('rep.intento', { n: i.intento, m: i.muertes.length, j: i.muertes[0].jugador, s: i.muertes[0].t, hab: hab(i.muertes[0].habilidad) })}</summary>

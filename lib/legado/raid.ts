@@ -82,6 +82,26 @@ export function montarRaid({ D, A, N, soloEs, T, LANG, LOC, rutaPerfil }) {
     rich(li, r.texto);
     $('reco').append(li);
   });
+  // Arriba, los títulos de las 3 primeras recomendaciones (docs/plan-ui.md); el análisis entero va en su pestaña
+  if (!A.pendiente && (A.recomendaciones || []).length) {
+    A.recomendaciones.slice(0, 3).forEach((r) => $('reco-top').append(rich(el('li'), r.titulo || r.texto)));
+    $('top').hidden = false;
+  }
+  // Consejos de cada jugador (antes solo estaban en su ficha), en el orden de la tabla; el nombre abre su ficha
+  const consejos = A.pendiente ? {} : (A.jugadores || {});
+  const orden = D.jugadores.map((j) => j.jugador);
+  const pos = (j) => (orden.indexOf(j) + 1) || orden.length + 1;
+  const conConsejo = Object.keys(consejos).filter((j) => (consejos[j] || []).length).sort((a, b) => pos(a) - pos(b));
+  conConsejo.forEach((j) => {
+    const item = el('div', 'rx-reco-jug-item');
+    const h = el('h4');
+    if (orden.includes(j)) { const a = el('a', 'rx-link', j); a.href = '#' + encodeURIComponent(j); h.append(a); } else h.textContent = j;
+    const ul = el('ul', 'rx-reco');
+    consejos[j].forEach((tx) => ul.append(rich(el('li'), tx)));
+    item.append(h, ul);
+    $('reco-jug').append(item);
+  });
+  $('reco-jug-sec').hidden = !conConsejo.length;
   const nota = (t, d) => { $('notas').append(el('dt', null, t)); rich($('notas').appendChild(el('dd')), d); };
   nota(T('note.origin'), T('note.origin.t', { yo: M.personaje }));
   nota(T('note.group'), T('note.group.t', { g: M.grupo.join(', ') }));
@@ -379,27 +399,58 @@ export function montarRaid({ D, A, N, soloEs, T, LANG, LOC, rutaPerfil }) {
   }
   function abrirFicha(nombre, desplazar) {
     abierto = abierto === nombre && desplazar ? null : nombre;
-    history.replaceState(null, '', abierto ? location.pathname + location.search + '#' + encodeURIComponent(abierto) : location.pathname + location.search);
+    abrirPestana('jugadores', false);
+    history.replaceState(null, '', location.pathname + location.search + '#' + encodeURIComponent(abierto || 'jugadores'));
     drawTabla($('tabla'));
     drawFicha();
     if (abierto && desplazar) $('ficha').scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' });
   }
   $('f-cerrar').addEventListener('click', () => abrirFicha(abierto, true));
 
-  // ---------- Dibujo ----------
-  const charts = [['ch-progreso', drawProgreso], ['ch-curva', drawCurva], ['ch-causas', drawCausas], ['ch-casteos', drawCasteos], ['ch-mapa', drawMapa]];
-  function drawAll() {
-    charts.forEach(([id, fn]) => { const b = $(id); b.replaceChildren(); fn(b); });
-    drawTabla($('tabla'));
-    drawFicha();
+  // ---------- Pestañas ----------
+  // Como en el perfil: solo se dibuja la pestaña visible (en un panel oculto los gráficos no tienen ancho) y va en el #hash.
+  // Un #hash con el nombre de un jugador abre su ficha en «Jugadores» (los enlaces de antes siguen valiendo).
+  const porPestana = {
+    resumen: [['ch-progreso', drawProgreso], ['ch-causas', drawCausas]], intentos: [['ch-curva', drawCurva]], muertes: [['ch-casteos', drawCasteos]],
+    mecanicas: [], dano: [], jugadores: [['ch-mapa', drawMapa]], analisis: []
+  };
+  const tabs = [...document.querySelectorAll('#tabs [data-tab]')];
+  let actual = null;
+  function dibujarPestana(nombre) {
+    porPestana[nombre].forEach(([id, fn]) => { const b = $(id); b.replaceChildren(); fn(b); });
+    if (nombre === 'jugadores') { drawTabla($('tabla')); drawFicha(); }
   }
-  const fromHash = decodeURIComponent(location.hash.slice(1));
-  if (D.jugadores.some((j) => j.jugador === fromHash)) abierto = fromHash;
-  drawAll();
-  if (abierto) $('ficha').scrollIntoView();
+  /** `escribir`: deja la pestaña en el #hash; `llevar`: baja hasta ella (al llegar desde un enlace de la página). */
+  function abrirPestana(nombre, escribir, llevar) {
+    if (!porPestana[nombre]) nombre = 'resumen';
+    const cambia = nombre !== actual;
+    actual = nombre;
+    tabs.forEach((b) => { const on = b.dataset.tab === nombre; b.setAttribute('aria-selected', on); b.tabIndex = on ? 0 : -1; $(b.dataset.tab).hidden = !on; });
+    if (cambia) dibujarPestana(nombre);
+    if (escribir) history.replaceState(null, '', nombre === 'resumen' ? location.pathname + location.search : '#' + nombre);
+    // Las pestañas se quedan pegadas arriba: si ya se ha bajado más allá, la nueva empieza desde su principio
+    const y = $(nombre).getBoundingClientRect().top + scrollY - $('tabs').offsetHeight - 8;
+    if (llevar || (cambia && scrollY > y)) scrollTo({ top: y });
+  }
+  tabs.forEach((b, i) => {
+    b.addEventListener('click', () => abrirPestana(b.dataset.tab, true));
+    b.addEventListener('keydown', (ev) => {
+      const j = ev.key === 'ArrowRight' ? i + 1 : ev.key === 'ArrowLeft' ? i - 1 : null; if (j == null) return;
+      const nb = tabs[(j + tabs.length) % tabs.length]; nb.focus(); abrirPestana(nb.dataset.tab, true);
+    });
+  });
+  function desdeHash(llevar) {
+    const h = decodeURIComponent(location.hash.slice(1));
+    if (D.jugadores.some((j) => j.jugador === h)) {
+      abierto = h; abrirPestana('jugadores', false); drawTabla($('tabla')); drawFicha(); $('ficha').scrollIntoView();
+    } else abrirPestana(h, false, llevar && !!porPestana[h]);
+  }
+  desdeHash(false);
+  const alCambiarHash = () => desdeHash(true);
+  addEventListener('hashchange', alCambiarHash);
 
   let lastW = innerWidth, timer;
-  const alCambiarTamano = () => { clearTimeout(timer); timer = setTimeout(() => { if (innerWidth !== lastW) { lastW = innerWidth; drawAll(); } }, 150); };
+  const alCambiarTamano = () => { clearTimeout(timer); timer = setTimeout(() => { if (innerWidth !== lastW) { lastW = innerWidth; dibujarPestana(actual); } }, 150); };
   addEventListener('resize', alCambiarTamano);
-  return () => { clearTimeout(timer); removeEventListener('resize', alCambiarTamano); };
+  return () => { clearTimeout(timer); removeEventListener('resize', alCambiarTamano); removeEventListener('hashchange', alCambiarHash); };
 }

@@ -1,13 +1,18 @@
 // Plantilla generada desde assets/raid-shell.html (web estática): la misma estructura e ids que espera lib/legado/*.
 // Los textos salen traducidos del servidor; los datos los pinta el módulo de lib/legado al montar la página.
+// Desde el 10/11/2026 (docs/plan-ui.md) va en pestañas: arriba, lo que hay que saber (titular, cifras y qué cambiar);
+// debajo, una pestaña por tema. Cada panel es un `pl-panel` con el id de su pestaña, que va en el #hash.
 import Link from 'next/link';
 import type { ReactNode } from 'react';
 import BarraSuperior from '@/components/BarraSuperior';
 import type { Traductor } from '@/lib/i18n';
 
-/** `intentos`, `repaso`, `mecanicas`, `ventanas`, `builds` y `seguimiento` son secciones que llegan ya pintadas del servidor (components/raid/Intentos, Repaso, Mecanicas, Ventanas, Builds, Seguimiento). */
-export default function PlantillaRaid({ t, volver, accion, enlaceJefe, intentos, repaso, mecanicas, ventanas, builds, seguimiento }: {
-  t: Traductor; volver: string; accion?: ReactNode; enlaceJefe?: { href: string; texto: string } | null; intentos?: ReactNode; repaso?: ReactNode; mecanicas?: ReactNode; ventanas?: ReactNode; builds?: ReactNode; seguimiento?: ReactNode;
+/** Pestañas de la raid, en orden. El id de cada una es el de su panel y el del #hash. */
+export const PESTANAS_RAID = ['resumen', 'intentos', 'muertes', 'mecanicas', 'dano', 'jugadores', 'analisis'] as const;
+
+/** `intentos`, `repaso`, `mecanicas`, `ventanas`, `builds` y `seguimiento` son secciones que llegan ya pintadas del servidor (components/raid/Intentos, Repaso, Mecanicas, Ventanas, Builds, Seguimiento); `resumenSeguimiento`, su línea para la cabecera. */
+export default function PlantillaRaid({ t, volver, accion, enlaceJefe, intentos, repaso, mecanicas, ventanas, builds, seguimiento, resumenSeguimiento }: {
+  t: Traductor; volver: string; accion?: ReactNode; enlaceJefe?: { href: string; texto: string } | null; intentos?: ReactNode; repaso?: ReactNode; mecanicas?: ReactNode; ventanas?: ReactNode; builds?: ReactNode; seguimiento?: ReactNode; resumenSeguimiento?: ReactNode;
 }) {
   return (
     <main className="rx">
@@ -16,15 +21,30 @@ export default function PlantillaRaid({ t, volver, accion, enlaceJefe, intentos,
         <p className="rx-eyebrow" id="eyebrow">{t('raid.loading')}</p>
         <h1 className="rx-title" id="jefe">—</h1>
         <p className="rx-lede" id="lede"></p>
+        <div className="rx-others" id="otros"></div>
         {enlaceJefe ? <p><Link className="rx-link" href={enlaceJefe.href}>{enlaceJefe.texto} →</Link></p> : null}
         {accion}
-        <div className="rx-others" id="otros"></div>
       </header>
-    
+
       <section className="rx-tiles" id="tiles"></section>
-    
-      <section className="rx-section" id="progresion">
-        <h2 className="rx-h2">{t('sec.progress')}</h2>
+
+      {resumenSeguimiento}
+
+      <section className="rx-top" id="top" hidden>
+        <h2 className="rx-top-t">{t('raid.top.t')}</h2>
+        <ol className="rx-reco rx-top-lista" id="reco-top"></ol>
+        <a className="rx-link" href="#analisis">{t('raid.top.todo')} →</a>
+      </section>
+
+      <nav className="pl-tabs rx-tabs" id="tabs" role="tablist" aria-label={t('raid.tabs.aria')}>
+        {PESTANAS_RAID.map((p, i) => (
+          <button key={p} type="button" role="tab" data-tab={p} aria-controls={p} aria-selected={i === 0} tabIndex={i === 0 ? 0 : -1}>
+            {t(`raid.tab.${p}`)}
+          </button>
+        ))}
+      </nav>
+
+      <div className="pl-panel rx-panel" id="resumen" role="tabpanel">
         <div className="rx-grid">
           <article className="rx-card">
             <h3>{t('card.progress')}</h3>
@@ -33,43 +53,43 @@ export default function PlantillaRaid({ t, volver, accion, enlaceJefe, intentos,
             <div className="rx-chart" id="ch-progreso"></div>
           </article>
           <article className="rx-card">
-            <h3>{t('card.curve')}</h3>
-            <p className="rx-note">{t('card.curve.note')}</p>
-            <div className="rx-legend" data-zona="ventana" hidden><span><i className="rx-key rx-key-band"></i><span>{t('legend.window')}</span></span></div>
-            <div className="rx-chart" id="ch-curva"></div>
-          </article>
-        </div>
-      </section>
-
-      {intentos}
-    
-      <section className="rx-section" id="muertes">
-        <h2 className="rx-h2">{t('sec.deaths')}</h2>
-        <div className="rx-grid">
-          <article className="rx-card">
             <h3>{t('card.causes')}</h3>
             <p className="rx-note">{t('card.causes.note')}</p>
             <div className="rx-legend"><span><i className="rx-key rx-key-critical"></i><span>{t('legend.oneshot')}</span></span><span><i className="rx-key rx-key-muted"></i><span>{t('legend.rest')}</span></span></div>
             <div className="rx-chart" id="ch-causas"></div>
           </article>
-          <article className="rx-card">
-            <h3>{t('card.casts')}</h3>
-            <p className="rx-note">{t('card.casts.note')}</p>
-            <div className="rx-chart" id="ch-casteos"></div>
-          </article>
         </div>
-      </section>
+      </div>
 
-      {repaso}
+      <div className="pl-panel rx-panel" id="intentos" role="tabpanel" hidden>
+        <article className="rx-card">
+          <h3>{t('card.curve')}</h3>
+          <p className="rx-note">{t('card.curve.note')}</p>
+          <div className="rx-legend" data-zona="ventana" hidden><span><i className="rx-key rx-key-band"></i><span>{t('legend.window')}</span></span></div>
+          <div className="rx-chart" id="ch-curva"></div>
+        </article>
+        {intentos}
+      </div>
 
-      {mecanicas}
+      <div className="pl-panel rx-panel" id="muertes" role="tabpanel" hidden>
+        <article className="rx-card">
+          <h3>{t('card.casts')}</h3>
+          <p className="rx-note">{t('card.casts.note')}</p>
+          <div className="rx-chart" id="ch-casteos"></div>
+        </article>
+        {repaso}
+      </div>
 
-      {ventanas}
+      <div className="pl-panel rx-panel" id="mecanicas" role="tabpanel" hidden>
+        {mecanicas}
+      </div>
 
-      {builds}
+      <div className="pl-panel rx-panel" id="dano" role="tabpanel" hidden>
+        {ventanas}
+        {builds}
+      </div>
 
-      <section className="rx-section" id="jugadores">
-        <h2 className="rx-h2">{t('sec.players')}</h2>
+      <div className="pl-panel rx-panel" id="jugadores" role="tabpanel" hidden>
         <article className="rx-card">
           <h3>{t('card.table')}</h3>
           <p className="rx-note">{t('card.table.note')}</p>
@@ -136,22 +156,27 @@ export default function PlantillaRaid({ t, volver, accion, enlaceJefe, intentos,
           <p className="rx-note">{t('card.map.note')}</p>
           <div className="rx-chart" id="ch-mapa"></div>
         </article>
-      </section>
-    
-      <section className="rx-section" id="analisis">
-        <h2 className="rx-h2">{t('sec.analysis')}</h2>
-        <p className="rx-pending" id="pendiente" hidden>{t('analysis.pending')}</p>
-        <p className="rx-pending" id="solo-es" hidden>{t('analysis.onlyEs')}</p>
-        <ol className="rx-reco" id="reco"></ol>
-      </section>
+      </div>
 
-      {seguimiento}
-    
-      <details className="rx-details">
-        <summary>{t('notes.summary')}</summary>
-        <dl id="notas"></dl>
-      </details>
-    
+      <div className="pl-panel rx-panel" id="analisis" role="tabpanel" hidden>
+        <section className="rx-section">
+          <h2 className="rx-h2">{t('sec.analysis')}</h2>
+          <p className="rx-pending" id="pendiente" hidden>{t('analysis.pending')}</p>
+          <p className="rx-pending" id="solo-es" hidden>{t('analysis.onlyEs')}</p>
+          <ol className="rx-reco" id="reco"></ol>
+        </section>
+        <section className="rx-section" id="reco-jug-sec" hidden>
+          <h2 className="rx-h2">{t('raid.recoJug.t')}</h2>
+          <p className="rx-note">{t('raid.recoJug.nota')}</p>
+          <div className="rx-reco-jug" id="reco-jug"></div>
+        </section>
+        {seguimiento}
+        <details className="rx-details">
+          <summary>{t('notes.summary')}</summary>
+          <dl id="notas"></dl>
+        </details>
+      </div>
+
       <p className="rx-foot" id="foot"></p>
     </main>
   );

@@ -6,6 +6,7 @@ import TablaEspecializaciones from '@/components/raid/TablaEspecializaciones';
 import { localeDe, type Clave, type Idioma, type Traductor } from '@/lib/i18n';
 import { analizarBuffs, type BuffDato } from '@/lib/raids/buffs';
 import { analizarEspecializaciones, formatoOpciones, type EspecializacionDato } from '@/lib/raids/especializaciones';
+import Explicacion from '@/components/ui/Explicacion';
 
 type Datos = { meta: unknown; jugadores?: { jugador: string; clase_id: string | null }[]; especializaciones?: EspecializacionDato[]; buffs_recibidos?: BuffDato[] };
 type NombresHab = { apodos: Record<string, string>; habilidades: Record<string, string> };
@@ -28,13 +29,15 @@ export default function Builds({ t, idioma, datos, nombres }: { t: Traductor; id
       {tablas.length ? (
         <article className="rx-card">
           <h3>{t('bx.esp.t')}</h3>
-          <p className="rx-note">{t('bx.esp.nota')}</p>
-          {varios.map((x) => (
-            <div key={x.clase} className="bx-clase">
-              <h4>{clase(x.clase)} <span className="rx-note">{x.distintas ? t('bx.esp.distintas', { n: x.distintas }) : t('bx.esp.iguales')}</span></h4>
-              <TablaEspecializaciones t={t} tabla={x} nombreHab={nombreHab} />
-            </div>
-          ))}
+          <Explicacion t={t} corto={t('bx.esp.corto')} metodo={t('bx.esp.nota')} />
+          <div className="bx-clases">
+            {varios.map((x) => (
+              <div key={x.clase} className="bx-clase">
+                <h4>{clase(x.clase)} <span className="rx-note">{x.distintas ? t('bx.esp.distintas', { n: x.distintas }) : t('bx.esp.iguales')}</span></h4>
+                <TablaEspecializaciones t={t} tabla={x} nombreHab={nombreHab} />
+              </div>
+            ))}
+          </div>
           {solos.length ? (
             <details className="bx-solos">
               <summary>{t('bx.esp.solos', { n: solos.length })}</summary>
@@ -51,7 +54,7 @@ export default function Builds({ t, idioma, datos, nombres }: { t: Traductor; id
       {b.buffs.length ? (
         <article className="rx-card">
           <h3>{t('bx.buf.t')}</h3>
-          <p className="rx-note">{t('bx.buf.nota')}</p>
+          <Explicacion t={t} corto={t('bx.buf.corto')} metodo={t('bx.buf.nota')} />
           {b.bajos.length ? (
             <ul className="bx-bajos">
               {b.bajos.map((x) => (

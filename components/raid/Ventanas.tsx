@@ -3,6 +3,7 @@
 // y traducido; no necesita JavaScript. Las raids extraídas antes del 9/11/2026 no traen «ventanas» y muestran un aviso.
 import { localeDe, type Idioma, type Traductor } from '@/lib/i18n';
 import { analizarVentanas, type VentanasDato } from '@/lib/raids/ventanas';
+import Explicacion from '@/components/ui/Explicacion';
 
 type Datos = { meta: unknown; ventanas?: VentanasDato };
 type NombresHab = { apodos: Record<string, string>; habilidades: Record<string, string> };
@@ -28,7 +29,7 @@ export default function Ventanas({ t, idioma, datos, nombres }: { t: Traductor; 
         <h3>{t('ven.rot.t')}</h3>
         {a.roturas ? (
           <>
-            <p className="rx-note">{t('ven.rot.nota', { n: a.roturas, i: a.intentos, s: nf.format(a.segundos) })}</p>
+            <Explicacion t={t} corto={t('ven.rot.corto', { n: a.roturas, i: a.intentos, s: nf.format(a.segundos) })} metodo={t('ven.rot.nota', { n: a.roturas, i: a.intentos, s: nf.format(a.segundos) })} />
             <div className="rx-table-wrap">
               <table className="rx-table rx-ven">
                 <thead>
@@ -61,7 +62,7 @@ export default function Ventanas({ t, idioma, datos, nombres }: { t: Traductor; 
       {a.debuffs.length ? (
         <article className="rx-card">
           <h3>{t('ven.deb.t')}</h3>
-          <p className="rx-note">{t('ven.deb.nota')}</p>
+          <Explicacion t={t} corto={t('ven.deb.corto')} metodo={t('ven.deb.nota')} />
           <div className="rx-table-wrap">
             <table className="rx-table rx-ven-deb">
               <thead>

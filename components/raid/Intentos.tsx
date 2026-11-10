@@ -4,6 +4,7 @@
 import { Fragment } from 'react';
 import { localeDe, type Clave, type Idioma, type Traductor } from '@/lib/i18n';
 import { compararIntentos, type FilaIntento, type IntentoDato, type MuerteDato, type PuntoCurva } from '@/lib/raids/intentos';
+import Explicacion from '@/components/ui/Explicacion';
 
 type Datos = { meta: unknown; intentos?: IntentoDato[]; curva?: PuntoCurva[]; detalle?: Record<string, unknown> };
 type NombresHab = { apodos: Record<string, string>; habilidades: Record<string, string>; npcs: Record<string, string> };
@@ -48,9 +49,9 @@ export default function Intentos({ t, idioma, datos, nombres }: { t: Traductor; 
       <h2 className="rx-h2">{t('cmp.titulo')}</h2>
       <article className="rx-card">
         <h3>{t('cmp.sep.t')}</h3>
-        <p className="rx-note">
-          {t(ref.matado ? 'cmp.sep.notaKill' : 'cmp.sep.notaMejor', { i: ref.intento, p: nf1.format(ref.progreso) })} {t('cmp.sep.nota')}
-        </p>
+        <Explicacion t={t}
+          corto={<>{t(ref.matado ? 'cmp.sep.notaKill' : 'cmp.sep.notaMejor', { i: ref.intento, p: nf1.format(ref.progreso) })} {t('cmp.sep.corto')}</>}
+          metodo={t('cmp.sep.nota')} />
         <p className="rx-cmp-cuentas">
           {t('cmp.cuenta', { n: c.cuentas.comparables })}{' '}
           {repartos.filter(([, n]) => n > 0).map(([k, n]) => <span key={k} className="rx-pill">{t(k, { n })}</span>)}
@@ -131,7 +132,7 @@ export default function Intentos({ t, idioma, datos, nombres }: { t: Traductor; 
       {repetidos.length ? (
         <article className="rx-card">
           <h3>{t('cmp.jug.t')}</h3>
-          <p className="rx-note">{t('cmp.jug.nota', { i: refNombre })}</p>
+          <Explicacion t={t} corto={t('cmp.jug.corto', { i: refNombre })} metodo={t('cmp.jug.nota', { i: refNombre })} />
           <div className="rx-table-wrap">
             <table className="rx-table rx-cmp-jug">
               <thead><tr><th>{t('th.player')}</th><th>{t('cmp.th.veces')}</th><th>{t('cmp.th.cuales')}</th></tr></thead>

@@ -4,6 +4,7 @@
 import type { CSSProperties } from 'react';
 import { localeDe, type Idioma, type Traductor } from '@/lib/i18n';
 import { analizarMecanicas, type Celda, type MecanicaDato } from '@/lib/raids/mecanicas';
+import Explicacion from '@/components/ui/Explicacion';
 
 type Datos = {
   meta: unknown; causas: { habilidad: string; muertes: number }[]; detalle: Record<string, unknown>; mecanicas?: MecanicaDato[];
@@ -16,7 +17,7 @@ const tinte = (tasa: number | null) => ({ '--mec': `${Math.round((tasa ?? 0) * 5
 export default function Mecanicas({ t, idioma, datos, nombres }: { t: Traductor; idioma: Idioma; datos: Datos; nombres: NombresHab }) {
   const titulo = <h2 className="rx-h2">{t('mec.titulo')}</h2>;
   if (!datos.mecanicas?.length) {
-    return <section className="rx-section" id="mecanicas">{titulo}<p className="rx-pending">{t('mec.sinDatos')}</p></section>;
+    return <section className="rx-section" id="mec">{titulo}<p className="rx-pending">{t('mec.sinDatos')}</p></section>;
   }
   const grupo = (datos.meta as { grupo: string[] }).grupo;
   const muertesDe = Object.fromEntries(Object.entries(datos.detalle).map(([n, d]) => [n, (d as { muertes?: { habilidad: string }[] }).muertes ?? []]));
@@ -37,13 +38,13 @@ export default function Mecanicas({ t, idioma, datos, nombres }: { t: Traductor;
   };
 
   return (
-    <section className="rx-section" id="mecanicas">
+    <section className="rx-section" id="mec">
       {titulo}
       {comparables.length ? (
         <>
           <article className="rx-card">
             <h3>{t('mec.rank.t')}</h3>
-            <p className="rx-note">{t('mec.rank.nota')}</p>
+            <Explicacion t={t} corto={t('mec.rank.corto')} metodo={t('mec.rank.nota')} />
             <div className="rx-table-wrap">
               <table className="rx-table rx-mec-rank">
                 <thead>
@@ -73,7 +74,7 @@ export default function Mecanicas({ t, idioma, datos, nombres }: { t: Traductor;
 
           <article className="rx-card">
             <h3>{t('mec.mapa.t')}</h3>
-            <p className="rx-note">{t('mec.mapa.nota')}</p>
+            <Explicacion t={t} corto={t('mec.mapa.corto')} metodo={t('mec.mapa.nota')} />
             <div className="rx-table-wrap">
               <table className="rx-table rx-mec">
                 <thead>
