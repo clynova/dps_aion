@@ -498,5 +498,20 @@
   "ven.rot.corto": "The bar broke {n} times in {i} attempts ({s} s). DPS per second alive, inside and outside the breaks; ▲/▽ goes up far more or less than the group.",
   "ven.deb.corto": "How long each player keeps their effects on the boss, overall and during the break.",
   "bx.esp.corto": "Specialization options for each skill (2·4·5 = options 2, 4 and 5). ● differs from their class; amber, no majority.",
-  "bx.buf.corto": "Who gets a teammate’s buff much less than the rest: probably out of its range."
+  "bx.buf.corto": "Who gets a teammate’s buff much less than the rest: probably out of its range.",
+  "ui.verTabla": "See the table",
+  "rep.res": "Group: {n} deaths; {g} in one hit ({p}), {r} in a burst and {d} worn down.",
+  "rep.sin": "No data",
+  "rep.barra.aria": "{j}: {n} deaths; {g} in one hit, {r} in a burst, {d} worn down",
+  "rep.chip.sinSanador": "{n} with no healer alive",
+  "rep.chip.grupoCaido": "{n} with half the group down",
+  "rep.chip.defensivo": "{n} with a defensive ready",
+  "mec.det": "{r} taken · {e} expected · {m} deaths from these attacks",
+  "mec.nadaDestaca": "Nothing stands out: {l}.",
+  "mec.mapa.solo": "Only the attacks where someone gets hit far more than the rest ({n} of {de}).",
+  "mec.mapa.otros": "The other {n} attacks",
+  "ven.deb.todos": "All debuffs ({n})",
+  "ven.deb.top": "The 3 each player keeps up the most.",
+  "seg.reco.ataques": "{n} attacks",
+  "seg.reco.ataque1": "1 attack"
 }

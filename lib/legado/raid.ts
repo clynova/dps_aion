@@ -131,6 +131,14 @@ export function montarRaid({ D, A, N, soloEs, T, LANG, LOC, rutaPerfil }) {
   const svgIn = (box, W, H, label) => d3.select(box).append('svg').attr('width', '100%').attr('viewBox', `0 0 ${W} ${H}`).attr('role', 'img').attr('aria-label', label);
   const measure = (svg, labels) => { const g = svg.append('g').attr('opacity', 0); const w = d3.max(labels, (s) => g.append('text').text(s).node().getComputedTextLength()) || 0; g.remove(); return w; };
   const width = (box) => Math.max(box.clientWidth, 260);
+  // Etiqueta que no cabe en `ancho` px: se recorta con «…» y el texto entero queda en su <title> (en móvil se salían por la izquierda)
+  const ajustar = (sel, ancho) => sel.each(function () {
+    const full = this.textContent;
+    if (this.getComputedTextLength() <= ancho) return;
+    let s = full;
+    while (s.length > 1 && this.getComputedTextLength() > ancho) { s = s.slice(0, -1); this.textContent = s.trimEnd() + '…'; }
+    d3.select(this).append('title').text(full);
+  });
   const empty = (box, msg) => box.append(el('div', 'rx-empty', msg));
   const yGrid = (svg, y, x0, x1, ticks, fmt) => ticks.forEach((v) => {
     svg.append('line').attr('x1', x0).attr('x2', x1).attr('y1', y(v)).attr('y2', y(v)).style('stroke', v ? 'var(--chart-grid)' : 'var(--chart-axis)');
@@ -153,7 +161,8 @@ export function montarRaid({ D, A, N, soloEs, T, LANG, LOC, rutaPerfil }) {
     const t = tipFor(box);
     const g = svg.append('g').selectAll('g').data(rows).join('g');
     g.append('text').attr('x', m.l - 8 - (withIcons ? IC + ICG : 0)).attr('y', (d, i) => y(i) + y.bandwidth() / 2).attr('dy', '0.32em').attr('text-anchor', 'end')
-      .attr('class', (d) => (critical && critical(d) ? 'rx-strong' : null)).text(label);
+      .attr('class', (d) => (critical && critical(d) ? 'rx-strong' : null)).text(label)
+      .call(ajustar, m.l - 8 - (withIcons ? IC + ICG : 0));
     if (withIcons) {
       g.filter((d) => icon(d)).append('image').attr('href', (d) => icon(d))
         .attr('x', m.l - ICG - IC).attr('y', (d) => y(rows.indexOf(d)) + y.bandwidth() / 2 - IC / 2).attr('width', IC).attr('height', IC)
@@ -255,7 +264,7 @@ export function montarRaid({ D, A, N, soloEs, T, LANG, LOC, rutaPerfil }) {
     const W = width(box), row = 20, m = { t: 6, r: 12, b: 28 };
     const H = m.t + m.b + skills.length * row;
     const svg = svgIn(box, W, H, T('aria.casts'));
-    m.l = Math.ceil(measure(svg, skills.map(skName))) + 10;
+    m.l = Math.min(W * 0.45, Math.ceil(measure(svg, skills.map(skName))) + 10);
     const x = d3.scaleLinear([0, d3.max(casts, (d) => d.t)], [m.l, W - m.r]).nice();
     const y = d3.scaleBand(skills, [m.t, H - m.b]).padding(0.2);
     if (zonas.ventana) svg.append('rect').attr('x', x(zonas.ventana[0])).attr('width', x(zonas.ventana[1]) - x(zonas.ventana[0])).attr('y', m.t).attr('height', H - m.b - m.t).style('fill', 'var(--critical)').style('fill-opacity', 0.1);
@@ -265,7 +274,8 @@ export function montarRaid({ D, A, N, soloEs, T, LANG, LOC, rutaPerfil }) {
     });
     skills.forEach((s) => {
       svg.append('line').attr('x1', m.l).attr('x2', W - m.r).attr('y1', y(s) + y.bandwidth() / 2).attr('y2', y(s) + y.bandwidth() / 2).style('stroke', 'var(--chart-grid)');
-      svg.append('text').attr('x', m.l - 8).attr('y', y(s) + y.bandwidth() / 2).attr('dy', '0.32em').attr('text-anchor', 'end').attr('class', killers.has(s) ? 'rx-strong' : null).text(skName(s));
+      svg.append('text').attr('x', m.l - 8).attr('y', y(s) + y.bandwidth() / 2).attr('dy', '0.32em').attr('text-anchor', 'end').attr('class', killers.has(s) ? 'rx-strong' : null).text(skName(s))
+        .call(ajustar, m.l - 8);
     });
     const t = tipFor(box);
     svg.append('g').selectAll('circle').data(casts).join('circle')
@@ -426,6 +436,9 @@ export function montarRaid({ D, A, N, soloEs, T, LANG, LOC, rutaPerfil }) {
     const cambia = nombre !== actual;
     actual = nombre;
     tabs.forEach((b) => { const on = b.dataset.tab === nombre; b.setAttribute('aria-selected', on); b.tabIndex = on ? 0 : -1; $(b.dataset.tab).hidden = !on; });
+    // En el móvil la barra se desplaza en horizontal: que se vea la pestaña abierta (sin mover la página)
+    const nav = $('tabs'), btn = tabs.find((b) => b.dataset.tab === nombre);
+    if (btn && (btn.offsetLeft < nav.scrollLeft || btn.offsetLeft + btn.offsetWidth > nav.scrollLeft + nav.clientWidth)) nav.scrollLeft = Math.max(0, btn.offsetLeft - 16);
     if (cambia) dibujarPestana(nombre);
     if (escribir) history.replaceState(null, '', nombre === 'resumen' ? location.pathname + location.search : '#' + nombre);
     // Las pestañas se quedan pegadas arriba: si ya se ha bajado más allá, la nueva empieza desde su principio

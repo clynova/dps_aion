@@ -37,6 +37,46 @@ export default function Mecanicas({ t, idioma, datos, nombres }: { t: Traductor;
     return t(c.nivel === 'alto' ? 'mec.celda.alto' : c.nivel === 'bajo' ? 'mec.celda.bajo' : 'mec.celda', v);
   };
 
+  // Arriba, quien recibe de más (o destaca en algún ataque); los demás, en una línea. La tabla entera, plegada.
+  const destacan = a.jugadores.filter((j) => j.altos.length || (j.indice ?? 0) >= 1.3);
+  const tranquilos = a.jugadores.filter((j) => !destacan.includes(j));
+  // La matriz enseña primero los ataques en los que a alguien le da bastante más que al resto
+  const conAlto = comparables.filter((x) => x.celdas.some((c) => c.nivel === 'alto' && !c.objetivo));
+  const otros = comparables.filter((x) => !conAlto.includes(x));
+  const matriz = (filas: typeof comparables) => (
+    <div className="rx-table-wrap">
+      <table className="rx-table rx-mec">
+        <thead>
+          <tr>
+            <th>{t('mec.th.ataque')}</th><th>{t('mec.th.veces')}</th><th>{t('th.deaths')}</th>
+            {orden.map((n) => <th key={n} className="rx-mec-j" title={n}>{n}</th>)}
+          </tr>
+        </thead>
+        <tbody>
+          {filas.map((x) => (
+            <tr key={x.habilidad}>
+              <td>{hab(x.habilidad)}</td>
+              <td>{x.olas}</td>
+              <td>{x.muertes || ''}</td>
+              {orden.map((n) => {
+                const c = celdaDe(x, n);
+                if (!c.expuesto) return <td key={n} title={ayuda(c)}><span className="rx-mec-c is-nada">–</span></td>;
+                if (c.objetivo) return <td key={n} title={ayuda(c)}><span className="rx-mec-c is-obj">{c.olas}/{c.expuesto} ◎</span></td>;
+                return (
+                  <td key={n} title={ayuda(c)}>
+                    <span className={`rx-mec-c${c.nivel === 'alto' ? ' is-alto' : ''}`} style={tinte(c.tasa)}>
+                      {c.olas}/{c.expuesto}{c.nivel === 'alto' ? ' ▲' : c.nivel === 'bajo' ? ' ▽' : ''}
+                    </span>
+                  </td>
+                );
+              })}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+
   return (
     <section className="rx-section" id="mec">
       {titulo}
@@ -45,67 +85,77 @@ export default function Mecanicas({ t, idioma, datos, nombres }: { t: Traductor;
           <article className="rx-card">
             <h3>{t('mec.rank.t')}</h3>
             <Explicacion t={t} corto={t('mec.rank.corto')} metodo={t('mec.rank.nota')} />
-            <div className="rx-table-wrap">
-              <table className="rx-table rx-mec-rank">
-                <thead>
-                  <tr>
-                    <th>{t('th.player')}</th><th>{t('mec.th.recibidos')}</th><th>{t('mec.th.esperados')}</th><th>{t('mec.th.diferencia')}</th>
-                    <th>{t('mec.th.muertes')}</th><th>{t('mec.th.donde')}</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {a.jugadores.map((j) => (
-                    <tr key={j.jugador}>
-                      <td>{j.jugador}</td>
-                      <td>{j.recibidos}</td>
-                      <td>{nf.format(j.esperados)}</td>
-                      <td>{j.indice === null ? '—' : <>{j.indice >= 1.3 ? <span aria-hidden="true">▲ </span> : j.indice <= 0.75 ? <span aria-hidden="true">▽ </span> : null}{dif(j.indice)}</>}</td>
-                      <td>{j.muertes}</td>
-                      <td>{j.altos.length ? j.altos.slice(0, 4).map((id) => {
-                        const c = a.ataques.find((x) => x.habilidad === id)!.celdas.find((x) => x.jugador === j.jugador)!;
-                        return `${hab(id)} (${c.olas}/${c.expuesto})`;
-                      }).join(' · ') : <span className="rx-note">{t('mec.sinDestacar')}</span>}</td>
+            {destacan.length ? (
+              <ul className="rx-dest">
+                {destacan.map((j) => {
+                  const p = j.indice === null ? null : Math.round((j.indice - 1) * 100);
+                  return (
+                    <li key={j.jugador}>
+                      <span className="rx-dest-n">{j.jugador}</span>
+                      <span className="rx-div" aria-hidden="true">
+                        {p ? <i className={p > 0 ? 'is-mas' : 'is-menos'} style={{ width: `${Math.min(Math.abs(p), 100) / 2}%` }} /> : null}
+                      </span>
+                      <span className={`rx-dest-v${(j.indice ?? 0) >= 1.3 ? ' is-alto' : ''}`}>
+                        {j.indice === null ? '—' : <>{j.indice >= 1.3 ? <span aria-hidden="true">▲ </span> : j.indice <= 0.75 ? <span aria-hidden="true">▽ </span> : null}{dif(j.indice)}</>}
+                      </span>
+                      <span className="rx-dest-det">{t('mec.det', { r: j.recibidos, e: nf.format(j.esperados), m: j.muertes })}</span>
+                      {j.altos.length ? (
+                        <span className="rx-dest-chips">
+                          {j.altos.slice(0, 4).map((id) => {
+                            const c = a.ataques.find((x) => x.habilidad === id)!.celdas.find((x) => x.jugador === j.jugador)!;
+                            return <span key={id} className="rx-pill is-bad">{hab(id)} {c.olas}/{c.expuesto}</span>;
+                          })}
+                        </span>
+                      ) : null}
+                    </li>
+                  );
+                })}
+              </ul>
+            ) : null}
+            {tranquilos.length ? (
+              <p className="rx-note">{t('mec.nadaDestaca', { l: tranquilos.map((j) => (j.indice === null ? j.jugador : `${j.jugador} (${dif(j.indice)})`)).join(', ') })}</p>
+            ) : null}
+            <details className="rx-details">
+              <summary>{t('ui.verTabla')}</summary>
+              <div className="rx-table-wrap">
+                <table className="rx-table rx-mec-rank">
+                  <thead>
+                    <tr>
+                      <th>{t('th.player')}</th><th>{t('mec.th.recibidos')}</th><th>{t('mec.th.esperados')}</th><th>{t('mec.th.diferencia')}</th>
+                      <th>{t('mec.th.muertes')}</th><th>{t('mec.th.donde')}</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+                  </thead>
+                  <tbody>
+                    {a.jugadores.map((j) => (
+                      <tr key={j.jugador}>
+                        <td>{j.jugador}</td>
+                        <td>{j.recibidos}</td>
+                        <td>{nf.format(j.esperados)}</td>
+                        <td>{j.indice === null ? '—' : <>{j.indice >= 1.3 ? <span aria-hidden="true">▲ </span> : j.indice <= 0.75 ? <span aria-hidden="true">▽ </span> : null}{dif(j.indice)}</>}</td>
+                        <td>{j.muertes}</td>
+                        <td>{j.altos.length ? j.altos.slice(0, 4).map((id) => {
+                          const c = a.ataques.find((x) => x.habilidad === id)!.celdas.find((x) => x.jugador === j.jugador)!;
+                          return `${hab(id)} (${c.olas}/${c.expuesto})`;
+                        }).join(' · ') : <span className="rx-note">{t('mec.sinDestacar')}</span>}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </details>
           </article>
 
           <article className="rx-card">
             <h3>{t('mec.mapa.t')}</h3>
             <Explicacion t={t} corto={t('mec.mapa.corto')} metodo={t('mec.mapa.nota')} />
-            <div className="rx-table-wrap">
-              <table className="rx-table rx-mec">
-                <thead>
-                  <tr>
-                    <th>{t('mec.th.ataque')}</th><th>{t('mec.th.veces')}</th><th>{t('th.deaths')}</th>
-                    {orden.map((n) => <th key={n} className="rx-mec-j" title={n}>{n}</th>)}
-                  </tr>
-                </thead>
-                <tbody>
-                  {comparables.map((x) => (
-                    <tr key={x.habilidad}>
-                      <td>{hab(x.habilidad)}</td>
-                      <td>{x.olas}</td>
-                      <td>{x.muertes || ''}</td>
-                      {orden.map((n) => {
-                        const c = celdaDe(x, n);
-                        if (!c.expuesto) return <td key={n} title={ayuda(c)}><span className="rx-mec-c is-nada">–</span></td>;
-                        if (c.objetivo) return <td key={n} title={ayuda(c)}><span className="rx-mec-c is-obj">{c.olas}/{c.expuesto} ◎</span></td>;
-                        return (
-                          <td key={n} title={ayuda(c)}>
-                            <span className={`rx-mec-c${c.nivel === 'alto' ? ' is-alto' : ''}`} style={tinte(c.tasa)}>
-                              {c.olas}/{c.expuesto}{c.nivel === 'alto' ? ' ▲' : c.nivel === 'bajo' ? ' ▽' : ''}
-                            </span>
-                          </td>
-                        );
-                      })}
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+            {conAlto.length && otros.length ? <p className="rx-note">{t('mec.mapa.solo', { n: conAlto.length, de: comparables.length })}</p> : null}
+            {matriz(conAlto.length ? conAlto : comparables)}
+            {conAlto.length && otros.length ? (
+              <details className="rx-details">
+                <summary>{t('mec.mapa.otros', { n: otros.length })}</summary>
+                {matriz(otros)}
+              </details>
+            ) : null}
           </article>
         </>
       ) : <p className="rx-pending">{t('mec.vacio')}</p>}

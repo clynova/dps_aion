@@ -205,21 +205,16 @@ a:focus-visible, button:focus-visible, summary:focus-visible { outline: 2px soli
 .rx-seg-ok { color: var(--ok); }
 .rx-table.rx-seg th:nth-child(2), .rx-table.rx-seg td:nth-child(2) { text-align: right; }
 .rx-table.rx-seg td:first-child { font-weight: 400; }
-.rx-table.rx-seg-recos th, .rx-table.rx-seg-recos td, .rx-table.rx-seg-jug th:last-child, .rx-table.rx-seg-jug td:last-child { text-align: left; white-space: normal; vertical-align: top; }
-.rx-table.rx-seg-recos td:first-child { min-width: 12rem; }
-.rx-table.rx-seg-recos td:nth-child(2), .rx-table.rx-seg-jug td:last-child { min-width: 16rem; font-size: var(--fs-caption); }
-.rx-table.rx-seg-recos th:last-child, .rx-table.rx-seg-recos td:last-child { text-align: right; white-space: nowrap; }
+.rx-table.rx-seg-jug th:last-child, .rx-table.rx-seg-jug td:last-child { text-align: left; white-space: normal; vertical-align: top; }
+.rx-table.rx-seg-jug td:last-child { min-width: 16rem; font-size: var(--fs-caption); }
 .rx-table.rx-seg-jug th:nth-child(2), .rx-table.rx-seg-jug td:nth-child(2) { text-align: right; }
 .rx-table.rx-seg-jug td:last-child { padding-left: var(--pad-lg); }
 .rx-seg-lista { list-style: none; margin: 0; padding: 0; display: grid; gap: .2rem; }
 .rx-seg-lista b { font-weight: 600; }
 @media (max-width: 640px) {
-  /* En el móvil la tabla del grupo cabe sin desplazar y cada recomendación se apila: título, ataques y resultado */
+  /* En el móvil la tabla del grupo cabe sin desplazar */
   .rx-table.rx-seg th, .rx-table.rx-seg td { padding-left: var(--pad-xs); padding-right: var(--pad-xs); }
   .rx-table.rx-seg td:first-child { white-space: normal; }
-  .rx-table.rx-seg-recos thead { display: none; }
-  .rx-table.rx-seg-recos tr { display: grid; gap: var(--gap-xs); padding: var(--pad-sm) 0; border-bottom: 1px solid var(--line); }
-  .rx-table.rx-seg-recos td, .rx-table.rx-seg-recos td:last-child { display: block; min-width: 0; padding: 0; border: 0; text-align: left; white-space: normal; }
 }
 
 /* Perfil de jugador */

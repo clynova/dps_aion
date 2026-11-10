@@ -97,3 +97,71 @@ a.cx-boton { text-decoration: none; display: inline-block; }
 /* Raid: tablas de especializaciones en rejilla (antes, apiladas al 40 % del ancho) */
 .bx-clases { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 22rem), 1fr)); gap: var(--gap-sm) var(--gap-lg); align-items: start; }
 .bx-clases .rx-table.bx-esp { width: 100%; min-width: 0; }
+
+/* ---------- Fase 3: tablas densas a formato visual (docs/plan-ui.md) ---------- */
+/* «Cómo muere cada uno»: barra apilada por jugador (de un golpe / en ráfaga / por desgaste) */
+.rx-rep-res { margin: 0; }
+.rx-apil-key.is-rafaga { background: var(--series-2); }
+.rx-apil { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--gap-sm); }
+.rx-apil li { display: grid; grid-template-columns: minmax(6rem, 9rem) minmax(0, 1fr); align-items: center; gap: 2px var(--gap-md); }
+.rx-apil-n { font-size: var(--fs-caption); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.rx-apil-pista { display: flex; align-items: center; gap: var(--gap-sm); min-width: 0; }
+.rx-apil-barra { display: flex; height: .85rem; border-radius: 3px; overflow: hidden; min-width: 2px; flex: 0 1 auto; }
+.rx-apil-barra i { display: block; height: 100%; flex-basis: 0; }
+.rx-apil-barra i + i { border-left: 1px solid var(--panel); }
+.rx-apil-barra .is-golpe { background: var(--critical); }
+.rx-apil-barra .is-rafaga { background: var(--series-2); }
+.rx-apil-barra .is-desgaste { background: var(--chart-muted); }
+.rx-apil-barra .is-sin { background: repeating-linear-gradient(45deg, var(--chart-muted) 0 3px, transparent 3px 6px); }
+.rx-apil-v { font-size: var(--fs-caption); font-weight: 600; }
+.rx-apil-chips { grid-column: 2; display: flex; flex-wrap: wrap; gap: var(--gap-xs); }
+.rx-apil-chips .rx-pill { font-size: .75rem; padding: 0 .45rem; }
+
+/* «Quién recibe golpes que el resto evita»: quien destaca, con barra de diferencia (centro = lo esperado) */
+.rx-dest { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
+.rx-dest li { display: grid; grid-template-columns: minmax(6rem, 9rem) minmax(6rem, 12rem) 4.5rem minmax(0, 1fr); align-items: center; gap: var(--gap-xs) var(--gap-md); padding: var(--pad-sm) 0; border-bottom: 1px solid var(--line); }
+.rx-dest li:last-child { border-bottom: 0; }
+.rx-dest-n { font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.rx-div { position: relative; height: .7rem; }
+.rx-div::before { content: ""; position: absolute; left: 50%; top: -2px; bottom: -2px; border-left: 1px solid var(--chart-axis); }
+.rx-div i { position: absolute; top: 0; bottom: 0; border-radius: 2px; }
+.rx-div i.is-mas { left: 50%; background: var(--critical); }
+.rx-div i.is-menos { right: 50%; background: var(--ok); opacity: .7; }
+.rx-dest-v { font-size: var(--fs-caption); text-align: right; white-space: nowrap; }
+.rx-dest-v.is-alto { color: var(--bad); font-weight: 600; }
+.rx-dest-det { font-size: var(--fs-caption); color: var(--fg-muted); }
+.rx-dest-chips { grid-column: 2 / -1; display: flex; flex-wrap: wrap; gap: var(--gap-xs); }
+.rx-dest-chips .rx-pill { font-size: .75rem; padding: 0 .45rem; white-space: normal; }
+@media (max-width: 640px) {
+  .rx-dest li { grid-template-columns: minmax(0, 1fr) 5rem 4.5rem; }
+  .rx-dest-det, .rx-dest-chips { grid-column: 1 / -1; }
+}
+
+/* «Ataque por ataque»: la columna del ataque se queda fija al desplazar la tabla en horizontal */
+.rx-table.rx-mec th:first-child, .rx-table.rx-mec td:first-child { position: sticky; left: 0; z-index: 1; background: var(--panel); }
+
+/* Debuffs: barra pequeña junto a cada porcentaje */
+.rx-mini-v { display: inline-flex; align-items: center; justify-content: flex-end; gap: var(--gap-sm); }
+.rx-mini { display: inline-block; width: 4.5rem; height: .4rem; border-radius: 2px; background: var(--chart-grid); overflow: hidden; }
+.rx-mini i { display: block; height: 100%; background: var(--series-1); }
+@media (max-width: 480px) { .rx-mini { display: none; } }
+
+/* «Qué pasó con las recomendaciones»: una línea cada una; sus ataques, al desplegarla */
+ul.rx-seg-recos { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
+ul.rx-seg-recos > li { border-bottom: 1px solid var(--line); padding: var(--pad-sm) 0; }
+ul.rx-seg-recos > li:last-child { border-bottom: 0; }
+ul.rx-seg-recos summary, .rx-seg-reco-l { display: grid; grid-template-columns: 6.5rem minmax(0, 1fr) auto; align-items: baseline; gap: var(--gap-md); }
+ul.rx-seg-recos summary { cursor: pointer; list-style: none; }
+ul.rx-seg-recos summary::-webkit-details-marker { display: none; }
+ul.rx-seg-recos summary .rx-note::after { content: " ▸"; }
+ul.rx-seg-recos details[open] summary .rx-note::after { content: " ▾"; }
+ul.rx-seg-recos .rx-pill { justify-self: start; }
+.rx-seg-reco-t { font-weight: 600; }
+ul.rx-seg-recos .rx-seg-lista { margin: var(--gap-sm) 0 var(--gap-xs) calc(6.5rem + var(--gap-md)); font-size: var(--fs-caption); }
+@media (max-width: 640px) {
+  ul.rx-seg-recos summary, .rx-seg-reco-l { grid-template-columns: minmax(0, 1fr); gap: var(--gap-xs); }
+  ul.rx-seg-recos .rx-seg-lista { margin-left: 0; }
+}
+@media (max-width: 640px) {
+  .rx-table.rx-mec th:first-child, .rx-table.rx-mec td:first-child { min-width: 7.5rem; max-width: 9rem; }
+}

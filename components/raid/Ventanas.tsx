@@ -22,6 +22,32 @@ export default function Ventanas({ t, idioma, datos, nombres }: { t: Traductor; 
   const mult = (x: number | null) => (x === null ? '—' : t('ven.mult', { n: n2.format(x) }));
   const pct = (x: number | null) => (x === null ? '—' : t('ven.pct', { n: nf.format(x) }));
 
+  // Debuffs: los 3 que más mantiene cada jugador, con barras; la lista entera, plegada
+  const totalDebuffs = a.debuffs.reduce((s, d) => s + d.lista.length, 0);
+  const recortados = a.debuffs.some((d) => d.lista.length > 3);
+  const barra = (x: number | null) => (
+    <span className="rx-mini-v"><span className="rx-mini" aria-hidden="true"><i style={{ width: `${Math.min(100, Math.max(0, x ?? 0))}%` }} /></span>{pct(x)}</span>
+  );
+  const tablaDebuffs = (max: number) => (
+    <div className="rx-table-wrap">
+      <table className="rx-table rx-ven-deb">
+        <thead>
+          <tr><th>{t('th.player')}</th><th>{t('ven.th.debuff')}</th><th>{t('ven.th.activo')}</th><th>{t('ven.th.enRotura')}</th></tr>
+        </thead>
+        <tbody>
+          {a.debuffs.flatMap((d) => d.lista.slice(0, max).map((x, i) => (
+            <tr key={`${d.jugador}-${x.habilidad}`} className={i === 0 ? 'rx-ven-primero' : undefined}>
+              <td>{i === 0 ? d.jugador : ''}</td>
+              <td>{hab(x.habilidad)}</td>
+              <td>{barra(x.activo_pct)}</td>
+              <td>{barra(x.rotura_pct)}</td>
+            </tr>
+          )))}
+        </tbody>
+      </table>
+    </div>
+  );
+
   return (
     <section className="rx-section" id="ventanas">
       {titulo}
@@ -63,23 +89,14 @@ export default function Ventanas({ t, idioma, datos, nombres }: { t: Traductor; 
         <article className="rx-card">
           <h3>{t('ven.deb.t')}</h3>
           <Explicacion t={t} corto={t('ven.deb.corto')} metodo={t('ven.deb.nota')} />
-          <div className="rx-table-wrap">
-            <table className="rx-table rx-ven-deb">
-              <thead>
-                <tr><th>{t('th.player')}</th><th>{t('ven.th.debuff')}</th><th>{t('ven.th.activo')}</th><th>{t('ven.th.enRotura')}</th></tr>
-              </thead>
-              <tbody>
-                {a.debuffs.flatMap((d) => d.lista.map((x, i) => (
-                  <tr key={`${d.jugador}-${x.habilidad}`} className={i === 0 ? 'rx-ven-primero' : undefined}>
-                    <td>{i === 0 ? d.jugador : ''}</td>
-                    <td>{hab(x.habilidad)}</td>
-                    <td>{pct(x.activo_pct)}</td>
-                    <td>{pct(x.rotura_pct)}</td>
-                  </tr>
-                )))}
-              </tbody>
-            </table>
-          </div>
+          {recortados ? <p className="rx-note">{t('ven.deb.top')}</p> : null}
+          {tablaDebuffs(3)}
+          {recortados ? (
+            <details className="rx-details">
+              <summary>{t('ven.deb.todos', { n: totalDebuffs })}</summary>
+              {tablaDebuffs(Infinity)}
+            </details>
+          ) : null}
         </article>
       ) : null}
     </section>

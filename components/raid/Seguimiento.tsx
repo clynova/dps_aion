@@ -11,6 +11,8 @@ type Props = {
 };
 
 const SIGNO: Record<Veredicto, string> = { mejor: '▲', igual: '=', peor: '▼' };
+/** Resultado de un ataque: por sus muertes por intento; si quedan igual, por cuántas veces dio */
+const veredictoAtaque = (a: AtaqueSeg) => (a.muertes.veredicto === 'igual' && a.tasa.veredicto ? a.tasa.veredicto : a.muertes.veredicto);
 
 /** Las tres cifras del grupo frente a la raid anterior, en una línea, para la cabecera de la raid. El detalle va en la pestaña «Análisis». */
 export function ResumenSeguimiento({ t, idioma, datos, anterior }: Omit<Props, 'grupo' | 'nombres'>) {
@@ -73,7 +75,7 @@ export default function Seguimiento({ t, idioma, grupo, nombres, datos, anterior
       t('seg.ataque.muertes', { a: num(a.muertes.antes, n2), b: num(a.muertes.ahora, n2) }),
       ...(a.tasa.antes !== null && a.tasa.ahora !== null ? [t('seg.ataque.tasa', { a: n1.format(a.tasa.antes), b: n1.format(a.tasa.ahora) })] : []),
     ];
-    const v = a.muertes.veredicto === 'igual' && a.tasa.veredicto ? a.tasa.veredicto : a.muertes.veredicto;
+    const v = veredictoAtaque(a);
     return (
       <li key={a.habilidad}>
         <b>{nombre(a.habilidad) || a.habilidad}</b>: {partes.join(' · ')}
@@ -110,20 +112,28 @@ export default function Seguimiento({ t, idioma, grupo, nombres, datos, anterior
         {s.recomendaciones.length ? (
           <>
             <p className="rx-note">{t('seg.recos.nota')}{s.conTasas ? '' : ` ${t('seg.sinTasas')}`}</p>
-            <div className="rx-table-wrap">
-              <table className="rx-table rx-seg-recos">
-                <thead><tr><th>{t('seg.th.reco')}</th><th>{t('seg.th.ataques')}</th><th>{t('seg.th.resultado')}</th></tr></thead>
-                <tbody>
-                  {s.recomendaciones.map((r, i) => (
-                    <tr key={i}>
-                      <td>{texto(r.titulo)}</td>
-                      <td>{r.ataques.length ? <ul className="rx-seg-lista">{r.ataques.map(ataque)}</ul> : <span className="rx-note">{t('seg.sinAtaques')}</span>}</td>
-                      <td>{veredicto(r.veredicto)}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+            {/* Una línea por recomendación (resultado y título); sus ataques, antes → ahora, al desplegarla */}
+            <ul className="rx-seg-recos">
+              {s.recomendaciones.map((r, i) => {
+                const cuenta = (v: Veredicto) => r.ataques.filter((x) => veredictoAtaque(x) === v).length;
+                const resumen = r.ataques.length ? [
+                  t(r.ataques.length === 1 ? 'seg.reco.ataque1' : 'seg.reco.ataques', { n: r.ataques.length }),
+                  ...(cuenta('mejor') ? [`${cuenta('mejor')} ${SIGNO.mejor}`] : []),
+                  ...(cuenta('peor') ? [`${cuenta('peor')} ${SIGNO.peor}`] : []),
+                ].join(' · ') : t('seg.sinAtaques');
+                const linea = <>{veredicto(r.veredicto)}<span className="rx-seg-reco-t">{texto(r.titulo)}</span><span className="rx-note">{resumen}</span></>;
+                return (
+                  <li key={i}>
+                    {r.ataques.length ? (
+                      <details>
+                        <summary>{linea}</summary>
+                        <ul className="rx-seg-lista">{r.ataques.map(ataque)}</ul>
+                      </details>
+                    ) : <div className="rx-seg-reco-l">{linea}</div>}
+                  </li>
+                );
+              })}
+            </ul>
           </>
         ) : <p className="rx-note">{t('seg.recos.vacio')}</p>}
       </article>

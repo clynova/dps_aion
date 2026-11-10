@@ -498,5 +498,20 @@
   "ven.rot.corto": "La barra se rompió {n} veces en {i} intentos ({s} s). DPS por segundo vivo, dentro y fuera de las roturas; ▲/▽ sube bastante más o menos que el grupo.",
   "ven.deb.corto": "Cuánto tiempo mantiene cada jugador sus efectos sobre el jefe, en total y durante la rotura.",
   "bx.esp.corto": "Opciones de especialización de cada habilidad (2·4·5 = opciones 2, 4 y 5). ● se aparta de su clase; en ámbar, sin mayoría.",
-  "bx.buf.corto": "A quién le llega un buff de un compañero bastante menos que al resto: probablemente se queda fuera de su alcance."
+  "bx.buf.corto": "A quién le llega un buff de un compañero bastante menos que al resto: probablemente se queda fuera de su alcance.",
+  "ui.verTabla": "Ver la tabla",
+  "rep.res": "Grupo: {n} muertes; {g} de un golpe ({p}), {r} en ráfaga y {d} por desgaste.",
+  "rep.sin": "Sin datos",
+  "rep.barra.aria": "{j}: {n} muertes; {g} de un golpe, {r} en ráfaga, {d} por desgaste",
+  "rep.chip.sinSanador": "{n} sin sanador vivo",
+  "rep.chip.grupoCaido": "{n} con medio grupo caído",
+  "rep.chip.defensivo": "{n} con un defensivo libre",
+  "mec.det": "{r} recibidos · {e} esperados · {m} muertes por estos ataques",
+  "mec.nadaDestaca": "Nada que destaque: {l}.",
+  "mec.mapa.solo": "Solo los ataques en los que alguien recibe bastante más que el resto ({n} de {de}).",
+  "mec.mapa.otros": "Los otros {n} ataques",
+  "ven.deb.todos": "Todos los debuffs ({n})",
+  "ven.deb.top": "Los 3 que más mantiene cada jugador.",
+  "seg.reco.ataques": "{n} ataques",
+  "seg.reco.ataque1": "1 ataque"
 }

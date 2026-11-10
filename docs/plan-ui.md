@@ -1,6 +1,8 @@
 # Plan de mejora visual: la misma información, más fácil de leer
 
-Fecha: 10 de noviembre de 2026 · Estado: fases 0, 1 y 2 hechas (sin desplegar); el resto, pendiente
+Fecha: 10 de noviembre de 2026 · Estado: fases 0–2 desplegadas (a17918e); fase 3 hecha; el resto, pendiente
+
+Fase 3 (10/11/2026): «Cómo muere cada uno» como barra apilada por jugador con avisos en chips (la tabla, plegada); «Quién recibe golpes que el resto evita» enseña solo a quien destaca, con barra de diferencia, y al resto en una línea; «Ataque por ataque» enseña los ataques con algún ▲ (los otros, plegados) y fija la columna del ataque; debuffs: los 3 que más mantiene cada jugador, con barras (todos, plegados); «Qué pasó con las recomendaciones», una línea por recomendación con sus ataques al desplegarla; en las gráficas, las etiquetas que no caben se recortan con «…» y el nombre entero va en el tooltip; en el móvil la barra de pestañas enseña la abierta.
 
 Hecho el 10/11/2026:
 - Fase 0: `scripts/capturas.mts` (una captura por ruta, ancho, tema y pestaña, con `alturas.tsv`).
