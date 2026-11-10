@@ -292,3 +292,23 @@ h4.pl-bad { color: var(--series-2); }
 .rx-table.jx-causas th small { display: block; font-weight: 400; }
 .jx-raros { margin-top: var(--gap-sm); }
 .jx-raros summary { font-size: var(--fs-caption); color: var(--fg-muted); cursor: pointer; }
+
+/* Especializaciones y buffs (components/raid/Builds.tsx, TablaEspecializaciones.tsx y jugador/Especializaciones.tsx) */
+.bx-clase { margin-top: var(--gap-sm); }
+.bx-clase h4 { margin: var(--gap-sm) 0 var(--gap-xs); display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--gap-sm); }
+.rx-table.bx-esp { width: auto; min-width: min(100%, 24rem); }
+.rx-table.bx-esp th, .rx-table.bx-esp td { padding: var(--pad-xs) var(--pad-sm); font-size: var(--fs-caption); }
+.rx-table.bx-esp th:nth-child(n+2), .rx-table.bx-esp td:nth-child(n+2) { text-align: center; }
+.rx-table.bx-esp td:first-child { font-weight: 400; white-space: normal; min-width: 11rem; }
+.rx-table.bx-esp th small { display: block; font-weight: 400; }
+.rx-table.bx-esp th.is-yo { color: var(--fg); }
+.rx-table.bx-esp td.is-distinta { color: var(--bad); font-weight: 600; }
+.rx-table.bx-esp td.is-variada { color: var(--series-2); }
+.bx-solos, .bx-todos { margin-top: var(--gap-sm); }
+.bx-solos summary, .bx-todos summary { font-size: var(--fs-caption); color: var(--fg-muted); cursor: pointer; }
+.bx-solos p { margin-top: var(--gap-xs); }
+.bx-bajos { margin: var(--gap-sm) 0 0; padding-left: 1.1rem; font-size: var(--fs-caption); display: flex; flex-direction: column; gap: 2px; }
+.rx-table.bx-buf th, .rx-table.bx-buf td { padding: var(--pad-xs) var(--pad-sm); font-size: var(--fs-caption); text-align: left; }
+.rx-table.bx-buf td { white-space: normal; }
+.rx-table.bx-buf td:first-child { font-weight: 400; min-width: 10rem; }
+.bx-perfil { margin-top: var(--gap-md); }

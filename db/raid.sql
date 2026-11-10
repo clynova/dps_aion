@@ -175,6 +175,19 @@ select nombre, hab, count(*) usos, avg(dt) intervalo_ms from (
   select *, t_ms - lag(t_ms) over (partition by enc, entidad, hab order by t_ms) dt from ru where coalesce(parada, '') <> 'interrupted'
 ) group by all;
 
+-- Especializaciones: el sufijo del casteo (habilidad % 10000, múltiplo de 10) dice qué opciones de especialización
+-- eligió el jugador en esa habilidad: 17352450 = opciones 2, 4 y 5 de 17350000 (las cifras de 245). Es una regla
+-- deducida comparando con la build propia (run_build), no la dice el juego: las opciones son cifras del 1 al 9 en
+-- orden creciente (un sufijo como 100 no es una especialización). Se queda la variante más usada.
+create or replace temp table es as
+select nombre, hab, first(suf order by n desc, suf) suf, sum(n) usos from (
+  select pi.nombre, (u.habilidad // 10000) * 10000 hab, u.habilidad % 10000 suf, count(*) n
+  from pi join usos u on u.enc = pi.enc and u.dueno = pi.entidad
+  where u.t_ms between 0 and pi.dur * 1000 and u.habilidad between 11000000 and 19999999
+    and u.habilidad % 10000 >= 10 and u.habilidad % 10 = 0 and coalesce(u.parada, '') <> 'interrupted'
+    and regexp_full_match(((u.habilidad % 10000) // 10)::varchar, '1?2?3?4?5?6?7?8?9?')
+  group by all) group by all;
+
 -- Buffs que da a los demás jugadores del grupo: tiempo activo medio sobre los que lo recibieron, uniendo
 -- los tramos que se solapan (al refrescarlo) y recortando al intento.
 create or replace temp table bt as
@@ -317,6 +330,25 @@ select nombre, hab, sum(hasta - desde) activo_ms,
   (select sum(vw.hasta - vw.desde) from vw join pi on pi.enc = vw.enc where pi.nombre = vd1.nombre) rot_posible_ms
 from vd1 group by nombre, hab;
 
+-- Buffs que recibe cada jugador de sus compañeros: qué parte de su tiempo vivo tuvo cada buff de cada lanzador, en
+-- los intentos en que lo recibió alguna vez. Solo buffs que el lanzador pone a dos jugadores o más (los de su party).
+-- Sirve para ver a quien lo recibe bastante menos que el resto (por ejemplo, el sanador que se queda detrás del
+-- tanque, fuera del alcance): comparar con los demás receptores es cosa de lib/raids/buffs.ts.
+create or replace temp table br0 as   -- tramos unidos de cada buff sobre cada jugador, quitando el tiempo muerto
+select bu.nombre lanzador, bu.hab, r.nombre receptor, bu.enc,
+  (bu.hasta - bu.desde) - coalesce((select sum(greatest(0, least(bu.hasta, mm.hasta) - greatest(bu.desde, mm.desde)))
+    from mm where mm.enc = bu.enc and mm.nombre = r.nombre), 0) activo_ms
+from bu join ji r on r.enc = bu.enc and r.entidad = bu.receptor;
+create or replace temp table br1 as   -- tiempo vivo de cada jugador en cada intento
+select pi.enc, pi.nombre, pi.dur * 1000 - coalesce((select sum(greatest(0, least(pi.dur * 1000, mm.hasta) - greatest(0, mm.desde)))
+    from mm where mm.enc = pi.enc and mm.nombre = pi.nombre), 0) vivo_ms
+from pi;
+create or replace temp table br as
+select lanzador, hab, receptor, sum(activo_ms) activo_ms, sum(vivo_ms) vivo_ms from (
+  select br0.lanzador, br0.hab, br0.receptor, br0.enc, sum(br0.activo_ms) activo_ms, any_value(br1.vivo_ms) vivo_ms
+  from br0 join br1 on br1.enc = br0.enc and br1.nombre = br0.receptor group by all)
+where vivo_ms > 0 group by all;
+
 select json_object(
   'meta', json_object(
     'slug', getvariable('slug'), 'run', (select run from r), 'fecha', getvariable('fecha'), 'mazmorra', (select mazmorra from r),
@@ -409,5 +441,11 @@ select json_object(
         's_rotura', rd1(s_rotura), 'dano_fuera', rd(dano_fuera), 's_fuera', rd1(s_fuera)) order by nombre)) from vj), '[]'::json),
     'debuffs', coalesce((select to_json(list(json_object('jugador', nombre, 'habilidad', hab::varchar, 'activo_pct', rd1(100 * activo_ms / greatest(1, posible_ms)),
         'rotura_pct', case when rot_posible_ms > 0 then rd1(100 * rot_ms / rot_posible_ms) end) order by nombre, activo_ms desc, hab))
-      from (select * from vd where 20 * activo_ms >= posible_ms order by activo_ms desc, nombre, hab limit 80)), '[]'::json))
+      from (select * from vd where 20 * activo_ms >= posible_ms order by activo_ms desc, nombre, hab limit 80)), '[]'::json)),
+  'especializaciones', coalesce((select to_json(list(json_object('jugador', nombre, 'habilidad', hab::varchar, 'opciones', (suf // 10)::varchar,
+      'usos', usos) order by nombre, hab)) from es), '[]'::json),
+  'buffs_recibidos', coalesce((select to_json(list(json_object('jugador', receptor, 'lanzador', lanzador, 'habilidad', hab::varchar,
+      'activo_pct', rd1(100 * least(activo_ms, vivo_ms) / vivo_ms), 'vivo_s', rd(vivo_ms / 1000)) order by lanzador, hab, receptor))
+    from br where (lanzador, hab) in (select lanzador, hab from br group by all
+      having count(distinct receptor) >= 2 and 10 * sum(activo_ms) >= sum(vivo_ms))), '[]'::json)
 ) as raid_json;

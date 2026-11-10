@@ -1,10 +1,12 @@
 // Plantilla generada desde assets/jugador-shell.html (web estática): la misma estructura e ids que espera lib/legado/*.
 // Los textos salen traducidos del servidor; los datos los pinta el módulo de lib/legado al montar la página.
 import Link from 'next/link';
+import type { ReactNode } from 'react';
 import BarraSuperior from '@/components/BarraSuperior';
 import type { Traductor } from '@/lib/i18n';
 
-export default function PlantillaPerfil({ t, volver }: { t: Traductor; volver: string }) {
+/** `especializaciones`: tarjeta del servidor (components/jugador/Especializaciones.tsx) dentro de la pestaña «Rotación». */
+export default function PlantillaPerfil({ t, volver, especializaciones }: { t: Traductor; volver: string; especializaciones?: ReactNode }) {
   return (
     <main className="rx">
       <header className="rx-head">
@@ -118,6 +120,7 @@ export default function PlantillaPerfil({ t, volver }: { t: Traductor; volver: s
             <div className="rx-chart rx-chart-sm" id="ch-casts"></div>
           </article>
         </div>
+        {especializaciones}
       </section>
     
       <section className="rx-section pl-panel" id="dano" role="tabpanel" hidden>

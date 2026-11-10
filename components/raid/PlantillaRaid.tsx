@@ -5,9 +5,9 @@ import type { ReactNode } from 'react';
 import BarraSuperior from '@/components/BarraSuperior';
 import type { Traductor } from '@/lib/i18n';
 
-/** `intentos`, `repaso`, `mecanicas`, `ventanas` y `seguimiento` son secciones que llegan ya pintadas del servidor (components/raid/Intentos, Repaso, Mecanicas, Ventanas, Seguimiento). */
-export default function PlantillaRaid({ t, volver, accion, enlaceJefe, intentos, repaso, mecanicas, ventanas, seguimiento }: {
-  t: Traductor; volver: string; accion?: ReactNode; enlaceJefe?: { href: string; texto: string } | null; intentos?: ReactNode; repaso?: ReactNode; mecanicas?: ReactNode; ventanas?: ReactNode; seguimiento?: ReactNode;
+/** `intentos`, `repaso`, `mecanicas`, `ventanas`, `builds` y `seguimiento` son secciones que llegan ya pintadas del servidor (components/raid/Intentos, Repaso, Mecanicas, Ventanas, Builds, Seguimiento). */
+export default function PlantillaRaid({ t, volver, accion, enlaceJefe, intentos, repaso, mecanicas, ventanas, builds, seguimiento }: {
+  t: Traductor; volver: string; accion?: ReactNode; enlaceJefe?: { href: string; texto: string } | null; intentos?: ReactNode; repaso?: ReactNode; mecanicas?: ReactNode; ventanas?: ReactNode; builds?: ReactNode; seguimiento?: ReactNode;
 }) {
   return (
     <main className="rx">
@@ -65,6 +65,8 @@ export default function PlantillaRaid({ t, volver, accion, enlaceJefe, intentos,
       {mecanicas}
 
       {ventanas}
+
+      {builds}
 
       <section className="rx-section" id="jugadores">
         <h2 className="rx-h2">{t('sec.players')}</h2>

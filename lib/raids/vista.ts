@@ -8,6 +8,7 @@ import * as t from '@/lib/db/schema';
 import { construirPerfiles } from '@/lib/perfil/construir';
 import { apareceEnListados, puedeVerRaid, type Rol, type Visibilidad } from '@/lib/permisos';
 import type { Idioma } from '@/lib/i18n';
+import { especializacionesDePerfil } from './especializaciones';
 import { reconstruirRaid } from './reconstruir';
 
 export type Nombres = { apodos: Record<string, string>; habilidades: Record<string, string>; npcs: Record<string, string>; iconos: Record<string, string> };
@@ -126,7 +127,8 @@ export async function perfilParaVer(slugJugador: string, gruposDelUsuario: Map<s
   const visibles = todas.filter((r) => apareceEnListados(r.visibilidad, r.grupoVisible, gruposDelUsuario.get(r.grupoId) ?? null));
   const suyas = new Set((await db.select({ raidId: t.raidJugador.raidId }).from(t.raidJugador).where(eq(t.raidJugador.jugadorId, jug.id))).map((r) => r.raidId));
   if (!visibles.some((r) => suyas.has(r.id))) return null;
-  const datos = (await Promise.all(visibles.map((r) => reconstruirRaid(r.id)))).filter(Boolean);
+  const crudos = await Promise.all(visibles.map((r) => reconstruirRaid(r.id)));
+  const datos = crudos.filter(Boolean);
   const gruposVisibles = [...new Set(visibles.map((r) => r.grupoId))];
   const [nombres, conPerfil, textos] = await Promise.all([
     nombresPara(idioma, gruposVisibles.length === 1 ? gruposVisibles[0] : null),
@@ -139,5 +141,7 @@ export async function perfilParaVer(slugJugador: string, gruposDelUsuario: Map<s
   if (!perfil) return null;
   const perfilClaude = (textos.find((x) => x.idioma === idioma) ?? textos.find((x) => x.idioma === 'es'))?.contenido ?? null;
   const grupoDeRaid = Object.fromEntries(visibles.map((r) => [r.slug, r.grupoSlug]));
-  return { jugador: jug, datos: { ...perfil, actualizado: new Date().toISOString() }, perfilClaude, nombres, indice, grupoDeRaid };
+  // Sus especializaciones frente a las de los demás de su clase en esas mismas raids (lib/raids/especializaciones.ts)
+  const especializaciones = especializacionesDePerfil(visibles.flatMap((r, k) => (crudos[k] ? [{ slug: r.slug, fecha: (crudos[k].meta as { fecha: string }).fecha, datos: crudos[k] }] : [])), jug.nombre);
+  return { jugador: jug, datos: { ...perfil, actualizado: new Date().toISOString() }, perfilClaude, nombres, indice, grupoDeRaid, especializaciones };
 }

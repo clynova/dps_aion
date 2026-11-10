@@ -115,6 +115,12 @@ const ventanas = z.object({
   debuffs: z.array(z.object({ jugador: nombre, habilidad: hab, activo_pct: pct, rotura_pct: pct.nullable() }).strict()).max(80),
 }).strict();
 
+// Desde el 10/11/2026: especialización de cada habilidad de cada jugador, deducida del sufijo del casteo (opciones =
+// cifras del 1 al 9 en orden creciente), y qué parte de su tiempo vivo tuvo cada buff que le ponen sus compañeros.
+// Ver db/raid.sql, lib/raids/especializaciones.ts y lib/raids/buffs.ts.
+const especializacion = z.object({ jugador: nombre, habilidad: hab, opciones: z.string().regex(/^1?2?3?4?5?6?7?8?9?$/).min(1), usos: ent.positive() }).strict();
+const buffRecibido = z.object({ jugador: nombre, lanzador: nombre, habilidad: hab, activo_pct: pct, vivo_s: nat }).strict();
+
 export const esquemaRaid = z.object({
   esquema_version: z.literal(2).optional(),
   sql_version: z.string().max(80).optional(),
@@ -129,6 +135,8 @@ export const esquemaRaid = z.object({
   detalle: z.record(nombre, detalleJugador),
   mecanicas: z.array(mecanica).max(60).optional(),
   ventanas: ventanas.optional(),
+  especializaciones: z.array(especializacion).max(800).optional(),
+  buffs_recibidos: z.array(buffRecibido).max(800).optional(),
 }).strict().superRefine((d, ctx) => {
   const err = (path: (string | number)[], message: string) => ctx.addIssue({ code: 'custom', path, message });
   if (d.intentos.length !== d.resumen.intentos) err(['resumen', 'intentos'], `dice ${d.resumen.intentos} intentos y hay ${d.intentos.length}`);
@@ -167,6 +175,16 @@ export const esquemaRaid = z.object({
     });
     d.ventanas.debuffs.forEach((x, i) => { if (!nombres.has(x.jugador)) err(['ventanas', 'debuffs', i], 'jugador desconocido'); });
   }
+  const pares2 = new Set<string>();
+  (d.especializaciones ?? []).forEach((x, i) => {
+    if (!nombres.has(x.jugador)) err(['especializaciones', i], 'jugador desconocido');
+    if (pares2.has(x.jugador + '|' + x.habilidad)) err(['especializaciones', i], 'habilidad repetida para el mismo jugador');
+    pares2.add(x.jugador + '|' + x.habilidad);
+  });
+  (d.buffs_recibidos ?? []).forEach((x, i) => {
+    if (!nombres.has(x.jugador) || !nombres.has(x.lanzador)) err(['buffs_recibidos', i], 'jugador desconocido');
+    if (x.jugador === x.lanzador) err(['buffs_recibidos', i], 'un buff propio no cuenta');
+  });
   const vistas = new Set<string>();
   (d.mecanicas ?? []).forEach((m, i) => {
     if (vistas.has(m.habilidad)) err(['mecanicas', i, 'habilidad'], 'habilidad repetida');
@@ -184,6 +202,8 @@ export type DatosRaid = z.infer<typeof esquemaRaid>;
 export type Mecanica = z.infer<typeof mecanica>;
 export type RepasoMuerte = z.infer<typeof repaso>;
 export type VentanasRaid = z.infer<typeof ventanas>;
+export type Especializacion = z.infer<typeof especializacion>;
+export type BuffRecibido = z.infer<typeof buffRecibido>;
 export type DetalleJugador = z.infer<typeof detalleJugador>;
 
 /** Valida y devuelve los datos tipados, o los problemas en texto legible (ruta: mensaje). */

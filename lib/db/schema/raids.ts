@@ -2,7 +2,7 @@
 // Las medias de grupo y de clase y las causas de muerte NO se guardan: son vistas y consultas.
 // Decimales en double precision (los JSON traen 1 decimal y deben volver idénticos en la prueba de paridad).
 import { bigint, boolean, doublePrecision, index, integer, jsonb, pgEnum, pgTable, primaryKey, serial, text, timestamp, unique, uuid } from 'drizzle-orm/pg-core';
-import type { RepasoMuerte, VentanasRaid } from '../../ingest/esquema';
+import type { BuffRecibido, Especializacion, RepasoMuerte, VentanasRaid } from '../../ingest/esquema';
 import { user } from './auth';
 import { grupos, visibilidadEnum } from './grupos';
 
@@ -52,6 +52,9 @@ export const raids = pgTable('raids', {
   meta: jsonb('meta').$type<Record<string, unknown>>().notNull(),
   /** Ventanas de daño (ventanas del data.json, tal cual; raids extraídas desde el 9/11/2026). */
   ventanas: jsonb('ventanas').$type<VentanasRaid>(),
+  /** Especializaciones de cada jugador y buffs que recibe (del data.json, tal cual; raids extraídas desde el 10/11/2026). */
+  especializaciones: jsonb('especializaciones').$type<Especializacion[]>(),
+  buffsRecibidos: jsonb('buffs_recibidos').$type<BuffRecibido[]>(),
   subidoPor: text('subido_por').references(() => user.id, { onDelete: 'set null' }),
   origen: origenEnum('origen').notNull(),
   esquemaVersion: integer('esquema_version').notNull(),

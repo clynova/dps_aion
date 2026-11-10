@@ -5,6 +5,7 @@ import { Suspense } from 'react';
 import BarraSuperior from '@/components/BarraSuperior';
 import { MontarRaid } from '@/components/legado/Montar';
 import BotonAnalizarIA from '@/components/raid/BotonAnalizarIA';
+import Builds from '@/components/raid/Builds';
 import Intentos from '@/components/raid/Intentos';
 import Mecanicas from '@/components/raid/Mecanicas';
 import PlantillaRaid from '@/components/raid/PlantillaRaid';
@@ -50,6 +51,7 @@ async function Contenido({ params }: { params: Props['params'] }) {
         repaso={<Repaso t={t} idioma={idioma} datos={r.datos} nombres={r.nombres} />}
         mecanicas={<Mecanicas t={t} idioma={idioma} datos={r.datos} nombres={r.nombres} />}
         ventanas={<Ventanas t={t} idioma={idioma} datos={r.datos} nombres={r.nombres} />}
+        builds={<Builds t={t} idioma={idioma} datos={r.datos} nombres={r.nombres} />}
         seguimiento={r.anterior ? <Seguimiento t={t} idioma={idioma} grupo={grupo} nombres={r.nombres} datos={r.datos} anterior={r.anterior} /> : null} />
       <MontarRaid key={`m-${grupo}-${slug}`} idioma={idioma} datos={r.datos} analisis={r.analisis} soloEs={r.soloEs} nombres={r.nombres} />
     </>

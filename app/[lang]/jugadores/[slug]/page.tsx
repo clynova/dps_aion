@@ -3,6 +3,7 @@
 import { notFound } from 'next/navigation';
 import { Suspense } from 'react';
 import BarraSuperior from '@/components/BarraSuperior';
+import Especializaciones from '@/components/jugador/Especializaciones';
 import PlantillaPerfil from '@/components/jugador/PlantillaPerfil';
 import { MontarPerfil } from '@/components/legado/Montar';
 import { usuarioActual } from '@/lib/auth/sesion';
@@ -33,7 +34,8 @@ async function Contenido({ params }: { params: Props['params'] }) {
   const volver = rutaEn(idioma, grupos.length === 1 ? `/g/${grupos[0]}` : '/');
   return (
     <>
-      <PlantillaPerfil key={`p-${slug}`} t={t} volver={volver} />
+      <PlantillaPerfil key={`p-${slug}`} t={t} volver={volver}
+        especializaciones={p.especializaciones ? <Especializaciones t={t} idioma={idioma} jugador={p.jugador.nombre} datos={p.especializaciones} nombres={p.nombres} /> : null} />
       <MontarPerfil key={`m-${slug}`} idioma={idioma} datos={p.datos} perfilClaude={p.perfilClaude} nombres={p.nombres} indice={p.indice} grupoDeRaid={p.grupoDeRaid} />
     </>
   );

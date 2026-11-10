@@ -50,6 +50,13 @@
       "when": 1794278266588,
       "tag": "0006_ventanas",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1794312201975,
+      "tag": "0007_especializaciones_y_buffs",
+      "breakpoints": true
     }
   ]
 }
