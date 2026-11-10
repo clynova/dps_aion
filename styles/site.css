@@ -262,3 +262,33 @@ h4.pl-bad { color: var(--series-2); }
 .pl-tabs button[aria-selected="true"] { color: var(--fg); border-bottom-color: var(--series-1); font-weight: 600; }
 .pl-tabs button:focus-visible { outline: 2px solid var(--series-1); outline-offset: -2px; }
 .pl-panel[hidden] { display: none; }
+
+/* Página de un jefe (components/jefe/PaginaJefe.tsx) y lista de jefes del grupo (components/grupo/Jefes.tsx) */
+.jx-jefes { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 16rem), 1fr)); gap: var(--gap-sm); }
+.jx-jefes a { display: flex; flex-direction: column; gap: var(--gap-xs); padding: var(--pad-md) var(--pad-lg); background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); text-decoration: none; transition: border-color .15s; }
+.jx-jefes a:hover { border-color: var(--fg-muted); }
+.jx-jefes .hm-name { font-size: 1.15rem; }
+.jx-chart { min-height: 0; margin: var(--gap-sm) 0; }
+.jx-chart .jx-grid { stroke: var(--chart-grid); }
+.jx-chart .jx-eje { stroke: var(--chart-axis); }
+.jx-chart .jx-intento { fill: var(--chart-muted); }
+.jx-chart .jx-mejor { fill: var(--series-1); }
+.jx-chart .jx-kill { fill: var(--ok); }
+.jx-chart .jx-linea { fill: none; stroke: var(--series-1); stroke-width: 2; stroke-linejoin: round; stroke-linecap: round; }
+.jx-chart .jx-barra { fill: var(--series-1); }
+.jx-chart .jx-marca { stroke: var(--series-2); stroke-width: 1.5; stroke-dasharray: 4 3; }
+.jx-marcas { margin: 0 0 var(--gap-sm); padding-left: 0; list-style: none; font-size: var(--fs-caption); color: var(--fg-muted); display: flex; flex-direction: column; gap: 2px; }
+.jx-marcas b { color: var(--series-2); }
+.rx-table.jx-noches td:first-child, .rx-table.jx-muro td:first-child, .rx-table.jx-cro td:first-child, .rx-table.jx-causas td:first-child { font-weight: 400; }
+.rx-table.jx-noches th:nth-child(2), .rx-table.jx-noches td:nth-child(2), .rx-table.jx-muro th:nth-child(2), .rx-table.jx-muro td:nth-child(2),
+.rx-table.jx-cro th:nth-child(2), .rx-table.jx-cro td:nth-child(2), .rx-table.jx-causas th:nth-child(2), .rx-table.jx-causas td:nth-child(2) { text-align: right; }
+.rx-table.jx-muro { width: auto; min-width: min(100%, 30rem); }
+.rx-table.jx-muro td:last-child, .rx-table.jx-muro th:last-child { text-align: left; white-space: normal; }
+.rx-table.jx-cro th, .rx-table.jx-cro td, .rx-table.jx-causas th, .rx-table.jx-causas td { padding: var(--pad-xs) var(--pad-sm); font-size: var(--fs-caption); }
+.rx-table.jx-cro td:first-child, .rx-table.jx-causas td:first-child { white-space: normal; min-width: 12rem; }
+.rx-table.jx-cro th:nth-child(5), .rx-table.jx-cro td:nth-child(5) { text-align: left; }
+.rx-table.jx-cro tr.is-vida td:nth-child(5) { color: var(--series-2); font-weight: 600; }
+.rx-table.jx-cro tr.is-tiempo td:nth-child(5) { color: var(--series-1); font-weight: 600; }
+.rx-table.jx-causas th small { display: block; font-weight: 400; }
+.jx-raros { margin-top: var(--gap-sm); }
+.jx-raros summary { font-size: var(--fs-caption); color: var(--fg-muted); cursor: pointer; }

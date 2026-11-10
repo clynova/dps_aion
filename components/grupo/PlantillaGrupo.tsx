@@ -1,13 +1,15 @@
 // Plantilla de la página de un grupo: la portada de la web estática (index.html), con la misma estructura e ids que
 // espera lib/legado/grupo.ts. Cabecera con el nombre del grupo y enlace a sus ajustes para los miembros.
 import Link from 'next/link';
+import type { ReactNode } from 'react';
 import BarraSuperior from '@/components/BarraSuperior';
 import type { Traductor } from '@/lib/i18n';
 
 type Enlace = { href: string; texto: string };
-type Props = { t: Traductor; nombre: string; eyebrow: string; enlaceAjustes?: Enlace | null; enlaceSubir?: Enlace | null };
+/** `jefes`: la lista de jefes con enlace a su página (components/grupo/Jefes.tsx), ya pintada del servidor. */
+type Props = { t: Traductor; nombre: string; eyebrow: string; enlaceAjustes?: Enlace | null; enlaceSubir?: Enlace | null; jefes?: ReactNode };
 
-export default function PlantillaGrupo({ t, nombre, eyebrow, enlaceAjustes, enlaceSubir }: Props) {
+export default function PlantillaGrupo({ t, nombre, eyebrow, enlaceAjustes, enlaceSubir, jefes }: Props) {
   return (
     <main className="rx">
       <header className="rx-head">
@@ -21,6 +23,8 @@ export default function PlantillaGrupo({ t, nombre, eyebrow, enlaceAjustes, enla
           </p>
         ) : null}
       </header>
+
+      {jefes}
 
       <section className="rx-section" id="evolucion" hidden>
         <h2 className="rx-h2">{t('home.evolution')}</h2>

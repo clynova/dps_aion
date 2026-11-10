@@ -96,6 +96,18 @@ export async function grupoParaVer(grupo: typeof t.grupos.$inferSelect, rol: Rol
   return { raids: indiceRaids, jugadores: indice, nombres };
 }
 
+/**
+ * Las raids de un grupo contra un jefe, para su página (lib/raids/jefe.ts), con los mismos permisos que la página del
+ * grupo: todas si es miembro; si no, solo las públicas. null si no hay ninguna que quien mira pueda ver.
+ */
+export async function jefeParaVer(grupo: typeof t.grupos.$inferSelect, rol: Rol | null, npc: number, idioma: Idioma) {
+  const raids = (await raidsListables(grupo.id, rol, grupo.visible)).filter((r) => r.npcJefe === npc);
+  if (!raids.length) return null;
+  const [datos, nombres] = await Promise.all([Promise.all(raids.map((r) => reconstruirRaid(r.id))), nombresPara(idioma, grupo.id)]);
+  const lista = raids.flatMap((r, k) => (datos[k] ? [{ slug: r.slug, fecha: (r.meta as { fecha: string }).fecha, datos: datos[k] }] : []));
+  return { jefe: nombres.npcs[String(npc)] ?? raids[0].jefe ?? String(npc), raids: lista, nombres };
+}
+
 async function slugsConPerfil(grupoId: string | null) {
   const filas = await db.selectDistinct({ slug: t.jugadores.slug }).from(t.perfilTexto).innerJoin(t.jugadores, eq(t.jugadores.id, t.perfilTexto.jugadorId))
     .where(and(eq(t.perfilTexto.idioma, 'es'), grupoId ? eq(t.perfilTexto.grupoId, grupoId) : sql`true`));

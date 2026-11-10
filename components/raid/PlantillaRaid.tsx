@@ -6,8 +6,8 @@ import BarraSuperior from '@/components/BarraSuperior';
 import type { Traductor } from '@/lib/i18n';
 
 /** `intentos`, `repaso`, `mecanicas`, `ventanas` y `seguimiento` son secciones que llegan ya pintadas del servidor (components/raid/Intentos, Repaso, Mecanicas, Ventanas, Seguimiento). */
-export default function PlantillaRaid({ t, volver, accion, intentos, repaso, mecanicas, ventanas, seguimiento }: {
-  t: Traductor; volver: string; accion?: ReactNode; intentos?: ReactNode; repaso?: ReactNode; mecanicas?: ReactNode; ventanas?: ReactNode; seguimiento?: ReactNode;
+export default function PlantillaRaid({ t, volver, accion, enlaceJefe, intentos, repaso, mecanicas, ventanas, seguimiento }: {
+  t: Traductor; volver: string; accion?: ReactNode; enlaceJefe?: { href: string; texto: string } | null; intentos?: ReactNode; repaso?: ReactNode; mecanicas?: ReactNode; ventanas?: ReactNode; seguimiento?: ReactNode;
 }) {
   return (
     <main className="rx">
@@ -16,6 +16,7 @@ export default function PlantillaRaid({ t, volver, accion, intentos, repaso, mec
         <p className="rx-eyebrow" id="eyebrow">{t('raid.loading')}</p>
         <h1 className="rx-title" id="jefe">—</h1>
         <p className="rx-lede" id="lede"></p>
+        {enlaceJefe ? <p><Link className="rx-link" href={enlaceJefe.href}>{enlaceJefe.texto} →</Link></p> : null}
         {accion}
         <div className="rx-others" id="otros"></div>
       </header>

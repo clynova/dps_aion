@@ -3,6 +3,7 @@
 import { notFound } from 'next/navigation';
 import { Suspense } from 'react';
 import BarraSuperior from '@/components/BarraSuperior';
+import Jefes from '@/components/grupo/Jefes';
 import PlantillaGrupo from '@/components/grupo/PlantillaGrupo';
 import { MontarGrupo } from '@/components/legado/Montar';
 import { usuarioActual } from '@/lib/auth/sesion';
@@ -33,7 +34,8 @@ async function Contenido({ params }: { params: Props['params'] }) {
   return (
     <>
       <PlantillaGrupo key={`p-${slug}`} t={t} nombre={r.grupo.nombre} eyebrow={eyebrow} enlaceAjustes={enlace}
-        enlaceSubir={puede(r.rol, 'subir_raid') ? { href: rutaEn(idioma, `/g/${slug}/subir`), texto: t('subir.enlace') } : null} />
+        enlaceSubir={puede(r.rol, 'subir_raid') ? { href: rutaEn(idioma, `/g/${slug}/subir`), texto: t('subir.enlace') } : null}
+        jefes={<Jefes t={t} idioma={idioma} grupo={slug} raids={datos.raids} npcs={datos.nombres.npcs} />} />
       <MontarGrupo key={`m-${slug}`} idioma={idioma} grupo={slug} raids={datos.raids} jugadores={datos.jugadores} nombres={datos.nombres}
         conSolicitud={!!r.grupo.discordWebhookCifrado} />
     </>

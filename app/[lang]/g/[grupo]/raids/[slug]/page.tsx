@@ -16,7 +16,7 @@ import { estadoAnalisisIA } from '@/lib/analisis/ia';
 import { usuarioActual } from '@/lib/auth/sesion';
 import { rolEn } from '@/lib/db/grupos';
 import { localeDe, rutaEn } from '@/lib/i18n';
-import { puede } from '@/lib/permisos';
+import { apareceEnListados, puede } from '@/lib/permisos';
 import { textos } from '@/lib/i18n/servidor';
 import { raidParaVer } from '@/lib/raids/vista';
 
@@ -45,6 +45,7 @@ async function Contenido({ params }: { params: Props['params'] }) {
   return (
     <>
       <PlantillaRaid key={`p-${grupo}-${slug}`} t={t} volver={rutaEn(idioma, `/g/${grupo}`)} accion={accion}
+        enlaceJefe={apareceEnListados(r.raid.visibilidad, r.grupo.visible, r.rol) ? { href: rutaEn(idioma, `/g/${grupo}/jefes/${r.raid.npcJefe}`), texto: t('jefe.enlace') } : null}
         intentos={<Intentos t={t} idioma={idioma} datos={r.datos} nombres={r.nombres} />}
         repaso={<Repaso t={t} idioma={idioma} datos={r.datos} nombres={r.nombres} />}
         mecanicas={<Mecanicas t={t} idioma={idioma} datos={r.datos} nombres={r.nombres} />}
