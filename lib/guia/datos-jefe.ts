@@ -4,6 +4,8 @@
 //
 // Los % de la guía son de vida que le QUEDA al jefe (como en las fichas): vida = 100 − % de vida quitada.
 import { analizarJefe, type AnalisisJefe, type AtaqueCronograma, type RaidJefe } from '@/lib/raids/jefe';
+import type { EspecializacionDato } from '@/lib/raids/especializaciones';
+import { repasarMuerte, type MuerteDato, type RepasoDato } from '@/lib/raids/repaso';
 
 export type DatosMecanica = {
   /** Muertes por los ataques de la mecánica en todas las raids, y por intento */
@@ -25,6 +27,8 @@ export type DatosJefeGuia = {
   porVida: { habilidad: string; vida: number }[];
   /** Composición de los kills, GS y crítico por clase (fase 4) */
   equipo: EquipoJefe;
+  /** Habilidades, especializaciones y defensivos de cada clase contra este jefe (fase 5) */
+  porClase: ClaseJefe[];
 };
 
 const r2 = (x: number) => Math.round(x * 100) / 100;
@@ -66,6 +70,7 @@ export function datosJefeGuia(raids: RaidConGrupo[], mecanicas: { id: string; at
   const kills = analisis.noches.map((n) => n.killS).filter((k): k is number => k !== null);
   return {
     equipo: equipoJefe(raids),
+    porClase: porClase(raids),
     analisis, intentos, killMasRapido: kills.length ? Math.min(...kills) : null, mecanicas: datosMec, causas, atasco,
     porVida: analisis.cronograma.filter((c) => c.disparador === 'vida' && c.primeroPct >= 5).map((c) => ({ habilidad: c.habilidad, vida: vidaRestante(c.primeroPct) }))
       .sort((a, b) => b.vida - a.vida),
@@ -79,6 +84,8 @@ export type RaidConGrupo = RaidJefe & {
   datos: RaidJefe['datos'] & {
     jugadores?: { jugador: string; clase_id: string; gs: number; crit_pct: number }[];
     dps_intento?: { intento: number; jugador: string }[];
+    detalle?: Record<string, { habilidades?: { habilidad: string; pct: number }[]; muertes?: MuerteDato[] }>;
+    especializaciones?: EspecializacionDato[];
   };
 };
 type Rango = { min: number; mediana: number; max: number; n: number };
@@ -121,4 +128,66 @@ export function equipoJefe(raids: RaidConGrupo[]): EquipoJefe {
   const critico = [...crit].map(([clase, xs]) => ({ clase, mediana: Math.round(med(xs) * 10) / 10, min: Math.min(...xs), max: Math.max(...xs), n: xs.length }))
     .sort((a, b) => b.mediana - a.mediana || (a.clase < b.clase ? -1 : 1));
   return { kills, clasesKill, gsKill: rango(gsKill), gsTodos: rango(gsTodos), critico };
+}
+
+// ── Por clase (fase 5): habilidades, especializaciones y defensivos contra este jefe ─────────────────────
+
+export type ClaseJefe = {
+  clase: string;
+  /** Jugador-raid de esa clase (un jugador en dos raids cuenta dos veces) y jugadores distintos */
+  registros: number; jugadores: number;
+  /** Las habilidades con más cuota del daño de la clase: cuota media (los que no la usan cuentan 0) y parte de los registros que la usan */
+  habilidades: { habilidad: string; cuota: number; uso: number; especializacion: { opciones: string; veces: number; de: number } | null }[];
+  /** Muertes con repaso, cuántas con algún defensivo propio libre (no en las de un golpe) y cuáles */
+  muertes: number; conDefensivo: number; defensivos: { habilidad: string; veces: number }[];
+};
+
+const TOP_HABILIDADES = 6;
+
+export function porClase(raids: RaidConGrupo[]): ClaseJefe[] {
+  type Acum = { registros: number; nombres: Set<string>; hab: Map<string, { suma: number; usan: number }>; esp: Map<string, Map<string, number>>; muertes: number; conDef: number; def: Map<string, number> };
+  const por = new Map<string, Acum>();
+  for (const r of raids) {
+    const espDe = new Map<string, EspecializacionDato[]>();
+    for (const e of r.datos.especializaciones ?? []) espDe.set(e.jugador, [...(espDe.get(e.jugador) ?? []), e]);
+    for (const j of r.datos.jugadores ?? []) {
+      if (!j.clase_id) continue;
+      const a = por.get(j.clase_id) ?? { registros: 0, nombres: new Set(), hab: new Map(), esp: new Map(), muertes: 0, conDef: 0, def: new Map() };
+      a.registros++; a.nombres.add(j.jugador);
+      const d = r.datos.detalle?.[j.jugador];
+      for (const h of d?.habilidades ?? []) {
+        if (!h.habilidad || h.pct < 1) continue;
+        const x = a.hab.get(h.habilidad) ?? { suma: 0, usan: 0 };
+        x.suma += h.pct; x.usan++;
+        a.hab.set(h.habilidad, x);
+      }
+      for (const e of espDe.get(j.jugador) ?? []) {
+        const m = a.esp.get(e.habilidad) ?? new Map<string, number>();
+        m.set(e.opciones, (m.get(e.opciones) ?? 0) + 1);
+        a.esp.set(e.habilidad, m);
+      }
+      for (const m of d?.muertes ?? []) {
+        if (!m.repaso) continue;
+        const rm = repasarMuerte(j.jugador, m as MuerteDato & { repaso: RepasoDato });
+        a.muertes++;
+        if (rm.libres.length) a.conDef++;
+        for (const h of new Set(rm.libres)) a.def.set(h, (a.def.get(h) ?? 0) + 1);
+      }
+      por.set(j.clase_id, a);
+    }
+  }
+  const r1 = (x: number) => Math.round(x * 10) / 10;
+  return [...por].map(([clase, a]) => ({
+    clase, registros: a.registros, jugadores: a.nombres.size,
+    habilidades: [...a.hab].map(([habilidad, x]) => ({ habilidad, cuota: r1(x.suma / a.registros), uso: r1((100 * x.usan) / a.registros) }))
+      .sort((x, y) => y.cuota - x.cuota || (x.habilidad < y.habilidad ? -1 : 1)).slice(0, TOP_HABILIDADES)
+      .map((h) => {
+        const m = a.esp.get(h.habilidad);
+        if (!m) return { ...h, especializacion: null };
+        const [opciones, veces] = [...m].sort((x, y) => y[1] - x[1] || (x[0] < y[0] ? -1 : 1))[0];
+        return { ...h, especializacion: { opciones, veces, de: [...m.values()].reduce((s2, n) => s2 + n, 0) } };
+      }),
+    muertes: a.muertes, conDefensivo: a.conDef,
+    defensivos: [...a.def].map(([habilidad, veces]) => ({ habilidad, veces })).sort((x, y) => y.veces - x.veces || (x.habilidad < y.habilidad ? -1 : 1)).slice(0, 3),
+  })).sort((x, y) => y.registros - x.registros || (x.clase < y.clase ? -1 : 1));
 }

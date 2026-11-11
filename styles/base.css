@@ -271,3 +271,4 @@ a.gx-fuente:hover { color: var(--fg); }
 .gx-mata-barra.is-ok { background: var(--ok); }
 .gx-mata-barra.is-crit { background: var(--series-1); }
 ol.rx-card.gx-mata { padding: var(--pad-lg); }
+.gx-clase li { grid-template-columns: 1fr; gap: var(--gap-xs); }

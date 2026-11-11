@@ -643,5 +643,13 @@
   "guias.crit.nota": "% de golpes críticos contra el jefe de cada jugador en cada raid pública (mediana por clase y rango). Con el jefe roto casi todo es crítico y algunas habilidades tienen crítico garantizado: por eso hay clases por encima del 50 %. Compárate con tu clase, no con el 50 %.",
   "guias.crit.fila": "{a}–{b} % · {n} registros",
   "guias.crit.rango": "Crítico para llegar al tope contra este jefe: {a}–{b}",
-  "guias.equipo.t": "Lo que dicen el juego, las guías y nuestros datos"
+  "guias.equipo.t": "Lo que dicen el juego, las guías y nuestros datos",
+  "guias.tab.clases": "Por clase",
+  "guias.clases.nota": "Contra este jefe, en las raids públicas: las habilidades con más parte del daño de cada clase (media de todos sus registros), qué parte de los jugadores la usa y la especialización más usada, deducida del registro. Es la más habitual, no la mejor: nada dice que dé más daño.",
+  "guias.clases.registros": "{n} registros · {j} jugadores",
+  "guias.clases.uso": "{c} % del daño · la usa el {u} %",
+  "guias.clases.esp": "especialización {o} ({v} de {d})",
+  "guias.clases.def": "Al morir tenía un defensivo propio libre en {n} de {de} muertes (sin contar las de un golpe): {h}.",
+  "guias.clases.sindef": "En {de} muertes, ningún defensivo propio libre (sin contar las de un golpe).",
+  "guias.clases.vacio": "Aún no hay datos por clase de este jefe."
 }

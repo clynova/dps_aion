@@ -643,5 +643,13 @@
   "guias.crit.nota": "Share of critical hits against the boss for each player in each public raid (median per class and range). With the boss staggered almost everything crits and some skills have guaranteed crits: that is why some classes go above 50%. Compare yourself with your class, not with 50%.",
   "guias.crit.fila": "{a}–{b}% · {n} records",
   "guias.crit.rango": "Critical Hit to reach the cap against this boss: {a}–{b}",
-  "guias.equipo.t": "What the game, the guides and our data say"
+  "guias.equipo.t": "What the game, the guides and our data say",
+  "guias.tab.clases": "By class",
+  "guias.clases.nota": "Against this boss, in public raids: the skills with the largest share of each class's damage (average over all its records), how many players use it and the most used specialization, inferred from the log. It is the most common one, not the best: nothing says it does more damage.",
+  "guias.clases.registros": "{n} records · {j} players",
+  "guias.clases.uso": "{c}% of damage · used by {u}%",
+  "guias.clases.esp": "specialization {o} ({v} of {d})",
+  "guias.clases.def": "On death they had a defensive of their own available in {n} of {de} deaths (not counting one-hit deaths): {h}.",
+  "guias.clases.sindef": "In {de} deaths, no defensive of their own available (not counting one-hit deaths).",
+  "guias.clases.vacio": "No per-class data for this boss yet."
 }

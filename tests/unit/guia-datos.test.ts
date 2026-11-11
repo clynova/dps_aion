@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { datosJefeGuia, equipoJefe, vidaRestante, type RaidConGrupo } from '@/lib/guia/datos-jefe';
+import { datosJefeGuia, equipoJefe, porClase, vidaRestante, type RaidConGrupo } from '@/lib/guia/datos-jefe';
 import type { IntentoJefe, RaidJefe } from '@/lib/raids/jefe';
 
 // Dos noches inventadas. En cada intento: 1800100 a los 10 s (por tiempo), 1800200 al 20 % de vida quitada (por vida)
@@ -91,5 +91,45 @@ describe('equipo y grupo', () => {
   it('sin kills, sin composición', () => {
     expect(equipoJefe([r2]).kills).toEqual([]);
     expect(equipoJefe([r2]).gsKill).toBeNull();
+  });
+});
+
+describe('por clase', () => {
+  const repaso = (vida: [number, number][], vida_10s: number, golpe: number, defensivos: { hab: string; hace_s: number | null; recarga_s: number | null }[]) => ({
+    vida_10s, vida, vida_max: 100_000, golpes_10s: 1, dano_10s: golpe, golpes: [{ t: -0.2, hab: '1800205', dano: golpe, mit: null }],
+    cura_10s: 0, curas: [], escudo_10s: 0, companeros: 4, vivos: 4, sanadores: 1, defensivos,
+  });
+  const libre = { hab: '15160000', hace_s: null, recarga_s: 17 };
+  const r = raid('c', '2026-11-09T21:00:00-03:00', [intento(1, 40, 90)], [], [2]);
+  r.datos = {
+    ...r.datos,
+    jugadores: [{ jugador: 'C1', clase_id: 'cleric', gs: 3000, crit_pct: 30 }, { jugador: 'C2', clase_id: 'cleric', gs: 3000, crit_pct: 30 }, { jugador: 'T', clase_id: 'templar', gs: 3000, crit_pct: 30 }],
+    detalle: {
+      C1: { habilidades: [{ habilidad: '15050000', pct: 60 }, { habilidad: '15060000', pct: 40 }],
+        muertes: [{ intento: 1, t: 50, habilidad: '1800205', golpe_max: 8000, repaso: repaso([[-5, 30], [-1, 8], [0, 0]], 60, 8000, [libre]) }] },
+      C2: { habilidades: [{ habilidad: '15050000', pct: 80 }, { habilidad: '15990000', pct: 0.5 }],
+        muertes: [{ intento: 1, t: 60, habilidad: '1800205', golpe_max: 150_000, repaso: repaso([[-0.3, 100], [0, 0]], 100, 150_000, [libre]) }] },
+      T: { habilidades: [{ habilidad: '11010000', pct: 100 }], muertes: [] },
+    },
+    especializaciones: [
+      { jugador: 'C1', habilidad: '15050000', opciones: '45', usos: 30 }, { jugador: 'C2', habilidad: '15050000', opciones: '45', usos: 20 },
+      { jugador: 'C2', habilidad: '15060000', opciones: '12', usos: 5 },
+    ],
+  };
+  const clases = porClase([r]);
+
+  it('ordena las clases por registros y las habilidades por cuota media', () => {
+    expect(clases.map((c) => c.clase)).toEqual(['cleric', 'templar']);
+    const c = clases[0];
+    expect(c).toMatchObject({ registros: 2, jugadores: 2 });
+    expect(c.habilidades.map((h) => [h.habilidad, h.cuota, h.uso])).toEqual([['15050000', 70, 100], ['15060000', 20, 50]]);
+  });
+  it('la especialización más usada de cada habilidad', () => {
+    expect(clases[0].habilidades[0].especializacion).toEqual({ opciones: '45', veces: 2, de: 2 });
+    expect(clases[0].habilidades[1].especializacion).toEqual({ opciones: '12', veces: 1, de: 1 });
+  });
+  it('defensivos libres solo en las muertes que no son de un golpe', () => {
+    expect(clases[0]).toMatchObject({ muertes: 2, conDefensivo: 1, defensivos: [{ habilidad: '15160000', veces: 1 }] });
+    expect(clases[1]).toMatchObject({ muertes: 0, conDefensivo: 0, defensivos: [] });
   });
 });

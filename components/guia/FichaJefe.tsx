@@ -1,6 +1,6 @@
 // Ficha de un jefe del módulo «Raids», en pestañas: Resumen (cifras, lo que hace wipe, consejos, dónde se atasca, qué
 // mata, tu grupo, notas), Mecánicas (con sus cifras en vivo), Fases y tiempos (gráfico por % de vida, fases y
-// cronograma), Equipo y grupo (GS, composición de los kills, crítico por clase y lo que dicen el juego y las guías) y Fuentes. El texto sale de contenido/raids/<raid>/<npc>.<idioma>.json; los datos (`datos`), de las raids
+// cronograma), Equipo y grupo (GS, composición de los kills, crítico por clase y lo que dicen el juego y las guías), Por clase (habilidades, especialización más usada y defensivos) y Fuentes. El texto sale de contenido/raids/<raid>/<npc>.<idioma>.json; los datos (`datos`), de las raids
 // públicas (lib/guia/datos-jefe.ts): undefined mientras cargan, null si no hay o la base falló. Sin datos se ve el texto.
 import Link from 'next/link';
 import { Fragment } from 'react';
@@ -11,11 +11,12 @@ import type { DatosJefeGuia } from '@/lib/guia/datos-jefe';
 import { vidaRestante } from '@/lib/guia/datos-jefe';
 import type { CifrasJefe } from '@/lib/guia/sumar-cifras';
 import { localeDe, rutaEn, type Clave, type Idioma, type Traductor } from '@/lib/i18n';
+import { formatoOpciones } from '@/lib/raids/especializaciones';
 import LineaVida from './LineaVida';
 import Pestanas from './Pestanas';
 import { Afirmaciones, fechaLarga, Fuentes, Origen } from './Piezas';
 
-export const PESTANAS_JEFE = ['resumen', 'mecanicas', 'fases', 'equipo', 'fuentes'] as const;
+export const PESTANAS_JEFE = ['resumen', 'mecanicas', 'fases', 'equipo', 'clases', 'fuentes'] as const;
 
 type Props = {
   t: Traductor; idioma: Idioma; ficha: Ficha;
@@ -303,6 +304,40 @@ export default function FichaJefe({ t, idioma, ficha, gsEntrada, datos, nombres,
             </div>
           </section>
         ) : null}
+      </div>
+
+      {/* ── Por clase ── */}
+      <div className="pl-panel" id="clases" data-pestana="clases" hidden>
+        <p className="rx-note">{t('guias.clases.nota')}</p>
+        {datos?.porClase.length ? (
+          <div className="rx-grid">
+            {datos.porClase.map((c) => (
+              <article key={c.clase} className="rx-card">
+                <h3>{t(`class.${c.clase}` as Clave)}</h3>
+                <p className="hm-sub">{t('guias.clases.registros', { n: c.registros, j: c.jugadores })}</p>
+                <ol className="gx-mata gx-clase">
+                  {c.habilidades.map((h) => (
+                    <li key={h.habilidad}>
+                      <span>{nombre(h.habilidad)}</span>
+                      <span className="gx-mata-barra is-crit" style={{ width: `${Math.max(4, (h.cuota / c.habilidades[0].cuota) * 100)}%` }} aria-hidden="true" />
+                      <span className="hm-sub">
+                        {t('guias.clases.uso', { c: n1.format(h.cuota), u: n0.format(h.uso) })}
+                        {h.especializacion ? ` · ${t('guias.clases.esp', { o: formatoOpciones(h.especializacion.opciones), v: h.especializacion.veces, d: h.especializacion.de })}` : ''}
+                      </span>
+                    </li>
+                  ))}
+                </ol>
+                {c.muertes ? (
+                  <p className="gx-datos">
+                    {c.conDefensivo
+                      ? t('guias.clases.def', { n: c.conDefensivo, de: c.muertes, h: c.defensivos.map((d) => hab(d.habilidad)).join(', ') })
+                      : t('guias.clases.sindef', { de: c.muertes })}
+                  </p>
+                ) : null}
+              </article>
+            ))}
+          </div>
+        ) : <p className="rx-pending">{datos === undefined ? t('guias.cargando') : t('guias.clases.vacio')}</p>}
       </div>
 
       {/* ── Fuentes ── */}
