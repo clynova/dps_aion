@@ -8,7 +8,7 @@ import { Suspense } from 'react';
 import BarraSuperior from '@/components/BarraSuperior';
 import PiePagina from '@/components/PiePagina';
 import FichaJefe from '@/components/guia/FichaJefe';
-import { fechaLarga } from '@/components/guia/Piezas';
+import { AvisoParche, fechaLarga } from '@/components/guia/Piezas';
 import { usuarioActual } from '@/lib/auth/sesion';
 import { cifrasPublicas } from '@/lib/guia/cifras';
 import { jefeJuego, nombreJefe, npcsDelJefe, raidGuia, urlRetrato, type RaidGuia } from '@/lib/guia/contenido';
@@ -66,6 +66,7 @@ async function Contenido({ params }: { params: Props['params'] }) {
         </div>
         {ficha ? <p className="rx-lede">{ficha.resumen}</p> : null}
         {ficha ? <p className="rx-note">{t('guias.revisado', { f: fechaLarga(ficha.revisado, idioma), p: fechaLarga(ficha.parche, idioma) })}</p> : null}
+        {ficha ? <AvisoParche t={t} idioma={idioma} raid={raid.es.id} desde={ficha.parche} /> : null}
       </header>
       {ficha ? (
         <Suspense fallback={<FichaJefe t={t} idioma={idioma} ficha={ficha} gsEntrada={gsEntrada(raid)} datos={undefined} nombres={null} cifras={undefined} tuGrupo={[]} />}>
@@ -93,7 +94,7 @@ async function ConDatos({ t, idioma, raid, npc, ficha }: Base & { ficha: Ficha }
   const npcs = npcsDelJefe(raid, npc);
   const [cifras, publicas, u] = await Promise.all([cifrasPublicas({ jefe: npcs }), raidsPublicasDelJefe(npcs, idioma), usuarioActual()]);
   const tuGrupo = u ? await gruposConJefe(u.id, npcs) : [];
-  const datos = publicas ? datosJefeGuia(publicas.raids, ficha.mecanicas) : null;
+  const datos = publicas ? datosJefeGuia(publicas.raids, ficha.mecanicas, ficha.revisado) : null;
   return (
     <FichaJefe t={t} idioma={idioma} ficha={ficha} gsEntrada={gsEntrada(raid)} datos={datos} nombres={publicas?.nombres ?? null}
       cifras={cifras === null ? 'error' : (cifras.get('jefe') ?? null)} tuGrupo={tuGrupo} />

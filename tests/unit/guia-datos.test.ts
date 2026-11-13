@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { datosJefeGuia, equipoJefe, porClase, vidaRestante, type RaidConGrupo } from '@/lib/guia/datos-jefe';
+import { ataquesNuevos, datosJefeGuia, equipoJefe, porClase, vidaRestante, type RaidConGrupo } from '@/lib/guia/datos-jefe';
 import type { IntentoJefe, RaidJefe } from '@/lib/raids/jefe';
 
 // Dos noches inventadas. En cada intento: 1800100 a los 10 s (por tiempo), 1800200 al 20 % de vida quitada (por vida)
@@ -131,5 +131,24 @@ describe('por clase', () => {
   it('defensivos libres solo en las muertes que no son de un golpe', () => {
     expect(clases[0]).toMatchObject({ muertes: 2, conDefensivo: 1, defensivos: [{ habilidad: '15160000', veces: 1 }] });
     expect(clases[1]).toMatchObject({ muertes: 0, conDefensivo: 0, defensivos: [] });
+  });
+});
+
+describe('ataques nuevos desde la revisión', () => {
+  const conCasteos = (slug: string, fecha: string, casteos: [number, string][]) => {
+    const r = raid(slug, fecha, [intento(1, 40, 90), intento(2, 50, 100)], [], [2, 2]);
+    r.datos = { ...r.datos, casteos: casteos.map(([intento, habilidad]) => ({ intento, t: 5, habilidad })) };
+    return r;
+  };
+  const antes = conCasteos('a', '2026-11-08T21:00:00-03:00', [[1, '100'], [2, '200']]);
+  const despues = conCasteos('b', '2026-11-20T21:00:00-03:00', [[1, '100'], [1, '900'], [2, '900'], [1, '950']]);
+
+  it('salen en 2 intentos o más después de la revisión y nunca antes', () => {
+    expect(ataquesNuevos([antes, despues], '2026-11-10')).toEqual([{ habilidad: '900', intentos: 2 }]);
+  });
+  it('sin raids de antes o de después, nada', () => {
+    expect(ataquesNuevos([despues], '2026-11-10')).toEqual([]);
+    expect(ataquesNuevos([antes], '2026-11-10')).toEqual([]);
+    expect(ataquesNuevos([antes, despues], '2026-11-25')).toEqual([]);
   });
 });

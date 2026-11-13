@@ -29,6 +29,8 @@ export type DatosJefeGuia = {
   equipo: EquipoJefe;
   /** Habilidades, especializaciones y defensivos de cada clase contra este jefe (fase 5) */
   porClase: ClaseJefe[];
+  /** Ataques que salen en raids posteriores a la revisión de la ficha y no antes (fase 8) */
+  nuevos: { habilidad: string; intentos: number }[];
 };
 
 const r2 = (x: number) => Math.round(x * 100) / 100;
@@ -44,7 +46,7 @@ function momentoDe(cronograma: AtaqueCronograma[], ataques: number[]): DatosMeca
   return { habilidad: c.habilidad, vida: vidaRestante(c.primeroPct), segundo: c.primeroS, cadaS, porVida: c.disparador === 'vida', intentos: c.intentos, posibles: c.posibles };
 }
 
-export function datosJefeGuia(raids: RaidConGrupo[], mecanicas: { id: string; ataques: number[] }[]): DatosJefeGuia | null {
+export function datosJefeGuia(raids: RaidConGrupo[], mecanicas: { id: string; ataques: number[] }[], revisado?: string): DatosJefeGuia | null {
   if (!raids.length) return null;
   const analisis = analizarJefe(raids);
   const intentos = analisis.totales.intentos;
@@ -71,6 +73,7 @@ export function datosJefeGuia(raids: RaidConGrupo[], mecanicas: { id: string; at
   return {
     equipo: equipoJefe(raids),
     porClase: porClase(raids),
+    nuevos: revisado ? ataquesNuevos(raids, revisado) : [],
     analisis, intentos, killMasRapido: kills.length ? Math.min(...kills) : null, mecanicas: datosMec, causas, atasco,
     porVida: analisis.cronograma.filter((c) => c.disparador === 'vida' && c.primeroPct >= 5).map((c) => ({ habilidad: c.habilidad, vida: vidaRestante(c.primeroPct) }))
       .sort((a, b) => b.vida - a.vida),
@@ -190,4 +193,25 @@ export function porClase(raids: RaidConGrupo[]): ClaseJefe[] {
     muertes: a.muertes, conDefensivo: a.conDef,
     defensivos: [...a.def].map(([habilidad, veces]) => ({ habilidad, veces })).sort((x, y) => y.veces - x.veces || (x.habilidad < y.habilidad ? -1 : 1)).slice(0, 3),
   })).sort((x, y) => y.registros - x.registros || (x.clase < y.clase ? -1 : 1));
+}
+
+// ── Mantenimiento (fase 8): ataques que aparecen después de la revisión de la ficha ─────────────────────
+
+/**
+ * Ataques que el jefe lanza en raids posteriores a `revisado` (fecha AAAA-MM-DD de la ficha) y que no salían en
+ * ninguna raid de hasta ese día: una pista de que la mecánica ha cambiado. Solo si hay raids de antes y de después, y
+ * solo los que salen en 2 intentos o más (un ataque raro de una sola vez no dice nada).
+ */
+export function ataquesNuevos(raids: RaidJefe[], revisado: string): { habilidad: string; intentos: number }[] {
+  const dia = (r: RaidJefe) => r.fecha.slice(0, 10);
+  const antes = raids.filter((r) => dia(r) <= revisado), despues = raids.filter((r) => dia(r) > revisado);
+  if (!antes.length || !despues.length) return [];
+  const vistos = new Set(antes.flatMap((r) => (r.datos.casteos ?? []).map((c) => c.habilidad)));
+  const nuevos = new Map<string, Set<string>>();
+  for (const r of despues) for (const c of r.datos.casteos ?? []) {
+    if (vistos.has(c.habilidad)) continue;
+    nuevos.set(c.habilidad, (nuevos.get(c.habilidad) ?? new Set()).add(`${r.slug}/${c.intento}`));
+  }
+  return [...nuevos].map(([habilidad, s]) => ({ habilidad, intentos: s.size })).filter((x) => x.intentos >= 2)
+    .sort((a, b) => b.intentos - a.intentos || (a.habilidad < b.habilidad ? -1 : 1));
 }

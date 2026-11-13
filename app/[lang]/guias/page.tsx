@@ -7,7 +7,7 @@ import BarraSuperior from '@/components/BarraSuperior';
 import PiePagina from '@/components/PiePagina';
 import JefesConCifras from '@/components/guia/JefesConCifras';
 import { ListaJefes, Modos } from '@/components/guia/Piezas';
-import { raidsGuia } from '@/lib/guia/contenido';
+import { parchesPosteriores, raidsGuia } from '@/lib/guia/contenido';
 import { rutaEn } from '@/lib/i18n';
 import { textos } from '@/lib/i18n/servidor';
 
@@ -30,7 +30,10 @@ export default async function Guias() {
       {raids.length ? null : <p className="rx-pending">{t('guias.vacio')}</p>}
       {raids.map((r) => (
         <section key={r.es.id} className="rx-section gx-raid">
-          <h2 className="rx-h2"><Link href={rutaEn(idioma, `/guias/${r.es.id}`)}>{r[idioma].nombre}</Link></h2>
+          <h2 className="rx-h2">
+            <Link href={rutaEn(idioma, `/guias/${r.es.id}`)}>{r[idioma].nombre}</Link>
+            {parchesPosteriores(r.es.id, r.es.parche).length ? <> <span className="rx-pill is-pending">{t('guias.revisar.chip')}</span></> : null}
+          </h2>
           <Modos t={t} idioma={idioma} raid={r} />
           <p className="cx-texto">{r[idioma].resumen}</p>
           <Suspense fallback={<ListaJefes t={t} idioma={idioma} raid={r.es.id} jefes={r.es.jefes} cifras={undefined} />}>

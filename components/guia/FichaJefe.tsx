@@ -69,6 +69,12 @@ export default function FichaJefe({ t, idioma, ficha, gsEntrada, datos, nombres,
           {c?.ultima ? <p className="rx-note">{t('guias.ultima', { f: fechaLarga(c.ultima, idioma) })} · {t('guias.cifras.nota')}</p> : null}
         </section>
 
+        {datos?.nuevos.length ? (
+          <p className="rx-pending gx-revisar">
+            {t('guias.revisar.nuevos', { f: fechaLarga(ficha.revisado, idioma), lista: datos.nuevos.slice(0, 6).map((x) => hab(x.habilidad)).join(', ') })}
+          </p>
+        ) : null}
+
         {wipes.length ? (
           <section className="rx-section">
             <h2 className="rx-h2">{t('guias.wipes.t')}</h2>

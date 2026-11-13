@@ -2,7 +2,7 @@
 // estructura del juego solo los jefes de las mazmorras de cada raid y, de la semilla de nombres (nombres.json /
 // nombres.en.json), el nombre de cada ataque que citan las fichas. Se guarda en lib/guia/contenido.generado.json
 // (npm run contenido, también en cada build) para que las páginas lo importen sin leer el disco ni la base.
-import type { Catalogo } from './esquema';
+import type { Catalogo, Parches } from './esquema';
 import type { Contenido } from './validar';
 
 export type JefeJuego = { es: string; en: string; retrato: string | null; mazmorras: number[] };
@@ -10,6 +10,8 @@ export type JefeJuego = { es: string; en: string; retrato: string | null; mazmor
 export type SemillaNombres = { apodos?: Record<string, string>; habilidades?: Record<string, string> };
 export type ContenidoPaginas = {
   catalogo: Catalogo;
+  /** Parches que tocan cada raid (contenido/raids/parches.json) */
+  parches: Parches['parches'];
   raids: Contenido['raids'];
   /** Orden de las raids en el índice: el de los archivos (por id). */
   orden: string[];
@@ -35,5 +37,5 @@ export function contenidoParaPaginas(c: Contenido, nombres: { es: SemillaNombres
     return n && n !== GENERICO[idioma] ? n : `${GENERICO[idioma]} ${id}`;
   };
   const ataques = Object.fromEntries([...ids].sort((a, b) => a - b).map((id) => [String(id), { es: nombre(id, 'es'), en: nombre(id, 'en') }]));
-  return { catalogo: c.catalogo, raids: c.raids, orden, jefes, ataques };
+  return { catalogo: c.catalogo, parches: c.parches.parches, raids: c.raids, orden, jefes, ataques };
 }

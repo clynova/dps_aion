@@ -684,5 +684,8 @@
   "guias.ig.ketu-piedras.pie": "Esquema propio a partir de las guías (versión anterior al 4 de noviembre); aún sin ver en nuestros registros.",
   "guias.enlace.corto": "guía",
   "guias.enlace.titulo": "«{m}» en la guía de raids",
-  "guias.enlace.jefe": "Este jefe en la guía de raids"
+  "guias.enlace.jefe": "Este jefe en la guía de raids",
+  "guias.revisar.parche": "Puede estar desactualizada: el {f} salió un parche que toca esta raid ({titulo}) y esta ficha es del parche del {p}.",
+  "guias.revisar.chip": "Revisar",
+  "guias.revisar.nuevos": "Desde la revisión del {f}, en las raids públicas salen ataques que antes no salían: {lista}. Puede que alguna mecánica haya cambiado."
 }

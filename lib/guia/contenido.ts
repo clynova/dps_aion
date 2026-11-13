@@ -89,3 +89,9 @@ export function guiaParaIA(npc: number) {
     mecanicas: f.mecanicas.map((m) => ({ titulo: m.titulo, que_hacer: m.como, hace_wipe: m.wipe, en_datos: m.en_datos, ataques: m.ataques.map(String) })),
   };
 }
+
+// ── Mantenimiento (fase 8) ──────────────────────────────────────────────────────────────────────────────
+
+/** Parches que tocan esa raid y son posteriores a `desde` (la fecha de parche de una ficha), del más antiguo al más nuevo. */
+export const parchesPosteriores = (raid: string, desde: string) =>
+  C.parches.filter((p) => p.raids.includes(raid) && p.fecha > desde).sort((a, b) => (a.fecha < b.fecha ? -1 : 1));

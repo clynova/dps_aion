@@ -7,7 +7,7 @@ import { Suspense } from 'react';
 import BarraSuperior from '@/components/BarraSuperior';
 import PiePagina from '@/components/PiePagina';
 import JefesConCifras from '@/components/guia/JefesConCifras';
-import { Afirmaciones, fechaLarga, Fuentes, ListaJefes, Modos, Origen } from '@/components/guia/Piezas';
+import { Afirmaciones, AvisoParche, fechaLarga, Fuentes, ListaJefes, Modos, Origen } from '@/components/guia/Piezas';
 import { fuentesDe, raidGuia } from '@/lib/guia/contenido';
 import { localeDe, rutaEn } from '@/lib/i18n';
 import { textos } from '@/lib/i18n/servidor';
@@ -44,6 +44,7 @@ async function Contenido({ params }: { params: Props['params'] }) {
         <p className="rx-lede">{r.resumen}</p>
         <Modos t={t} idioma={idioma} raid={raid} />
         <p className="rx-note">{t('guias.revisado', { f: fechaLarga(r.revisado, idioma), p: fechaLarga(r.parche, idioma) })}</p>
+        <AvisoParche t={t} idioma={idioma} raid={r.id} desde={r.parche} />
       </header>
 
       <section className="rx-tiles rx-tiles-cab">

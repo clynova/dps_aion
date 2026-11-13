@@ -684,5 +684,8 @@
   "guias.ig.ketu-piedras.pie": "Our own diagram from the guides (version before 4 November); not seen in our logs yet.",
   "guias.enlace.corto": "guide",
   "guias.enlace.titulo": "“{m}” in the raid guide",
-  "guias.enlace.jefe": "This boss in the raid guide"
+  "guias.enlace.jefe": "This boss in the raid guide",
+  "guias.revisar.parche": "It may be out of date: on {f} a patch came out that touches this raid ({titulo}) and this page is from the patch of {p}.",
+  "guias.revisar.chip": "Needs review",
+  "guias.revisar.nuevos": "Since the review of {f}, public raids show attacks that did not appear before: {lista}. A mechanic may have changed."
 }

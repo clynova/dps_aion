@@ -2,7 +2,7 @@
 // fuentes y la lista de jefes con las cifras públicas. Todo sale del servidor, sin JavaScript.
 import Link from 'next/link';
 import type { CifrasJefe } from '@/lib/guia/sumar-cifras';
-import { fuenteGuia, jefeJuego, nombreJefe, urlRetrato, type RaidGuia } from '@/lib/guia/contenido';
+import { fuenteGuia, jefeJuego, nombreJefe, parchesPosteriores, urlRetrato, type RaidGuia } from '@/lib/guia/contenido';
 import type { Origen as TipoOrigen } from '@/lib/guia/esquema';
 import { localeDe, rutaEn, type Clave, type Idioma, type Traductor } from '@/lib/i18n';
 
@@ -116,5 +116,18 @@ export function Modos({ t, idioma, raid }: { t: Traductor; idioma: Idioma; raid:
         <span key={m.id}>{t(`guias.modo.${m.modo}`)}{r.gs[m.modo] ? ` · ${t('guias.gs', { n: n0.format(r.gs[m.modo]!.valor) })}` : ''}</span>
       ))}
     </span>
+  );
+}
+
+/** Aviso «puede estar desactualizada» si hay un parche que toca la raid posterior a la ficha (`desde` = su parche). */
+export function AvisoParche({ t, idioma, raid, desde }: Base & { raid: string; desde: string }) {
+  const ps = parchesPosteriores(raid, desde);
+  if (!ps.length) return null;
+  const p = ps[ps.length - 1];
+  return (
+    <p className="rx-pending gx-revisar">
+      {t('guias.revisar.parche', { f: fechaLarga(p.fecha, idioma), titulo: p.titulo[idioma], p: fechaLarga(desde, idioma) })}{' '}
+      <Origen t={t} origen="oficial" fuentes={p.fuentes} />
+    </p>
   );
 }

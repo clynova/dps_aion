@@ -49,6 +49,18 @@ export type Fuente = z.infer<typeof Fuente>;
 export const Catalogo = z.strictObject({ fuentes: z.array(Fuente).min(1) });
 export type Catalogo = z.infer<typeof Catalogo>;
 
+// ── Parches que tocan una raid (contenido/raids/parches.json) ───────────────────────────────────────────
+// Si una ficha es de antes de un parche que toca su raid (`parche` de la ficha < `fecha` del parche), la página avisa.
+export const Parche = z.strictObject({
+  fecha,
+  titulo: z.strictObject({ es: corto, en: corto }),
+  raids: z.array(slug).min(1),
+  fuentes: z.array(slug).default([]),
+  nota: z.strictObject({ es: texto, en: texto }).optional(),
+});
+export const Parches = z.strictObject({ parches: z.array(Parche) });
+export type Parches = z.infer<typeof Parches>;
+
 // ── Fichas ───────────────────────────────────────────────────────────────────────────────────────────
 
 /**

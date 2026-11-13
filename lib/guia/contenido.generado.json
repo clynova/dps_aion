@@ -305,6 +305,21 @@
    }
   ]
  },
+ "parches": [
+  {
+   "fecha": "2026-11-04",
+   "titulo": {
+    "es": "Vuelve Forja Abismal: Ludra, con mecánicas nuevas y modos Normal y Difícil",
+    "en": "Abyssal Forge: Ludra returns, with new mechanics and Normal and Hard modes"
+   },
+   "raids": [
+    "ludra"
+   ],
+   "fuentes": [
+    "nc-parche-ludra"
+   ]
+  }
+ ],
  "raids": {
   "ludra": {
    "es": {

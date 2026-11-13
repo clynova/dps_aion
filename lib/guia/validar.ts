@@ -2,12 +2,12 @@
 // scripts/validar-contenido.mts (en el build: un error para el despliegue) y tests/unit/guia.test.ts.
 //   archivos: rutas bajo contenido/raids/ → JSON. «<raid>/raid.<idioma>.json» y «<raid>/<npc>.<idioma>.json».
 import type { z } from 'zod';
-import { Catalogo, CLAVES_TEXTO, Estructura, FichaJefe, FichaRaid, type Origen } from './esquema';
+import { Catalogo, CLAVES_TEXTO, Estructura, FichaJefe, FichaRaid, Parches, type Origen } from './esquema';
 import { esInfografia } from './infografias';
 
 export type Idioma = 'es' | 'en';
 type Raid = { es: FichaRaid; en: FichaRaid; jefes: Record<number, { es: FichaJefe; en: FichaJefe }> };
-export type Contenido = { estructura: Estructura; catalogo: Catalogo; raids: Record<string, Raid> };
+export type Contenido = { estructura: Estructura; catalogo: Catalogo; parches: Parches; raids: Record<string, Raid> };
 
 const RUTA = /^([a-z0-9-]+)\/(raid|\d+)\.(es|en)\.json$/;
 
@@ -44,14 +44,16 @@ function afirmaciones(x: unknown, ruta = ''): { ruta: string; origen: Origen; fu
   return [...propias, ...Object.entries(o).flatMap(([k, v]) => afirmaciones(v, ruta ? `${ruta}.${k}` : k))];
 }
 
-export function validarContenido(entrada: { estructura: unknown; catalogo: unknown; archivos: Record<string, unknown> }):
+export function validarContenido(entrada: { estructura: unknown; catalogo: unknown; parches?: unknown; archivos: Record<string, unknown> }):
   { errores: string[]; contenido: Contenido | null } {
   const errores: string[] = [];
   const est = Estructura.safeParse(entrada.estructura);
   if (!est.success) errores.push(...zodErrores('juego/estructura.json', est.error));
   const cat = Catalogo.safeParse(entrada.catalogo);
   if (!cat.success) errores.push(...zodErrores('raids/fuentes.json', cat.error));
-  if (!est.success || !cat.success) return { errores, contenido: null };
+  const par = Parches.safeParse(entrada.parches ?? { parches: [] });
+  if (!par.success) errores.push(...zodErrores('raids/parches.json', par.error));
+  if (!est.success || !cat.success || !par.success) return { errores, contenido: null };
 
   const estructura = est.data, catalogo = cat.data;
   const fuentes = new Map(catalogo.fuentes.map((f) => [f.id, f]));
@@ -119,5 +121,10 @@ export function validarContenido(entrada: { estructura: unknown; catalogo: unkno
     r.jefes[Number(ficha)] = j;
   }
 
-  return { errores, contenido: errores.length ? null : { estructura, catalogo, raids } };
+  for (const [i, p] of par.data.parches.entries()) {
+    for (const r of p.raids) if (!raids[r]) errores.push(`raids/parches.json: parches[${i}]: la raid «${r}» no tiene ficha`);
+    for (const f of p.fuentes) if (!fuentes.has(f)) errores.push(`raids/parches.json: parches[${i}]: fuente «${f}» no está en fuentes.json`);
+  }
+
+  return { errores, contenido: errores.length ? null : { estructura, catalogo, parches: par.data, raids } };
 }

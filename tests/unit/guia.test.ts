@@ -191,3 +191,20 @@ describe('enlaces de las raids a la guía', () => {
     expect(guiaParaIA(2300908)).toBeNull();
   });
 });
+
+describe('parches', () => {
+  it('un parche que nombra una raid sin ficha o una fuente que no existe', () => {
+    const parches = { parches: [{ fecha: '2026-12-01', titulo: { es: 'x', en: 'x' }, raids: ['prueba', 'otra'], fuentes: ['no-existe'] }] };
+    const { errores } = validarContenido({ estructura, catalogo, parches, archivos: archivos() });
+    expect(errores).toEqual([
+      'raids/parches.json: parches[0]: la raid «otra» no tiene ficha',
+      'raids/parches.json: parches[0]: fuente «no-existe» no está en fuentes.json',
+    ]);
+  });
+  it('los posteriores a la ficha, por raid', async () => {
+    const { parchesPosteriores } = await import('@/lib/guia/contenido');
+    expect(parchesPosteriores('ludra', '2026-11-04')).toEqual([]);
+    expect(parchesPosteriores('ludra', '2026-11-01').map((p) => p.fecha)).toEqual(['2026-11-04']);
+    expect(parchesPosteriores('otra', '2026-01-01')).toEqual([]);
+  });
+});
