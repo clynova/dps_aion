@@ -6,6 +6,7 @@ import { localeDe, type Idioma, type Traductor } from '@/lib/i18n';
 import { analizarMecanicas, type Celda, type MecanicaDato } from '@/lib/raids/mecanicas';
 import Explicacion from '@/components/ui/Explicacion';
 import NombreJugador from '@/components/raid/NombreJugador';
+import EnlaceGuia from '@/components/guia/EnlaceGuia';
 
 type Datos = {
   meta: unknown; causas: { habilidad: string; muertes: number }[]; detalle: Record<string, unknown>; mecanicas?: MecanicaDato[];
@@ -56,7 +57,7 @@ export default function Mecanicas({ t, idioma, datos, nombres }: { t: Traductor;
         <tbody>
           {filas.map((x) => (
             <tr key={x.habilidad}>
-              <td>{hab(x.habilidad)}</td>
+              <td>{hab(x.habilidad)} <EnlaceGuia t={t} idioma={idioma} ataque={x.habilidad} /></td>
               <td>{x.olas}</td>
               <td>{x.muertes || ''}</td>
               {orden.map((n) => {
@@ -172,7 +173,7 @@ export default function Mecanicas({ t, idioma, datos, nombres }: { t: Traductor;
               <tbody>
                 {resto.map((x) => (
                   <tr key={x.habilidad}>
-                    <td>{hab(x.habilidad)}</td><td>{t(x.clase === 'todos' ? 'mec.tipo.todos' : 'mec.tipo.escaso')}</td>
+                    <td>{hab(x.habilidad)} <EnlaceGuia t={t} idioma={idioma} ataque={x.habilidad} /></td><td>{t(x.clase === 'todos' ? 'mec.tipo.todos' : 'mec.tipo.escaso')}</td>
                     <td>{x.olas}</td><td>{t('mec.alcance', { n: nf.format(x.alcance), de: nf.format(x.vivos) })}</td><td>{x.muertes}</td>
                   </tr>
                 ))}

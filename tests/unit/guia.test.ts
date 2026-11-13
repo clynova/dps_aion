@@ -170,3 +170,24 @@ describe('sumarCifras', () => {
     expect(c.has('nadie')).toBe(false);
   });
 });
+
+describe('enlaces de las raids a la guía', () => {
+  it('cada ataque citado lleva a su mecánica; un ataque sin ficha, a nada', async () => {
+    const { mecanicaDeAtaque } = await import('@/lib/guia/contenido');
+    expect(mecanicaDeAtaque('1803011')).toMatchObject({ raid: 'ludra', npc: 2301014, mecanica: 'prueba', ruta: '/guias/ludra/2301014#m-prueba' });
+    expect(mecanicaDeAtaque(1802716)?.titulo.es).toBe('La marca que se pasa');
+    expect(mecanicaDeAtaque('1')).toBeNull();
+  });
+  it('el jefe en la guía por cualquiera de sus npc (Normal o Difícil)', async () => {
+    const { jefeEnGuia } = await import('@/lib/guia/contenido');
+    expect(jefeEnGuia(2301014)?.ruta).toBe('/guias/ludra/2301014');
+    expect(jefeEnGuia(2300290)?.ruta).toBe('/guias/ludra/2301014');
+    expect(jefeEnGuia(2300908)).toBeNull();
+  });
+  it('lo que se manda a la IA: las mecánicas del jefe con su estado en los datos', async () => {
+    const { guiaParaIA } = await import('@/lib/guia/contenido');
+    const g = guiaParaIA(2301006)!;
+    expect(g.mecanicas.find((m) => m.ataques.includes('1802716'))).toMatchObject({ titulo: 'La marca que se pasa', hace_wipe: true, en_datos: 'probable' });
+    expect(guiaParaIA(2300908)).toBeNull();
+  });
+});

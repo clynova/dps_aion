@@ -20,6 +20,7 @@ import { localeDe, rutaEn } from '@/lib/i18n';
 import { apareceEnListados, puede } from '@/lib/permisos';
 import { textos } from '@/lib/i18n/servidor';
 import { raidParaVer } from '@/lib/raids/vista';
+import { jefeEnGuia } from '@/lib/guia/contenido';
 
 type Props = PageProps<'/[lang]/g/[grupo]/raids/[slug]'>;
 
@@ -43,10 +44,12 @@ async function Contenido({ params }: { params: Props['params'] }) {
       tieneAnalisis={!(r.analisis as { pendiente?: boolean }).pendiente}
       t={{ boton: t('ia.boton'), enCurso: t('ia.enCurso'), espera: t('ia.espera'), listo: t('ia.listo'), error: t('ia.error'), confirmar: t('ia.confirmar') }} />
   ) : null;
+  const guia = jefeEnGuia(r.raid.npcJefe);
   return (
     <>
       <PlantillaRaid key={`p-${grupo}-${slug}`} t={t} volver={rutaEn(idioma, `/g/${grupo}`)} accion={accion}
         enlaceJefe={apareceEnListados(r.raid.visibilidad, r.grupo.visible, r.rol) ? { href: rutaEn(idioma, `/g/${grupo}/jefes/${r.raid.npcJefe}`), texto: t('jefe.enlace') } : null}
+        enlaceGuia={guia ? { href: rutaEn(idioma, guia.ruta), texto: t('guias.enlace.jefe') } : null}
         intentos={<Intentos t={t} idioma={idioma} datos={r.datos} nombres={r.nombres} />}
         repaso={<Repaso t={t} idioma={idioma} datos={r.datos} nombres={r.nombres} />}
         mecanicas={<Mecanicas t={t} idioma={idioma} datos={r.datos} nombres={r.nombres} />}

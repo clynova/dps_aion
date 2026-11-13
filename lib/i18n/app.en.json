@@ -681,5 +681,8 @@
   "guias.ig.ketu-piedras.rompe": "Break your stone just|before the hit: a few|seconds invulnerable",
   "guias.ig.ketu-piedras.golpe": "Ketu hits the whole|arena again and again:|refresh the stone",
   "guias.ig.ketu-piedras.plan": "Usually: the Cleric|survives and resurrects|the group",
-  "guias.ig.ketu-piedras.pie": "Our own diagram from the guides (version before 4 November); not seen in our logs yet."
+  "guias.ig.ketu-piedras.pie": "Our own diagram from the guides (version before 4 November); not seen in our logs yet.",
+  "guias.enlace.corto": "guide",
+  "guias.enlace.titulo": "“{m}” in the raid guide",
+  "guias.enlace.jefe": "This boss in the raid guide"
 }

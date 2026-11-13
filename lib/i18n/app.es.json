@@ -681,5 +681,8 @@
   "guias.ig.ketu-piedras.rompe": "Rompe tu piedra justo|antes del golpe: unos|segundos invulnerable",
   "guias.ig.ketu-piedras.golpe": "Ketu golpea toda la|arena una y otra vez:|renueva la piedra",
   "guias.ig.ketu-piedras.plan": "Lo habitual: el Clérigo|aguanta y resucita|al grupo",
-  "guias.ig.ketu-piedras.pie": "Esquema propio a partir de las guías (versión anterior al 4 de noviembre); aún sin ver en nuestros registros."
+  "guias.ig.ketu-piedras.pie": "Esquema propio a partir de las guías (versión anterior al 4 de noviembre); aún sin ver en nuestros registros.",
+  "guias.enlace.corto": "guía",
+  "guias.enlace.titulo": "«{m}» en la guía de raids",
+  "guias.enlace.jefe": "Este jefe en la guía de raids"
 }

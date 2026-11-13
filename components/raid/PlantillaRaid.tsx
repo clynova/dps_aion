@@ -11,8 +11,8 @@ import type { Traductor } from '@/lib/i18n';
 export const PESTANAS_RAID = ['resumen', 'intentos', 'muertes', 'mecanicas', 'dano', 'jugadores', 'analisis'] as const;
 
 /** `intentos`, `repaso`, `mecanicas`, `ventanas`, `builds` y `seguimiento` son secciones que llegan ya pintadas del servidor (components/raid/Intentos, Repaso, Mecanicas, Ventanas, Builds, Seguimiento); `resumenSeguimiento`, su línea para la cabecera. */
-export default function PlantillaRaid({ t, volver, accion, enlaceJefe, intentos, repaso, mecanicas, ventanas, builds, seguimiento, resumenSeguimiento }: {
-  t: Traductor; volver: string; accion?: ReactNode; enlaceJefe?: { href: string; texto: string } | null; intentos?: ReactNode; repaso?: ReactNode; mecanicas?: ReactNode; ventanas?: ReactNode; builds?: ReactNode; seguimiento?: ReactNode; resumenSeguimiento?: ReactNode;
+export default function PlantillaRaid({ t, volver, accion, enlaceJefe, enlaceGuia, intentos, repaso, mecanicas, ventanas, builds, seguimiento, resumenSeguimiento }: {
+  t: Traductor; volver: string; accion?: ReactNode; enlaceJefe?: { href: string; texto: string } | null; enlaceGuia?: { href: string; texto: string } | null; intentos?: ReactNode; repaso?: ReactNode; mecanicas?: ReactNode; ventanas?: ReactNode; builds?: ReactNode; seguimiento?: ReactNode; resumenSeguimiento?: ReactNode;
 }) {
   return (
     <main className="rx">
@@ -22,7 +22,12 @@ export default function PlantillaRaid({ t, volver, accion, enlaceJefe, intentos,
         <h1 className="rx-title" id="jefe">—</h1>
         <p className="rx-lede" id="lede"></p>
         <div className="rx-others" id="otros"></div>
-        {enlaceJefe ? <p><Link className="rx-link" href={enlaceJefe.href}>{enlaceJefe.texto} →</Link></p> : null}
+        {enlaceJefe || enlaceGuia ? (
+          <p className="cx-fila">
+            {enlaceJefe ? <Link className="rx-link" href={enlaceJefe.href}>{enlaceJefe.texto} →</Link> : null}
+            {enlaceGuia ? <Link className="rx-link" href={enlaceGuia.href}>{enlaceGuia.texto} →</Link> : null}
+          </p>
+        ) : null}
         {accion}
       </header>
 

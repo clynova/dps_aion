@@ -173,3 +173,11 @@ describe('ids entre paréntesis', () => {
     expect(revisarAnalisis({ ...valido(), titular: `Evita ${primeraHab} (219650 de daño).` }, grupo).problemas).toEqual([]);
   });
 });
+
+describe('guía del jefe en el resumen para la IA', () => {
+  it('va si el jefe tiene ficha en la guía (la raid v1 anónima es de Rahu)', () => {
+    const rahu = JSON.parse(readFileSync('tests/fixtures/raid-v1-anonima.json', 'utf8'));
+    const res = resumenParaIA(rahu, { apodos: {}, habilidades: {}, npcs: {} }, []) as { guia_del_jefe?: { mecanicas: { titulo: string }[] } };
+    expect(res.guia_del_jefe?.mecanicas.map((m) => m.titulo)).toContain('La marca que se pasa');
+  });
+});

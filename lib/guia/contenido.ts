@@ -44,3 +44,48 @@ export function fuentesDe(x: unknown): string[] {
 
 /** Todos los npc de la raid, en todos sus modos. */
 export const npcsDeRaid = (raid: RaidGuia) => [...new Set(mazmorrasDe(raid).flatMap((m) => m.jefes))];
+
+// ── Enlaces desde las raids (fase 7) ───────────────────────────────────────────────────────────────────
+
+export type MecanicaEnGuia = { raid: string; npc: number; mecanica: string; titulo: { es: string; en: string }; ruta: string };
+
+/** Índice id de ataque → mecánica de la guía que lo cita (la primera, por orden de raid, jefe y mecánica). */
+const POR_ATAQUE = (() => {
+  const m = new Map<string, MecanicaEnGuia>();
+  for (const id of C.orden) for (const npc of C.raids[id].es.jefes) {
+    const f = C.raids[id].jefes[npc];
+    if (!f) continue;
+    f.es.mecanicas.forEach((mec, i) => {
+      for (const a of mec.ataques) if (!m.has(String(a))) {
+        m.set(String(a), { raid: id, npc, mecanica: mec.id, titulo: { es: mec.titulo, en: f.en.mecanicas[i].titulo }, ruta: `/guias/${id}/${npc}#m-${mec.id}` });
+      }
+    });
+  }
+  return m;
+})();
+
+/** La mecánica de la guía en la que sale ese ataque (o null). */
+export const mecanicaDeAtaque = (id: string | number): MecanicaEnGuia | null => POR_ATAQUE.get(String(id)) ?? null;
+
+/** La página de la guía de un jefe a partir de cualquiera de sus npc (Normal o Difícil), o null si no está en la guía. */
+export function jefeEnGuia(npc: number): { raid: string; npc: number; ruta: string } | null {
+  for (const id of C.orden) {
+    const r = C.raids[id];
+    for (const principal of r.es.jefes) {
+      if (principal === npc || r.jefes[principal]?.es.npc.includes(npc) || npcsDelJefe(r, principal).includes(npc)) {
+        return { raid: id, npc: principal, ruta: `/guias/${id}/${principal}` };
+      }
+    }
+  }
+  return null;
+}
+
+/** Lo que se le manda a la IA de la guía de ese jefe: sus mecánicas, en español (null si no tiene ficha). */
+export function guiaParaIA(npc: number) {
+  const j = jefeEnGuia(npc);
+  const f = j ? raidGuia(j.raid)?.jefes[j.npc]?.es : null;
+  if (!f) return null;
+  return {
+    mecanicas: f.mecanicas.map((m) => ({ titulo: m.titulo, que_hacer: m.como, hace_wipe: m.wipe, en_datos: m.en_datos, ataques: m.ataques.map(String) })),
+  };
+}

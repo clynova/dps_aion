@@ -1,6 +1,8 @@
 # Plan: módulo «Raids» — guía de cada raid y de cada jefe
 
-Fecha: 10 de noviembre de 2026 · Estado: fases 0 y 1 desplegadas (97b30a9, fd40640); fase 2 desplegada (1689e71); fase 3 desplegada (9b1d3c6); fase 4 desplegada (b263465); fase 5 desplegada (3207321); fase 6 hecha
+Fecha: 10 de noviembre de 2026 · Estado: fases 0 y 1 desplegadas (97b30a9, fd40640); fase 2 desplegada (1689e71); fase 3 desplegada (9b1d3c6); fase 4 desplegada (b263465); fase 5 desplegada (3207321); fase 6 desplegada (a6bff95); fase 7 hecha
+
+Fase 7 (12/11/2026): enlaces entre las raids y la guía. `lib/guia/contenido.ts`: `mecanicaDeAtaque(id)` (índice ataque → mecánica de la ficha que lo cita), `jefeEnGuia(npc)` (por cualquier npc del jefe, Normal o Difícil) y `guiaParaIA(npc)`. En la página de la raid: «Este jefe en la guía de raids →» junto a la página del jefe del grupo, y una etiqueta «guía» (`components/guia/EnlaceGuia.tsx`) detrás de cada ataque con ficha en «Ataque por ataque» y en «Repaso de las muertes». El análisis automático recibe `guia_del_jefe` (título, qué hacer, si hace wipe, ataques y en_datos de cada mecánica) y el prompt le pide usar esos nombres sin dar por seguro lo «sin ver». «Tu grupo en este jefe» ya estaba en la ficha (fase 3).
 
 Fase 6 (12/11/2026): cuatro infografías en SVG dibujadas a mano (`components/guia/Infografias.tsx`, registro en `lib/guia/infografias.ts`; la validación rechaza una `infografia` que no exista), una por mecánica que hace wipe: el tablero de la Prueba de Ludra (con los tiempos de nuestros registros: rotura de 10 s unos 20 s después del casteo), la marca que se pasa y los depredadores de Rahu, y las piedras de alma de Ketu. Esquemas propios a partir de lo que describen las guías, sin calcar imágenes; cada pie dice de qué versión es. Textos en `guias.ig.*` (con «|» para partir líneas), colores del tema (claro/oscuro) y texto a 11 px en el móvil.
 

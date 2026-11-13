@@ -8,6 +8,7 @@ import { analizarMecanicas, fallosParaIA, type MecanicaDato } from '@/lib/raids/
 import { analizarRepaso, repasoParaIA, type MuerteDato } from '@/lib/raids/repaso';
 import { analizarVentanas, ventanasParaIA, type VentanasDato } from '@/lib/raids/ventanas';
 import { idsEnTexto, type seguimientoParaIA } from '@/lib/raids/seguimiento';
+import { guiaParaIA } from '@/lib/guia/contenido';
 
 export type SeguimientoIA = ReturnType<typeof seguimientoParaIA>;
 
@@ -23,6 +24,8 @@ const mediana = (xs: number[]) => { const s = [...xs].sort((a, b) => a - b); con
 
 /** La raid compacta: sin la curva de vida (los intentos ya traen su progreso) y con los casteos del jefe agrupados. */
 export function resumenParaIA(d: Datos, nombres: Nombres, historial: Historial, seguimiento?: SeguimientoIA) {
+  // La guía de la web para este jefe (contenido/raids): sus mecánicas, para que los consejos usen los mismos nombres
+  const guia = guiaParaIA(Number(d.meta.npc));
   const { curva, casteos, dps_intento, mecanicas, ventanas: ventanasCrudas, especializaciones: espCrudas, buffs_recibidos: buffsCrudos, ...resto } = d;
   // Las mecánicas no van en crudo (40 ataques × 10 jugadores): solo lo que destaca, ya comparado (lib/raids/mecanicas.ts)
   const det = (d.detalle ?? {}) as Record<string, { muertes?: { habilidad: string }[] }>;
@@ -95,6 +98,7 @@ export function resumenParaIA(d: Datos, nombres: Nombres, historial: Historial, 
     ...(esp.length ? { especializaciones_distintas_de_su_clase: esp } : {}),
     ...(buf.length ? { buffs_que_recibe_de_menos: buf } : {}),
     raids_anteriores_del_mismo_jefe: historial,
+    ...(guia ? { guia_del_jefe: guia } : {}),
     ...(seguimiento ? { seguimiento_de_la_raid_anterior: seguimiento } : {}),
   };
 }
@@ -194,6 +198,7 @@ Qué mirar:
 - especializaciones_distintas_de_su_clase (si viene): habilidades en que un jugador eligió opciones de especialización distintas de las de los demás de su clase en esta raid (las opciones son números, en el orden del juego; deducidos del id del casteo). NO sabes qué opción es mejor ni cuánto daño da cada una: no digas que una es peor ni le atribuyas dps. Como mucho, menciónalo en su consejo personal como algo a comparar con los demás de su clase, citando las opciones de cada uno.
 - buffs_que_recibe_de_menos (si viene): jugadores que tienen un buff de un compañero bastante menos tiempo (vivo) que los demás que lo reciben. Probablemente se quedan fuera de su alcance: por ejemplo, el sanador principal que va detrás del tanque, lejos del grupo. Es una DEDUCCIÓN: dilo así. Tenlo en cuenta antes de reprocharle a ese jugador un dps bajo, y en una recomendación de posición (que quien da el buff lo lance cerca de él, o que se acerque al grupo cuando el tanque no necesite curación).
 - seguimiento_de_la_raid_anterior (si viene): qué pasó con las recomendaciones de la raid anterior de este jefe: cifras de antes y de ahora del grupo, de los ataques que nombraban y de cada jugador. Di en el titular o en una recomendación qué mejoró y qué sigue igual, con esas cifras; no repitas un consejo ya cumplido.
+- guia_del_jefe (si viene): las mecánicas de este jefe según la guía de la web: titulo, que_hacer, hace_wipe, sus ataques (ids) y en_datos (visto = confirmado en registros de la versión actual; probable = deducción; sin_ver = solo lo dicen guías de la versión anterior y puede haber cambiado). Si una recomendación trata de una de estas mecánicas, llámala por su título y apóyate en su que_hacer; no presentes como seguro lo que está sin_ver. Los hechos de esta raid siguen saliendo de sus datos, no de la guía.
 - clasificaciones: listas ya ordenadas de mayor a menor (dps, curacion, dano_recibido, muertes, resurrecciones, segundos_vivo; e intentos_por_dps_grupo e intentos_por_progreso, como [intento, valor]). Para decir que alguien es «el que más» o «el que menos» de algo, o su puesto, mira SIEMPRE estas listas; no lo deduzcas tú.
 
 Reglas:

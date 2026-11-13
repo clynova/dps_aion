@@ -310,3 +310,5 @@ ol.rx-card.gx-mata { padding: var(--pad-lg); }
 .gx-ig-cono { fill: var(--bad); fill-opacity: .3; }
 .gx-ig-escudo { fill: none; stroke: var(--ok); stroke-width: 2; }
 @media (max-width: 480px) { .gx-ig-t { font-size: 11px; } }
+.gx-enlace-guia { font-size: .72rem; font-weight: 600; color: var(--series-1); text-decoration: none; border: 1px solid currentColor; border-radius: 999px; padding: 0 .4rem; margin-left: .2rem; white-space: nowrap; vertical-align: 1px; }
+.gx-enlace-guia:hover { background: var(--series-1); color: var(--bg); }

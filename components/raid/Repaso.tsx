@@ -5,6 +5,7 @@ import { localeDe, type Idioma, type Traductor } from '@/lib/i18n';
 import { analizarRepaso, type Cuenta, type MuerteDato, type MuerteRepasada } from '@/lib/raids/repaso';
 import Explicacion from '@/components/ui/Explicacion';
 import NombreJugador from '@/components/raid/NombreJugador';
+import EnlaceGuia from '@/components/guia/EnlaceGuia';
 
 type Datos = { meta: unknown; detalle: Record<string, unknown> };
 type NombresHab = { apodos: Record<string, string>; habilidades: Record<string, string> };
@@ -125,7 +126,7 @@ export default function Repaso({ t, idioma, datos, nombres }: { t: Traductor; id
                       <tr key={k}>
                         <td>{m.t}</td>
                         <td><NombreJugador n={m.jugador} /></td>
-                        <td>{hab(m.habilidad)}{m.golpe_max ? <small>{t('rep.final', { d: compacto.format(m.golpe_max) })}</small> : null}</td>
+                        <td>{hab(m.habilidad)} <EnlaceGuia t={t} idioma={idioma} ataque={m.habilidad} />{m.golpe_max ? <small>{t('rep.final', { d: compacto.format(m.golpe_max) })}</small> : null}</td>
                         <td><span className={`rx-rep-t is-${m.tipo}`}>{tipo(m)}</span></td>
                         <td>
                           <svg className="rx-rep-vida" viewBox={`0 0 ${ANCHO} ${ALTO}`} width={ANCHO} height={ALTO} role="img"
