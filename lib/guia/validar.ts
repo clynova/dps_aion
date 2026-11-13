@@ -3,6 +3,7 @@
 //   archivos: rutas bajo contenido/raids/ → JSON. «<raid>/raid.<idioma>.json» y «<raid>/<npc>.<idioma>.json».
 import type { z } from 'zod';
 import { Catalogo, CLAVES_TEXTO, Estructura, FichaJefe, FichaRaid, type Origen } from './esquema';
+import { esInfografia } from './infografias';
 
 export type Idioma = 'es' | 'en';
 type Raid = { es: FichaRaid; en: FichaRaid; jefes: Record<number, { es: FichaJefe; en: FichaJefe }> };
@@ -106,6 +107,7 @@ export function validarContenido(entrada: { estructura: unknown; catalogo: unkno
       for (const n of j.npc) if (!estructura.jefes[n]) errores.push(`raids/${clave}: el npc ${n} no es jefe de ninguna mazmorra`);
       const ids = j.mecanicas.map((m) => m.id);
       if (new Set(ids).size !== ids.length) errores.push(`raids/${clave}: ids de mecánica repetidos`);
+      for (const m of j.mecanicas) if (m.infografia && !esInfografia(m.infografia)) errores.push(`raids/${clave}: la infografía «${m.infografia}» de «${m.id}» no existe (lib/guia/infografias.ts)`);
       jefesSueltos.push([raid, ficha, { es: j, en: leidas.en as FichaJefe }]);
     }
   }

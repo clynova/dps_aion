@@ -272,3 +272,41 @@ a.gx-fuente:hover { color: var(--fg); }
 .gx-mata-barra.is-crit { background: var(--series-1); }
 ol.rx-card.gx-mata { padding: var(--pad-lg); }
 .gx-clase li { grid-template-columns: 1fr; gap: var(--gap-xs); }
+
+/* Infografías de la guía (components/guia/Infografias.tsx) */
+.gx-ig { margin: 0; display: flex; flex-direction: column; gap: var(--gap-xs); }
+.gx-ig > svg:not(.gx-ig-defs) { width: 100%; height: auto; max-width: 520px; background: var(--bg); border-radius: var(--radius); }
+.gx-ig-defs { position: absolute; }
+.gx-ig-t { font-family: var(--font-sans); font-size: 10px; fill: var(--fg); }
+.gx-ig-fuerte { font-weight: 600; }
+.gx-ig-suave { fill: var(--fg-muted); }
+.gx-ig-claro { fill: #fff; font-weight: 600; }
+.gx-ig-sobre-jefe { fill: var(--bg); font-weight: 600; }
+.gx-ig-malo { fill: var(--bad); font-weight: 600; }
+.gx-ig-jefe { fill: var(--fg); }
+.gx-ig-arena { fill: var(--panel); stroke: var(--line); stroke-width: 2; }
+.gx-ig-casilla { fill: var(--panel); stroke: var(--line); }
+.gx-ig-destapada { fill: var(--line); stroke: var(--fg-muted); stroke-width: .5; }
+.gx-ig-segura { fill: var(--ok); fill-opacity: .35; stroke: var(--ok); stroke-width: 2; }
+.gx-ig-x { stroke: var(--fg-muted); stroke-width: 1.5; }
+.gx-ig-jug { fill: var(--series-1); stroke: var(--panel); stroke-width: 1.5; }
+.gx-ig-jug.is-marcado { fill: #8b5cf6; }
+.gx-ig-jug.is-sanador { fill: var(--ok); }
+.gx-ig-flecha { fill: none; stroke: var(--fg-muted); stroke-width: 1.5; }
+.gx-ig-punta { fill: var(--fg-muted); }
+.gx-ig-eje { stroke: var(--line); stroke-width: 2; }
+.gx-ig-tramo { fill: var(--series-2); }
+.gx-ig-rotura { fill: var(--ok); }
+.gx-ig-marca { fill: #8b5cf6; fill-opacity: .18; stroke: #8b5cf6; stroke-width: 2; stroke-dasharray: 4 3; }
+.gx-ig-zona { fill: var(--fg); fill-opacity: .75; }
+.gx-ig-zona.is-wipe { fill: var(--bad); fill-opacity: 1; }
+.gx-ig-anillo { fill: none; stroke: var(--fg-muted); stroke-dasharray: 3 3; }
+.gx-ig-add { fill: var(--bad); }
+.gx-ig-add.is-muerto { fill: var(--line); }
+.gx-ig-rayo { stroke: #8b5cf6; stroke-width: 6; stroke-opacity: .55; stroke-linecap: round; }
+.gx-ig-onda { fill: none; stroke: var(--bad); stroke-opacity: .5; stroke-width: 2; stroke-dasharray: 6 4; }
+.gx-ig-piedra { fill: var(--series-1); fill-opacity: .25; stroke: var(--series-1); stroke-width: 1.5; }
+.gx-ig-piedra.is-rota { fill: none; stroke-dasharray: 2 2; }
+.gx-ig-cono { fill: var(--bad); fill-opacity: .3; }
+.gx-ig-escudo { fill: none; stroke: var(--ok); stroke-width: 2; }
+@media (max-width: 480px) { .gx-ig-t { font-size: 11px; } }

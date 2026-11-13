@@ -530,6 +530,7 @@
         ],
         "modos": [],
         "en_datos": "probable",
+        "infografia": "rahu-marca",
         "origen": "guias",
         "fuentes": [
          "aion2tierlist-ludra",
@@ -644,6 +645,7 @@
         ],
         "modos": [],
         "en_datos": "sin_ver",
+        "infografia": "rahu-depredadores",
         "origen": "guias",
         "fuentes": [
          "aion2tierlist-ludra",
@@ -778,6 +780,7 @@
         ],
         "modos": [],
         "en_datos": "probable",
+        "infografia": "rahu-marca",
         "origen": "guias",
         "fuentes": [
          "aion2tierlist-ludra",
@@ -892,6 +895,7 @@
         ],
         "modos": [],
         "en_datos": "sin_ver",
+        "infografia": "rahu-depredadores",
         "origen": "guias",
         "fuentes": [
          "aion2tierlist-ludra",
@@ -1067,6 +1071,7 @@
         ],
         "modos": [],
         "en_datos": "sin_ver",
+        "infografia": "ketu-piedras",
         "origen": "guias",
         "fuentes": [
          "aion2tierlist-ludra",
@@ -1210,6 +1215,7 @@
         ],
         "modos": [],
         "en_datos": "sin_ver",
+        "infografia": "ketu-piedras",
         "origen": "guias",
         "fuentes": [
          "aion2tierlist-ludra",
@@ -1528,6 +1534,7 @@
         ],
         "modos": [],
         "en_datos": "visto",
+        "infografia": "ludra-tablero",
         "origen": "guias",
         "fuentes": [
          "aion2tierlist-ludra",
@@ -1882,6 +1889,7 @@
         ],
         "modos": [],
         "en_datos": "visto",
+        "infografia": "ludra-tablero",
         "origen": "guias",
         "fuentes": [
          "aion2tierlist-ludra",

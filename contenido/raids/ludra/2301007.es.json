@@ -1,5 +1,8 @@
 {
- "npc": [2301007, 2300283],
+ "npc": [
+  2301007,
+  2300283
+ ],
  "raid": "ludra",
  "revisado": "2026-11-10",
  "parche": "2026-11-04",
@@ -13,10 +16,16 @@
    "como": "Esquiva los láseres; contra la carga, apártate del golpe y salta la onda que deja.",
    "ataques": [],
    "wipe": false,
-   "roles": ["todos"],
+   "roles": [
+    "todos"
+   ],
    "en_datos": "sin_ver",
    "origen": "guias",
-   "fuentes": ["aion2tierlist-ludra", "expcarry-ludra", "aion2turkiye-ludra"]
+   "fuentes": [
+    "aion2tierlist-ludra",
+    "expcarry-ludra",
+    "aion2turkiye-ludra"
+   ]
   },
   {
    "id": "espiritus",
@@ -25,10 +34,17 @@
    "como": "El grupo se parte en dos lados y mata los espíritus de sur a norte, cada lado en un sentido; las clases a distancia ayudan mucho. Cuando se cierra la zona blanca, todos al centro, y a curar dentro de ella.",
    "ataques": [],
    "wipe": false,
-   "roles": ["todos", "dps", "sanador"],
+   "roles": [
+    "todos",
+    "dps",
+    "sanador"
+   ],
    "en_datos": "sin_ver",
    "origen": "guias",
-   "fuentes": ["aion2tierlist-ludra", "metaroad-raid"]
+   "fuentes": [
+    "aion2tierlist-ludra",
+    "metaroad-raid"
+   ]
   },
   {
    "id": "orbes-que-caen",
@@ -37,10 +53,16 @@
    "como": "Uno por persona, saltando para llegar antes. Conviene contar cuántos caen en el primer intento: las guías cuentan los de la versión de 8 jugadores.",
    "ataques": [],
    "wipe": false,
-   "roles": ["todos"],
+   "roles": [
+    "todos"
+   ],
    "en_datos": "sin_ver",
    "origen": "guias",
-   "fuentes": ["aion2tierlist-ludra", "metaroad-raid", "expcarry-ludra"]
+   "fuentes": [
+    "aion2tierlist-ludra",
+    "metaroad-raid",
+    "expcarry-ludra"
+   ]
   },
   {
    "id": "orbes-de-colores",
@@ -49,10 +71,15 @@
    "como": "Orbe rojo: mira hacia él. Orbe azul: dale la espalda. Ojo con guías que lo cuentan al revés.",
    "ataques": [],
    "wipe": false,
-   "roles": ["todos"],
+   "roles": [
+    "todos"
+   ],
    "en_datos": "sin_ver",
    "origen": "guias",
-   "fuentes": ["aion2tierlist-ludra", "metaroad-raid"]
+   "fuentes": [
+    "aion2tierlist-ludra",
+    "metaroad-raid"
+   ]
   },
   {
    "id": "piedras-de-alma",
@@ -61,22 +88,50 @@
    "como": "Lo previsto: cada uno rompe su piedra justo antes del golpe y la renueva. Lo habitual: el Clérigo aguanta con su piedra y resucita al grupo, así que su supervivencia es la prioridad.",
    "ataques": [],
    "wipe": true,
-   "roles": ["todos", "sanador"],
+   "roles": [
+    "todos",
+    "sanador"
+   ],
    "en_datos": "sin_ver",
+   "infografia": "ketu-piedras",
    "origen": "guias",
-   "fuentes": ["aion2tierlist-ludra", "metaroad-raid", "expcarry-ludra"]
+   "fuentes": [
+    "aion2tierlist-ludra",
+    "metaroad-raid",
+    "expcarry-ludra"
+   ]
   }
  ],
  "consejos": {
   "todos": [
-   { "texto": "La party de Ketu necesita un Clérigo que resucite, y conviene un Arquero para los espíritus.", "origen": "guias", "fuentes": ["aion2tierlist-ludra", "aion2turkiye-ludra"] }
+   {
+    "texto": "La party de Ketu necesita un Clérigo que resucite, y conviene un Arquero para los espíritus.",
+    "origen": "guias",
+    "fuentes": [
+     "aion2tierlist-ludra",
+     "aion2turkiye-ludra"
+    ]
+   }
   ],
   "sanador": [
-   { "texto": "En las piedras de alma, si el Clérigo sobrevive, Ketu sigue muriendo aunque caiga el resto: guarda resurrecciones y defensivos para esa fase.", "origen": "guias", "fuentes": ["aion2tierlist-ludra", "metaroad-raid"] }
+   {
+    "texto": "En las piedras de alma, si el Clérigo sobrevive, Ketu sigue muriendo aunque caiga el resto: guarda resurrecciones y defensivos para esa fase.",
+    "origen": "guias",
+    "fuentes": [
+     "aion2tierlist-ludra",
+     "metaroad-raid"
+    ]
+   }
   ]
  },
  "notas": [
-  { "termino": "Versión", "texto": "Las mecánicas de las guías son de la versión anterior (Corea y acceso anticipado). NCSOFT cambió mecánicas para la vuelta del 4 de noviembre y todavía no hay guías de la nueva: todo lo de Ketu está «sin ver»." },
-  { "termino": "Nuestros datos", "texto": "Solo tenemos 3 intentos de Ketu, de una noche y sin kill, y ninguna raid pública: no hay cifras suficientes para contrastar nada." }
+  {
+   "termino": "Versión",
+   "texto": "Las mecánicas de las guías son de la versión anterior (Corea y acceso anticipado). NCSOFT cambió mecánicas para la vuelta del 4 de noviembre y todavía no hay guías de la nueva: todo lo de Ketu está «sin ver»."
+  },
+  {
+   "termino": "Nuestros datos",
+   "texto": "Solo tenemos 3 intentos de Ketu, de una noche y sin kill, y ninguna raid pública: no hay cifras suficientes para contrastar nada."
+  }
  ]
 }

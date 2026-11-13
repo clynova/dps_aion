@@ -112,6 +112,11 @@ describe('validarContenido', () => {
     delete a['prueba/raid.en.json'];
     expect(validar(a).errores).toEqual(['raids/prueba/2301014: la carpeta no tiene raid.es.json / raid.en.json válidos']);
   });
+  it('infografía que no existe', () => {
+    const conInfo = (i: 'es' | 'en') => { const j = jefe(i); return { ...j, mecanicas: [{ ...j.mecanicas[0], infografia: 'no-existe' }] }; };
+    expect(validar({ ...archivos(), 'prueba/2301014.es.json': conInfo('es'), 'prueba/2301014.en.json': conInfo('en') }).errores)
+      .toEqual(['raids/prueba/2301014: la infografía «no-existe» de «agujeros» no existe (lib/guia/infografias.ts)']);
+  });
   it('ids de fuente repetidos en el catálogo', () => {
     expect(validar(archivos(), { fuentes: [...catalogo.fuentes, fuente('guia-a', 'guia')] }).errores)
       .toEqual(['raids/fuentes.json: hay ids de fuente repetidos']);

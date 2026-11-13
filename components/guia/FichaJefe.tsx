@@ -12,6 +12,8 @@ import { vidaRestante } from '@/lib/guia/datos-jefe';
 import type { CifrasJefe } from '@/lib/guia/sumar-cifras';
 import { localeDe, rutaEn, type Clave, type Idioma, type Traductor } from '@/lib/i18n';
 import { formatoOpciones } from '@/lib/raids/especializaciones';
+import { esInfografia } from '@/lib/guia/infografias';
+import Infografia from './Infografias';
 import LineaVida from './LineaVida';
 import Pestanas from './Pestanas';
 import { Afirmaciones, fechaLarga, Fuentes, Origen } from './Piezas';
@@ -158,6 +160,7 @@ export default function FichaJefe({ t, idioma, ficha, gsEntrada, datos, nombres,
                   </p>
                   <p className="cx-texto">{m.texto}</p>
                   <p className="cx-texto gx-como"><strong>{t('guias.como')}:</strong> {m.como}</p>
+                  {m.infografia && esInfografia(m.infografia) ? <Infografia id={m.infografia} t={t} /> : null}
                   {d ? (
                     <p className="gx-datos">
                       {d.muertes ? t('guias.datos.muertes', { m: n0.format(d.muertes), p: n2.format(d.porIntento) }) : t('guias.datos.nomata')}

@@ -1,6 +1,8 @@
 # Plan: módulo «Raids» — guía de cada raid y de cada jefe
 
-Fecha: 10 de noviembre de 2026 · Estado: fases 0 y 1 desplegadas (97b30a9, fd40640); fase 2 desplegada (1689e71); fase 3 desplegada (9b1d3c6); fase 4 desplegada (b263465); fase 5 hecha
+Fecha: 10 de noviembre de 2026 · Estado: fases 0 y 1 desplegadas (97b30a9, fd40640); fase 2 desplegada (1689e71); fase 3 desplegada (9b1d3c6); fase 4 desplegada (b263465); fase 5 desplegada (3207321); fase 6 hecha
+
+Fase 6 (12/11/2026): cuatro infografías en SVG dibujadas a mano (`components/guia/Infografias.tsx`, registro en `lib/guia/infografias.ts`; la validación rechaza una `infografia` que no exista), una por mecánica que hace wipe: el tablero de la Prueba de Ludra (con los tiempos de nuestros registros: rotura de 10 s unos 20 s después del casteo), la marca que se pasa y los depredadores de Rahu, y las piedras de alma de Ketu. Esquemas propios a partir de lo que describen las guías, sin calcar imágenes; cada pie dice de qué versión es. Textos en `guias.ig.*` (con «|» para partir líneas), colores del tema (claro/oscuro) y texto a 11 px en el móvil.
 
 Fase 5 (10/11/2026): pestaña «Por clase» (`porClase` en `lib/guia/datos-jefe.ts`, puro y con pruebas): por cada clase contra ese jefe, las 6 habilidades con más parte del daño (media de todos sus jugador-raid; los que no la usan cuentan 0) y qué parte la usa, la especialización más usada de cada una (del `especializaciones` de la raid: la más habitual, nunca «la mejor») y, del repaso de muertes, en cuántas muertes tenía un defensivo propio libre (con la misma regla que `lib/raids/repaso.ts`, sin contar las de un golpe). En Ludra: el Clérigo tenía «Poder de Yustiel» libre en 16 de 184 muertes; Gladiador, Arquero, Asesino y Espiritualista no tienen defensivos propios en el registro.
 
