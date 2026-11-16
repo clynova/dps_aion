@@ -47,11 +47,12 @@ async function Contenido({ params }: { params: Props['params'] }) {
       t={{ boton: t('ia.boton'), enCurso: t('ia.enCurso'), espera: t('ia.espera'), listo: t('ia.listo'), error: t('ia.error'), confirmar: t('ia.confirmar') }} />
   ) : null;
   const guia = jefeEnGuia(r.raid.npcJefe);
-  // «Sin filtro» (docs/plan-toxico.md): solo si el grupo la tiene activa; quien puede subir raids la pide si falta
+  // «Sin filtro» (docs/plan-toxico.md): solo si el grupo la tiene activa; quien puede subir raids la pide o la rehace
   const toxico = r.toxico ? (
     <Toxico t={t} idioma={idioma} nombres={r.nombres} datos={r.datos} toxico={r.toxico}
-      boton={!r.toxico.contenido && ia && !(r.analisis as { pendiente?: boolean }).pendiente
-        ? <BotonToxico url={`/api/v1/grupos/${grupo}/raids/${slug}/toxico`} t={{ boton: t('tox.boton'), enCurso: t('tox.enCurso'), error: t('ia.error') }} /> : null} />
+      boton={ia && !(r.analisis as { pendiente?: boolean }).pendiente
+        ? <BotonToxico url={`/api/v1/grupos/${grupo}/raids/${slug}/toxico`} locale={localeDe(idioma)} actualizado={r.toxico.actualizado}
+          t={{ boton: t('tox.boton'), rehacer: t('tox.rehacer'), confirmar: t('tox.confirmar'), enCurso: t('tox.enCurso'), espera: t('tox.espera'), error: t('ia.error') }} /> : null} />
   ) : null;
   return (
     <>

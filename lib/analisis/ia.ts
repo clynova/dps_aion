@@ -16,7 +16,9 @@ import { formatearCifras, habilidadesPorJugador, idsDeLaRaid, NOTA_IA, quitarNom
 import { entradaToxico, nivelesDeCulpa, NOTA_TOXICO, PROMPT_TOXICO, PROMPT_TRADUCIR_TOXICO, revisarToxico } from './toxico';
 
 export const ESPERA_HORAS = 24;
-type Llamar = (m: Mensaje[]) => Promise<RespuestaIA>;
+type Llamar = (m: Mensaje[], o?: { temperatura?: number }) => Promise<RespuestaIA>;
+/** Temperatura de la pestaña «Sin filtro»: con la del análisis (0,4) escribía con plantilla (15/11/2026). */
+export const TEMPERATURA_TOXICO = 1.1;
 
 /** Pide el json a la IA y lo valida; si no vale, se lo devuelve con los problemas y lo vuelve a intentar (3 veces en total). */
 async function pedirValidado(llamar: Llamar, mensajes: Mensaje[], grupo: string[], referencia: Analisis | undefined, uso: Uso, habilidades?: Record<string, Set<string>>) {
@@ -63,13 +65,14 @@ export async function generarToxico(datos: Parameters<typeof resumenParaIA>[0], 
   const entrada = JSON.stringify(entradaToxico(datos, nombres, historial, principal, seguimiento));
   const habilidades = habilidadesPorJugador(datos as { detalle?: Record<string, unknown>; ventanas?: unknown; especializaciones?: unknown });
   const maximos = Object.fromEntries(nivelesDeCulpa(datos).map((n) => [n.jugador, n.pullas_max]));
+  const clases = Object.fromEntries(((datos.jugadores ?? []) as { jugador: string; clase_id?: string }[]).map((j) => [j.jugador, j.clase_id ?? '']));
   // Las frases que ya vienen en la entrada (mecánicas de la guía, apodos, análisis principal) no cuentan como muletillas
   // y en la última vuelta no se miran (mejor alguna frase repetida que quedarse sin pestaña)
   const revisar = (ref?: Toxico) => (json: unknown, ultima: boolean) => {
-    const v = revisarToxico(json, grupo, ref, habilidades, maximos, ultima ? null : entrada);
+    const v = revisarToxico(json, grupo, ref, habilidades, maximos, ultima ? null : entrada, clases);
     return { valido: v.toxico, problemas: v.problemas };
   };
-  const es = await pedir(llamar, [{ role: 'system', content: PROMPT_TOXICO }, { role: 'user', content: entrada }], uso, revisar());
+  const es = await pedir((m) => llamar(m, { temperatura: TEMPERATURA_TOXICO }), [{ role: 'system', content: PROMPT_TOXICO }, { role: 'user', content: entrada }], uso, revisar());
   const en = await pedir(llamar, [{ role: 'system', content: PROMPT_TRADUCIR_TOXICO }, { role: 'user', content: JSON.stringify(es) }], uso, revisar(es));
   const ids = idsDeLaRaid(datos);
   return {

@@ -9,7 +9,7 @@ type NombresHab = { apodos: Record<string, string>; habilidades: Record<string, 
 type Props = {
   t: Traductor; idioma: Idioma; nombres: NombresHab; datos: unknown;
   toxico: { contenido: ToxicoDatos | null; soloEs: boolean };
-  /** El botón para hacerla, si quien mira puede (raid sin pestaña todavía) */
+  /** El botón para hacerla o rehacerla, si quien mira puede */
   boton?: ReactNode;
 };
 
@@ -56,6 +56,7 @@ export default function Toxico({ t, idioma, nombres, datos, toxico, boton }: Pro
           );
         })}
       </div>
+      {boton}
       {a.notas?.length ? (
         <details className="rx-details">
           <summary>{t('notes.summary')}</summary>

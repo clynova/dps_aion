@@ -62,11 +62,14 @@ export async function raidParaVer(slugGrupo: string, slugRaid: string, rolDe: (g
  * La pestaña «Sin filtro» (solo si el grupo la tiene activa): la del idioma o, si no hay, la española (soloEs);
  * `contenido` null = todavía no se ha hecho.
  */
-async function toxicoPara(raidId: string, idioma: Idioma): Promise<{ contenido: Toxico | null; soloEs: boolean }> {
+async function toxicoPara(raidId: string, idioma: Idioma): Promise<{ contenido: Toxico | null; soloEs: boolean; actualizado: string | null }> {
   const filas = await db.select().from(t.analisisToxico).where(eq(t.analisisToxico.raidId, raidId));
   const de = (i: Idioma) => filas.find((f) => f.idioma === i)?.contenido as Toxico | undefined;
   const propio = de(idioma), es = de('es');
-  return propio ? { contenido: propio, soloEs: false } : { contenido: es ?? null, soloEs: !!es && idioma !== 'es' };
+  // La fecha de la española: el botón «Rehacer» espera a que cambie
+  const fecha = filas.find((f) => f.idioma === 'es')?.actualizado;
+  const actualizado = fecha ? new Date(fecha).toISOString() : null;
+  return propio ? { contenido: propio, soloEs: false, actualizado } : { contenido: es ?? null, soloEs: !!es && idioma !== 'es', actualizado };
 }
 
 /**

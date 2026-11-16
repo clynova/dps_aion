@@ -1,9 +1,9 @@
 // Pestaña «Sin filtro» (docs/plan-toxico.md): entrada, validación y generación con una IA simulada.
 import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
-import { generarToxico } from '@/lib/analisis/ia';
+import { generarToxico, TEMPERATURA_TOXICO } from '@/lib/analisis/ia';
 import { habilidadesPorJugador } from '@/lib/analisis/resumen';
-import { entradaToxico, muletillas, nivelesDeCulpa, NOTA_TOXICO, PROMPT_TOXICO, PROMPT_TRADUCIR_TOXICO, revisarToxico } from '@/lib/analisis/toxico';
+import { copiaEjemplos, EJEMPLOS_ESTILO, entradaToxico, materialToxico, muletillas, nivelesDeCulpa, NOTA_TOXICO, PROMPT_TOXICO, PROMPT_TRADUCIR_TOXICO, revisarToxico } from '@/lib/analisis/toxico';
 import type { Mensaje, RespuestaIA } from '@/lib/analisis/deepseek';
 import type { Analisis } from '@/lib/ingest/analisis';
 
@@ -92,7 +92,70 @@ describe('nivel de culpa', () => {
   });
 });
 
+describe('material por jugador', () => {
+  const base = (extra: Record<string, unknown> = {}) => ({
+    meta: { grupo: ['A', 'B', 'C', 'D'], jefe: 'x', fecha: '2026-11-15' },
+    intentos: [{ intento: 1, progreso_pct: 50 }, { intento: 2, progreso_pct: 30 }],
+    jugadores: [
+      { jugador: 'A', clase: 'Asesino', clase_id: 'assassin', dps: 20000, dano_recibido: 100000 },
+      { jugador: 'B', clase: 'Asesino', clase_id: 'assassin', dps: 30000, dano_recibido: 100000 },
+      { jugador: 'C', clase: 'Templario', clase_id: 'templar', dps: 10000, dano_recibido: 300000 },
+      { jugador: 'D', clase: 'Clérigo', clase_id: 'cleric', dps: 15000, dano_recibido: 100000 }],
+    detalle: {
+      A: { rotacion: { vivo_s: 300, pausas_pct: 30, primer_golpe_s: 2 }, muertes: [1, 2, 3, 4].map((t) => ({ intento: 1, t, habilidad: '1803000' })) },
+      B: { rotacion: { vivo_s: 300, pausas_pct: 5, primer_golpe_s: 2 }, muertes: [{ intento: 1, t: 50, habilidad: '1803000' }] },
+      C: { rotacion: { vivo_s: 300, pausas_pct: 6, primer_golpe_s: 2 }, muertes: [{ intento: 2, t: 9, habilidad: '1803000' }] },
+      D: { rotacion: { vivo_s: 300, pausas_pct: 7, primer_golpe_s: 2 }, muertes: [] },
+    }, ...extra,
+  });
+  const mat = (d: ReturnType<typeof base>, r = {}) => materialToxico(d as never, { clasificaciones: {} as never, ...r }, nivelesDeCulpa(d));
+  it('saca las peores cifras de cada uno frente al grupo o a su clase', () => {
+    const m = mat(base());
+    const temas = m.A.map((h) => h.tema);
+    expect(temas).toEqual(expect.arrayContaining(['muertes', 'abre', 'dps', 'pausas']));
+    expect(m.A.find((h) => h.tema === 'dps')!.texto).toContain('Asesino');
+    expect(m.A.find((h) => h.tema === 'pausas')!.texto).toContain('30 %');
+    expect(m.A.length).toBeLessThanOrEqual(5);
+    // de más a menos grave
+    for (let i = 1; i < m.A.length; i++) expect(m.A[i].peso).toBeLessThanOrEqual(m.A[i - 1].peso);
+    // al tanque no se le compara el DPS, y quien no tiene nada recibe un «nada»
+    expect(m.C.some((h) => h.tema === 'dps')).toBe(false);
+    expect(m.D.map((h) => h.tema)).toEqual(['nada']);
+  });
+  it('lo que le pasa a medio grupo no se le echa en cara a uno', () => {
+    const ven = { grupo: { multiplicador: 1.4 }, por_jugador: ['A', 'B', 'C'].map((n) => ({ jugador: n, roturas_vivo: '0 de 1', multiplicador: null })) };
+    expect(mat(base(), { ventanas_de_dano: ven }).A.some((h) => h.tema === 'rotura')).toBe(false);
+    const ven2 = { ...ven, por_jugador: [{ jugador: 'A', roturas_vivo: '0 de 1', multiplicador: null }] };
+    expect(mat(base(), { ventanas_de_dano: ven2 }).A.some((h) => h.tema === 'rotura')).toBe(true);
+  });
+  it('va en la entrada de la IA, con cifras con coma decimal', () => {
+    const e = entradaToxico(raid, nombres, [], principal);
+    expect(Object.keys(e.material_por_jugador).sort()).toEqual([...grupo].sort());
+    expect(JSON.stringify(e.material_por_jugador)).not.toMatch(/\d\.\d+ %/);
+    expect(PROMPT_TOXICO).toContain(EJEMPLOS_ESTILO[0]);
+  });
+});
+
 describe('revisarToxico', () => {
+  it('rechaza vosotros que el análisis principal no ve, especializaciones, listas de ataques, pullas largas y ejemplos copiados', () => {
+    const con = (pulla: string) => { const x = valido(); x.jugadores[peor].pullas = [pulla]; return revisarToxico(x, grupo).problemas.join(); };
+    expect(con('El jefe no os mata, os aburrís.')).toContain('vosotros');
+    expect(con('Compara vuestras especializaciones.')).toContain('vosotros');
+    expect(con('Tu especialización no rinde.')).toContain('especializaciones');
+    expect(con('Compara tus talentos con Rhygal.')).toContain('especializaciones');
+    expect(con('Te matan 1803100, 1803200 y 1803300.')).toContain('enumera');
+    expect(con('a'.repeat(270))).toContain('larga');
+    expect(con('No es mala suerte: es un abono de temporada.')).toContain('ejemplos');
+    expect(copiaEjemplos(valido())).toEqual([]);
+  });
+  it('rechaza roles que no salen de la clase', () => {
+    const clases = Object.fromEntries(grupo.map((n) => [n, n === peor ? 'assassin' : 'templar']));
+    const con = (pulla: string) => { const x = valido(); x.jugadores[peor].pullas = [pulla]; return revisarToxico(x, grupo, undefined, undefined, undefined, '', clases).problemas.join(); };
+    expect(con('Tanqueas desde tan lejos que no te encuentran.')).toContain('no tanquea');
+    expect(con('Acércate cuando no necesites curar.')).toContain('no es sanador');
+    expect(con('Moriste cuatro veces.')).toBe('');
+  });
+
   it('no deja pasar del tope de pullas de cada uno', () => {
     const bajo = niveles.find((n) => n.nivel === 'bajo')!.jugador;
     const x = valido(); x.jugadores[bajo].pullas = ['Una.', 'Dos.'];
@@ -142,8 +205,9 @@ describe('generarToxico con una IA simulada', () => {
   it('reintenta lo que no vale, traduce y añade la nota', async () => {
     const respuestas = [valido(grupo.slice(1)), valido(), validoEn()];
     const llamadas: Mensaje[][] = [];
-    const llamar = async (m: Mensaje[]): Promise<RespuestaIA> => {
-      llamadas.push(m);
+    const temperaturas: (number | undefined)[] = [];
+    const llamar = async (m: Mensaje[], o?: { temperatura?: number }): Promise<RespuestaIA> => {
+      llamadas.push(m); temperaturas.push(o?.temperatura);
       return { json: respuestas[llamadas.length - 1], uso: { entrada: 1000, salida: 100, cache: 0 }, modelo: 'simulado' };
     };
     const { es, en, uso } = await generarToxico(raid, nombres, [], principal, llamar);
@@ -155,5 +219,7 @@ describe('generarToxico con una IA simulada', () => {
     expect(en.notas?.at(-1)).toEqual(NOTA_TOXICO.en);
     expect(en.jugadores[peor].pullas).toHaveLength(2);
     expect(uso.entrada).toBe(3000);
+    // escribe con temperatura alta y traduce con la de siempre
+    expect(temperaturas).toEqual([TEMPERATURA_TOXICO, TEMPERATURA_TOXICO, undefined]);
   });
 });

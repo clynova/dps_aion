@@ -18,7 +18,8 @@ export class ErrorIA extends Error {
 
 export const iaConfigurada = () => !!process.env.DEEPSEEK_API_KEY;
 
-export async function deepseekJson(mensajes: Mensaje[], opciones: { maxTokens?: number; fetch?: typeof fetch } = {}): Promise<RespuestaIA> {
+/** `temperatura`: 0,4 por defecto (análisis: cifras exactas); más alta para escribir con gracia (la pestaña «Sin filtro»). Sin efecto con razonamiento. */
+export async function deepseekJson(mensajes: Mensaje[], opciones: { maxTokens?: number; fetch?: typeof fetch; temperatura?: number } = {}): Promise<RespuestaIA> {
   const clave = process.env.DEEPSEEK_API_KEY;
   if (!clave) throw new ErrorIA('sin-clave', 'Falta DEEPSEEK_API_KEY');
   const modelo = process.env.DEEPSEEK_MODEL || 'deepseek-flash';
@@ -30,7 +31,7 @@ export async function deepseekJson(mensajes: Mensaje[], opciones: { maxTokens?: 
     max_tokens: opciones.maxTokens ?? 16_000,
     stream: false,
   };
-  if (razonamiento === 'no') { cuerpo.thinking = { type: 'disabled' }; cuerpo.temperature = 0.4; }
+  if (razonamiento === 'no') { cuerpo.thinking = { type: 'disabled' }; cuerpo.temperature = opciones.temperatura ?? 0.4; }
   else { cuerpo.thinking = { type: 'enabled' }; cuerpo.reasoning_effort = razonamiento; }
 
   const r = await (opciones.fetch ?? fetch)(`${process.env.DEEPSEEK_BASE_URL || 'https://api.deepseek.com'}/chat/completions`, {

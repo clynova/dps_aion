@@ -31,3 +31,11 @@ advertencia, con un análisis cruel que solo cuenta lo malo de cada jugador y c�
   wipes…), para que esas cifras no dependan de la IA.
 - `publicar.ps1 -Toxico` para que Claude escriba la suya al hacer «Analiza la última raid».
 - Rehacerlo cuando Claude publica un análisis principal nuevo (hoy se queda el que se hizo sobre el de DeepSeek).
+
+## Fase 1b (15/11/2026, tras verla en producción)
+
+La primera versión salió plana: la IA solo tenía los datos en bruto y temperatura 0,4, y escribió la misma frase
+para cuatro jugadores («el jefe te mata de un solo impacto y tú sigues en el mismo sitio»), además de colar «os» y
+especializaciones. Cambios: material por jugador calculado en código (`materialToxico`), ejemplos de tono de otros
+ámbitos, temperatura 1,1, comprobaciones nuevas (vosotros completo, talentos, roles por clase, pullas largas o con
+listas de ataques, ejemplos copiados) y «Rehacer» en el botón de la pestaña (una vez por hora).
