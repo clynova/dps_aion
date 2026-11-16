@@ -229,6 +229,13 @@ export async function guardarAvisoRaids(actorId: string, grupoId: string, idioma
   await db.insert(auditoria).values({ grupoId, usuarioId: actorId, accion: idioma === null ? 'aviso-raids.quitar' : 'aviso-raids.activar', detalle: idioma ? { idioma } : null });
 }
 
+/** Activa o apaga la pestaña «Sin filtro» en las raids del grupo (admin o más; docs/plan-toxico.md). */
+export async function guardarToxico(actorId: string, grupoId: string, activo: boolean) {
+  if (!puede(await rolEn(grupoId, actorId), 'ajustes')) throw new ErrorPermiso();
+  await db.update(grupos).set({ toxico: activo }).where(eq(grupos.id, grupoId));
+  await db.insert(auditoria).values({ grupoId, usuarioId: actorId, accion: activo ? 'toxico.activar' : 'toxico.quitar' });
+}
+
 /** La dirección del webhook del grupo en claro, o null si no tiene (o ya no se puede descifrar). Solo para el servidor. */
 export function webhookDe(g: Pick<Grupo, 'discordWebhookCifrado'>): string | null {
   return g.discordWebhookCifrado ? descifrar(g.discordWebhookCifrado) : null;

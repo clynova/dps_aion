@@ -5,27 +5,34 @@ import 'server-only';
 import { and, desc, eq, ne, sql } from 'drizzle-orm';
 import { revalidatePath } from 'next/cache';
 import { db } from '@/lib/db/client';
-import { analisis, auditoria, raids } from '@/lib/db/schema';
+import { analisis, analisisToxico, auditoria, grupos, raids } from '@/lib/db/schema';
 import type { Analisis } from '@/lib/ingest/analisis';
+import type { Toxico } from '@/lib/ingest/toxico';
 import { reconstruirRaid } from '@/lib/raids/reconstruir';
 import { seguimientoParaIA, seguir, type AnalisisSeg, type RaidSeg } from '@/lib/raids/seguimiento';
 import { nombresPara, raidAnterior } from '@/lib/raids/vista';
 import { deepseekJson, ErrorIA, type Mensaje, type RespuestaIA, type Uso } from './deepseek';
 import { formatearCifras, habilidadesPorJugador, idsDeLaRaid, NOTA_IA, quitarNombresTrasIds, PROMPT_SISTEMA, PROMPT_TRADUCIR, resumenParaIA, revisarAnalisis, type Historial, type Nombres, type SeguimientoIA } from './resumen';
+import { entradaToxico, nivelesDeCulpa, NOTA_TOXICO, PROMPT_TOXICO, PROMPT_TRADUCIR_TOXICO, revisarToxico } from './toxico';
 
 export const ESPERA_HORAS = 24;
 type Llamar = (m: Mensaje[]) => Promise<RespuestaIA>;
 
 /** Pide el json a la IA y lo valida; si no vale, se lo devuelve con los problemas y lo vuelve a intentar (3 veces en total). */
 async function pedirValidado(llamar: Llamar, mensajes: Mensaje[], grupo: string[], referencia: Analisis | undefined, uso: Uso, habilidades?: Record<string, Set<string>>) {
+  return pedir(llamar, mensajes, uso, (json) => { const v = revisarAnalisis(json, grupo, referencia, habilidades); return { valido: v.analisis, problemas: v.problemas }; });
+}
+
+/** `revisar` recibe también si es la última vuelta (para dejar pasar comprobaciones de estilo que no deben tumbarlo todo). */
+async function pedir<T>(llamar: Llamar, mensajes: Mensaje[], uso: Uso, revisar: (json: unknown, ultima: boolean) => { valido?: T; problemas: string[] }): Promise<T> {
   let problemas: string[] = [];
   for (let intento = 0; intento < 3; intento++) {
     let r: RespuestaIA;
     try { r = await llamar(mensajes); }
     catch (e) { if (e instanceof ErrorIA && ['vacia', 'json', 'cortada'].includes(e.motivo) && intento < 2) { problemas = [e.message]; continue; } throw e; }
     uso.entrada += r.uso.entrada; uso.salida += r.uso.salida; uso.cache += r.uso.cache;
-    const v = revisarAnalisis(r.json, grupo, referencia, habilidades);
-    if (v.analisis) return v.analisis;
+    const v = revisar(r.json, intento === 2);
+    if (v.valido) return v.valido;
     problemas = v.problemas;
     mensajes = [...mensajes, { role: 'assistant', content: JSON.stringify(r.json) },
       { role: 'user', content: `El json no es válido: ${problemas.join('; ')}. Corrígelo y devuelve el json completo.` }];
@@ -47,6 +54,76 @@ export async function generarAnalisis(datos: Parameters<typeof resumenParaIA>[0]
     en: formatearCifras(quitarNombresTrasIds({ ...en, notas: [...(en.notas ?? []), NOTA_IA.en] }), 'en', ids),
     uso,
   };
+}
+
+/** La pestaña «Sin filtro» en los dos idiomas, a partir de los datos y del análisis principal (en español). */
+export async function generarToxico(datos: Parameters<typeof resumenParaIA>[0], nombres: Nombres, historial: Historial, principal: Analisis, llamar: Llamar = deepseekJson, seguimiento?: SeguimientoIA) {
+  const uso: Uso = { entrada: 0, salida: 0, cache: 0 };
+  const grupo = datos.meta.grupo;
+  const entrada = JSON.stringify(entradaToxico(datos, nombres, historial, principal, seguimiento));
+  const habilidades = habilidadesPorJugador(datos as { detalle?: Record<string, unknown>; ventanas?: unknown; especializaciones?: unknown });
+  const maximos = Object.fromEntries(nivelesDeCulpa(datos).map((n) => [n.jugador, n.pullas_max]));
+  // Las frases que ya vienen en la entrada (mecánicas de la guía, apodos, análisis principal) no cuentan como muletillas
+  // y en la última vuelta no se miran (mejor alguna frase repetida que quedarse sin pestaña)
+  const revisar = (ref?: Toxico) => (json: unknown, ultima: boolean) => {
+    const v = revisarToxico(json, grupo, ref, habilidades, maximos, ultima ? null : entrada);
+    return { valido: v.toxico, problemas: v.problemas };
+  };
+  const es = await pedir(llamar, [{ role: 'system', content: PROMPT_TOXICO }, { role: 'user', content: entrada }], uso, revisar());
+  const en = await pedir(llamar, [{ role: 'system', content: PROMPT_TRADUCIR_TOXICO }, { role: 'user', content: JSON.stringify(es) }], uso, revisar(es));
+  const ids = idsDeLaRaid(datos);
+  return {
+    es: formatearCifras(quitarNombresTrasIds({ ...es, notas: [...(es.notas ?? []), NOTA_TOXICO.es] }), 'es', ids),
+    en: formatearCifras(quitarNombresTrasIds({ ...en, notas: [...(en.notas ?? []), NOTA_TOXICO.en] }), 'en', ids),
+    uso,
+  };
+}
+
+/** Lo que necesitan los dos análisis: la raid, sus datos, el historial del jefe, los nombres y el seguimiento. */
+async function contextoIA(raidId: string) {
+  const [raid] = await db.select().from(raids).where(eq(raids.id, raidId));
+  const datos = await reconstruirRaid(raidId);
+  if (!raid || !datos) throw new Error('raid no encontrada');
+  const anteriores = await db.select().from(raids)
+    .where(and(eq(raids.grupoId, raid.grupoId), eq(raids.npcJefe, raid.npcJefe), ne(raids.id, raidId))).orderBy(desc(raids.fecha)).limit(10);
+  const historial: Historial = anteriores.map((x) => ({ fecha: (x.meta as { fecha: string }).fecha, intentos: x.intentos, mejor_pct: x.mejorPct, matado: x.matado, muertes: x.muertesGrupo, dps_grupo_medio: x.dpsGrupoMedio }));
+  const nombres = await nombresPara('es', raid.grupoId);
+  // Qué pasó con las recomendaciones de la raid anterior de este jefe (lib/raids/seguimiento.ts)
+  const previa = await raidAnterior(raid, 'es');
+  const seguimiento = previa ? seguimientoParaIA(seguir(datos as unknown as RaidSeg, previa.datos as unknown as RaidSeg, previa.analisis as AnalisisSeg)) : undefined;
+  return { raid, datos: datos as unknown as Parameters<typeof generarAnalisis>[0], historial, nombres, seguimiento };
+}
+
+export type ResultadoToxico = { ok: true; uso: Uso; segundos: number } | { ok: false; motivo: 'apagado' | 'ya-hecho' | 'sin-analisis' };
+
+/**
+ * La pestaña «Sin filtro» de una raid, si su grupo la tiene activa. Sale del análisis principal en español (de Claude o
+ * de DeepSeek): sin él no se hace. Sin `forzar` no rehace uno que ya exista. No tiene espera propia: va detrás del
+ * análisis principal (al subir la raid y con el botón «Analizar con IA», que ya tienen la de 24 h).
+ */
+export async function analizarToxico(raidId: string, opciones: { forzar: boolean; usuarioId?: string | null }): Promise<ResultadoToxico> {
+  const [g] = await db.select({ toxico: grupos.toxico }).from(raids).innerJoin(grupos, eq(grupos.id, raids.grupoId)).where(eq(raids.id, raidId));
+  if (!g?.toxico) return { ok: false, motivo: 'apagado' };
+  if (!opciones.forzar) {
+    const ya = await db.select({ r: analisisToxico.raidId }).from(analisisToxico).where(and(eq(analisisToxico.raidId, raidId), eq(analisisToxico.idioma, 'es')));
+    if (ya.length) return { ok: false, motivo: 'ya-hecho' };
+  }
+  const [p] = await db.select({ c: analisis.contenido }).from(analisis).where(and(eq(analisis.raidId, raidId), eq(analisis.idioma, 'es')));
+  const principal = p?.c as Analisis | undefined;
+  if (!principal || principal.pendiente) return { ok: false, motivo: 'sin-analisis' };
+  const t0 = Date.now();
+  const { raid, datos, historial, nombres, seguimiento } = await contextoIA(raidId);
+  const { es, en, uso } = await generarToxico(datos, nombres, historial, principal, deepseekJson, seguimiento);
+  await db.transaction(async (tx) => {
+    for (const [idioma, contenido] of [['es', es], ['en', en]] as const) {
+      await tx.insert(analisisToxico).values({ raidId, idioma, contenido, autor: 'deepseek' })
+        .onConflictDoUpdate({ target: [analisisToxico.raidId, analisisToxico.idioma], set: { contenido, autor: 'deepseek', actualizado: new Date() } });
+    }
+    await tx.insert(auditoria).values({ grupoId: raid.grupoId, usuarioId: opciones.usuarioId ?? null, accion: 'toxico.ia', ref: raid.slug,
+      detalle: { forzar: opciones.forzar, modelo: process.env.DEEPSEEK_MODEL || 'deepseek-flash', ...uso, segundos: Math.round((Date.now() - t0) / 1000) } });
+  });
+  revalidatePath('/[lang]/g/[grupo]', 'layout');
+  return { ok: true, uso, segundos: Math.round((Date.now() - t0) / 1000) };
 }
 
 /** Reserva el análisis de la raid si han pasado 24 h desde el anterior (atómico: FOR UPDATE + condición). */
@@ -89,17 +166,8 @@ export async function analizarRaid(raidId: string, opciones: { origen: 'auto' | 
   if (!reserva.ok) return { ok: false, motivo: 'espera', disponible: reserva.disponible };
   const t0 = Date.now();
   try {
-    const [raid] = await db.select().from(raids).where(eq(raids.id, raidId));
-    const datos = await reconstruirRaid(raidId);
-    if (!raid || !datos) throw new Error('raid no encontrada');
-    const anteriores = await db.select().from(raids)
-      .where(and(eq(raids.grupoId, raid.grupoId), eq(raids.npcJefe, raid.npcJefe), ne(raids.id, raidId))).orderBy(desc(raids.fecha)).limit(10);
-    const historial: Historial = anteriores.map((x) => ({ fecha: (x.meta as { fecha: string }).fecha, intentos: x.intentos, mejor_pct: x.mejorPct, matado: x.matado, muertes: x.muertesGrupo, dps_grupo_medio: x.dpsGrupoMedio }));
-    const nombres = await nombresPara('es', raid.grupoId);
-    // Qué pasó con las recomendaciones de la raid anterior de este jefe (lib/raids/seguimiento.ts)
-    const previa = await raidAnterior(raid, 'es');
-    const seguimiento = previa ? seguimientoParaIA(seguir(datos as unknown as RaidSeg, previa.datos as unknown as RaidSeg, previa.analisis as AnalisisSeg)) : undefined;
-    const { es, en, uso } = await generarAnalisis(datos as unknown as Parameters<typeof generarAnalisis>[0], nombres, historial, deepseekJson, seguimiento);
+    const { raid, datos, historial, nombres, seguimiento } = await contextoIA(raidId);
+    const { es, en, uso } = await generarAnalisis(datos, nombres, historial, deepseekJson, seguimiento);
     await db.transaction(async (tx) => {
       for (const [idioma, contenido] of [['es', es], ['en', en]] as const) {
         // El automático no pisa un análisis que haya llegado mientras la IA pensaba (p. ej. el de Claude con publicar.ps1)

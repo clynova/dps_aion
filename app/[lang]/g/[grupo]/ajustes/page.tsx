@@ -10,7 +10,7 @@ import Formulario from '@/components/Formulario';
 import CopiarEnlace from '@/components/grupos/CopiarEnlace';
 import CrearToken from '@/components/grupos/CrearToken';
 import {
-  accionAjustes, accionAvisoRaids, accionBorrarGrupo, accionCambiarRol, accionCrearInvitacion, accionExpulsar, accionRevocarInvitacion,
+  accionAjustes, accionAvisoRaids, accionBorrarGrupo, accionToxico, accionCambiarRol, accionCrearInvitacion, accionExpulsar, accionRevocarInvitacion,
   accionRevocarToken, accionWebhook,
 } from '@/lib/acciones/grupos';
 import { usuarioActual } from '@/lib/auth/sesion';
@@ -215,6 +215,16 @@ async function Contenido({ params }: { params: PageProps<'/[lang]/g/[grupo]/ajus
                 maxLength={300} placeholder="https://discord.com/api/webhooks/…" />
             </div>
             <button type="submit" className="cx-boton">{t('comun.guardar')}</button>
+          </Formulario>
+        </section>
+      ) : null}
+      {puede(rol, 'ajustes') ? (
+        <section className="rx-section">
+          <h2 className="rx-h2 rx-tox-h">{t('ajustes.toxico.t')}</h2>
+          <Formulario accion={accionToxico} campos={campos} textos={errores} guardado={t('comun.guardado')}>
+            <label className="cx-check"><input type="checkbox" name="toxico" defaultChecked={grupo.toxico} /> {t('ajustes.toxico')}</label>
+            <p className="rx-note">{t('ajustes.toxico.nota')}</p>
+            <div><button type="submit" className="cx-boton cx-boton-sec">{t('comun.guardar')}</button></div>
           </Formulario>
         </section>
       ) : null}

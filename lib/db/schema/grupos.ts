@@ -19,6 +19,8 @@ export const grupos = pgTable('grupos', {
   discordWebhookCifrado: text('discord_webhook_cifrado'),
   /** Resumen en Discord al subir una raid nueva: null = no; 'es' / 'en' = sí, en ese idioma (necesita el webhook). */
   avisoRaids: text('aviso_raids'),
+  /** Pestaña «Sin filtro» (análisis tóxico de la IA) en sus raids. Apagada por defecto (docs/plan-toxico.md). */
+  toxico: boolean('toxico').notNull().default(false),
   creado: timestamp('creado', { withTimezone: true }).notNull().defaultNow(),
   creadoPor: text('creado_por').references(() => user.id, { onDelete: 'set null' }),
 });

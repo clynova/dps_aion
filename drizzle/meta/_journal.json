@@ -57,6 +57,13 @@
       "when": 1794312201975,
       "tag": "0007_especializaciones_y_buffs",
       "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1794792207342,
+      "tag": "0008_analisis_toxico",
+      "breakpoints": true
     }
   ]
 }

@@ -8,12 +8,16 @@ import BarraSuperior from '@/components/BarraSuperior';
 import type { Traductor } from '@/lib/i18n';
 
 /** Pestañas de la raid, en orden. El id de cada una es el de su panel y el del #hash. */
-export const PESTANAS_RAID = ['resumen', 'intentos', 'muertes', 'mecanicas', 'dano', 'jugadores', 'analisis'] as const;
+export const PESTANAS_RAID = ['resumen', 'intentos', 'muertes', 'mecanicas', 'dano', 'jugadores', 'analisis', 'toxico'] as const;
 
-/** `intentos`, `repaso`, `mecanicas`, `ventanas`, `builds` y `seguimiento` son secciones que llegan ya pintadas del servidor (components/raid/Intentos, Repaso, Mecanicas, Ventanas, Builds, Seguimiento); `resumenSeguimiento`, su línea para la cabecera. */
-export default function PlantillaRaid({ t, volver, accion, enlaceJefe, enlaceGuia, intentos, repaso, mecanicas, ventanas, builds, seguimiento, resumenSeguimiento }: {
-  t: Traductor; volver: string; accion?: ReactNode; enlaceJefe?: { href: string; texto: string } | null; enlaceGuia?: { href: string; texto: string } | null; intentos?: ReactNode; repaso?: ReactNode; mecanicas?: ReactNode; ventanas?: ReactNode; builds?: ReactNode; seguimiento?: ReactNode; resumenSeguimiento?: ReactNode;
+/**
+ * `intentos`, `repaso`, `mecanicas`, `ventanas`, `builds` y `seguimiento` son secciones que llegan ya pintadas del servidor (components/raid/Intentos, Repaso, Mecanicas, Ventanas, Builds, Seguimiento); `resumenSeguimiento`, su línea para la cabecera.
+ * `toxico` es la pestaña «Sin filtro» (components/raid/Toxico): sin ella (el grupo no la tiene activa) no sale la pestaña.
+ */
+export default function PlantillaRaid({ t, volver, accion, enlaceJefe, enlaceGuia, intentos, repaso, mecanicas, ventanas, builds, seguimiento, resumenSeguimiento, toxico }: {
+  t: Traductor; volver: string; accion?: ReactNode; enlaceJefe?: { href: string; texto: string } | null; enlaceGuia?: { href: string; texto: string } | null; intentos?: ReactNode; repaso?: ReactNode; mecanicas?: ReactNode; ventanas?: ReactNode; builds?: ReactNode; seguimiento?: ReactNode; resumenSeguimiento?: ReactNode; toxico?: ReactNode;
 }) {
+  const pestanas = PESTANAS_RAID.filter((p) => p !== 'toxico' || toxico);
   return (
     <main className="rx">
       <header className="rx-head">
@@ -49,9 +53,10 @@ export default function PlantillaRaid({ t, volver, accion, enlaceJefe, enlaceGui
       </section>
 
       <nav className="pl-tabs rx-tabs" id="tabs" role="tablist" aria-label={t('raid.tabs.aria')}>
-        {PESTANAS_RAID.map((p, i) => (
-          <button key={p} type="button" role="tab" data-tab={p} aria-controls={p} aria-selected={i === 0} tabIndex={i === 0 ? 0 : -1}>
-            {t(`raid.tab.${p}`)}
+        {pestanas.map((p, i) => (
+          <button key={p} type="button" role="tab" data-tab={p} aria-controls={p} aria-selected={i === 0} tabIndex={i === 0 ? 0 : -1}
+            className={p === 'toxico' ? 'rx-tab-toxico' : undefined}>
+            {p === 'toxico' ? <span aria-hidden="true">⚠ </span> : null}{t(`raid.tab.${p}`)}
           </button>
         ))}
       </nav>
@@ -205,6 +210,12 @@ export default function PlantillaRaid({ t, volver, accion, enlaceJefe, enlaceGui
           <dl id="notas"></dl>
         </details>
       </div>
+
+      {toxico ? (
+        <div className="pl-panel rx-panel rx-toxico" id="toxico" role="tabpanel" hidden>
+          {toxico}
+        </div>
+      ) : null}
 
       <p className="rx-foot" id="foot"></p>
     </main>

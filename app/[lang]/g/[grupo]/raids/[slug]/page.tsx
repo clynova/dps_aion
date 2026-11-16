@@ -11,6 +11,8 @@ import Mecanicas from '@/components/raid/Mecanicas';
 import PlantillaRaid from '@/components/raid/PlantillaRaid';
 import Repaso from '@/components/raid/Repaso';
 import Seguimiento, { ResumenSeguimiento } from '@/components/raid/Seguimiento';
+import BotonToxico from '@/components/raid/BotonToxico';
+import Toxico from '@/components/raid/Toxico';
 import Ventanas from '@/components/raid/Ventanas';
 import { iaConfigurada } from '@/lib/analisis/deepseek';
 import { estadoAnalisisIA } from '@/lib/analisis/ia';
@@ -45,6 +47,12 @@ async function Contenido({ params }: { params: Props['params'] }) {
       t={{ boton: t('ia.boton'), enCurso: t('ia.enCurso'), espera: t('ia.espera'), listo: t('ia.listo'), error: t('ia.error'), confirmar: t('ia.confirmar') }} />
   ) : null;
   const guia = jefeEnGuia(r.raid.npcJefe);
+  // «Sin filtro» (docs/plan-toxico.md): solo si el grupo la tiene activa; quien puede subir raids la pide si falta
+  const toxico = r.toxico ? (
+    <Toxico t={t} idioma={idioma} nombres={r.nombres} datos={r.datos} toxico={r.toxico}
+      boton={!r.toxico.contenido && ia && !(r.analisis as { pendiente?: boolean }).pendiente
+        ? <BotonToxico url={`/api/v1/grupos/${grupo}/raids/${slug}/toxico`} t={{ boton: t('tox.boton'), enCurso: t('tox.enCurso'), error: t('ia.error') }} /> : null} />
+  ) : null;
   return (
     <>
       <PlantillaRaid key={`p-${grupo}-${slug}`} t={t} volver={rutaEn(idioma, `/g/${grupo}`)} accion={accion}
@@ -56,7 +64,8 @@ async function Contenido({ params }: { params: Props['params'] }) {
         ventanas={<Ventanas t={t} idioma={idioma} datos={r.datos} nombres={r.nombres} />}
         builds={<Builds t={t} idioma={idioma} datos={r.datos} nombres={r.nombres} />}
         seguimiento={r.anterior ? <Seguimiento t={t} idioma={idioma} grupo={grupo} nombres={r.nombres} datos={r.datos} anterior={r.anterior} /> : null}
-        resumenSeguimiento={r.anterior ? <ResumenSeguimiento t={t} idioma={idioma} datos={r.datos} anterior={r.anterior} /> : null} />
+        resumenSeguimiento={r.anterior ? <ResumenSeguimiento t={t} idioma={idioma} datos={r.datos} anterior={r.anterior} /> : null}
+        toxico={toxico} />
       <MontarRaid key={`m-${grupo}-${slug}`} idioma={idioma} datos={r.datos} analisis={r.analisis} soloEs={r.soloEs} nombres={r.nombres} />
     </>
   );

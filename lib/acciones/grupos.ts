@@ -7,7 +7,7 @@ import { z } from 'zod';
 import { usuarioActual } from '@/lib/auth/sesion';
 import {
   ErrorDatos, ErrorPermiso, aceptarInvitacion, actualizarAjustes, borrarGrupo, cambiarRol, crearGrupo, crearInvitacion,
-  expulsar, crearToken, grupoPorSlug, guardarAvisoRaids, guardarWebhook, revocarInvitacion, revocarToken,
+  expulsar, crearToken, grupoPorSlug, guardarAvisoRaids, guardarToxico, guardarWebhook, revocarInvitacion, revocarToken,
 } from '@/lib/db/grupos';
 import { esIdioma, rutaEn, type Clave, type Idioma } from '@/lib/i18n';
 import { ROLES, VISIBILIDADES } from '@/lib/permisos';
@@ -146,6 +146,15 @@ export async function accionWebhook(_: Resultado, f: FormData): Promise<Resultad
   return intentar(async (uid) => {
     const g = await grupoDe(f);
     await guardarWebhook(uid, g.id, f.get('quitar') ? null : z.string().max(300).parse(f.get('url')));
+    revalidatePath('/[lang]/g/[grupo]', 'layout');
+  });
+}
+
+/** Activa o apaga la pestaña «Sin filtro» de las raids del grupo. */
+export async function accionToxico(_: Resultado, f: FormData): Promise<Resultado> {
+  return intentar(async (uid) => {
+    const g = await grupoDe(f);
+    await guardarToxico(uid, g.id, f.get('toxico') === 'on');
     revalidatePath('/[lang]/g/[grupo]', 'layout');
   });
 }

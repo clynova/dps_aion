@@ -4,7 +4,7 @@
 import { after } from 'next/server';
 import { error, json, llamante } from '@/lib/api/autenticar';
 import { iaConfigurada } from '@/lib/analisis/deepseek';
-import { analizarRaid, estadoAnalisisIA, reservarAnalisis } from '@/lib/analisis/ia';
+import { analizarRaid, analizarToxico, estadoAnalisisIA, reservarAnalisis } from '@/lib/analisis/ia';
 import { grupoPorSlug } from '@/lib/db/grupos';
 import { puede } from '@/lib/permisos';
 import { raidPorSlug } from '@/lib/raids/reconstruir';
@@ -36,7 +36,12 @@ export async function POST(req: Request, ctx: Ctx) {
   if (!iaConfigurada()) return error(503, 'ia-no-configurada');
   const reserva = await reservarAnalisis(p.raid.id);
   if (!reserva.ok) return error(429, 'espera', { disponible: reserva.disponible?.toISOString() ?? null });
-  after(() => analizarRaid(p.raid.id, { origen: 'manual', usuarioId: p.quien.usuarioId, reserva })
-    .catch((e) => console.error('analisis ia:', e instanceof Error ? e.message : e)));
+  after(async () => {
+    const r = await analizarRaid(p.raid.id, { origen: 'manual', usuarioId: p.quien.usuarioId, reserva })
+      .catch((e) => { console.error('analisis ia:', e instanceof Error ? e.message : e); return null; });
+    // Con el análisis nuevo se rehace también la pestaña «Sin filtro» (si el grupo la tiene activa)
+    if (r?.ok) await analizarToxico(p.raid.id, { forzar: true, usuarioId: p.quien.usuarioId })
+      .catch((e) => console.error('toxico ia:', e instanceof Error ? e.message : e));
+  });
   return json({ ok: true, estado: 'en-curso' }, 202);
 }

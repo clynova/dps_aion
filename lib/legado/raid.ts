@@ -500,6 +500,8 @@ export function montarRaid({ D, A, N, soloEs, T, LANG, LOC, rutaPerfil }) {
     resumen: [['ch-progreso', drawProgreso], ['ch-dps-party', drawDpsParty], ['ch-causas', drawCausas]], intentos: [['ch-curva', drawCurva]], muertes: [['ch-casteos', drawCasteos]],
     mecanicas: [], dano: [], jugadores: [['ch-mapa', drawMapa]], analisis: []
   };
+  // «Sin filtro» solo existe si el grupo la tiene activa (sin su panel, un #toxico abre el resumen)
+  if ($('toxico')) porPestana.toxico = [];
   const tabs = [...document.querySelectorAll('#tabs [data-tab]')];
   let actual = null;
   function dibujarPestana(nombre) {

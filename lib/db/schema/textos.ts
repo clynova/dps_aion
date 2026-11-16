@@ -16,6 +16,15 @@ export const analisis = pgTable('analisis', {
   actualizado: timestamp('actualizado', { withTimezone: true }).notNull().defaultNow(),
 }, (t) => [primaryKey({ columns: [t.raidId, t.idioma] })]);
 
+/** La pestaña «Sin filtro»: solo lo malo de cada jugador (lib/ingest/toxico.ts, docs/plan-toxico.md). */
+export const analisisToxico = pgTable('analisis_toxico', {
+  raidId: uuid('raid_id').notNull().references(() => raids.id, { onDelete: 'cascade' }),
+  idioma: idiomaEnum('idioma').notNull(),
+  contenido: jsonb('contenido').notNull(),
+  autor: text('autor').notNull().default('deepseek'),
+  actualizado: timestamp('actualizado', { withTimezone: true }).notNull().defaultNow(),
+}, (t) => [primaryKey({ columns: [t.raidId, t.idioma] })]);
+
 /** Lo que hoy es jugadores/<slug>/perfil.json y perfil.en.json (por grupo: cada grupo escribe el suyo). */
 export const perfilTexto = pgTable('perfil_texto', {
   id: serial('id').primaryKey(),

@@ -8,6 +8,7 @@ import * as t from '@/lib/db/schema';
 import { construirPerfiles } from '@/lib/perfil/construir';
 import { apareceEnListados, puedeVerRaid, type Rol, type Visibilidad } from '@/lib/permisos';
 import type { Idioma } from '@/lib/i18n';
+import type { Toxico } from '@/lib/ingest/toxico';
 import { especializacionesDePerfil } from './especializaciones';
 import { reconstruirRaid } from './reconstruir';
 
@@ -49,11 +50,23 @@ export async function raidParaVer(slugGrupo: string, slugRaid: string, rolDe: (g
   if (!fila) return null;
   const rol = await rolDe(fila.grupo.id);
   if (!puedeVerRaid(fila.raid.visibilidad, rol)) return null;
-  const [datos, a, nombres, anterior] = await Promise.all([
+  const [datos, a, nombres, anterior, toxico] = await Promise.all([
     reconstruirRaid(fila.raid.id), analisisPara(fila.raid.id, idioma), nombresPara(idioma, fila.grupo.id),
     raidAnterior(fila.raid, idioma, (v) => apareceEnListados(v, fila.grupo.visible, rol)),
+    fila.grupo.toxico ? toxicoPara(fila.raid.id, idioma) : null,
   ]);
-  return { grupo: fila.grupo, raid: fila.raid, rol, datos: datos!, ...a, nombres, anterior };
+  return { grupo: fila.grupo, raid: fila.raid, rol, datos: datos!, ...a, nombres, anterior, toxico };
+}
+
+/**
+ * La pestaña «Sin filtro» (solo si el grupo la tiene activa): la del idioma o, si no hay, la española (soloEs);
+ * `contenido` null = todavía no se ha hecho.
+ */
+async function toxicoPara(raidId: string, idioma: Idioma): Promise<{ contenido: Toxico | null; soloEs: boolean }> {
+  const filas = await db.select().from(t.analisisToxico).where(eq(t.analisisToxico.raidId, raidId));
+  const de = (i: Idioma) => filas.find((f) => f.idioma === i)?.contenido as Toxico | undefined;
+  const propio = de(idioma), es = de('es');
+  return propio ? { contenido: propio, soloEs: false } : { contenido: es ?? null, soloEs: !!es && idioma !== 'es' };
 }
 
 /**

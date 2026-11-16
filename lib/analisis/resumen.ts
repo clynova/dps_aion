@@ -259,7 +259,7 @@ export function habilidadesPorJugador(d: { detalle?: Record<string, unknown>; ve
 }
 
 // Habilidades de jugador: ids de 8 cifras entre 11000000 y 19999999 (las de npc tienen 7)
-const ID_HAB_JUGADOR = /\b1[1-9]\d{6}\b/g;
+export const ID_HAB_JUGADOR = /\b1[1-9]\d{6}\b/g;
 
 /**
  * Valida un análisis de la IA: formato de la web, un consejo para cada jugador del grupo y, si se pasan sus
