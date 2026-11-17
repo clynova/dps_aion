@@ -51,7 +51,10 @@ export default function Asistente({ idioma, grupo, visibilidadDefecto, npcsEs, n
     try {
       const p = await proc.current.procesarRun(run, npcsEs, (paso) => setEstado({ fase: 'procesando', runs, run, paso }));
       setEstado({ fase: 'revision', runs, run, p });
-    } catch { setEstado({ fase: 'lista', runs, error: t('subir.errorProcesar') }); }
+    } catch (err) {
+      console.error('procesar run', run.id, err);  // la causa real (p. ej. memoria de DuckDB-WASM) solo queda aquí
+      setEstado({ fase: 'lista', runs, error: t('subir.errorProcesar') });
+    }
   }
 
   async function subir(e: Extract<Estado, { fase: 'revision' }>, reemplazar = false) {

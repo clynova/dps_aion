@@ -11,6 +11,8 @@ export type RunListada = {
 };
 export type Procesada = { slug: string; json: Record<string, unknown>; segundos: number };
 
+/** Tamaño máximo (caracteres de JSON descomprimido) de cada tanda de encuentros que se carga en DuckDB-WASM. */
+const TANDA_BYTES = 8_000_000;
 const q = (s: string) => `'${String(s).replace(/'/g, "''")}'`;
 const dos = (n: number) => String(n).padStart(2, '0');
 /** Fecha local con su zona, como extraer-raid.ps1 (yyyy-MM-ddTHH:mm:sszzz) */
@@ -103,24 +105,32 @@ export class Procesador {
       if (!run.jefe) throw new Error('sin-intentos');
       const t0 = performance.now();
       const ids = this.indice.filter((e) => e.log === run.log && !this.cargados.has(e.id)).map((e) => e.id);
-      const nuevos: string[] = [];
-      for (const id of ids) {
-        const f = this.archivos.get(`encounters/${id}.json.gz`);
-        if (!f) continue;
-        alAvanzar?.(`descomprimir:${nuevos.length + 1}/${ids.length}`);
-        const texto = await new Response(f.stream().pipeThrough(new DecompressionStream('gzip'))).text();
-        await this.db.registerFileText(`enc/${id}.json`, texto);
-        nuevos.push(id);
-      }
-      if (nuevos.length) {
+      // Por tandas de ~8 MB de JSON: de una vez, una raid de Ludra de 20 intentos (53 MB) agotaba la memoria de
+      // DuckDB-WASM (3,1 GB) y salía «No se pudo calcular esta run»; por tandas usa ~160 MB (17/11/2026).
+      // cargar.sql solo añade filas (el PC también lo ejecuta por tandas, tools/cargar-db.ps1).
+      let tanda: string[] = [], bytes = 0, hechos = 0;
+      const cargarTanda = async () => {
+        if (!tanda.length) return;
         alAvanzar?.('cargar');
         await this.conn.query(`set preserve_insertion_order = false;
           create or replace temp table raw as
             select json ->> 'id' id, json ->> 'log' log, json -> 'fight' fight, json -> 'overview' overview
-            from read_json_objects([${nuevos.map((id) => q(`enc/${id}.json`)).join(',')}], maximum_object_size = 134217728);
-          ${SQL.cargar}`);
-        nuevos.forEach((id) => this.cargados.add(id));
+            from read_json_objects([${tanda.map((id) => q(`enc/${id}.json`)).join(',')}], maximum_object_size = 134217728);
+          ${SQL.cargar}
+          drop table raw;`);
+        for (const id of tanda) { await this.db.dropFile(`enc/${id}.json`); this.cargados.add(id); }
+        tanda = []; bytes = 0;
+      };
+      for (const id of ids) {
+        const f = this.archivos.get(`encounters/${id}.json.gz`);
+        if (!f) continue;
+        alAvanzar?.(`descomprimir:${++hechos}/${ids.length}`);
+        const texto = await new Response(f.stream().pipeThrough(new DecompressionStream('gzip'))).text();
+        if (tanda.length && bytes + texto.length > TANDA_BYTES) await cargarTanda();
+        await this.db.registerFileText(`enc/${id}.json`, texto);
+        tanda.push(id); bytes += texto.length;
       }
+      await cargarTanda();
       alAvanzar?.('calcular');
       const jefe = npcsEs[String(run.jefe)] || `Jefe ${run.jefe}`;
       const slug = slugRaid(run.entrada, jefe), fecha = fechaLocal(run.entrada);
