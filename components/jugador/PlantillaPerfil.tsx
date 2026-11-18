@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import type { ReactNode } from 'react';
 import BarraSuperior from '@/components/BarraSuperior';
+import Glosario, { Sigla } from '@/components/ui/Glosario';
 import type { Traductor } from '@/lib/i18n';
 
 /** `especializaciones`: tarjeta del servidor (components/jugador/Especializaciones.tsx) dentro de la pestaña «Rotación». */
@@ -143,13 +144,15 @@ export default function PlantillaPerfil({ t, volver, especializaciones }: { t: T
     
       <section className="rx-section pl-panel" id="raids" role="tabpanel" hidden>
         <article className="rx-card">
+          <Glosario t={t} columnas={['result', 'dps', 'rank', 'hps', 'deaths', 'first', 'cp', 'gs']} />
           <div className="rx-table-wrap">
             <table className="rx-table">
               <thead>
                 <tr>
                   <th>{t('pl.th.date')}</th><th>{t('pl.th.boss')}</th><th className="rx-left">{t('pl.th.result')}</th>
-                  <th>{t('th.dps')}</th><th className="rx-opt">{t('pl.th.rank')}</th><th>{t('th.hps')}</th>
-                  <th>{t('th.deaths')}</th><th className="rx-opt">{t('pl.th.first')}</th><th className="rx-opt">{t('pl.th.cp')}</th><th className="rx-opt">{t('pl.th.gs')}</th>
+                  <th><Sigla t={t} sigla="dps" texto={t('th.dps')} /></th><th className="rx-opt">{t('pl.th.rank')}</th><th><Sigla t={t} sigla="hps" texto={t('th.hps')} /></th>
+                  <th>{t('th.deaths')}</th><th className="rx-opt">{t('pl.th.first')}</th>
+                  <th className="rx-opt"><Sigla t={t} sigla="cp" texto={t('pl.th.cp')} /></th><th className="rx-opt"><Sigla t={t} sigla="gs" texto={t('pl.th.gs')} /></th>
                 </tr>
               </thead>
               <tbody id="tabla"></tbody>

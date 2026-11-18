@@ -314,5 +314,22 @@
   "tip.skillno": "Habilidad n.º {id}",
   "tip.takenHits": "{d} en {n} golpes",
   "tip.try": "Intento {i}",
-  "unknownOrigin": "origen desconocido"
+  "unknownOrigin": "origen desconocido",
+  "glos.resumen": "¿Qué significa cada columna?",
+  "glos.cp.corto": "Poder de combate",
+  "glos.cp": "Poder de combate (Combat Power): la cifra de fuerza total del personaje que calcula el juego. Es lo que mejor refleja cuánto pega: alguien con menos GS pero más CP puede hacer más daño.",
+  "glos.gs.corto": "Nivel de equipo (Gear Score)",
+  "glos.gs": "Nivel de equipo (Gear Score): la puntuación del equipo que lleva puesto. Se puede subir con piezas que apenas aumentan el daño, por eso dice menos que el CP.",
+  "glos.dps.corto": "Daño por segundo",
+  "glos.dps": "Daño por segundo (Damage Per Second) contra el jefe: todo su daño dividido entre el tiempo de combate. Cuanto más alto, más rápido cae el jefe.",
+  "glos.hps.corto": "Curación por segundo",
+  "glos.hps": "Curación por segundo (Healing Per Second): vida que devuelve, a sí mismo y al grupo, por cada segundo de combate. En los sanadores es lo importante; en el resto suele ser bajo.",
+  "glos.skills": "Las tres habilidades con las que más daño hace. Pasa el ratón por un icono para ver su nombre y su parte del daño.",
+  "glos.taken": "Todo el daño que le hicieron. Que el tanque reciba mucho es normal: está para eso.",
+  "glos.deaths": "Veces que murió, sumando todos los intentos.",
+  "glos.crit": "% de sus golpes que fueron críticos (hacen más daño). Con la barra del jefe rota casi todo es crítico, así que compárate con los de tu clase.",
+  "glos.back": "% de sus golpes dados desde detrás del jefe. Los tanques, que lo miran de frente, tienen poco.",
+  "glos.rank": "Su puesto en DPS dentro del grupo en esa raid (1.º = el que más daño hizo).",
+  "glos.first": "Segundos que tarda de media en morir por primera vez en cada intento. Más es mejor.",
+  "glos.result": "«Kill» si el jefe murió; si no, el % de vida que le quitaron en el mejor intento."
 }

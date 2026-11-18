@@ -314,5 +314,22 @@
   "tip.skillno": "Ability #{id}",
   "tip.takenHits": "{d} in {n} hits",
   "tip.try": "Attempt {i}",
-  "unknownOrigin": "unknown source"
+  "unknownOrigin": "unknown source",
+  "glos.resumen": "What does each column mean?",
+  "glos.cp.corto": "Combat power",
+  "glos.cp": "Combat Power: the overall strength figure the game calculates for the character. It is the best sign of how hard they hit: someone with less GS but more CP can deal more damage.",
+  "glos.gs.corto": "Gear Score",
+  "glos.gs": "Gear Score: the rating of the gear they are wearing. It can go up with pieces that barely add damage, which is why it says less than CP.",
+  "glos.dps.corto": "Damage per second",
+  "glos.dps": "Damage Per Second against the boss: all their damage divided by combat time. The higher it is, the faster the boss goes down.",
+  "glos.hps.corto": "Healing per second",
+  "glos.hps": "Healing Per Second: health they restore, to themselves and the group, for each second of combat. It is what matters for healers; for everyone else it is usually low.",
+  "glos.skills": "The three skills they deal the most damage with. Hover over an icon to see its name and share of the damage.",
+  "glos.taken": "All the damage they took. A tank taking a lot is normal: that is their job.",
+  "glos.deaths": "Times they died, across all attempts.",
+  "glos.crit": "Share of their hits that were critical (they deal more damage). With the boss staggered almost everything crits, so compare yourself with your class.",
+  "glos.back": "Share of their hits landed from behind the boss. Tanks, who face it, have little.",
+  "glos.rank": "Their DPS position in the group in that raid (1st = the most damage).",
+  "glos.first": "Seconds until their first death in each attempt, on average. More is better.",
+  "glos.result": "“Kill” if the boss died; otherwise, the share of its health taken in the best attempt."
 }

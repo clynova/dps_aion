@@ -5,6 +5,7 @@
 import Link from 'next/link';
 import type { ReactNode } from 'react';
 import BarraSuperior from '@/components/BarraSuperior';
+import Glosario, { Sigla } from '@/components/ui/Glosario';
 import type { Traductor } from '@/lib/i18n';
 
 /** Pestañas de la raid, en orden. El id de cada una es el de su panel y el del #hash. */
@@ -127,12 +128,14 @@ export default function PlantillaRaid({ t, volver, accion, enlaceJefe, enlaceGui
         <article className="rx-card">
           <h3>{t('card.table')}</h3>
           <p className="rx-note">{t('card.table.note')}</p>
+          <Glosario t={t} columnas={['cp', 'gs', 'dps', 'hps', 'skills', 'taken', 'deaths', 'crit', 'back']} />
           <div className="rx-table-wrap">
             <table className="rx-table">
               <thead>
                 <tr>
                   <th>{t('th.player')}</th><th>{t('th.class')}</th><th className="rx-opt rx-left">{t('th.skills')}</th>
-                  <th className="rx-opt">{t('th.cp')}</th><th className="rx-opt">{t('th.gs')}</th><th>{t('th.dps')}</th><th>{t('th.hps')}</th>
+                  <th className="rx-opt"><Sigla t={t} sigla="cp" texto={t('th.cp')} /></th><th className="rx-opt"><Sigla t={t} sigla="gs" texto={t('th.gs')} /></th>
+                  <th><Sigla t={t} sigla="dps" texto={t('th.dps')} /></th><th><Sigla t={t} sigla="hps" texto={t('th.hps')} /></th>
                   <th className="rx-opt">{t('th.taken')}</th><th>{t('th.deaths')}</th>
                   <th className="rx-opt">{t('th.crit')}</th><th className="rx-opt">{t('th.back')}</th>
                 </tr>
