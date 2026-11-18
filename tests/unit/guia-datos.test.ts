@@ -64,7 +64,7 @@ describe('datos de la ficha del jefe', () => {
 });
 
 describe('equipo y grupo', () => {
-  const j = (jugador: string, clase_id: string, gs: number, crit_pct: number) => ({ jugador, clase_id, gs, crit_pct });
+  const j = (jugador: string, clase_id: string, gs: number, crit_pct: number) => ({ jugador, clase_id, gs, cp: gs * 70, crit_pct });
   const base = (slug: string, matado: boolean) => raid(slug, '2026-11-09T21:00:00-03:00', [intento(1, 40, 90), intento(2, matado ? 100 : 60, 200, '', matado)], [], [2, 2]);
   const r1 = base('a', true), r2 = base('b', false);
   r1.datos = { ...r1.datos, jugadores: [j('T', 'templar', 3000, 30), j('C', 'cleric', 2900, 40), j('A', 'assassin', 3100, 70), j('B', 'assassin', 2850, 0)],
@@ -79,6 +79,13 @@ describe('equipo y grupo', () => {
     const e = equipoJefe([r1, r2]);
     expect(e.gsKill).toEqual({ min: 2900, mediana: 3000, max: 3100, n: 3 });
     expect(e.gsTodos).toMatchObject({ min: 2800, max: 3100, n: 6 });
+  });
+  it('CP de los kills y de todos (sin CP, no cuenta)', () => {
+    const e = equipoJefe([r1, r2]);
+    expect(e.cpKill).toEqual({ min: 203000, mediana: 210000, max: 217000, n: 3 });
+    expect(e.cpTodos).toMatchObject({ min: 196000, max: 217000, n: 6 });
+    const sinCp = { ...r1, datos: { ...r1.datos, jugadores: r1.datos.jugadores!.map((x) => ({ ...x, cp: 0 })) } };
+    expect(equipoJefe([sinCp]).cpKill).toBeNull();
   });
   it('crítico por clase, sin los 0 (sin golpes al jefe)', () => {
     const e = equipoJefe([r1, r2]);

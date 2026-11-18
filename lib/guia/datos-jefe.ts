@@ -85,7 +85,7 @@ export function datosJefeGuia(raids: RaidConGrupo[], mecanicas: { id: string; at
 /** Lo que la guía lee de cada raid además de lo que usa lib/raids/jefe.ts. */
 export type RaidConGrupo = RaidJefe & {
   datos: RaidJefe['datos'] & {
-    jugadores?: { jugador: string; clase_id: string; gs: number; crit_pct: number }[];
+    jugadores?: { jugador: string; clase_id: string; gs: number; cp?: number; crit_pct: number }[];
     dps_intento?: { intento: number; jugador: string }[];
     detalle?: Record<string, { habilidades?: { habilidad: string; pct: number }[]; muertes?: MuerteDato[] }>;
     especializaciones?: EspecializacionDato[];
@@ -99,6 +99,8 @@ export type EquipoJefe = {
   clasesKill: { clase: string; media: number; kills: number }[];
   /** GS de quien estaba en los intentos con kill, y de todos los que lo intentaron */
   gsKill: Rango | null; gsTodos: Rango | null;
+  /** Lo mismo con el CP (poder de combate), que explica mejor que el GS lo que pega un personaje */
+  cpKill: Rango | null; cpTodos: Rango | null;
   /** % de golpes críticos contra el jefe de cada jugador en cada raid, por clase */
   critico: { clase: string; mediana: number; min: number; max: number; n: number }[];
 };
@@ -109,18 +111,20 @@ const rango = (xs: number[]): Rango | null => (xs.length ? { min: Math.min(...xs
 export function equipoJefe(raids: RaidConGrupo[]): EquipoJefe {
   const kills: Record<string, number>[] = [];
   const gsKill: number[] = [], gsTodos: number[] = [];
+  const cpKill: number[] = [], cpTodos: number[] = [];
   const crit = new Map<string, number[]>();
   for (const r of raids) {
     const js = new Map((r.datos.jugadores ?? []).map((j) => [j.jugador, j]));
     for (const j of js.values()) {
       if (j.gs > 0) gsTodos.push(j.gs);
+      if (j.cp && j.cp > 0) cpTodos.push(j.cp);
       if (j.crit_pct > 0) crit.set(j.clase_id, [...(crit.get(j.clase_id) ?? []), j.crit_pct]);
     }
     for (const k of r.datos.intentos.filter((i) => i.matado)) {
       const enKill = [...new Set((r.datos.dps_intento ?? []).filter((d) => d.intento === k.intento).map((d) => d.jugador))].map((n) => js.get(n)).filter((j) => !!j);
       if (!enKill.length) continue;
       const c: Record<string, number> = {};
-      for (const j of enKill) { c[j.clase_id] = (c[j.clase_id] ?? 0) + 1; if (j.gs > 0) gsKill.push(j.gs); }
+      for (const j of enKill) { c[j.clase_id] = (c[j.clase_id] ?? 0) + 1; if (j.gs > 0) gsKill.push(j.gs); if (j.cp && j.cp > 0) cpKill.push(j.cp); }
       kills.push(c);
     }
   }
@@ -130,7 +134,7 @@ export function equipoJefe(raids: RaidConGrupo[]): EquipoJefe {
   })).sort((a, b) => b.media - a.media || (a.clase < b.clase ? -1 : 1));
   const critico = [...crit].map(([clase, xs]) => ({ clase, mediana: Math.round(med(xs) * 10) / 10, min: Math.min(...xs), max: Math.max(...xs), n: xs.length }))
     .sort((a, b) => b.mediana - a.mediana || (a.clase < b.clase ? -1 : 1));
-  return { kills, clasesKill, gsKill: rango(gsKill), gsTodos: rango(gsTodos), critico };
+  return { kills, clasesKill, gsKill: rango(gsKill), gsTodos: rango(gsTodos), cpKill: rango(cpKill), cpTodos: rango(cpTodos), critico };
 }
 
 // ── Por clase (fase 5): habilidades, especializaciones y defensivos contra este jefe ─────────────────────

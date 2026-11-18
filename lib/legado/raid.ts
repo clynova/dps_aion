@@ -334,7 +334,7 @@ export function montarRaid({ D, A, N, soloEs, T, LANG, LOC, rutaPerfil }) {
       (((D.detalle || {})[r.jugador] || {}).habilidades || []).filter((s) => iconUrl(s.habilidad)).slice(0, 3)
         .forEach((s) => { const im = iconImg(s.habilidad, 22); if (im) { im.title = `${skName(s.habilidad)} · ${pct(s.pct)}`; wrapIc.append(im); } });
       ic.append(wrapIc); tr.append(ic);
-      td(int(r.gs), 'rx-opt');
+      td(r.cp ? int(r.cp) : '—', 'rx-opt'); td(int(r.gs), 'rx-opt');
       const c = el('td'); const w = el('span', 'rx-dpscell'); const b = el('span', 'rx-bar');
       b.style.width = (r.dps / maxDps * 4) + 'rem'; if (r.dps === maxDps) b.style.background = 'var(--series-1)';
       w.append(b, document.createTextNode(int(r.dps))); c.append(w); tr.append(c);

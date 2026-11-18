@@ -201,7 +201,7 @@ export function construirPerfiles(raidsDatos: Raid[], conPerfil: Set<string> = n
     // perfiles.ps1 escribía con Write-Json, que convierte en null cualquier objeto vacío ("x":{} → "x":null)
     perfiles[nombre] = JSON.parse(JSON.stringify(data).replace(/":\{\}/g, '":null'));
     indice.push({ slug, nombre, clase_id: last.clase_id, raids: raids.length, kills: data.resumen.kills, dps_medio: data.resumen.dps_medio,
-      hps_medio: data.resumen.hps_medio, muertes_intento: data.resumen.muertes_intento, gs: last.gs, ultima: last.fecha, perfil: conPerfil.has(slug) });
+      hps_medio: data.resumen.hps_medio, muertes_intento: data.resumen.muertes_intento, gs: last.gs, cp: last.cp, ultima: last.fecha, perfil: conPerfil.has(slug) });
   }
   indice.sort((a, b) => b.raids - a.raids || a.nombre.localeCompare(b.nombre, 'es', { sensitivity: 'base' }));
   return { perfiles, indice };

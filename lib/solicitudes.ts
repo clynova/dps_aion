@@ -19,7 +19,7 @@ export type ResultadoSolicitud =
   | { ok: true; repetida?: boolean }
   | { ok: false; error: 'sin-webhook' | 'jugador' | 'limite' | 'discord' };
 
-type Fila = { nombre: string; raids: number; kills: number; dps_medio: number; hps_medio: number; muertes_intento: number; gs: number; ultima: string; perfil: boolean };
+type Fila = { nombre: string; raids: number; kills: number; dps_medio: number; hps_medio: number; muertes_intento: number; gs: number; cp?: number; ultima: string; perfil: boolean };
 
 /** Texto del aviso, en el idioma de la página desde la que se pidió. */
 export function mensajeSolicitud(p: Fila, url: string, idioma: Idioma): string {
@@ -29,7 +29,7 @@ export function mensajeSolicitud(p: Fila, url: string, idioma: Idioma): string {
   const n2 = new Intl.NumberFormat(loc, { maximumFractionDigits: 2 });
   return [
     t('solicitud.titulo', { n: p.nombre }),
-    t('solicitud.cifras', { raids: p.raids, kills: p.kills, dps: k.format(p.dps_medio), hps: k.format(p.hps_medio), m: n2.format(p.muertes_intento), gs: p.gs }),
+    t('solicitud.cifras', { raids: p.raids, kills: p.kills, dps: k.format(p.dps_medio), hps: k.format(p.hps_medio), m: n2.format(p.muertes_intento), cp: p.cp ? new Intl.NumberFormat(loc).format(p.cp) : '—', gs: p.gs }),
     t('solicitud.ultima', { d: String(p.ultima).slice(0, 10), p: t(p.perfil ? 'solicitud.si' : 'solicitud.no') }),
     url,
   ].join('\n');

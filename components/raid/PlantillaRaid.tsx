@@ -132,7 +132,7 @@ export default function PlantillaRaid({ t, volver, accion, enlaceJefe, enlaceGui
               <thead>
                 <tr>
                   <th>{t('th.player')}</th><th>{t('th.class')}</th><th className="rx-opt rx-left">{t('th.skills')}</th>
-                  <th className="rx-opt">{t('th.gs')}</th><th>{t('th.dps')}</th><th>{t('th.hps')}</th>
+                  <th className="rx-opt">{t('th.cp')}</th><th className="rx-opt">{t('th.gs')}</th><th>{t('th.dps')}</th><th>{t('th.hps')}</th>
                   <th className="rx-opt">{t('th.taken')}</th><th>{t('th.deaths')}</th>
                   <th className="rx-opt">{t('th.crit')}</th><th className="rx-opt">{t('th.back')}</th>
                 </tr>

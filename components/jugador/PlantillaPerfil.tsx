@@ -149,7 +149,7 @@ export default function PlantillaPerfil({ t, volver, especializaciones }: { t: T
                 <tr>
                   <th>{t('pl.th.date')}</th><th>{t('pl.th.boss')}</th><th className="rx-left">{t('pl.th.result')}</th>
                   <th>{t('th.dps')}</th><th className="rx-opt">{t('pl.th.rank')}</th><th>{t('th.hps')}</th>
-                  <th>{t('th.deaths')}</th><th className="rx-opt">{t('pl.th.first')}</th><th className="rx-opt">{t('pl.th.gs')}</th>
+                  <th>{t('th.deaths')}</th><th className="rx-opt">{t('pl.th.first')}</th><th className="rx-opt">{t('pl.th.cp')}</th><th className="rx-opt">{t('pl.th.gs')}</th>
                 </tr>
               </thead>
               <tbody id="tabla"></tbody>

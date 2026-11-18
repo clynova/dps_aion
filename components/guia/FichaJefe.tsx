@@ -248,21 +248,18 @@ export default function FichaJefe({ t, idioma, ficha, gsEntrada, datos, nombres,
           <h2 className="rx-h2">{t('guias.gs.t')}</h2>
           <div className="rx-tiles">
             {gsEntrada.map((g) => <Fragment key={g.modo}>{tile(t('guias.tile.gs', { modo: t(`guias.modo.${g.modo}` as Clave) }), n0.format(g.valor))}</Fragment>)}
-            {datos?.equipo.gsKill ? (
-              <div className="rx-tile">
-                <span className="rx-tile-label">{t('guias.gs.kill')}</span>
-                <span className="rx-tile-value is-ok">{t('guias.gs.rango', { a: n0.format(datos.equipo.gsKill.min), b: n0.format(datos.equipo.gsKill.max) })}</span>
-                <span className="rx-tile-note">{t('guias.gs.nota', { m: n0.format(datos.equipo.gsKill.mediana), n: datos.equipo.gsKill.n })}</span>
+            {([
+              ['guias.cp.kill', datos?.equipo.cpKill, true], ['guias.cp.todos', datos?.equipo.cpTodos, false],
+              ['guias.gs.kill', datos?.equipo.gsKill, true], ['guias.gs.todos', datos?.equipo.gsTodos, false],
+            ] as const).map(([clave, r, ok]) => (r ? (
+              <div className="rx-tile" key={clave}>
+                <span className="rx-tile-label">{t(clave)}</span>
+                <span className={`rx-tile-value${ok ? ' is-ok' : ''}`}>{t('guias.gs.rango', { a: n0.format(r.min), b: n0.format(r.max) })}</span>
+                <span className="rx-tile-note">{t('guias.gs.nota', { m: n0.format(r.mediana), n: r.n })}</span>
               </div>
-            ) : null}
-            {datos?.equipo.gsTodos ? (
-              <div className="rx-tile">
-                <span className="rx-tile-label">{t('guias.gs.todos')}</span>
-                <span className="rx-tile-value">{t('guias.gs.rango', { a: n0.format(datos.equipo.gsTodos.min), b: n0.format(datos.equipo.gsTodos.max) })}</span>
-                <span className="rx-tile-note">{t('guias.gs.nota', { m: n0.format(datos.equipo.gsTodos.mediana), n: datos.equipo.gsTodos.n })}</span>
-              </div>
-            ) : null}
+            ) : null))}
           </div>
+          {datos?.equipo.cpTodos ? <p className="rx-note">{t('guias.cp.nota')}</p> : null}
         </section>
 
         {datos ? (

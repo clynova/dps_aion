@@ -75,7 +75,7 @@ export function montarGrupo({ raids, jugadores, N, T, LANG, LOC, rutaRaid, rutaJ
     };
     const show = (list, withRequest) => $('lista-jugadores').replaceChildren(...list.map((p) => {
       const li = el('li', 'hm-player'); const a = el('a'); a.href = rutaJugador(p.slug);
-      a.append(el('span', 'hm-name', p.nombre), el('span', 'hm-sub', `${T('class.' + p.clase_id)} · ${nf.format(p.raids)} ${T(p.raids === 1 ? 'pl.raid1' : 'pl.raidN')} · ${cmp.format(p.dps_medio)} DPS`));
+      a.append(el('span', 'hm-name', p.nombre), el('span', 'hm-sub', `${T('class.' + p.clase_id)} · ${nf.format(p.raids)} ${T(p.raids === 1 ? 'pl.raid1' : 'pl.raidN')} · ${cmp.format(p.dps_medio)} DPS${p.cp ? ` · ${cmp.format(p.cp)} CP` : ''}`));
       li.append(a); if (withRequest && conSolicitud) li.append(request(p)); return li;
     }));
     const search = () => {

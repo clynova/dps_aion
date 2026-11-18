@@ -61,7 +61,9 @@ export function montarPerfil({ D, P, N, IDX, T, LANG, LOC, rutaRaid }) {
   tile(T('pl.tile.hps'), int(R.hps_medio), vsWord(ratioHps));
   tile(T('pl.tile.dpa'), nf2.format(R.muertes_intento), vsWord(ratioDpa));
   if (myFirst != null) tile(T('pl.tile.first'), int(myFirst) + ' s', T('pl.tile.first.note', { g: int(grpFirst) }));
-  tile(T('pl.tile.gear'), `GS ${int(R.gs)}`, `CP ${int(R.cp)}`);
+  const cpAll = (IDX || []).map((p) => p.cp).filter(Boolean);
+  if (R.cp) tile(T('pl.tile.cp'), int(R.cp), cpAll.length >= 2 ? T('pl.tile.cp.note', { gs: int(R.gs), g: int(d3.median(cpAll)) }) : `GS ${int(R.gs)}`);
+  else tile(T('pl.tile.gear'), `GS ${int(R.gs)}`);
 
   // ---------- Perfil automático ----------
   const good = [], bad = [], trend = [];
@@ -87,9 +89,9 @@ export function montarPerfil({ D, P, N, IDX, T, LANG, LOC, rutaRaid }) {
   const known = (D.causas || []).filter((c) => c.habilidad);
   if (known[0]) bad.push(T('ins.cause', { s: q(skName(known[0].habilidad)), n: int(known[0].muertes), t: int(R.muertes) }));
   if (unknown && unknown.muertes / Math.max(1, R.muertes) >= 0.25) bad.push(T('ins.cause.unknown', { n: int(unknown.muertes), t: int(R.muertes) }));
-  const gsAll = (IDX || []).map((p) => p.gs).filter(Boolean);
-  if (gsAll.length >= 4 && R.gs === d3.min(gsAll)) bad.push(T('ins.gear.low', { gs: int(R.gs) }));
-  if (gsAll.length >= 4 && R.gs === d3.max(gsAll)) good.push(T('ins.gear.high', { gs: int(R.gs) }));
+  // Por CP, no por GS: el CP explica mejor lo que pega un personaje (en las raids del grupo, bastante más que el GS)
+  if (R.cp && cpAll.length >= 4 && R.cp === d3.min(cpAll)) bad.push(T('ins.gear.low', { cp: int(R.cp) }));
+  if (R.cp && cpAll.length >= 4 && R.cp === d3.max(cpAll)) good.push(T('ins.gear.high', { cp: int(R.cp) }));
   if (raids.length >= 2) {
     const a = raids[0], b = raids[raids.length - 1];
     const d = (b.dps - a.dps) / a.dps * 100;
@@ -334,7 +336,7 @@ export function montarPerfil({ D, P, N, IDX, T, LANG, LOC, rutaRaid }) {
       td(r.jefe);
       const res = el('td', 'rx-left'); res.append(el('span', 'rx-pill' + (r.matado ? ' is-ok' : ''), r.matado ? T('home.stat.kill') : pct(r.mejor_pct))); tr.append(res);
       td(int(r.dps)); td(T('pl.rank', { r: r.puesto_dps, n: r.grupo }), 'rx-opt'); td(int(r.hps)); td(int(r.muertes));
-      td(r.primera_muerte != null ? int(r.primera_muerte) + ' s' : '—', 'rx-opt'); td(int(r.gs), 'rx-opt');
+      td(r.primera_muerte != null ? int(r.primera_muerte) + ' s' : '—', 'rx-opt'); td(r.cp ? int(r.cp) : '—', 'rx-opt'); td(int(r.gs), 'rx-opt');
       tr.addEventListener('click', () => goRaid(r));
       tr.addEventListener('keydown', (ev) => { if (ev.key === 'Enter') goRaid(r); });
       tb.append(tr);
