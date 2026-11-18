@@ -7,12 +7,19 @@ import { db } from '@/lib/db/client';
 import * as t from '@/lib/db/schema';
 import { construirPerfiles } from '@/lib/perfil/construir';
 import { apareceEnListados, puedeVerRaid, type Rol, type Visibilidad } from '@/lib/permisos';
-import type { Idioma } from '@/lib/i18n';
+import { conModo } from '@/lib/guia/contenido';
+import { traductor, type Clave, type Idioma } from '@/lib/i18n';
 import type { Toxico } from '@/lib/ingest/toxico';
 import { especializacionesDePerfil } from './especializaciones';
 import { reconstruirRaid } from './reconstruir';
 
 export type Nombres = { apodos: Record<string, string>; habilidades: Record<string, string>; npcs: Record<string, string>; iconos: Record<string, string> };
+
+/** Nombres para las páginas: los de nombresPara con el modo de cada jefe de una raid con varios modos («Ludra de la eternidad (Difícil)»). */
+export async function nombresParaVer(idioma: Idioma, grupoId: string | null = null): Promise<Nombres> {
+  const tr = traductor(idioma);
+  return conModo(await nombresPara(idioma, grupoId), idioma, (m) => tr(`guias.modo.${m}` as Clave));
+}
 
 /** Como nombres.json / nombres.en.json: el idioma pedido y, si falta un nombre, el español. Apodos: los globales y los del grupo encima. */
 export async function nombresPara(idioma: Idioma, grupoId: string | null = null): Promise<Nombres> {
@@ -51,7 +58,7 @@ export async function raidParaVer(slugGrupo: string, slugRaid: string, rolDe: (g
   const rol = await rolDe(fila.grupo.id);
   if (!puedeVerRaid(fila.raid.visibilidad, rol)) return null;
   const [datos, a, nombres, anterior, toxico] = await Promise.all([
-    reconstruirRaid(fila.raid.id), analisisPara(fila.raid.id, idioma), nombresPara(idioma, fila.grupo.id),
+    reconstruirRaid(fila.raid.id), analisisPara(fila.raid.id, idioma), nombresParaVer(idioma, fila.grupo.id),
     raidAnterior(fila.raid, idioma, (v) => apareceEnListados(v, fila.grupo.visible, rol)),
     fila.grupo.toxico ? toxicoPara(fila.raid.id, idioma) : null,
   ]);
@@ -98,7 +105,7 @@ export async function grupoParaVer(grupo: typeof t.grupos.$inferSelect, rol: Rol
   const [otros, conAnalisis, nombres, datos] = await Promise.all([
     ids.length ? db.select().from(t.raidOtros).where(inArray(t.raidOtros.raidId, ids)) : [],
     ids.length ? db.select({ raidId: t.analisis.raidId, contenido: t.analisis.contenido }).from(t.analisis).where(and(inArray(t.analisis.raidId, ids), eq(t.analisis.idioma, 'es'))) : [],
-    nombresPara(idioma, grupo.id),
+    nombresParaVer(idioma, grupo.id),
     Promise.all(ids.map((id) => reconstruirRaid(id))),
   ]);
   const analizada = new Set(conAnalisis.filter((a) => !(a.contenido as { pendiente?: boolean }).pendiente).map((a) => a.raidId));
@@ -120,7 +127,7 @@ export async function grupoParaVer(grupo: typeof t.grupos.$inferSelect, rol: Rol
 export async function jefeParaVer(grupo: typeof t.grupos.$inferSelect, rol: Rol | null, npc: number, idioma: Idioma) {
   const raids = (await raidsListables(grupo.id, rol, grupo.visible)).filter((r) => r.npcJefe === npc);
   if (!raids.length) return null;
-  const [datos, nombres] = await Promise.all([Promise.all(raids.map((r) => reconstruirRaid(r.id))), nombresPara(idioma, grupo.id)]);
+  const [datos, nombres] = await Promise.all([Promise.all(raids.map((r) => reconstruirRaid(r.id))), nombresParaVer(idioma, grupo.id)]);
   const lista = raids.flatMap((r, k) => (datos[k] ? [{ slug: r.slug, fecha: (r.meta as { fecha: string }).fecha, datos: datos[k] }] : []));
   return { jefe: nombres.npcs[String(npc)] ?? raids[0].jefe ?? String(npc), raids: lista, nombres };
 }
@@ -147,7 +154,7 @@ export async function perfilParaVer(slugJugador: string, gruposDelUsuario: Map<s
   const datos = crudos.filter(Boolean);
   const gruposVisibles = [...new Set(visibles.map((r) => r.grupoId))];
   const [nombres, conPerfil, textos] = await Promise.all([
-    nombresPara(idioma, gruposVisibles.length === 1 ? gruposVisibles[0] : null),
+    nombresParaVer(idioma, gruposVisibles.length === 1 ? gruposVisibles[0] : null),
     slugsConPerfil(null),
     db.select().from(t.perfilTexto).where(and(eq(t.perfilTexto.jugadorId, jug.id), inArray(t.perfilTexto.grupoId, gruposVisibles.length ? gruposVisibles : ['00000000-0000-0000-0000-000000000000'])))
       .orderBy(desc(t.perfilTexto.actualizado)),

@@ -8,7 +8,7 @@ import { webhookDe } from '@/lib/db/grupos';
 import { analisis, grupos, raids } from '@/lib/db/schema';
 import { enviarDiscord } from '@/lib/discord';
 import { esIdioma, localeDe, rutaEn, traductor, type Idioma } from '@/lib/i18n';
-import { nombresPara, type Nombres } from '@/lib/raids/vista';
+import { nombresParaVer, type Nombres } from '@/lib/raids/vista';
 
 export type DatosAviso = {
   jefe: string; intentos: number; matado: boolean; mejorPct: number | null; muertes: number | null; dps: number | null;
@@ -55,7 +55,7 @@ export async function avisarRaid(raidId: string, origen: string): Promise<Result
   if (!webhook) return { ok: false, motivo: 'sin-webhook' };
   const [textos, nombres] = await Promise.all([
     db.select({ idioma: analisis.idioma, contenido: analisis.contenido }).from(analisis).where(and(eq(analisis.raidId, raidId), inArray(analisis.idioma, ['es', idioma]))),
-    nombresPara(idioma, f.grupo.id),
+    nombresParaVer(idioma, f.grupo.id),
   ]);
   type A = { pendiente?: boolean; titular?: string; recomendaciones?: { titulo: string }[] };
   const de = (i: string) => textos.find((x) => x.idioma === i && !(x.contenido as A).pendiente)?.contenido as A | undefined;

@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest';
+import { conModo, modoDeJefe } from '@/lib/guia/contenido';
 import { leerContenido, leerNombres } from '@/lib/guia/leer';
 import { diferenciasIdioma, validarContenido } from '@/lib/guia/validar';
 import estructuraReal from '@/contenido/juego/estructura.json';
@@ -206,5 +207,24 @@ describe('parches', () => {
     expect(parchesPosteriores('ludra', '2026-11-04')).toEqual([]);
     expect(parchesPosteriores('ludra', '2026-11-01').map((p) => p.fecha)).toEqual(['2026-11-04']);
     expect(parchesPosteriores('otra', '2026-01-01')).toEqual([]);
+  });
+});
+
+describe('modo de cada jefe en los nombres', () => {
+  const modo = (m: string) => (m === 'dificil' ? 'Difícil' : 'Normal');
+  it('Ludra: cada mazmorra, su modo', () => {
+    expect(modoDeJefe(2301014)).toBe('normal');
+    expect(modoDeJefe(2300290)).toBe('dificil');
+    expect(modoDeJefe(1)).toBeNull();
+  });
+  it('añade el modo a los jefes de una raid con varios modos, y nada más', () => {
+    const npcs: Record<string, string> = { 2301014: 'Ludra de la eternidad', 2300282: 'Rahu aislado', 999: 'Otro' };
+    const n = conModo({ npcs, apodos: {} }, 'es', modo);
+    expect(n.npcs['2301014']).toBe('Ludra de la eternidad (Normal)');
+    expect(n.npcs['2300282']).toBe('Rahu aislado (Difícil)');
+    expect(n.npcs['999']).toBe('Otro');
+    // sin nombre en la base, el de la estructura del juego
+    expect(n.npcs['2300290']).toBe('Ludra de la eternidad (Difícil)');
+    expect(n.apodos).toEqual({});
   });
 });

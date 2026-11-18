@@ -35,6 +35,30 @@ export function mazmorrasDe(raid: RaidGuia): { id: number; modo: string; jefes: 
   }));
 }
 
+/**
+ * Modo de cada jefe de las raids de la guía que tienen más de un modo ({ npc: 'normal' | 'dificil' }): el de la
+ * mazmorra en que sale. Cada modo tiene sus propios ids de jefe (Ludra: 2301014 en Normal, 2300290 en Difícil).
+ */
+const MODO_DE_JEFE: Record<string, string> = Object.fromEntries(raidsGuia().flatMap((r) => {
+  const ms = mazmorrasDe(r);
+  return ms.length > 1 ? ms.flatMap((m) => m.jefes.map((n) => [String(n), m.modo] as const)) : [];
+}));
+export const modoDeJefe = (npc: number | string): string | null => MODO_DE_JEFE[String(npc)] ?? null;
+
+/**
+ * Para las páginas: los nombres con el modo detrás de cada jefe de una raid con varios modos («Ludra de la eternidad
+ * (Difícil)»), para no confundir las raids de un modo con las del otro. `modo` da el texto de cada modo en el idioma.
+ * No se usa al subir raids: el nombre del jefe forma el slug.
+ */
+export function conModo<N extends { npcs: Record<string, string> }>(n: N, idioma: Idioma, modo: (m: string) => string): N {
+  const npcs = { ...n.npcs };
+  for (const [id, m] of Object.entries(MODO_DE_JEFE)) {
+    const base = n.npcs[id] ?? jefeJuego(Number(id))?.[idioma];
+    if (base) npcs[id] = `${base} (${modo(m)})`;
+  }
+  return { ...n, npcs };
+}
+
 /** Ids de todas las fuentes citadas en una ficha (en el orden en que salen). */
 export function fuentesDe(x: unknown): string[] {
   if (Array.isArray(x)) return x.flatMap(fuentesDe);
