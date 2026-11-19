@@ -14,7 +14,14 @@ añade al motor como opción configurable.
   muere o se le marca (opción). El rayo que cae en la segura la destapa y el grupo va hacia ella.
 - Golpe final: muere quien no esté en la segura.
 - Peligros aparte: orbes de energía a los lados que explotan, y el rayo que Ludra lanza de una esquina a la opuesta
-  (esquina al azar). En la segunda Prueba hay además anillos que saltar (aún no modelados).
+  (esquina al azar). Van apagados por defecto (`PELIGROS`, se activan en Ajustes) porque sus tiempos y zonas son
+  supuestos: con ellos, los orbes caen en plena 4.ª tanda y deciden el resultado de cualquier plan. En la segunda
+  Prueba hay además anillos que saltar (aún no modelados).
+- Con `esquivar` (por defecto), los jugadores reaccionan a lo que ven: se apartan de un orbe o del rayo de esquina
+  (tras la reacción) y vuelven a lo suyo, no entran en su zona mientras se ve venir, no entran en una casilla marcada si
+  no les da tiempo a cruzarla antes del rayo y, si la suya también está marcada, se apartan a la vecina libre más cerca
+  de adonde van. Sin esas reglas, el plan de ejemplo perdía 6 de 36 casos por gente que cruzaba casillas marcadas de
+  camino a la segura.
 
 Tiempos por defecto, de `db/aion.duckdb` (117 Pruebas, consulta del 18/11/2026):
 
@@ -32,9 +39,12 @@ confirmar. Velocidad por defecto: 2 casillas por segundo. Todo está en `PRESETS
 1. **Motor** (hecho): `lib/simulador/ludra.ts`, puro. `simular` (fotogramas y eventos de un escenario), `probarTodas`
    (el plan contra las 36 casillas segura y, si la esquina es al azar, las 4 esquinas), `cobertura` (qué casilla
    destapa cada tanda y qué huecos deja). Pruebas: `tests/unit/simulador-ludra.test.ts`.
-2. **Pestaña «Simulador»** en la ficha de Ludra de la guía: tablero en SVG, arrastrar jugadores, rutas casilla a
-   casilla, reproducir con reloj, «Otra vez» con otra segura y el resultado de «Probar las 36» como mapa de calor.
-   Jugadores escritos a mano. Ajustes de la configuración en un panel plegado.
+2. **Pestaña «Simulador»** (hecho) en la ficha de Ludra de la guía: `components/guia/SimuladorLudra.tsx` (cliente;
+   textos `sim.*` que le pasa el servidor con `textosConPrefijo`). Planificar (fichas que se arrastran, caminos
+   casilla a casilla con la salida de cada parada, la tanda que destapa cada casilla y los huecos), Simular (reloj,
+   velocidad, «Otra segura», enseñar la segura, registro de lo que pasa) y Probar las 36 (mapa por casilla y lo que
+   mata). Casillas con letra y número (A1–F6). Plan de ejemplo por parejas desde las esquinas: 36 de 36 con los valores
+   por defecto. Nombres pegados a mano; plan y ajustes en `localStorage` de cada navegador.
 3. **Jugadores desde una captura**: la ventana de party del propio juego (dos columnas de 5, nombre y [servidor]) o la
    de Questlog. OCR en el navegador, cargado solo al usarlo; cada nombre se cruza con los jugadores del grupo para
    poner la clase, y se corrige a mano.

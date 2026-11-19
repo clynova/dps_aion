@@ -4,10 +4,12 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { Suspense } from 'react';
+import { Suspense, type ReactNode } from 'react';
 import BarraSuperior from '@/components/BarraSuperior';
 import PiePagina from '@/components/PiePagina';
 import FichaJefe from '@/components/guia/FichaJefe';
+import SimuladorLudra from '@/components/guia/SimuladorLudra';
+import { NPC_LUDRA } from '@/lib/simulador/ludra';
 import { AvisoParche, fechaLarga } from '@/components/guia/Piezas';
 import { usuarioActual } from '@/lib/auth/sesion';
 import { cifrasPublicas } from '@/lib/guia/cifras';
@@ -15,7 +17,7 @@ import { jefeJuego, nombreJefe, npcsDelJefe, raidGuia, urlRetrato, type RaidGuia
 import { gruposConJefe, raidsPublicasDelJefe } from '@/lib/guia/datos';
 import { datosJefeGuia } from '@/lib/guia/datos-jefe';
 import type { FichaJefe as Ficha } from '@/lib/guia/esquema';
-import { localeDe, rutaEn, type Idioma, type Traductor } from '@/lib/i18n';
+import { localeDe, rutaEn, textosConPrefijo, type Idioma, type Traductor } from '@/lib/i18n';
 import { textos } from '@/lib/i18n/servidor';
 
 type Props = PageProps<'/[lang]/guias/[raid]/[npc]'>;
@@ -50,6 +52,7 @@ async function Contenido({ params }: { params: Props['params'] }) {
   const { raid, npc } = x;
   const retrato = urlRetrato(jefeJuego(npc)?.retrato);
   const ficha = raid.jefes[npc]?.[idioma] ?? null;
+  const simulador = npc === NPC_LUDRA ? <SimuladorLudra textos={textosConPrefijo(idioma, 'sim.')} locale={localeDe(idioma)} /> : undefined;
   return (
     <main className="rx">
       <header className="rx-head">
@@ -69,8 +72,8 @@ async function Contenido({ params }: { params: Props['params'] }) {
         {ficha ? <AvisoParche t={t} idioma={idioma} raid={raid.es.id} desde={ficha.parche} /> : null}
       </header>
       {ficha ? (
-        <Suspense fallback={<FichaJefe t={t} idioma={idioma} ficha={ficha} gsEntrada={gsEntrada(raid)} datos={undefined} nombres={null} cifras={undefined} tuGrupo={[]} />}>
-          <ConDatos t={t} idioma={idioma} raid={raid} npc={npc} ficha={ficha} />
+        <Suspense fallback={<FichaJefe t={t} idioma={idioma} ficha={ficha} gsEntrada={gsEntrada(raid)} datos={undefined} nombres={null} cifras={undefined} tuGrupo={[]} simulador={simulador} />}>
+          <ConDatos t={t} idioma={idioma} raid={raid} npc={npc} ficha={ficha} simulador={simulador} />
         </Suspense>
       ) : (
         <>
@@ -90,14 +93,14 @@ type Base = { t: Traductor; idioma: Idioma; raid: RaidGuia; npc: number };
 /** GS de entrada de cada modo de la raid (de su ficha). */
 const gsEntrada = (raid: RaidGuia) => raid.es.mazmorras.flatMap((m) => (raid.es.gs[m.modo] ? [{ modo: m.modo, valor: raid.es.gs[m.modo]!.valor }] : []));
 
-async function ConDatos({ t, idioma, raid, npc, ficha }: Base & { ficha: Ficha }) {
+async function ConDatos({ t, idioma, raid, npc, ficha, simulador }: Base & { ficha: Ficha; simulador: ReactNode }) {
   const npcs = npcsDelJefe(raid, npc);
   const [cifras, publicas, u] = await Promise.all([cifrasPublicas({ jefe: npcs }), raidsPublicasDelJefe(npcs, idioma), usuarioActual()]);
   const tuGrupo = u ? await gruposConJefe(u.id, npcs) : [];
   const datos = publicas ? datosJefeGuia(publicas.raids, ficha.mecanicas, ficha.revisado) : null;
   return (
     <FichaJefe t={t} idioma={idioma} ficha={ficha} gsEntrada={gsEntrada(raid)} datos={datos} nombres={publicas?.nombres ?? null}
-      cifras={cifras === null ? 'error' : (cifras.get('jefe') ?? null)} tuGrupo={tuGrupo} />
+      cifras={cifras === null ? 'error' : (cifras.get('jefe') ?? null)} tuGrupo={tuGrupo} simulador={simulador} />
   );
 }
 

@@ -1,13 +1,13 @@
 import { describe, expect, it } from 'vitest';
 import {
-  azar, cobertura, escenarioAlAzar, PRESETS, probarTodas, problemasDelPlan, simular,
+  azar, cobertura, escenarioAlAzar, PELIGROS, PRESETS, probarTodas, problemasDelPlan, simular,
   type Celda, type Config, type JugadorPlan, type Parada, type Plan,
 } from '@/lib/simulador/ludra';
 
 // Tablero de 3×3, una tanda (marca a 1 s, impacto a 3 s: la ventana de daño va de 2 a 3 s) y golpe final a 8 s.
 const base: Config = {
   tamano: 3, velocidad: 2, tandas: [{ aviso: 1, impacto: 3 }], margen: 1, holgura: 0.2, reaccion: 0.5, final: 8,
-  alFallar: 'muere', orbes: [], rayoEsquina: null,
+  alFallar: 'muere', orbes: [], rayoEsquina: null, esquivar: false,
 };
 const c = (f: number, k: number): Celda => ({ f, k });
 const p = (f: number, k: number, salida: Parada['salida'] = 'rayo'): Parada => ({ celda: c(f, k), salida });
@@ -81,6 +81,34 @@ describe('Peligros aparte', () => {
     const r2 = simular(config, pl, { segura: null, esquina: 3 });
     expect(r2.muertos.filter((m) => m.causa === 'rayo-esquina').map((m) => m.jugador).sort()).toEqual(['Anti', 'Centro']);
   });
+
+  it('con esquivar, quien lo ve a tiempo se aparta y luego vuelve a su parada', () => {
+    // Aviso a 0, reacción 0,5 s: se aparta 0,85 casillas a 2 casillas/s y llega a los ~0,95 s, antes del impacto (1,5)
+    const config: Config = { ...base, final: 4, tandas: [], esquivar: true, rayoEsquina: { aviso: 0, impacto: 1.5, esquina: 1, ancho: 1, efecto: 'muerte' } };
+    const r = simular(config, plan(j('Diag', p(0, 0, 'pasar')), j('Centro', p(1, 1, 'pasar'))), { segura: null, esquina: 1 });
+    expect(r.muertos.filter((m) => m.causa === 'rayo-esquina')).toEqual([]);
+    const fin = r.fotogramas[r.fotogramas.length - 1].pos;
+    expect(fin[0]).toEqual({ x: 0.5, y: 0.5 });
+    // Con el aviso demasiado justo (impacto antes de reaccionar) no le da tiempo
+    const justo = simular({ ...config, rayoEsquina: { ...config.rayoEsquina!, impacto: 0.5 } }, plan(j('Diag', p(0, 0, 'pasar'))), { segura: null, esquina: 1 });
+    expect(justo.muertos[0]).toMatchObject({ causa: 'rayo-esquina' });
+  });
+
+  it('con esquivar, quien está fuera no entra en la zona hasta que pasa el golpe', () => {
+    // Sale de B1 a los 0,6 s hacia B2, que está en la diagonal: espera fuera hasta el impacto (2 s) y luego sigue
+    const config: Config = { ...base, final: 4, tandas: [], esquivar: true, rayoEsquina: { aviso: 0, impacto: 2, esquina: 1, ancho: 1, efecto: 'muerte' } };
+    const r = simular(config, plan(j('A', p(0, 1, { t: 0.6 }), p(1, 1, 'pasar'))), { segura: null, esquina: 1 });
+    expect(r.muertos.filter((m) => m.causa === 'rayo-esquina')).toEqual([]);
+    expect(r.fotogramas[r.fotogramas.length - 1].pos[0]).toEqual({ x: 1.5, y: 1.5 });
+    const sin = simular({ ...config, esquivar: false }, plan(j('A', p(0, 1, { t: 0.6 }), p(1, 1, 'pasar'))), { segura: null, esquina: 1 });
+    expect(sin.muertos[0]).toMatchObject({ causa: 'rayo-esquina' });
+  });
+
+  it('con esquivar, se sale del radio del orbe', () => {
+    const config: Config = { ...base, final: 4, tandas: [], esquivar: true, orbes: [{ id: 'izq', aviso: 0, impacto: 2, x: -0.5, y: 1.5, radio: 1.5, efecto: 'golpe' }] };
+    const r = simular(config, plan(j('Cerca', p(1, 0, 'pasar'))), { segura: null, esquina: 1 });
+    expect(r.golpes).toEqual([]);
+  });
 });
 
 describe('Probar el plan', () => {
@@ -147,10 +175,18 @@ describe('Configuración y plan', () => {
       j('2a', ...ruta([0, 5], [1, 5], [2, 5], [3, 5])), j('2b', ...ruta([0, 4], [1, 4], [2, 4], [3, 4])),
       j('4a', ...ruta([5, 5], [5, 4], [5, 3], [5, 2])), j('4b', ...ruta([4, 5], [4, 4], [4, 3], [4, 2])),
       j('3a', ...ruta([5, 0], [4, 0], [3, 0], [2, 0])), j('3b', ...ruta([5, 1], [4, 1], [3, 1], [2, 1])),
-      j('Ca', ...ruta([2, 2], [2, 3])), j('Cb', ...ruta([3, 2], [3, 3])),
+      j('Ca', ...ruta([2, 2], [2, 3], [2, 2], [2, 3])), j('Cb', ...ruta([3, 2], [3, 3], [3, 2], [3, 3])),
     );
-    const cob = cobertura(PRESETS.prueba1, pl);
-    expect(cob.huecos).toEqual([]);
+    expect(cobertura(PRESETS.prueba1, pl).huecos).toEqual([]);
+    // Sale bien con la segura en cualquier casilla: de camino a ella nadie pisa una casilla a punto de recibir el rayo
+    // (se espera fuera o se aparta a una vecina libre)
+    expect(probarTodas(PRESETS.prueba1, pl)).toMatchObject({ exitos: 36, total: 36 });
+    expect(probarTodas({ ...PRESETS.prueba1, esquivar: false }, pl).exitos).toBeLessThan(36);
+    // Con los orbes del esquema (16 s), que coinciden con la 4.ª tanda (marca a los 14 s), los dos que la esperan en el
+    // borde junto a cada orbe se apartan y no marcan su casilla
+    const conPeligros = { ...PRESETS.prueba1, ...PELIGROS.prueba1 };
+    expect(cobertura(conPeligros, pl).huecos).toEqual([c(2, 0), c(3, 5)]);
+    expect(cobertura({ ...conPeligros, esquivar: false }, pl).huecos).toEqual([]);
     const r = simular(PRESETS.prueba1, pl, { segura: c(2, 3), esquina: 2 });
     expect(r.destapada).not.toBeNull();
     expect(r.fotogramas.length).toBe(Math.round(PRESETS.prueba1.final / 0.05) + 1);

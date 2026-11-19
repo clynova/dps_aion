@@ -3,7 +3,7 @@
 // cronograma), Equipo y grupo (GS, composición de los kills, crítico por clase y lo que dicen el juego y las guías), Por clase (habilidades, especialización más usada y defensivos) y Fuentes. El texto sale de contenido/raids/<raid>/<npc>.<idioma>.json; los datos (`datos`), de las raids
 // públicas (lib/guia/datos-jefe.ts): undefined mientras cargan, null si no hay o la base falló. Sin datos se ve el texto.
 import Link from 'next/link';
-import { Fragment } from 'react';
+import { Fragment, type ReactNode } from 'react';
 import type { FichaJefe as Ficha } from '@/lib/guia/esquema';
 import { ROLES } from '@/lib/guia/esquema';
 import { fuentesDe, nombreAtaque } from '@/lib/guia/contenido';
@@ -29,9 +29,11 @@ type Props = {
   nombres: { apodos: Record<string, string>; habilidades: Record<string, string> } | null;
   cifras: CifrasJefe | null | undefined | 'error';
   tuGrupo: { slug: string; nombre: string; npc: number; raids: number }[];
+  /** Pestaña «Simulador» (solo los jefes que tienen uno: Ludra), antes de Fuentes */
+  simulador?: ReactNode;
 };
 
-export default function FichaJefe({ t, idioma, ficha, gsEntrada, datos, nombres, cifras, tuGrupo }: Props) {
+export default function FichaJefe({ t, idioma, ficha, gsEntrada, datos, nombres, cifras, tuGrupo, simulador }: Props) {
   const loc = localeDe(idioma);
   const n0 = new Intl.NumberFormat(loc, { maximumFractionDigits: 0 });
   const n2 = new Intl.NumberFormat(loc, { maximumFractionDigits: 2 });
@@ -46,11 +48,12 @@ export default function FichaJefe({ t, idioma, ficha, gsEntrada, datos, nombres,
   const tile = (etiqueta: string, valor: string, ok = false) => (
     <div className="rx-tile"><span className="rx-tile-label">{etiqueta}</span><span className={`rx-tile-value${ok ? ' is-ok' : ''}`}>{valor}</span></div>
   );
-  const etiquetas = Object.fromEntries(PESTANAS_JEFE.map((p) => [p, t(`guias.tab.${p}` as Clave)]));
+  const pestanas: string[] = simulador ? [...PESTANAS_JEFE.slice(0, -1), 'simulador', 'fuentes'] : [...PESTANAS_JEFE];
+  const etiquetas = Object.fromEntries(pestanas.map((p) => [p, t(`guias.tab.${p}` as Clave)]));
 
   return (
     <>
-      <Pestanas ids={[...PESTANAS_JEFE]} etiquetas={etiquetas} aria={t('guias.tabs.aria')} />
+      <Pestanas ids={pestanas} etiquetas={etiquetas} aria={t('guias.tabs.aria')} />
 
       {/* ── Resumen ── */}
       <div className="pl-panel" id="resumen" data-pestana="resumen">
@@ -345,6 +348,9 @@ export default function FichaJefe({ t, idioma, ficha, gsEntrada, datos, nombres,
           </div>
         ) : <p className="rx-pending">{datos === undefined ? t('guias.cargando') : t('guias.clases.vacio')}</p>}
       </div>
+
+      {/* ── Simulador ── */}
+      {simulador ? <div className="pl-panel" id="simulador" data-pestana="simulador" hidden>{simulador}</div> : null}
 
       {/* ── Fuentes ── */}
       <div className="pl-panel" id="fuentes" data-pestana="fuentes" hidden>

@@ -321,3 +321,81 @@ ol.rx-card.gx-mata { padding: var(--pad-lg); }
 .gx-enlace-guia:hover { background: var(--series-1); color: var(--bg); }
 .gx-revisar { border-color: var(--series-2); color: var(--fg); }
 .rx-h2 .rx-pill { font-family: var(--font-sans); vertical-align: middle; }
+
+/* Simulador de la Prueba de Ludra (components/guia/SimuladorLudra.tsx) */
+.sim { display: flex; flex-direction: column; gap: var(--gap-md); }
+.sim-barra { display: flex; flex-wrap: wrap; gap: var(--gap-md); align-items: end; justify-content: space-between; }
+.sim-modos { flex-wrap: wrap; }
+.sim-campo { display: flex; flex-direction: column; gap: var(--gap-xs); font-size: var(--fs-caption); color: var(--fg-muted); }
+.sim-cuerpo { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: var(--gap-lg); align-items: start; }
+@media (max-width: 860px) { .sim-cuerpo { grid-template-columns: minmax(0, 1fr); } }
+.sim-tablero { position: sticky; top: var(--gap-md); display: flex; flex-direction: column; gap: var(--gap-sm); }
+@media (max-width: 860px) { .sim-tablero { position: static; } }
+.sim-tablero svg { width: 100%; height: auto; max-width: 620px; background: var(--bg); border-radius: var(--radius); touch-action: none; user-select: none; }
+.sim-tablero svg text { font-family: var(--font-sans); pointer-events: none; }
+.sim-panel { display: flex; flex-direction: column; gap: var(--gap-md); min-width: 0; }
+.sim-eje text { font-size: 13px; fill: var(--fg-muted); }
+.sim-esquina circle { fill: none; stroke: var(--series-1); stroke-width: 2; }
+.sim-esquina text { font-size: 13px; font-weight: 700; fill: var(--series-1); }
+.sim-celda { fill: var(--panel); stroke: var(--line); stroke-width: 1.5; transition: fill .15s; }
+.sim-tocable { cursor: pointer; }
+.sim-tocable:hover .sim-celda { fill: var(--line); }
+.sim-celda.is-hueco { fill: var(--bad); fill-opacity: .14; stroke: var(--bad); stroke-dasharray: 4 3; }
+.sim-celda.is-marcada { fill: #8b5cf6; fill-opacity: .35; }
+.sim-celda.is-peligro { fill: var(--bad); fill-opacity: .55; }
+.sim-celda.is-destapada { fill: var(--line); }
+.sim-celda.is-segura, .sim-celda.is-ok { fill: var(--ok); fill-opacity: .45; stroke: var(--ok); }
+.sim-celda.is-mal { fill: var(--bad); fill-opacity: .5; }
+.sim-celda.is-medio { fill: var(--series-2); }
+.sim-celda-t { font-size: 14px; font-weight: 600; fill: var(--fg); }
+.sim-x { stroke: var(--fg-muted); stroke-width: 2; pointer-events: none; }
+.sim-segura-marco { fill: none; stroke: var(--ok); stroke-width: 3; stroke-dasharray: 6 4; pointer-events: none; }
+.sim-orbe { fill: var(--series-2); fill-opacity: .18; stroke: var(--series-2); stroke-width: 2; stroke-dasharray: 6 4; pointer-events: none; }
+.sim-orbe.is-impacto { fill-opacity: .55; stroke-dasharray: none; }
+.sim-rayo { fill: var(--bad); fill-opacity: .16; stroke: var(--bad); stroke-width: 1.5; stroke-dasharray: 6 4; pointer-events: none; }
+.sim-rayo.is-impacto { fill-opacity: .55; stroke-dasharray: none; }
+.sim-ludra circle { fill: var(--fg); }
+.sim-ludra text { font-size: 15px; font-weight: 700; fill: var(--bg); }
+.sim-camino { pointer-events: none; opacity: .35; }
+.sim-camino.is-sel { opacity: 1; }
+.sim-camino polyline { fill: none; stroke: currentColor; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+.sim-paso { font-size: 12px; font-weight: 700; fill: currentColor; }
+.sim-ficha { cursor: grab; }
+.is-arrastre .sim-ficha { cursor: grabbing; }
+.sim-ficha circle { stroke: var(--panel); stroke-width: 2; }
+.sim-ficha.is-sel circle { stroke: var(--fg); stroke-width: 3; }
+.sim-ficha text { font-size: 11px; font-weight: 700; fill: #fff; paint-order: stroke; stroke: rgba(0, 0, 0, .45); stroke-width: 2px; }
+.sim-ficha.is-muerto { opacity: .45; }
+.sim-cruz { stroke: var(--fg); stroke-width: 3; }
+.sim-leyenda { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: var(--gap-xs) var(--gap-md); font-size: var(--fs-caption); color: var(--fg-muted); }
+.sim-leyenda li { display: inline-flex; align-items: center; gap: .35rem; }
+.sim-muestra { width: .9rem; height: .9rem; border-radius: 3px; border: 1px solid var(--line); }
+.sim-muestra.is-marcada { background: color-mix(in srgb, #8b5cf6 35%, var(--panel)); }
+.sim-muestra.is-peligro { background: color-mix(in srgb, var(--bad) 55%, var(--panel)); }
+.sim-muestra.is-destapada { background: var(--line); }
+.sim-muestra.is-segura { background: color-mix(in srgb, var(--ok) 45%, var(--panel)); }
+.sim-jugadores ul, .sim-paradas { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--gap-xs); }
+.sim-jugadores li, .sim-paradas li { display: flex; align-items: center; gap: var(--gap-sm); }
+.sim-jugadores li .cx-input { flex: 1; min-width: 0; padding-block: .2rem; }
+.sim-jugadores li .hm-sub { white-space: nowrap; }
+.sim-color { width: 1.4rem; height: 1.4rem; flex: none; border-radius: 50%; border: 2px solid var(--panel); box-shadow: 0 0 0 1px var(--line); cursor: pointer; padding: 0; }
+.sim-color[aria-pressed="true"] { box-shadow: 0 0 0 2px var(--fg); }
+.sim-quitar { font: inherit; font-size: 1.1rem; line-height: 1; color: var(--fg-muted); background: transparent; border: 0; cursor: pointer; padding: .1rem .35rem; border-radius: 4px; }
+.sim-quitar:hover { color: var(--bad); background: var(--bg); }
+.sim-paradas li strong { min-width: 2rem; }
+.sim-num { width: 5rem; padding-block: .2rem; }
+.sim-nombres { width: 100%; box-sizing: border-box; margin-block: var(--gap-sm); resize: vertical; }
+.sim-controles { align-items: end; }
+.sim-tiempo { display: flex; align-items: center; gap: var(--gap-sm); font-size: var(--fs-caption); color: var(--fg-muted); }
+.sim-tiempo input { flex: 1; min-width: 0; accent-color: var(--series-1); }
+.sim-tiempo span { min-width: 3.5rem; text-align: right; }
+.sim-check { display: inline-flex; align-items: center; gap: .35rem; font-size: var(--fs-caption); color: var(--fg); }
+.sim-res { margin: 0; font-weight: 600; }
+.sim-res.is-ok { color: var(--ok); }
+.sim-res.is-mal { color: var(--bad); }
+.sim-log { list-style: none; margin: 0; padding: 0; max-height: 16rem; overflow-y: auto; font-size: var(--fs-caption); display: flex; flex-direction: column; gap: 2px; }
+.sim-log-t { display: inline-block; min-width: 3.2rem; color: var(--fg-muted); }
+.sim-log li.is-mal { color: var(--bad); }
+.sim-log li.is-ok { color: var(--ok); font-weight: 600; }
+.sim-ajustes summary { cursor: pointer; font-weight: 500; }
+.sim-campos { display: grid; grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr)); gap: var(--gap-md); }

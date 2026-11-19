@@ -28,6 +28,14 @@ export function traductor(idioma: Idioma) {
   };
 }
 
+/** Los textos cuyas claves empiezan por `prefijo`, en el idioma pedido (con el español de respaldo): para pasarlos a un
+ *  componente de cliente que tiene muchos. */
+export function textosConPrefijo(idioma: Idioma, prefijo: string): Record<string, string> {
+  const r: Record<string, string> = {};
+  for (const d of [DICCIONARIOS.es, DICCIONARIOS[idioma]]) for (const [k, v] of Object.entries(d)) if (k.startsWith(prefijo)) r[k] = v;
+  return r;
+}
+
 /** Locale de Intl para formatear números y fechas (los mismos que la web actual). */
 export const localeDe = (idioma: Idioma) => (idioma === 'es' ? 'es' : 'en');
 
