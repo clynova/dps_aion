@@ -9,6 +9,8 @@ import {
   azar, centro, cobertura, DT, escenarioAlAzar, opuesta, PELIGROS, PRESETS, probarTodas, problemasDelPlan, puntoEsquina, simular,
   type Causa, type Celda, type Config, type Esquina, type JugadorPlan, type Parada, type Plan,
 } from '@/lib/simulador/ludra';
+import type { Conocido } from '@/lib/simulador/captura';
+import LectorCaptura from './LectorCaptura';
 
 type Prueba = keyof typeof PRESETS;
 type Modo = 'editar' | 'simular' | 'probar';
@@ -94,7 +96,12 @@ function separar(puntos: { x: number; y: number }[]): { x: number; y: number }[]
   return r;
 }
 
-export default function SimuladorLudra({ textos, locale }: { textos: Record<string, string>; locale: string }) {
+export default function SimuladorLudra({ textos, locale, conocidos = [] }: {
+  /** Textos sim.* y class.* en el idioma de la página */
+  textos: Record<string, string>; locale: string;
+  /** Jugadores de las raids públicas del jefe, con su clase (para corregir los nombres leídos de una captura) */
+  conocidos?: Conocido[];
+}) {
   const tr = (k: string, v?: Record<string, string | number>) => {
     const s = textos[k] ?? k;
     return v ? s.replace(/\{(\w+)\}/g, (m, x: string) => (v[x] != null ? String(v[x]) : m)) : s;
@@ -136,6 +143,8 @@ export default function SimuladorLudra({ textos, locale }: { textos: Record<stri
   const cob = useMemo(() => (modo === 'editar' ? cobertura(config, planValido) : null), [modo, config, planValido]);
   const resultado = useMemo(() => (modo === 'simular' ? simular(config, planValido, escenario) : null), [modo, config, planValido, escenario]);
   const pruebaTodas = useMemo(() => (modo === 'probar' ? probarTodas(config, planValido) : null), [modo, config, planValido]);
+  const clases = useMemo(() => Object.entries(textos).filter(([k]) => k.startsWith('class.')).map(([k, v]): [string, string] => [k.slice(6), v])
+    .sort((a, b) => a[1].localeCompare(b[1], locale)), [textos, locale]);
   const color = (id: string) => COLORES[plan.jugadores.findIndex((j) => j.id === id) % COLORES.length];
   const nombreDe = (id: string) => plan.jugadores.find((j) => j.id === id)?.nombre ?? id;
 
@@ -164,15 +173,16 @@ export default function SimuladorLudra({ textos, locale }: { textos: Record<stri
     setSel(id);
   };
   const quitar = (id: string) => { setPlan((p) => ({ jugadores: p.jugadores.filter((j) => j.id !== id) })); if (sel === id) setSel(null); };
-  const ponerNombres = () => {
-    const lineas = nombresTxt.split(/\r?\n/).map((l) => l.trim()).filter(Boolean);
-    setPlan((p) => {
-      const js = p.jugadores.map((j, i) => (lineas[i] ? { ...j, nombre: lineas[i] } : j));
-      let n = Math.max(0, ...js.map((j) => Number(j.id.slice(1)) || 0));
-      for (const l of lineas.slice(js.length)) js.push({ id: `j${++n}`, nombre: l, ruta: [] });
-      return { jugadores: js };
-    });
-  };
+  /** Nombres (y clase, si se sabe) para la lista, en orden: sustituyen a los que hay sin tocar sus caminos y, si son
+   *  más, se añaden sin colocar */
+  const ponerJugadores = (lista: { nombre: string; clase?: string | null }[]) => setPlan((p) => {
+    const nuevos = lista.slice(0, COLORES.length);
+    const js = p.jugadores.map((j, i) => (nuevos[i] ? { ...j, nombre: nuevos[i].nombre, clase: nuevos[i].clase ?? (nuevos[i].clase === null ? undefined : j.clase) } : j));
+    let n = Math.max(0, ...js.map((j) => Number(j.id.slice(1)) || 0));
+    for (const x of nuevos.slice(js.length)) js.push({ id: `j${++n}`, nombre: x.nombre, clase: x.clase ?? undefined, ruta: [] });
+    return { jugadores: js };
+  });
+  const ponerNombres = () => ponerJugadores(nombresTxt.split(/\r?\n/).map((l) => l.trim()).filter(Boolean).map((nombre) => ({ nombre })));
   const tocarCelda = (c: Celda) => {
     if (modo !== 'editar' || !sel) return;
     cambiarJugador(sel, (j) => (j.ruta.length && iguales(j.ruta[j.ruta.length - 1].celda, c) ? j : { ...j, ruta: [...j.ruta, { celda: c, salida: 'rayo' }] }));
@@ -380,6 +390,11 @@ export default function SimuladorLudra({ textos, locale }: { textos: Record<stri
                         aria-label={tr('sim.elegir', { j: j.nombre })} onClick={() => setSel(j.id === sel ? null : j.id)} />
                       <input className="cx-input" value={j.nombre} maxLength={24} aria-label={tr('sim.nombre')}
                         onChange={(e) => cambiarJugador(j.id, (x) => ({ ...x, nombre: e.target.value }))} onFocus={() => setSel(j.id)} />
+                      <select className="cx-select sim-clase" value={j.clase ?? ''} aria-label={tr('sim.clase')}
+                        onChange={(e) => cambiarJugador(j.id, (x) => ({ ...x, clase: e.target.value || undefined }))}>
+                        <option value="">{tr('sim.clase.ninguna')}</option>
+                        {clases.map(([id, nombre]) => <option key={id} value={id}>{nombre}</option>)}
+                      </select>
                       <span className="hm-sub">{j.ruta.length ? tr(j.ruta.length === 1 ? 'sim.parada' : 'sim.paradas', { n: j.ruta.length }) : tr('sim.sinColocar')}</span>
                       <button type="button" className="sim-quitar" aria-label={tr('sim.quitar', { j: j.nombre })} onClick={() => quitar(j.id)}>×</button>
                     </li>
@@ -389,6 +404,7 @@ export default function SimuladorLudra({ textos, locale }: { textos: Record<stri
                   <button type="button" className="cx-boton cx-boton-sec" onClick={() => anadir()} disabled={plan.jugadores.length >= COLORES.length}>{tr('sim.anadir')}</button>
                   <button type="button" className="cx-boton cx-boton-sec" onClick={() => { if (window.confirm(tr('sim.ejemplo.confirmar'))) { setPlan(PLAN_EJEMPLO); setSel(null); } }}>{tr('sim.ejemplo')}</button>
                 </p>
+                <LectorCaptura conocidos={conocidos} clases={clases} tr={tr} alUsar={ponerJugadores} />
                 <details>
                   <summary className="hm-sub">{tr('sim.nombres')}</summary>
                   <textarea className="cx-input sim-nombres" rows={5} value={nombresTxt} onChange={(e) => setNombresTxt(e.target.value)} placeholder={tr('sim.nombres.ph')} />

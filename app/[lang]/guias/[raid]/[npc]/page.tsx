@@ -9,13 +9,14 @@ import BarraSuperior from '@/components/BarraSuperior';
 import PiePagina from '@/components/PiePagina';
 import FichaJefe from '@/components/guia/FichaJefe';
 import SimuladorLudra from '@/components/guia/SimuladorLudra';
+import type { Conocido } from '@/lib/simulador/captura';
 import { NPC_LUDRA } from '@/lib/simulador/ludra';
 import { AvisoParche, fechaLarga } from '@/components/guia/Piezas';
 import { usuarioActual } from '@/lib/auth/sesion';
 import { cifrasPublicas } from '@/lib/guia/cifras';
 import { jefeJuego, nombreJefe, npcsDelJefe, raidGuia, urlRetrato, type RaidGuia } from '@/lib/guia/contenido';
 import { gruposConJefe, raidsPublicasDelJefe } from '@/lib/guia/datos';
-import { datosJefeGuia } from '@/lib/guia/datos-jefe';
+import { datosJefeGuia, type RaidConGrupo } from '@/lib/guia/datos-jefe';
 import type { FichaJefe as Ficha } from '@/lib/guia/esquema';
 import { localeDe, rutaEn, textosConPrefijo, type Idioma, type Traductor } from '@/lib/i18n';
 import { textos } from '@/lib/i18n/servidor';
@@ -52,7 +53,10 @@ async function Contenido({ params }: { params: Props['params'] }) {
   const { raid, npc } = x;
   const retrato = urlRetrato(jefeJuego(npc)?.retrato);
   const ficha = raid.jefes[npc]?.[idioma] ?? null;
-  const simulador = npc === NPC_LUDRA ? <SimuladorLudra textos={textosConPrefijo(idioma, 'sim.')} locale={localeDe(idioma)} /> : undefined;
+  // El simulador (solo Ludra); cuando cargan los datos, con los jugadores de las raids públicas para la captura
+  const simulador = (conocidos?: Conocido[]) => (npc === NPC_LUDRA
+    ? <SimuladorLudra textos={{ ...textosConPrefijo(idioma, 'sim.'), ...textosConPrefijo(idioma, 'class.') }} locale={localeDe(idioma)} conocidos={conocidos} />
+    : undefined);
   return (
     <main className="rx">
       <header className="rx-head">
@@ -72,7 +76,7 @@ async function Contenido({ params }: { params: Props['params'] }) {
         {ficha ? <AvisoParche t={t} idioma={idioma} raid={raid.es.id} desde={ficha.parche} /> : null}
       </header>
       {ficha ? (
-        <Suspense fallback={<FichaJefe t={t} idioma={idioma} ficha={ficha} gsEntrada={gsEntrada(raid)} datos={undefined} nombres={null} cifras={undefined} tuGrupo={[]} simulador={simulador} />}>
+        <Suspense fallback={<FichaJefe t={t} idioma={idioma} ficha={ficha} gsEntrada={gsEntrada(raid)} datos={undefined} nombres={null} cifras={undefined} tuGrupo={[]} simulador={simulador()} />}>
           <ConDatos t={t} idioma={idioma} raid={raid} npc={npc} ficha={ficha} simulador={simulador} />
         </Suspense>
       ) : (
@@ -93,15 +97,24 @@ type Base = { t: Traductor; idioma: Idioma; raid: RaidGuia; npc: number };
 /** GS de entrada de cada modo de la raid (de su ficha). */
 const gsEntrada = (raid: RaidGuia) => raid.es.mazmorras.flatMap((m) => (raid.es.gs[m.modo] ? [{ modo: m.modo, valor: raid.es.gs[m.modo]!.valor }] : []));
 
-async function ConDatos({ t, idioma, raid, npc, ficha, simulador }: Base & { ficha: Ficha; simulador: ReactNode }) {
+async function ConDatos({ t, idioma, raid, npc, ficha, simulador }: Base & { ficha: Ficha; simulador: (conocidos?: Conocido[]) => ReactNode }) {
   const npcs = npcsDelJefe(raid, npc);
   const [cifras, publicas, u] = await Promise.all([cifrasPublicas({ jefe: npcs }), raidsPublicasDelJefe(npcs, idioma), usuarioActual()]);
   const tuGrupo = u ? await gruposConJefe(u.id, npcs) : [];
   const datos = publicas ? datosJefeGuia(publicas.raids, ficha.mecanicas, ficha.revisado) : null;
   return (
     <FichaJefe t={t} idioma={idioma} ficha={ficha} gsEntrada={gsEntrada(raid)} datos={datos} nombres={publicas?.nombres ?? null}
-      cifras={cifras === null ? 'error' : (cifras.get('jefe') ?? null)} tuGrupo={tuGrupo} simulador={simulador} />
+      cifras={cifras === null ? 'error' : (cifras.get('jefe') ?? null)} tuGrupo={tuGrupo} simulador={simulador(publicas ? jugadoresConocidos(publicas.raids) : undefined)} />
   );
+}
+
+/** Jugadores de las raids públicas del jefe con la clase de su raid más reciente (ya son públicos en sus páginas) */
+function jugadoresConocidos(raids: RaidConGrupo[]): Conocido[] {
+  const m = new Map<string, Conocido>();
+  for (const r of [...raids].sort((a, b) => (a.fecha < b.fecha ? -1 : 1))) {
+    for (const j of r.datos.jugadores ?? []) if (j.jugador && j.clase_id) m.set(j.jugador, { nombre: j.jugador, clase: j.clase_id });
+  }
+  return [...m.values()];
 }
 
 async function SoloCifras({ t, idioma, raid, npc }: Base) {

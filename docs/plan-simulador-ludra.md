@@ -45,9 +45,16 @@ confirmar. Velocidad por defecto: 2 casillas por segundo. Todo está en `PRESETS
    velocidad, «Otra segura», enseñar la segura, registro de lo que pasa) y Probar las 36 (mapa por casilla y lo que
    mata). Casillas con letra y número (A1–F6). Plan de ejemplo por parejas desde las esquinas: 36 de 36 con los valores
    por defecto. Nombres pegados a mano; plan y ajustes en `localStorage` de cada navegador.
-3. **Jugadores desde una captura**: la ventana de party del propio juego (dos columnas de 5, nombre y [servidor]) o la
-   de Questlog. OCR en el navegador, cargado solo al usarlo; cada nombre se cruza con los jugadores del grupo para
-   poner la clase, y se corrige a mano.
+3. **Jugadores desde una captura** (hecho): la ventana de party del propio juego (dos columnas de 5, «nombre[SRV]», o
+   solo «nombre» si es del mismo servidor) o la de Questlog («nombre SRV»). `components/guia/LectorCaptura.tsx` con
+   tesseract.js 6.0.1 (se carga al usarlo; programa e idioma desde jsDelivr, unos 15 MB la primera vez; la imagen no
+   sale del navegador) y `lib/simulador/captura.ts` (puro): luminancia ampliada con interpolación bicúbica (con la
+   bilineal del canvas el OCR no lee la letra fina del juego), umbral adaptativo de Bradley y 3 pasadas de OCR
+   (`PASADAS`: escala, trazo engrosado y modo de página distintos; ninguna sola los lee todos) que se combinan en
+   `extraerJugadores`. Cada nombre se cruza con los jugadores de las raids públicas de Ludra (`conocidos`, de la página)
+   para corregirlo y poner la clase. Probado con dos capturas reales (18/11/2026): sin conocidos se marcan 8 de 10 y 7
+   de 9; con conocidos, 10 de 10 y 9 de 9. El texto real del OCR, con los nombres cambiados, es
+   `tests/fixtures/ocr-party-anonimo.json` (`tests/unit/captura.test.ts`). La lista de jugadores tiene ya clase.
 4. **Compartir y en inglés**: el plan (y la configuración si cambia) dentro del enlace; textos en `en.json`.
 
 Después, según lo que vaya viendo el grupo: anillos de la segunda Prueba, reacciones automáticas a los peligros,

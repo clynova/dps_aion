@@ -397,5 +397,14 @@ ol.rx-card.gx-mata { padding: var(--pad-lg); }
 .sim-log-t { display: inline-block; min-width: 3.2rem; color: var(--fg-muted); }
 .sim-log li.is-mal { color: var(--bad); }
 .sim-log li.is-ok { color: var(--ok); font-weight: 600; }
+.sim-jugadores li { flex-wrap: wrap; }
+.sim-clase { max-width: 8.5rem; }
+.sim-captura { display: flex; flex-direction: column; gap: var(--gap-sm); border-top: 1px solid var(--line); padding-top: var(--gap-sm); }
+.sim-captura p { margin: 0; }
+.sim-soltar { display: flex; flex-wrap: wrap; align-items: center; gap: var(--gap-sm); padding: var(--pad-md); border: 1px dashed var(--line); border-radius: var(--radius); }
+.sim-soltar label.cx-boton { cursor: pointer; }
+.sim-leidos { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--gap-xs); }
+.sim-leidos li { display: flex; align-items: center; gap: var(--gap-sm); flex-wrap: wrap; }
+.sim-leidos .cx-input { flex: 1; min-width: 7rem; padding-block: .2rem; }
 .sim-ajustes summary { cursor: pointer; font-weight: 500; }
 .sim-campos { display: grid; grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr)); gap: var(--gap-md); }
