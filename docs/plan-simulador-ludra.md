@@ -55,7 +55,17 @@ confirmar. Velocidad por defecto: 2 casillas por segundo. Todo está en `PRESETS
    para corregirlo y poner la clase. Probado con dos capturas reales (18/11/2026): sin conocidos se marcan 8 de 10 y 7
    de 9; con conocidos, 10 de 10 y 9 de 9. El texto real del OCR, con los nombres cambiados, es
    `tests/fixtures/ocr-party-anonimo.json` (`tests/unit/captura.test.ts`). La lista de jugadores tiene ya clase.
-4. **Compartir y en inglés**: el plan (y la configuración si cambia) dentro del enlace; textos en `en.json`.
+4. **Compartir** (hecho; el inglés ya iba desde la fase 2): «Copiar enlace del plan» pone en el portapapeles
+   `/guias/ludra/2301014?plan=<código>#simulador`. El código (`lib/simulador/enlace.ts`, puro) es JSON corto en
+   base64url: versión, Prueba, jugadores colocados como `[nombre, clase, camino]` (camino «A1 B2p C3t12.5»: espera el
+   rayo, pasa de largo, sale en un segundo), solo los ajustes que no son los de por defecto (`lib/simulador/ajustes.ts`)
+   y la semilla del caso de Simular. El plan de ejemplo cabe en unos 420 caracteres. `leerEnlace` valida campo a campo
+   (lo de la URL lo escribe cualquiera) y devuelve null ante cualquier cosa rara. Al abrir un enlace, el plan se ve con
+   un aviso y no se guarda en el navegador hasta pulsar «Guardarlo como mi plan»; «Volver a mi plan» recupera el
+   guardado; las dos opciones quitan `?plan=` de la dirección. Un enlace roto avisa y enseña el plan propio. Al hacerlo
+   salió un fallo de la fase 2: el efecto que guarda en `localStorage` corría en la misma pasada que el que carga,
+   con el plan de ejemplo, y pisaba el plan guardado (sin enlace se arreglaba solo en la pasada siguiente); ahora no se
+   guarda nada hasta haber cargado. Pruebas: `tests/unit/simulador-enlace.test.ts`.
 
 Después, según lo que vaya viendo el grupo: anillos de la segunda Prueba, reacciones automáticas a los peligros,
 guardar planes por grupo.

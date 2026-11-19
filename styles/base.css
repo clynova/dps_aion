@@ -326,6 +326,8 @@ ol.rx-card.gx-mata { padding: var(--pad-lg); }
 .sim { display: flex; flex-direction: column; gap: var(--gap-md); }
 .sim-barra { display: flex; flex-wrap: wrap; gap: var(--gap-md); align-items: end; justify-content: space-between; }
 .sim-modos { flex-wrap: wrap; }
+.sim-compartir { align-items: center; }
+.sim-aviso { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--gap-sm) var(--gap-md); }
 .sim-campo { display: flex; flex-direction: column; gap: var(--gap-xs); font-size: var(--fs-caption); color: var(--fg-muted); }
 .sim-cuerpo { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: var(--gap-lg); align-items: start; }
 @media (max-width: 860px) { .sim-cuerpo { grid-template-columns: minmax(0, 1fr); } }

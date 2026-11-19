@@ -806,5 +806,13 @@
   "sim.captura.nota": "The ticked names replace the list names in order; paths stay as they are.",
   "sim.captura.usar": "Use the {n} ticked",
   "sim.captura.cerrar": "Close",
-  "sim.captura.otras": "Other words read ({n}): in case someone is missing"
+  "sim.captura.otras": "Other words read ({n}): in case someone is missing",
+  "sim.enlace.copiar": "Copy plan link",
+  "sim.enlace.copiado": "Link copied: paste it on Discord.",
+  "sim.enlace.manual": "Copy this link:",
+  "sim.enlace.viendo": "You are looking at a plan shared by link. Until you save it, your changes are not kept and your own plan stays as it was.",
+  "sim.enlace.invalido": "The link does not carry a valid plan (it may have been cut when copied). Showing your plan.",
+  "sim.enlace.quedar": "Save it as my plan",
+  "sim.enlace.volver": "Back to my plan",
+  "sim.enlace.descartar": "Discard it"
 }

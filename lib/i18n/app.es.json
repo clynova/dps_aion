@@ -806,5 +806,13 @@
   "sim.captura.nota": "Los marcados sustituyen, en orden, los nombres de la lista; los caminos no cambian.",
   "sim.captura.usar": "Usar los {n} marcados",
   "sim.captura.cerrar": "Cerrar",
-  "sim.captura.otras": "Otras palabras leídas ({n}): por si falta alguien"
+  "sim.captura.otras": "Otras palabras leídas ({n}): por si falta alguien",
+  "sim.enlace.copiar": "Copiar enlace del plan",
+  "sim.enlace.copiado": "Enlace copiado: pégalo en Discord.",
+  "sim.enlace.manual": "Copia este enlace:",
+  "sim.enlace.viendo": "Estás viendo un plan compartido por enlace. Mientras no lo guardes, tus cambios no se guardan y tu plan sigue como estaba.",
+  "sim.enlace.invalido": "El enlace no trae un plan válido (puede que se haya cortado al copiarlo). Se muestra tu plan.",
+  "sim.enlace.quedar": "Guardarlo como mi plan",
+  "sim.enlace.volver": "Volver a mi plan",
+  "sim.enlace.descartar": "Descartarlo"
 }

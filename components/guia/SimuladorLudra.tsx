@@ -7,17 +7,14 @@
 import { useEffect, useMemo, useRef, useState, type PointerEvent as EventoPuntero } from 'react';
 import {
   azar, centro, cobertura, DT, escenarioAlAzar, opuesta, PELIGROS, PRESETS, probarTodas, problemasDelPlan, puntoEsquina, simular,
-  type Causa, type Celda, type Config, type Esquina, type JugadorPlan, type Parada, type Plan,
+  type Causa, type Celda, type Esquina, type JugadorPlan, type Parada, type Plan,
 } from '@/lib/simulador/ludra';
+import { ajustesDe, configDe, PLAN_EJEMPLO, type Ajustes, type Prueba } from '@/lib/simulador/ajustes';
+import { codificarPlan, leerEnlace } from '@/lib/simulador/enlace';
 import type { Conocido } from '@/lib/simulador/captura';
 import LectorCaptura from './LectorCaptura';
 
-type Prueba = keyof typeof PRESETS;
 type Modo = 'editar' | 'simular' | 'probar';
-type Ajustes = {
-  prueba: Prueba; velocidad: number; impactos: number[]; aviso: number; margen: number; reaccion: number; final: number;
-  alFallar: 'muere' | 'marca'; orbes: number | null; esquina: number | null; esquivar?: boolean;
-};
 
 const N = 6;           // casillas por lado (el motor admite otros tamaños; la pestaña usa el del juego)
 const S = 56;          // px por casilla en el SVG
@@ -30,48 +27,6 @@ const CLAVE_LOCAL = 'dps-aion:simulador-ludra';
 export const nombreCelda = (c: Celda) => `${LETRAS[c.k]}${c.f + 1}`;
 const iguales = (a: Celda, b: Celda) => a.f === b.f && a.k === b.k;
 const px = (x: number) => x * S;
-
-// Plan de ejemplo: parejas desde cada esquina recorriendo su borde, una casilla nueva por tanda, y una pareja por el
-// centro. Destapa el tablero entero con los tiempos por defecto.
-const ruta = (...cs: [number, number][]): Parada[] => cs.map(([f, k]) => ({ celda: { f, k }, salida: 'rayo' }));
-const PLAN_EJEMPLO: Plan = {
-  jugadores: [
-    { id: 'j1', nombre: '1A', ruta: ruta([0, 0], [0, 1], [0, 2], [0, 3]) },
-    { id: 'j2', nombre: '1B', ruta: ruta([1, 0], [1, 1], [1, 2], [1, 3]) },
-    { id: 'j3', nombre: '2A', ruta: ruta([0, 5], [1, 5], [2, 5], [3, 5]) },
-    { id: 'j4', nombre: '2B', ruta: ruta([0, 4], [1, 4], [2, 4], [3, 4]) },
-    { id: 'j5', nombre: '3A', ruta: ruta([5, 0], [4, 0], [3, 0], [2, 0]) },
-    { id: 'j6', nombre: '3B', ruta: ruta([5, 1], [4, 1], [3, 1], [2, 1]) },
-    { id: 'j7', nombre: '4A', ruta: ruta([5, 5], [5, 4], [5, 3], [5, 2]) },
-    { id: 'j8', nombre: '4B', ruta: ruta([4, 5], [4, 4], [4, 3], [4, 2]) },
-    { id: 'j9', nombre: 'C1', ruta: ruta([2, 2], [2, 3], [2, 2], [2, 3]) },
-    { id: 'j10', nombre: 'C2', ruta: ruta([3, 2], [3, 3], [3, 2], [3, 3]) },
-  ],
-};
-
-function ajustesDe(prueba: Prueba): Ajustes {
-  const p = PRESETS[prueba], ultima = p.tandas[p.tandas.length - 1];
-  return {
-    prueba, velocidad: p.velocidad, impactos: p.tandas.map((x) => x.impacto), aviso: ultima ? ultima.impacto - ultima.aviso : 2.5,
-    margen: p.margen, reaccion: p.reaccion, final: p.final, alFallar: p.alFallar,
-    orbes: p.orbes[0]?.impacto ?? null, esquina: p.rayoEsquina?.impacto ?? null, esquivar: p.esquivar,
-  };
-}
-
-function configDe(a: Ajustes): Config {
-  const p = PRESETS[a.prueba], peligros = PELIGROS[a.prueba];
-  const impactos = a.impactos.filter((x) => x > 0).sort((x, y) => x - y);
-  const antes = (o: { aviso: number; impacto: number }) => o.impacto - o.aviso;
-  return {
-    ...p, velocidad: Math.max(0.2, a.velocidad), margen: Math.max(0, a.margen), reaccion: Math.max(0, a.reaccion), alFallar: a.alFallar,
-    esquivar: a.esquivar ?? p.esquivar,
-    final: Math.max(a.final, (impactos[impactos.length - 1] ?? 0) + 0.5),
-    tandas: impactos.map((impacto) => ({ aviso: Math.max(0, impacto - a.aviso), impacto })),
-    orbes: a.orbes === null ? [] : peligros.orbes.map((o) => ({ ...o, aviso: Math.max(0, a.orbes! - antes(o)), impacto: a.orbes! })),
-    rayoEsquina: a.esquina === null ? null
-      : { ...peligros.rayoEsquina, aviso: Math.max(0, a.esquina - antes(peligros.rayoEsquina)), impacto: a.esquina },
-  };
-}
 
 /** Lo guardado en este navegador, si sigue siendo válido */
 function leerLocal(): { plan: Plan; ajustes: Ajustes } | null {
@@ -120,22 +75,45 @@ export default function SimuladorLudra({ textos, locale, conocidos = [] }: {
   const [arrastre, setArrastre] = useState<{ id: string; celda: Celda } | null>(null);
   const [nombresTxt, setNombresTxt] = useState('');
   const [impactosTxt, setImpactosTxt] = useState(() => ajustesDe('prueba1').impactos.join(', '));
+  // Plan abierto desde un enlace (?plan=): no se guarda en este navegador hasta que se elija quedárselo
+  const [delEnlace, setDelEnlace] = useState<{ anterior: { plan: Plan; ajustes: Ajustes } | null; invalido: boolean } | null>(null);
+  const [copiado, setCopiado] = useState<'si' | 'no' | null>(null);
   const svg = useRef<SVGSVGElement>(null);
   const tRef = useRef(0);
-  const leido = useRef(false);
+  // Ya se leyó lo guardado o el enlace: hasta entonces no se guarda nada (un ref no vale: el efecto de guardar corre en
+  // la misma pasada que el de cargar, con el plan de ejemplo, y pisaba el plan guardado)
+  const [cargado, setCargado] = useState(false);
 
-  // Recuperar lo guardado (después de hidratar, para que el HTML del servidor y el primer render coincidan)
+  const cargar = (d: { plan: Plan; ajustes: Ajustes }) => { setPlan(d.plan); setAjustes(d.ajustes); setImpactosTxt(d.ajustes.impactos.join(', ')); setSel(null); };
+  // Recuperar el plan del enlace o lo guardado (después de hidratar, para que el HTML del servidor y el primer render
+  // coincidan)
   useEffect(() => {
-    const d = leerLocal();
-    leido.current = true;
-    if (!d) return;
-    // eslint-disable-next-line react-hooks/set-state-in-effect -- localStorage solo existe en el navegador
-    setPlan(d.plan); setAjustes(d.ajustes); setImpactosTxt(d.ajustes.impactos.join(', '));
+    const local = leerLocal(), codigo = new URLSearchParams(location.search).get('plan');
+    const enlace = codigo ? leerEnlace(codigo) : null;
+    /* eslint-disable react-hooks/set-state-in-effect -- la URL y localStorage solo existen en el navegador */
+    setCargado(true);
+    if (enlace) { cargar(enlace); setSemilla(enlace.semilla); setDelEnlace({ anterior: local, invalido: false }); return; }
+    if (codigo) setDelEnlace({ anterior: null, invalido: true });
+    if (local) cargar(local);
+    /* eslint-enable react-hooks/set-state-in-effect */
   }, []);
   useEffect(() => {
-    if (!leido.current) return;
+    if (!cargado || (delEnlace && !delEnlace.invalido)) return;
     try { localStorage.setItem(CLAVE_LOCAL, JSON.stringify({ plan, ajustes })); } catch { /* sin almacenamiento: no pasa nada */ }
-  }, [plan, ajustes]);
+  }, [cargado, plan, ajustes, delEnlace]);
+  const cerrarEnlace = (volver: boolean) => {
+    if (volver && delEnlace) cargar(delEnlace.anterior ?? { plan: PLAN_EJEMPLO, ajustes: ajustesDe('prueba1') });
+    setDelEnlace(null);
+    const u = new URL(location.href);
+    u.searchParams.delete('plan');
+    history.replaceState(history.state, '', u.pathname + u.search + u.hash);
+  };
+  const copiarEnlace = async () => {
+    const url = `${location.origin}${location.pathname}?plan=${codificarPlan(plan, ajustes, semilla)}#simulador`;
+    try { await navigator.clipboard.writeText(url); setCopiado('si'); }
+    catch { window.prompt(tr('sim.enlace.manual'), url); setCopiado('no'); }
+    setTimeout(() => setCopiado(null), 4000);
+  };
 
   const config = useMemo(() => configDe(ajustes), [ajustes]);
   const planValido = useMemo<Plan>(() => ({ jugadores: plan.jugadores.filter((j) => j.ruta.length) }), [plan]);
@@ -264,6 +242,22 @@ export default function SimuladorLudra({ textos, locale, conocidos = [] }: {
     <div className="sim">
       <p className="rx-note">{tr('sim.intro')}</p>
 
+      {delEnlace ? (
+        <div className="rx-pending sim-aviso" role="status">
+          <span>{tr(delEnlace.invalido ? 'sim.enlace.invalido' : 'sim.enlace.viendo')}</span>
+          <span className="cx-fila">
+            {delEnlace.invalido ? (
+              <button type="button" className="cx-boton cx-boton-sec" onClick={() => cerrarEnlace(false)}>{tr('sim.captura.cerrar')}</button>
+            ) : (
+              <>
+                <button type="button" className="cx-boton" onClick={() => cerrarEnlace(false)}>{tr('sim.enlace.quedar')}</button>
+                <button type="button" className="cx-boton cx-boton-sec" onClick={() => cerrarEnlace(true)}>{tr(delEnlace.anterior ? 'sim.enlace.volver' : 'sim.enlace.descartar')}</button>
+              </>
+            )}
+          </span>
+        </div>
+      ) : null}
+
       <div className="sim-barra">
         <label className="sim-campo">
           <span>{tr('sim.prueba')}</span>
@@ -274,6 +268,10 @@ export default function SimuladorLudra({ textos, locale, conocidos = [] }: {
         <div className="rx-lang sim-modos" role="group" aria-label={tr('sim.modos')}>
           {MODOS.map((m) => <button key={m} type="button" aria-pressed={modo === m} onClick={() => cambiarModo(m)}>{tr(`sim.modo.${m}`)}</button>)}
         </div>
+        <span className="cx-fila sim-compartir">
+          <button type="button" className="cx-boton cx-boton-sec" onClick={() => void copiarEnlace()} disabled={!planValido.jugadores.length}>{tr('sim.enlace.copiar')}</button>
+          <span className="hm-sub" aria-live="polite">{copiado === 'si' ? tr('sim.enlace.copiado') : null}</span>
+        </span>
       </div>
 
       <div className="sim-cuerpo">
