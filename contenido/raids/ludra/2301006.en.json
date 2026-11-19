@@ -4,9 +4,9 @@
   2300282
  ],
  "raid": "ludra",
- "revisado": "2026-11-10",
- "parche": "2026-11-04",
- "resumen": "The mid-boss for one of the two parties, while the other clears enemies and earns buffs. His key mechanic is a mark that has to be passed on: every failure leaves a zone on the floor and the third one wipes. Our group first killed him on 7 November, after about 40 attempts; on the Rahu nights, each kill took between 5 and 9 minutes.",
+ "revisado": "2026-11-18",
+ "parche": "2026-11-11",
+ "resumen": "The mid-boss for one of the two parties, while the other clears enemies and earns buffs. His key mechanic is a mark that has to be passed on: every failure leaves a zone on the floor and the third one wipes. Our group first killed him on 7 November, after about 40 attempts; in Normal, each kill has taken between 4 and 9 minutes.",
  "fases": [
   {
    "titulo": "Opening",
@@ -220,7 +220,7 @@
  "notas": [
   {
    "termino": "Version",
-   "texto": "Guide mechanics are from the previous version (Korea and Early Access). NCSOFT changed mechanics for the 4 November return and there are no guides to the new one yet: anything marked \"not seen\" may have changed. \"Seen\" comes from our raids of 6 to 10 November."
+   "texto": "Guide mechanics are from the previous version (Korea and Early Access). NCSOFT changed mechanics for the 4 November return and there are no guides to the new one yet: anything marked \"not seen\" may have changed. \"Seen\" comes from our raids since 6 November."
   },
   {
    "termino": "Phases",
@@ -229,6 +229,10 @@
   {
    "termino": "The floor zones",
    "texto": "Almost every guide puts the passed mark and the three zones on Rahu; one puts them on Ludra. Our data fits Rahu."
+  },
+  {
+   "termino": "Hard",
+   "texto": "In Hard, Rahu has 190,312,500 health, 2.22 times the 85,640,625 of Normal. On 18 November he went down on the third attempt, in 13:16, with 90 deaths over the 3 attempts, and he cast no attack that does not appear in Normal."
   }
  ]
 }

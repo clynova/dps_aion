@@ -4,8 +4,8 @@
   2300283
  ],
  "raid": "ludra",
- "revisado": "2026-11-10",
- "parche": "2026-11-04",
+ "revisado": "2026-11-18",
+ "parche": "2026-11-11",
  "resumen": "El jefe intermedio de la otra party, y según las guías el más difícil de la raid: espíritus, orbes que hay que atrapar, orbes de colores que se miran o no, y una fase final con piedras de alma en la que muchas veces solo sobrevive el Clérigo. Casi no tenemos registros suyos: quien graba en nuestro grupo suele hacer Rahu.",
  "fases": [],
  "mecanicas": [
@@ -132,6 +132,10 @@
   {
    "termino": "Nuestros datos",
    "texto": "Solo tenemos 3 intentos de Ketu, de una noche y sin kill, y ninguna raid pública: no hay cifras suficientes para contrastar nada."
+  },
+  {
+   "termino": "Parche y Difícil",
+   "texto": "La nota del parche del 11 de noviembre no cambia nada de Ketu, y no tenemos registros suyos en Difícil."
   }
  ]
 }

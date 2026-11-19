@@ -1,8 +1,8 @@
 {
  "id": "ludra",
  "nombre": "Forja Abismal: Ludra",
- "revisado": "2026-11-10",
- "parche": "2026-11-04",
+ "revisado": "2026-11-18",
+ "parche": "2026-11-11",
  "resumen": "Raid de santuario para 10 jugadores. Se abre con el Reactor de fusión abismal central, sigue con un jefe intermedio por party (Rahu o Ketu) y acaba con las dos parties juntas contra Ludra de la eternidad.",
  "mazmorras": [
   { "id": 600082, "modo": "normal", "origen": "deduccion" },
@@ -15,14 +15,15 @@
   "dificil": { "valor": 3000, "origen": "guias", "fuentes": ["timesaver-gs", "senseos-ludra"] }
  },
  "reglas": [
-  { "texto": "Cada entrada tiene un límite de 60 minutos para todos los jefes: así fue en las 10 entradas registradas.", "origen": "datos" },
-  { "texto": "En todas nuestras entradas el orden fue el mismo: primero el Reactor, después el jefe intermedio y al final Ludra.", "origen": "datos" }
+  { "texto": "Cada entrada tiene un límite de tiempo para todos los jefes, en Normal y en Difícil: 1 hora hasta el parche del 11 de noviembre y 2 horas desde entonces. En nuestras entradas, 60 minutos en las 11 hasta el 10 de noviembre y 120 en las 14 desde el 12.", "origen": "oficial", "fuentes": ["nc-parche-11nov"] },
+  { "texto": "En todas nuestras entradas, también en la de Difícil, el orden fue el mismo: primero el Reactor, después el jefe intermedio y al final Ludra.", "origen": "datos" }
  ],
  "composicion": [
-  { "texto": "Dos parties de 5. Cada una hace uno de los jefes intermedios: en nuestras entradas, quien graba hizo Rahu 9 veces y Ketu 1, y nunca los dos en la misma entrada.", "origen": "deduccion" },
+  { "texto": "Dos parties de 5. Cada una hace uno de los jefes intermedios: en nuestras 25 entradas, quien graba hizo Rahu en 21 (una de ellas en Difícil) y Ketu en 1, y nunca los dos en la misma entrada.", "origen": "deduccion" },
   { "texto": "Las guías coinciden en la base de cada party: un Templario de tanque, un Clérigo de sanador y un Cantor de apoyo; el resto, daño.", "origen": "guias", "fuentes": ["metabot-clases", "mobalytics-pve", "meinmmo-clases"] }
  ],
  "notas": [
-  { "termino": "Modos", "texto": "Que la mazmorra 600082 sea el modo Normal es una deducción: en nuestras entradas hay jugadores con 2823 de GS, por debajo de los 3000 que piden las guías para el Difícil. Nadie del grupo ha entrado aún en la 600083." }
+  { "termino": "Modos", "texto": "Que la mazmorra 600082 sea el Normal y la 600083 el Difícil es una deducción, pero ya con datos de las dos: el grupo entró en la 600083 por primera vez el 18 de noviembre, y allí los jefes tienen mucha más vida (Ludra, 1,76 veces la del 600082; Rahu, 2,22 veces; el Reactor, 2,22 veces la que tiene en Normal desde el parche del 11) y los 10 jugadores pasaban de 3100 de GS, mientras que en la 600082 hay entradas con 2805, por debajo de los 3000 que piden las guías para el Difícil." },
+  { "termino": "Difícil", "texto": "Los jefes del Difícil tienen otros números de npc (2300284, 2300282, 2300283 y 2300290), pero en nuestros registros lanzan los mismos ataques que en Normal: cada ficha cuenta lo que cambia en su nota «Difícil». Las cifras de las pestañas con datos en vivo suman los dos modos." }
  ]
 }

@@ -12,6 +12,19 @@
    "fuentes": [
     "nc-parche-ludra"
    ]
+  },
+  {
+   "fecha": "2026-11-11",
+   "titulo": {
+    "es": "Ludra en Normal y Difícil: límite de 2 horas y menos vida para el Reactor",
+    "en": "Ludra in Normal and Hard: 2-hour limit and less HP for the Reactor"
+   },
+   "raids": [
+    "ludra"
+   ],
+   "fuentes": [
+    "nc-parche-11nov"
+   ]
   }
  ]
 }

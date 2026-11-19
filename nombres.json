@@ -60,6 +60,8 @@
     "1803280": "Invoca la zona 16-1",
     "1803285": "Impacto letal de la zona 16-1",
     "1803290": "Invoca la zona 16-2",
+    "1803300": "Golpe con barra (fase final)",
+    "1803301": "Impacto del golpe con barra (fase final)",
     "1803310": "Golpe al tanque (fase final)",
     "1803315": "Impacto de la zona 17-1",
     "1803350": "Lanzamiento sin daño directo (fase final) (2)",
@@ -69,7 +71,9 @@
     "1803385": "Impacto de la zona 22-1",
     "1803390": "Invoca la zona 23-1",
     "1803395": "Impacto de la zona 23-1",
-    "1803396": "Impacto letal de la zona 23-1"
+    "1803396": "Impacto letal de la zona 23-1",
+    "1806495": "Daño al grupo durante la Prueba (Difícil)",
+    "1806496": "Empieza el daño durante la Prueba (Difícil)"
   },
   "npcs": {
     "2300282": "Rahu aislado",

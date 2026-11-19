@@ -4,9 +4,9 @@
   2300282
  ],
  "raid": "ludra",
- "revisado": "2026-11-10",
- "parche": "2026-11-04",
- "resumen": "El jefe intermedio de una de las dos parties, mientras la otra limpia enemigos y consigue mejoras. Su mecánica clave es una marca que hay que ir pasando: cada fallo deja una zona en el suelo y la tercera hace wipe. Nuestro grupo lo mató por primera vez el 7 de noviembre, tras unos 40 intentos; en las noches de Rahu, cada kill ha llevado entre 5 y 9 minutos.",
+ "revisado": "2026-11-18",
+ "parche": "2026-11-11",
+ "resumen": "El jefe intermedio de una de las dos parties, mientras la otra limpia enemigos y consigue mejoras. Su mecánica clave es una marca que hay que ir pasando: cada fallo deja una zona en el suelo y la tercera hace wipe. Nuestro grupo lo mató por primera vez el 7 de noviembre, tras unos 40 intentos; en Normal, cada kill ha llevado entre 4 y 9 minutos.",
  "fases": [
   {
    "titulo": "Inicio",
@@ -220,7 +220,7 @@
  "notas": [
   {
    "termino": "Versión",
-   "texto": "Las mecánicas de las guías son de la versión anterior (Corea y acceso anticipado). NCSOFT cambió mecánicas para la vuelta del 4 de noviembre y todavía no hay guías de la nueva: lo marcado «sin ver» puede haber cambiado. Lo «visto» sale de nuestras raids del 6 al 10 de noviembre."
+   "texto": "Las mecánicas de las guías son de la versión anterior (Corea y acceso anticipado). NCSOFT cambió mecánicas para la vuelta del 4 de noviembre y todavía no hay guías de la nueva: lo marcado «sin ver» puede haber cambiado. Lo «visto» sale de nuestras raids desde el 6 de noviembre."
   },
   {
    "termino": "Fases",
@@ -229,6 +229,10 @@
   {
    "termino": "Las zonas del suelo",
    "texto": "Casi todas las guías ponen la marca que se pasa y las tres zonas en Rahu; una la pone en Ludra. Nuestros datos encajan con Rahu."
+  },
+  {
+   "termino": "Difícil",
+   "texto": "En Difícil Rahu tiene 190.312.500 de vida, 2,22 veces los 85.640.625 del Normal. El 18 de noviembre cayó al tercer intento, en 13:16, con 90 muertes en los 3 intentos, y no lanzó ningún ataque que no salga en Normal."
   }
  ]
 }

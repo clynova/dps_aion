@@ -1,8 +1,8 @@
 {
  "id": "ludra",
  "nombre": "Abyssal Forge: Ludra",
- "revisado": "2026-11-10",
- "parche": "2026-11-04",
+ "revisado": "2026-11-18",
+ "parche": "2026-11-11",
  "resumen": "Sanctuary raid for 10 players. It opens with the Central Abyss Fusion Reactor, continues with one mid-boss per party (Rahu or Ketu) and ends with both parties together against Eternal Ludra.",
  "mazmorras": [
   { "id": 600082, "modo": "normal", "origen": "deduccion" },
@@ -15,14 +15,15 @@
   "dificil": { "valor": 3000, "origen": "guias", "fuentes": ["timesaver-gs", "senseos-ludra"] }
  },
  "reglas": [
-  { "texto": "Each entry has a 60-minute limit for all bosses: that was the case in all 10 recorded entries.", "origen": "datos" },
-  { "texto": "In all our entries the order was the same: the Reactor first, then the mid-boss and Ludra last.", "origen": "datos" }
+  { "texto": "Each entry has a time limit for all bosses, in Normal and in Hard: 1 hour until the 11 November patch and 2 hours since then. In our entries, 60 minutes in the 11 up to 10 November and 120 in the 14 since the 12th.", "origen": "oficial", "fuentes": ["nc-parche-11nov"] },
+  { "texto": "In all our entries, the Hard one included, the order was the same: the Reactor first, then the mid-boss and Ludra last.", "origen": "datos" }
  ],
  "composicion": [
-  { "texto": "Two parties of 5. Each one takes one of the mid-bosses: in our entries, the recording player did Rahu 9 times and Ketu once, and never both in the same entry.", "origen": "deduccion" },
+  { "texto": "Two parties of 5. Each one takes one of the mid-bosses: in our 25 entries, the recording player did Rahu in 21 (one of them in Hard) and Ketu in 1, and never both in the same entry.", "origen": "deduccion" },
   { "texto": "Guides agree on the core of each party: a Templar to tank, a Cleric to heal and a Chanter for support; the rest, damage.", "origen": "guias", "fuentes": ["metabot-clases", "mobalytics-pve", "meinmmo-clases"] }
  ],
  "notas": [
-  { "termino": "Modes", "texto": "That dungeon 600082 is Normal mode is an inference: our entries include players with 2823 gear score, below the 3000 that guides give for Hard. Nobody in the group has entered 600083 yet." }
+  { "termino": "Modes", "texto": "That dungeon 600082 is Normal and 600083 is Hard is an inference, but now with data from both: the group entered 600083 for the first time on 18 November, and there the bosses have much more health (Ludra, 1.76 times that of 600082; Rahu, 2.22 times; the Reactor, 2.22 times what it has in Normal since the 11th's patch) and all 10 players were above 3100 gear score, while 600082 has entries with 2805, below the 3000 that guides give for Hard." },
+  { "termino": "Hard", "texto": "The Hard bosses have different npc numbers (2300284, 2300282, 2300283 and 2300290), but in our records they cast the same attacks as in Normal: each boss page explains what changes in its \"Hard\" note. The figures in the live-data tabs add up both modes." }
  ]
 }

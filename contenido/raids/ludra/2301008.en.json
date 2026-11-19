@@ -4,9 +4,9 @@
   2300284
  ],
  "raid": "ludra",
- "revisado": "2026-11-10",
- "parche": "2026-11-04",
- "resumen": "The first fight of the raid, with both parties together. Not a regular boss: you destroy a reactor that shields itself with auxiliary reactors while enemies keep spawning. In our 14 nights it always went down on the first attempt; in the 9 we have in detail, in under 4 minutes.",
+ "revisado": "2026-11-18",
+ "parche": "2026-11-11",
+ "resumen": "The first fight of the raid, with both parties together. Not a regular boss: you destroy a reactor that shields itself with auxiliary reactors while enemies keep spawning. In our 22 Normal nights it always went down on the first attempt: up to 10 November, in 2 to 4 minutes; since the 11th's patch, which lowered its health, in 1:44 to 2:31.",
  "fases": [],
  "mecanicas": [
   {
@@ -89,7 +89,15 @@
  "notas": [
   {
    "termino": "Version",
-   "texto": "Guide mechanics are from the previous version (Korea and Early Access). NCSOFT changed mechanics for the 4 November return and there are no guides to the new one yet: anything marked \"not seen\" may have changed. \"Seen\" comes from our raids of 6 to 10 November."
+   "texto": "Guide mechanics are from the previous version (Korea and Early Access). NCSOFT changed mechanics for the 4 November return and there are no guides to the new one yet: anything marked \"not seen\" may have changed. \"Seen\" comes from our raids since 6 November."
+  },
+  {
+   "termino": "11 November patch",
+   "texto": "NCSOFT lowered its health in Normal and in Hard. In our Normal records it went from 85,640,625 to 64,230,470 (25% less) since 12 November."
+  },
+  {
+   "termino": "Hard",
+   "texto": "In Hard it has 142,734,375 health, 2.22 times that of Normal after the patch, and in our records it casts the same attacks. On 18 November it went down on the first attempt in 3:54, with 19 deaths (in Normal, about 4 per night)."
   }
  ]
 }

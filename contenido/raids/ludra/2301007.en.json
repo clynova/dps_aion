@@ -4,8 +4,8 @@
   2300283
  ],
  "raid": "ludra",
- "revisado": "2026-11-10",
- "parche": "2026-11-04",
+ "revisado": "2026-11-18",
+ "parche": "2026-11-11",
  "resumen": "The mid-boss for the other party, and according to the guides the hardest in the raid: spirits, orbs to catch, coloured orbs you face or turn away from, and a final phase with soul stones where often only the Cleric survives. We have almost no logs of him: the player who records in our group usually does Rahu.",
  "fases": [],
  "mecanicas": [
@@ -132,6 +132,10 @@
   {
    "termino": "Our data",
    "texto": "We only have 3 attempts on Ketu, from one night and without a kill, and no public raid: not enough figures to check anything."
+  },
+  {
+   "termino": "Patch and Hard",
+   "texto": "The 11 November patch note changes nothing about Ketu, and we have no records of him in Hard."
   }
  ]
 }

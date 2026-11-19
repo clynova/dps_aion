@@ -60,6 +60,8 @@
     "1803280": "Summons zone 16-1",
     "1803285": "Lethal impact of zone 16-1",
     "1803290": "Summons zone 16-2",
+    "1803300": "Telegraphed strike (final phase)",
+    "1803301": "Telegraphed strike impact (final phase)",
     "1803310": "Tank hit (final phase)",
     "1803315": "Zone 17-1 impact",
     "1803350": "Cast with no direct damage (final phase) (2)",
@@ -69,7 +71,9 @@
     "1803385": "Zone 22-1 impact",
     "1803390": "Summons zone 23-1",
     "1803395": "Zone 23-1 impact",
-    "1803396": "Lethal impact of zone 23-1"
+    "1803396": "Lethal impact of zone 23-1",
+    "1806495": "Group damage during the Trial (Hard)",
+    "1806496": "Starts the damage during the Trial (Hard)"
   },
   "npcs": {
     "2300282": "Isolation Specialist Rahu",

@@ -57,6 +57,24 @@
     ]
    },
    {
+    "id": "nc-parche-11nov",
+    "titulo": "[Notice] Patch Notes | Nov. 11",
+    "sitio": "AION 2 (NCSOFT), copia en patchbot.io",
+    "url": "https://patchbot.io/games/aion-2/articles/2190-notice-patch-notes-nov-11",
+    "tipo": "oficial",
+    "idioma": "en",
+    "consultado": "2026-11-18",
+    "temas": [
+     "reglas",
+     "stats",
+     "botin"
+    ],
+    "nota": {
+     "es": "La nota oficial de NCSOFT, leída en la copia de patchbot.io (la web oficial carga el texto con JavaScript). Para Ludra en Normal y en Difícil: límite de 1 a 2 horas, menos vida para el Reactor y mejor botín.",
+     "en": "NCSOFT's official note, read on the patchbot.io copy (the official site loads the text with JavaScript). For Ludra in Normal and Hard: limit from 1 to 2 hours, less HP for the Reactor and better loot."
+    }
+   },
+   {
     "id": "mobalytics-ludra",
     "titulo": "Ludra Boss Guide for Aion 2 Mechanics and Strategy",
     "sitio": "Mobalytics",
@@ -318,6 +336,19 @@
    "fuentes": [
     "nc-parche-ludra"
    ]
+  },
+  {
+   "fecha": "2026-11-11",
+   "titulo": {
+    "es": "Ludra en Normal y Difícil: límite de 2 horas y menos vida para el Reactor",
+    "en": "Ludra in Normal and Hard: 2-hour limit and less HP for the Reactor"
+   },
+   "raids": [
+    "ludra"
+   ],
+   "fuentes": [
+    "nc-parche-11nov"
+   ]
   }
  ],
  "raids": {
@@ -325,8 +356,8 @@
    "es": {
     "id": "ludra",
     "nombre": "Forja Abismal: Ludra",
-    "revisado": "2026-11-10",
-    "parche": "2026-11-04",
+    "revisado": "2026-11-18",
+    "parche": "2026-11-11",
     "resumen": "Raid de santuario para 10 jugadores. Se abre con el Reactor de fusión abismal central, sigue con un jefe intermedio por party (Rahu o Ketu) y acaba con las dos parties juntas contra Ludra de la eternidad.",
     "mazmorras": [
      {
@@ -369,19 +400,21 @@
     },
     "reglas": [
      {
-      "texto": "Cada entrada tiene un límite de 60 minutos para todos los jefes: así fue en las 10 entradas registradas.",
-      "origen": "datos",
-      "fuentes": []
+      "texto": "Cada entrada tiene un límite de tiempo para todos los jefes, en Normal y en Difícil: 1 hora hasta el parche del 11 de noviembre y 2 horas desde entonces. En nuestras entradas, 60 minutos en las 11 hasta el 10 de noviembre y 120 en las 14 desde el 12.",
+      "origen": "oficial",
+      "fuentes": [
+       "nc-parche-11nov"
+      ]
      },
      {
-      "texto": "En todas nuestras entradas el orden fue el mismo: primero el Reactor, después el jefe intermedio y al final Ludra.",
+      "texto": "En todas nuestras entradas, también en la de Difícil, el orden fue el mismo: primero el Reactor, después el jefe intermedio y al final Ludra.",
       "origen": "datos",
       "fuentes": []
      }
     ],
     "composicion": [
      {
-      "texto": "Dos parties de 5. Cada una hace uno de los jefes intermedios: en nuestras entradas, quien graba hizo Rahu 9 veces y Ketu 1, y nunca los dos en la misma entrada.",
+      "texto": "Dos parties de 5. Cada una hace uno de los jefes intermedios: en nuestras 25 entradas, quien graba hizo Rahu en 21 (una de ellas en Difícil) y Ketu en 1, y nunca los dos en la misma entrada.",
       "origen": "deduccion",
       "fuentes": []
      },
@@ -398,15 +431,19 @@
     "notas": [
      {
       "termino": "Modos",
-      "texto": "Que la mazmorra 600082 sea el modo Normal es una deducción: en nuestras entradas hay jugadores con 2823 de GS, por debajo de los 3000 que piden las guías para el Difícil. Nadie del grupo ha entrado aún en la 600083."
+      "texto": "Que la mazmorra 600082 sea el Normal y la 600083 el Difícil es una deducción, pero ya con datos de las dos: el grupo entró en la 600083 por primera vez el 18 de noviembre, y allí los jefes tienen mucha más vida (Ludra, 1,76 veces la del 600082; Rahu, 2,22 veces; el Reactor, 2,22 veces la que tiene en Normal desde el parche del 11) y los 10 jugadores pasaban de 3100 de GS, mientras que en la 600082 hay entradas con 2805, por debajo de los 3000 que piden las guías para el Difícil."
+     },
+     {
+      "termino": "Difícil",
+      "texto": "Los jefes del Difícil tienen otros números de npc (2300284, 2300282, 2300283 y 2300290), pero en nuestros registros lanzan los mismos ataques que en Normal: cada ficha cuenta lo que cambia en su nota «Difícil». Las cifras de las pestañas con datos en vivo suman los dos modos."
      }
     ]
    },
    "en": {
     "id": "ludra",
     "nombre": "Abyssal Forge: Ludra",
-    "revisado": "2026-11-10",
-    "parche": "2026-11-04",
+    "revisado": "2026-11-18",
+    "parche": "2026-11-11",
     "resumen": "Sanctuary raid for 10 players. It opens with the Central Abyss Fusion Reactor, continues with one mid-boss per party (Rahu or Ketu) and ends with both parties together against Eternal Ludra.",
     "mazmorras": [
      {
@@ -449,19 +486,21 @@
     },
     "reglas": [
      {
-      "texto": "Each entry has a 60-minute limit for all bosses: that was the case in all 10 recorded entries.",
-      "origen": "datos",
-      "fuentes": []
+      "texto": "Each entry has a time limit for all bosses, in Normal and in Hard: 1 hour until the 11 November patch and 2 hours since then. In our entries, 60 minutes in the 11 up to 10 November and 120 in the 14 since the 12th.",
+      "origen": "oficial",
+      "fuentes": [
+       "nc-parche-11nov"
+      ]
      },
      {
-      "texto": "In all our entries the order was the same: the Reactor first, then the mid-boss and Ludra last.",
+      "texto": "In all our entries, the Hard one included, the order was the same: the Reactor first, then the mid-boss and Ludra last.",
       "origen": "datos",
       "fuentes": []
      }
     ],
     "composicion": [
      {
-      "texto": "Two parties of 5. Each one takes one of the mid-bosses: in our entries, the recording player did Rahu 9 times and Ketu once, and never both in the same entry.",
+      "texto": "Two parties of 5. Each one takes one of the mid-bosses: in our 25 entries, the recording player did Rahu in 21 (one of them in Hard) and Ketu in 1, and never both in the same entry.",
       "origen": "deduccion",
       "fuentes": []
      },
@@ -478,7 +517,11 @@
     "notas": [
      {
       "termino": "Modes",
-      "texto": "That dungeon 600082 is Normal mode is an inference: our entries include players with 2823 gear score, below the 3000 that guides give for Hard. Nobody in the group has entered 600083 yet."
+      "texto": "That dungeon 600082 is Normal and 600083 is Hard is an inference, but now with data from both: the group entered 600083 for the first time on 18 November, and there the bosses have much more health (Ludra, 1.76 times that of 600082; Rahu, 2.22 times; the Reactor, 2.22 times what it has in Normal since the 11th's patch) and all 10 players were above 3100 gear score, while 600082 has entries with 2805, below the 3000 that guides give for Hard."
+     },
+     {
+      "termino": "Hard",
+      "texto": "The Hard bosses have different npc numbers (2300284, 2300282, 2300283 and 2300290), but in our records they cast the same attacks as in Normal: each boss page explains what changes in its \"Hard\" note. The figures in the live-data tabs add up both modes."
      }
     ]
    },
@@ -490,9 +533,9 @@
        2300282
       ],
       "raid": "ludra",
-      "revisado": "2026-11-10",
-      "parche": "2026-11-04",
-      "resumen": "El jefe intermedio de una de las dos parties, mientras la otra limpia enemigos y consigue mejoras. Su mecánica clave es una marca que hay que ir pasando: cada fallo deja una zona en el suelo y la tercera hace wipe. Nuestro grupo lo mató por primera vez el 7 de noviembre, tras unos 40 intentos; en las noches de Rahu, cada kill ha llevado entre 5 y 9 minutos.",
+      "revisado": "2026-11-18",
+      "parche": "2026-11-11",
+      "resumen": "El jefe intermedio de una de las dos parties, mientras la otra limpia enemigos y consigue mejoras. Su mecánica clave es una marca que hay que ir pasando: cada fallo deja una zona en el suelo y la tercera hace wipe. Nuestro grupo lo mató por primera vez el 7 de noviembre, tras unos 40 intentos; en Normal, cada kill ha llevado entre 4 y 9 minutos.",
       "fases": [
        {
         "titulo": "Inicio",
@@ -722,7 +765,7 @@
       "notas": [
        {
         "termino": "Versión",
-        "texto": "Las mecánicas de las guías son de la versión anterior (Corea y acceso anticipado). NCSOFT cambió mecánicas para la vuelta del 4 de noviembre y todavía no hay guías de la nueva: lo marcado «sin ver» puede haber cambiado. Lo «visto» sale de nuestras raids del 6 al 10 de noviembre."
+        "texto": "Las mecánicas de las guías son de la versión anterior (Corea y acceso anticipado). NCSOFT cambió mecánicas para la vuelta del 4 de noviembre y todavía no hay guías de la nueva: lo marcado «sin ver» puede haber cambiado. Lo «visto» sale de nuestras raids desde el 6 de noviembre."
        },
        {
         "termino": "Fases",
@@ -731,6 +774,10 @@
        {
         "termino": "Las zonas del suelo",
         "texto": "Casi todas las guías ponen la marca que se pasa y las tres zonas en Rahu; una la pone en Ludra. Nuestros datos encajan con Rahu."
+       },
+       {
+        "termino": "Difícil",
+        "texto": "En Difícil Rahu tiene 190.312.500 de vida, 2,22 veces los 85.640.625 del Normal. El 18 de noviembre cayó al tercer intento, en 13:16, con 90 muertes en los 3 intentos, y no lanzó ningún ataque que no salga en Normal."
        }
       ]
      },
@@ -740,9 +787,9 @@
        2300282
       ],
       "raid": "ludra",
-      "revisado": "2026-11-10",
-      "parche": "2026-11-04",
-      "resumen": "The mid-boss for one of the two parties, while the other clears enemies and earns buffs. His key mechanic is a mark that has to be passed on: every failure leaves a zone on the floor and the third one wipes. Our group first killed him on 7 November, after about 40 attempts; on the Rahu nights, each kill took between 5 and 9 minutes.",
+      "revisado": "2026-11-18",
+      "parche": "2026-11-11",
+      "resumen": "The mid-boss for one of the two parties, while the other clears enemies and earns buffs. His key mechanic is a mark that has to be passed on: every failure leaves a zone on the floor and the third one wipes. Our group first killed him on 7 November, after about 40 attempts; in Normal, each kill has taken between 4 and 9 minutes.",
       "fases": [
        {
         "titulo": "Opening",
@@ -972,7 +1019,7 @@
       "notas": [
        {
         "termino": "Version",
-        "texto": "Guide mechanics are from the previous version (Korea and Early Access). NCSOFT changed mechanics for the 4 November return and there are no guides to the new one yet: anything marked \"not seen\" may have changed. \"Seen\" comes from our raids of 6 to 10 November."
+        "texto": "Guide mechanics are from the previous version (Korea and Early Access). NCSOFT changed mechanics for the 4 November return and there are no guides to the new one yet: anything marked \"not seen\" may have changed. \"Seen\" comes from our raids since 6 November."
        },
        {
         "termino": "Phases",
@@ -981,6 +1028,10 @@
        {
         "termino": "The floor zones",
         "texto": "Almost every guide puts the passed mark and the three zones on Rahu; one puts them on Ludra. Our data fits Rahu."
+       },
+       {
+        "termino": "Hard",
+        "texto": "In Hard, Rahu has 190,312,500 health, 2.22 times the 85,640,625 of Normal. On 18 November he went down on the third attempt, in 13:16, with 90 deaths over the 3 attempts, and he cast no attack that does not appear in Normal."
        }
       ]
      }
@@ -992,8 +1043,8 @@
        2300283
       ],
       "raid": "ludra",
-      "revisado": "2026-11-10",
-      "parche": "2026-11-04",
+      "revisado": "2026-11-18",
+      "parche": "2026-11-11",
       "resumen": "El jefe intermedio de la otra party, y según las guías el más difícil de la raid: espíritus, orbes que hay que atrapar, orbes de colores que se miran o no, y una fase final con piedras de alma en la que muchas veces solo sobrevive el Clérigo. Casi no tenemos registros suyos: quien graba en nuestro grupo suele hacer Rahu.",
       "fases": [],
       "mecanicas": [
@@ -1127,6 +1178,10 @@
        {
         "termino": "Nuestros datos",
         "texto": "Solo tenemos 3 intentos de Ketu, de una noche y sin kill, y ninguna raid pública: no hay cifras suficientes para contrastar nada."
+       },
+       {
+        "termino": "Parche y Difícil",
+        "texto": "La nota del parche del 11 de noviembre no cambia nada de Ketu, y no tenemos registros suyos en Difícil."
        }
       ]
      },
@@ -1136,8 +1191,8 @@
        2300283
       ],
       "raid": "ludra",
-      "revisado": "2026-11-10",
-      "parche": "2026-11-04",
+      "revisado": "2026-11-18",
+      "parche": "2026-11-11",
       "resumen": "The mid-boss for the other party, and according to the guides the hardest in the raid: spirits, orbs to catch, coloured orbs you face or turn away from, and a final phase with soul stones where often only the Cleric survives. We have almost no logs of him: the player who records in our group usually does Rahu.",
       "fases": [],
       "mecanicas": [
@@ -1271,6 +1326,10 @@
        {
         "termino": "Our data",
         "texto": "We only have 3 attempts on Ketu, from one night and without a kill, and no public raid: not enough figures to check anything."
+       },
+       {
+        "termino": "Patch and Hard",
+        "texto": "The 11 November patch note changes nothing about Ketu, and we have no records of him in Hard."
        }
       ]
      }
@@ -1282,9 +1341,9 @@
        2300284
       ],
       "raid": "ludra",
-      "revisado": "2026-11-10",
-      "parche": "2026-11-04",
-      "resumen": "El primer combate de la raid, con las dos parties juntas. No es un jefe al uso: hay que destruir un reactor que se protege con reactores auxiliares mientras salen enemigos. En nuestras 14 noches cayó siempre al primer intento; en las 9 que tenemos con detalle, en menos de 4 minutos.",
+      "revisado": "2026-11-18",
+      "parche": "2026-11-11",
+      "resumen": "El primer combate de la raid, con las dos parties juntas. No es un jefe al uso: hay que destruir un reactor que se protege con reactores auxiliares mientras salen enemigos. En nuestras 22 noches de Normal cayó siempre al primer intento: hasta el 10 de noviembre, en 2 a 4 minutos; desde el parche del 11, que le bajó la vida, en 1:44 a 2:31.",
       "fases": [],
       "mecanicas": [
        {
@@ -1373,7 +1432,15 @@
       "notas": [
        {
         "termino": "Versión",
-        "texto": "Las mecánicas de las guías son de la versión anterior (Corea y acceso anticipado). NCSOFT cambió mecánicas para la vuelta del 4 de noviembre y todavía no hay guías de la nueva: lo marcado «sin ver» puede haber cambiado. Lo «visto» sale de nuestras raids del 6 al 10 de noviembre."
+        "texto": "Las mecánicas de las guías son de la versión anterior (Corea y acceso anticipado). NCSOFT cambió mecánicas para la vuelta del 4 de noviembre y todavía no hay guías de la nueva: lo marcado «sin ver» puede haber cambiado. Lo «visto» sale de nuestras raids desde el 6 de noviembre."
+       },
+       {
+        "termino": "Parche del 11 de noviembre",
+        "texto": "NCSOFT le bajó la vida en Normal y en Difícil. En nuestros registros de Normal pasó de 85.640.625 a 64.230.470 (un 25 % menos) desde el 12 de noviembre."
+       },
+       {
+        "termino": "Difícil",
+        "texto": "En Difícil tiene 142.734.375 de vida, 2,22 veces la del Normal tras el parche, y en nuestros registros lanza los mismos ataques. El 18 de noviembre cayó al primer intento en 3:54, con 19 muertes (en Normal, unas 4 por noche)."
        }
       ]
      },
@@ -1383,9 +1450,9 @@
        2300284
       ],
       "raid": "ludra",
-      "revisado": "2026-11-10",
-      "parche": "2026-11-04",
-      "resumen": "The first fight of the raid, with both parties together. Not a regular boss: you destroy a reactor that shields itself with auxiliary reactors while enemies keep spawning. In our 14 nights it always went down on the first attempt; in the 9 we have in detail, in under 4 minutes.",
+      "revisado": "2026-11-18",
+      "parche": "2026-11-11",
+      "resumen": "The first fight of the raid, with both parties together. Not a regular boss: you destroy a reactor that shields itself with auxiliary reactors while enemies keep spawning. In our 22 Normal nights it always went down on the first attempt: up to 10 November, in 2 to 4 minutes; since the 11th's patch, which lowered its health, in 1:44 to 2:31.",
       "fases": [],
       "mecanicas": [
        {
@@ -1474,7 +1541,15 @@
       "notas": [
        {
         "termino": "Version",
-        "texto": "Guide mechanics are from the previous version (Korea and Early Access). NCSOFT changed mechanics for the 4 November return and there are no guides to the new one yet: anything marked \"not seen\" may have changed. \"Seen\" comes from our raids of 6 to 10 November."
+        "texto": "Guide mechanics are from the previous version (Korea and Early Access). NCSOFT changed mechanics for the 4 November return and there are no guides to the new one yet: anything marked \"not seen\" may have changed. \"Seen\" comes from our raids since 6 November."
+       },
+       {
+        "termino": "11 November patch",
+        "texto": "NCSOFT lowered its health in Normal and in Hard. In our Normal records it went from 85,640,625 to 64,230,470 (25% less) since 12 November."
+       },
+       {
+        "termino": "Hard",
+        "texto": "In Hard it has 142,734,375 health, 2.22 times that of Normal after the patch, and in our records it casts the same attacks. On 18 November it went down on the first attempt in 3:54, with 19 deaths (in Normal, about 4 per night)."
        }
       ]
      }
@@ -1486,9 +1561,9 @@
        2300290
       ],
       "raid": "ludra",
-      "revisado": "2026-11-10",
-      "parche": "2026-11-04",
-      "resumen": "El jefe final, con las 10 personas juntas. Dos veces en el combate, al 51 % y al 25 % de vida, lanza «Prueba de Ludra»: un tablero en el suelo con una sola casilla segura que, si no se encuentra, mata a todo el grupo. Si se resuelve, Ludra queda roto 10 segundos. Nuestro grupo lo mató por primera vez el 10 de noviembre, en 7:17 minutos.",
+      "revisado": "2026-11-18",
+      "parche": "2026-11-11",
+      "resumen": "El jefe final, con las 10 personas juntas. Dos veces en el combate, al 51 % y al 25 % de vida, lanza «Prueba de Ludra»: un tablero en el suelo con una sola casilla segura que, si no se encuentra, mata a todo el grupo. Si se resuelve, Ludra queda roto 10 segundos. Nuestro grupo lo mató por primera vez el 10 de noviembre, en 7:17 minutos. En Difícil, al que el grupo entró el 18 de noviembre, es el mismo combate con 1,76 veces más vida.",
       "fases": [
        {
         "titulo": "Primera fase",
@@ -1576,7 +1651,7 @@
        {
         "id": "zona-9",
         "titulo": "Zonas 9-1 y 9-2",
-        "texto": "Ludra invoca la zona 9-1 hacia el 88 % de vida y luego cada 79 segundos. Su primer impacto hace daño y el segundo, el de la zona 9-2, mata de un golpe. Entre los dos son lo que más muertes suma en nuestras noches de Ludra. Podrían ser parte de las torres de orbes de las guías: es una deducción sin confirmar.",
+        "texto": "Ludra invoca la zona 9-1 hacia el 88 % de vida y luego cada 79 segundos. Su primer impacto hace daño y el segundo, el de la zona 9-2, mata de un golpe. Entre los dos son lo que más muertes suma en nuestras noches de Ludra. Podrían ser parte de las torres de orbes de las guías: es una deducción sin confirmar. En Difícil sale al mismo % de vida, y el 18 de noviembre su impacto letal cerró 6 de los 7 intentos, matando de 6 a 10 personas de una vez (en Normal cierra 30 de 131).",
         "como": "Es lo primero que hay que aprender a evitar: en «Repaso de las muertes» se ve dónde estaba cada uno cuando cayó el impacto.",
         "ataques": [
          1803200,
@@ -1627,6 +1702,45 @@
          "todos"
         ],
         "modos": [],
+        "en_datos": "visto",
+        "origen": "datos",
+        "fuentes": []
+       },
+       {
+        "id": "golpe-con-barra",
+        "titulo": "Golpe con barra de la fase final",
+        "texto": "Un ataque que no salía antes del 14 de noviembre: una barra de 1,8 segundos que llega unos 5 segundos después de «Golpe al tanque (fase final)». De 37 casteos en nuestros registros, solo 5 dieron a alguien, casi siempre a una persona, pero puede matar de un golpe: ha llegado a 187.000 de daño y ha matado a 3. La nota del parche del 11 de noviembre no lo menciona.",
+        "como": "Cuando veas el golpe al tanque de la fase final, cuenta 5 segundos y atento a la barra. Que casi nunca dé a nadie hace pensar que se puede esquivar, pero es una deducción.",
+        "ataques": [
+         1803300,
+         1803301
+        ],
+        "wipe": false,
+        "roles": [
+         "todos"
+        ],
+        "modos": [],
+        "en_datos": "visto",
+        "origen": "datos",
+        "fuentes": []
+       },
+       {
+        "id": "dano-prueba-dificil",
+        "titulo": "Difícil: daño al grupo durante la Prueba",
+        "texto": "Solo en Difícil: a la vez que empieza la Prueba de Ludra, sale un daño que golpea a casi todo el grupo una y otra vez mientras dura el tablero, con golpes de 3.600 a 6.300. Lo vimos en el único intento del 18 de noviembre que llegó a la Prueba: le dio a 9 personas y mató a 2. En Normal no ha salido nunca.",
+        "como": "Si curas: entra en la Prueba con todo el grupo a vida llena y cura durante el tablero; quien vaya justo de vida no llegará a la casilla segura.",
+        "ataques": [
+         1806496,
+         1806495
+        ],
+        "wipe": false,
+        "roles": [
+         "todos",
+         "sanador"
+        ],
+        "modos": [
+         "dificil"
+        ],
         "en_datos": "visto",
         "origen": "datos",
         "fuentes": []
@@ -1823,7 +1937,7 @@
       "notas": [
        {
         "termino": "Versión",
-        "texto": "Las mecánicas de las guías son de la versión anterior (Corea y acceso anticipado). NCSOFT cambió mecánicas para la vuelta del 4 de noviembre y todavía no hay guías de la nueva: lo marcado «sin ver» puede haber cambiado. Lo «visto» sale de nuestras raids del 6 al 10 de noviembre."
+        "texto": "Las mecánicas de las guías son de la versión anterior (Corea y acceso anticipado). NCSOFT cambió mecánicas para la vuelta del 4 de noviembre y todavía no hay guías de la nueva: lo marcado «sin ver» puede haber cambiado. Lo «visto» sale de nuestras raids desde el 6 de noviembre; la nota del parche del 11 no cambia mecánicas de Ludra."
        },
        {
         "termino": "Lo que sí coincide",
@@ -1831,7 +1945,11 @@
        },
        {
         "termino": "Cifras",
-        "texto": "Los % de vida y los tiempos son la mediana de nuestros intentos hasta el 10 de noviembre: son orientativos."
+        "texto": "Los % de vida y los tiempos son la mediana de nuestros intentos de Normal hasta el 10 de noviembre: son orientativos. Las pestañas con datos en vivo suman las raids de Normal y de Difícil."
+       },
+       {
+        "termino": "Difícil",
+        "texto": "En Difícil Ludra tiene 342.342.000 de vida, 1,76 veces los 194.512.500 del Normal. En nuestra primera noche (18 de noviembre) lanzó los mismos ataques que en Normal, en el mismo orden y a % de vida parecidos, salvo el daño al grupo durante la Prueba. Fueron 7 intentos: el mejor llegó al 45,3 % de vida quitada, con una sola Prueba, y el grupo cayó antes de resolverla, así que no hubo rotura. De las 103 muertes, 84 fueron de jugadores que un segundo antes tenían el 90 % de vida o más."
        }
       ]
      },
@@ -1841,9 +1959,9 @@
        2300290
       ],
       "raid": "ludra",
-      "revisado": "2026-11-10",
-      "parche": "2026-11-04",
-      "resumen": "The final boss, with all 10 players together. Twice in the fight, at 51% and 25% health, he casts \"Ludra's Trial\": a board on the floor with a single safe tile that, if not found, kills the whole group. If it is solved, Ludra is staggered for 10 seconds. Our group first killed him on 10 November, in 7:17 minutes.",
+      "revisado": "2026-11-18",
+      "parche": "2026-11-11",
+      "resumen": "The final boss, with all 10 players together. Twice in the fight, at 51% and 25% health, he casts \"Ludra's Trial\": a board on the floor with a single safe tile that, if not found, kills the whole group. If it is solved, Ludra is staggered for 10 seconds. Our group first killed him on 10 November, in 7:17 minutes. In Hard, which the group first entered on 18 November, it is the same fight with 1.76 times more health.",
       "fases": [
        {
         "titulo": "First phase",
@@ -1931,7 +2049,7 @@
        {
         "id": "zona-9",
         "titulo": "Zones 9-1 and 9-2",
-        "texto": "Ludra summons zone 9-1 at around 88% health and then every 79 seconds. Its first impact deals damage and the second, zone 9-2, kills in one hit. Together they add up to the most deaths on our Ludra nights. They could be part of the guides' orb towers: an unconfirmed inference.",
+        "texto": "Ludra summons zone 9-1 at around 88% health and then every 79 seconds. Its first impact deals damage and the second, zone 9-2, kills in one hit. Together they add up to the most deaths on our Ludra nights. They could be part of the guides' orb towers: an unconfirmed inference. In Hard it comes at the same health %, and on 18 November its lethal impact ended 6 of the 7 attempts, killing 6 to 10 people at once (in Normal it ends 30 of 131).",
         "como": "It is the first thing to learn to avoid: \"Death review\" shows where each player was when the impact landed.",
         "ataques": [
          1803200,
@@ -1982,6 +2100,45 @@
          "todos"
         ],
         "modos": [],
+        "en_datos": "visto",
+        "origen": "datos",
+        "fuentes": []
+       },
+       {
+        "id": "golpe-con-barra",
+        "titulo": "Telegraphed strike in the final phase",
+        "texto": "An attack that did not appear before 14 November: a 1.8-second cast bar that comes about 5 seconds after \"Tank hit (final phase)\". Of 37 casts in our records, only 5 hit anyone, almost always one person, but it can kill in one hit: it has reached 187,000 damage and has killed 3. The 11 November patch note does not mention it.",
+        "como": "When you see the final-phase tank hit, count 5 seconds and watch for the bar. That it almost never hits anyone suggests it can be dodged, but that is an inference.",
+        "ataques": [
+         1803300,
+         1803301
+        ],
+        "wipe": false,
+        "roles": [
+         "todos"
+        ],
+        "modos": [],
+        "en_datos": "visto",
+        "origen": "datos",
+        "fuentes": []
+       },
+       {
+        "id": "dano-prueba-dificil",
+        "titulo": "Hard: group damage during the Trial",
+        "texto": "Hard only: as Ludra's Trial starts, a damage effect hits almost the whole group again and again while the board lasts, with hits of 3,600 to 6,300. We saw it in the only attempt on 18 November that reached the Trial: it hit 9 people and killed 2. It has never appeared in Normal.",
+        "como": "If you heal: go into the Trial with the whole group at full health and keep healing during the board; anyone low on health will not make it to the safe tile.",
+        "ataques": [
+         1806496,
+         1806495
+        ],
+        "wipe": false,
+        "roles": [
+         "todos",
+         "sanador"
+        ],
+        "modos": [
+         "dificil"
+        ],
         "en_datos": "visto",
         "origen": "datos",
         "fuentes": []
@@ -2178,7 +2335,7 @@
       "notas": [
        {
         "termino": "Version",
-        "texto": "Guide mechanics are from the previous version (Korea and Early Access). NCSOFT changed mechanics for the 4 November return and there are no guides to the new one yet: anything marked \"not seen\" may have changed. \"Seen\" comes from our raids of 6 to 10 November."
+        "texto": "Guide mechanics are from the previous version (Korea and Early Access). NCSOFT changed mechanics for the 4 November return and there are no guides to the new one yet: anything marked \"not seen\" may have changed. \"Seen\" comes from our raids since 6 November; the 11 November patch note changes no Ludra mechanics."
        },
        {
         "termino": "What still matches",
@@ -2186,7 +2343,11 @@
        },
        {
         "termino": "Figures",
-        "texto": "Health % and times are the median of our attempts up to 10 November: take them as a guide."
+        "texto": "Health % and times are the median of our Normal attempts up to 10 November: take them as a guide. The live-data tabs add up Normal and Hard raids."
+       },
+       {
+        "termino": "Hard",
+        "texto": "In Hard, Ludra has 342,342,000 health, 1.76 times the 194,512,500 of Normal. On our first night (18 November) he cast the same attacks as in Normal, in the same order and at similar health %, except for the group damage during the Trial. There were 7 attempts: the best reached 45.3% health removed, with a single Trial, and the group fell before solving it, so there was no stagger. Of the 103 deaths, 84 were players who had 90% health or more one second earlier."
        }
       ]
      }
@@ -2356,6 +2517,14 @@
    "es": "Golpe en área",
    "en": "Area hit"
   },
+  "1803300": {
+   "es": "Golpe con barra (fase final)",
+   "en": "Telegraphed strike (final phase)"
+  },
+  "1803301": {
+   "es": "Impacto del golpe con barra (fase final)",
+   "en": "Telegraphed strike impact (final phase)"
+  },
   "1803390": {
    "es": "Invoca la zona 23-1",
    "en": "Summons zone 23-1"
@@ -2371,6 +2540,14 @@
   "1803400": {
    "es": "Ataque 1803400",
    "en": "Attack 1803400"
+  },
+  "1806495": {
+   "es": "Daño al grupo durante la Prueba (Difícil)",
+   "en": "Group damage during the Trial (Hard)"
+  },
+  "1806496": {
+   "es": "Empieza el daño durante la Prueba (Difícil)",
+   "en": "Starts the damage during the Trial (Hard)"
   }
  }
 }

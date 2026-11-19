@@ -1,9 +1,9 @@
 {
  "npc": [2301008, 2300284],
  "raid": "ludra",
- "revisado": "2026-11-10",
- "parche": "2026-11-04",
- "resumen": "El primer combate de la raid, con las dos parties juntas. No es un jefe al uso: hay que destruir un reactor que se protege con reactores auxiliares mientras salen enemigos. En nuestras 14 noches cayó siempre al primer intento; en las 9 que tenemos con detalle, en menos de 4 minutos.",
+ "revisado": "2026-11-18",
+ "parche": "2026-11-11",
+ "resumen": "El primer combate de la raid, con las dos parties juntas. No es un jefe al uso: hay que destruir un reactor que se protege con reactores auxiliares mientras salen enemigos. En nuestras 22 noches de Normal cayó siempre al primer intento: hasta el 10 de noviembre, en 2 a 4 minutos; desde el parche del 11, que le bajó la vida, en 1:44 a 2:31.",
  "fases": [],
  "mecanicas": [
   {
@@ -51,6 +51,8 @@
   ]
  },
  "notas": [
-  { "termino": "Versión", "texto": "Las mecánicas de las guías son de la versión anterior (Corea y acceso anticipado). NCSOFT cambió mecánicas para la vuelta del 4 de noviembre y todavía no hay guías de la nueva: lo marcado «sin ver» puede haber cambiado. Lo «visto» sale de nuestras raids del 6 al 10 de noviembre." }
+  { "termino": "Versión", "texto": "Las mecánicas de las guías son de la versión anterior (Corea y acceso anticipado). NCSOFT cambió mecánicas para la vuelta del 4 de noviembre y todavía no hay guías de la nueva: lo marcado «sin ver» puede haber cambiado. Lo «visto» sale de nuestras raids desde el 6 de noviembre." },
+  { "termino": "Parche del 11 de noviembre", "texto": "NCSOFT le bajó la vida en Normal y en Difícil. En nuestros registros de Normal pasó de 85.640.625 a 64.230.470 (un 25 % menos) desde el 12 de noviembre." },
+  { "termino": "Difícil", "texto": "En Difícil tiene 142.734.375 de vida, 2,22 veces la del Normal tras el parche, y en nuestros registros lanza los mismos ataques. El 18 de noviembre cayó al primer intento en 3:54, con 19 muertes (en Normal, unas 4 por noche)." }
  ]
 }

@@ -204,8 +204,9 @@ describe('parches', () => {
   });
   it('los posteriores a la ficha, por raid', async () => {
     const { parchesPosteriores } = await import('@/lib/guia/contenido');
-    expect(parchesPosteriores('ludra', '2026-11-04')).toEqual([]);
-    expect(parchesPosteriores('ludra', '2026-11-01').map((p) => p.fecha)).toEqual(['2026-11-04']);
+    expect(parchesPosteriores('ludra', '2026-11-11')).toEqual([]);
+    expect(parchesPosteriores('ludra', '2026-11-04').map((p) => p.fecha)).toEqual(['2026-11-11']);
+    expect(parchesPosteriores('ludra', '2026-11-01').map((p) => p.fecha)).toEqual(['2026-11-04', '2026-11-11']);
     expect(parchesPosteriores('otra', '2026-01-01')).toEqual([]);
   });
 });

@@ -4,9 +4,9 @@
   2300290
  ],
  "raid": "ludra",
- "revisado": "2026-11-10",
- "parche": "2026-11-04",
- "resumen": "El jefe final, con las 10 personas juntas. Dos veces en el combate, al 51 % y al 25 % de vida, lanza «Prueba de Ludra»: un tablero en el suelo con una sola casilla segura que, si no se encuentra, mata a todo el grupo. Si se resuelve, Ludra queda roto 10 segundos. Nuestro grupo lo mató por primera vez el 10 de noviembre, en 7:17 minutos.",
+ "revisado": "2026-11-18",
+ "parche": "2026-11-11",
+ "resumen": "El jefe final, con las 10 personas juntas. Dos veces en el combate, al 51 % y al 25 % de vida, lanza «Prueba de Ludra»: un tablero en el suelo con una sola casilla segura que, si no se encuentra, mata a todo el grupo. Si se resuelve, Ludra queda roto 10 segundos. Nuestro grupo lo mató por primera vez el 10 de noviembre, en 7:17 minutos. En Difícil, al que el grupo entró el 18 de noviembre, es el mismo combate con 1,76 veces más vida.",
  "fases": [
   {
    "titulo": "Primera fase",
@@ -86,7 +86,7 @@
   {
    "id": "zona-9",
    "titulo": "Zonas 9-1 y 9-2",
-   "texto": "Ludra invoca la zona 9-1 hacia el 88 % de vida y luego cada 79 segundos. Su primer impacto hace daño y el segundo, el de la zona 9-2, mata de un golpe. Entre los dos son lo que más muertes suma en nuestras noches de Ludra. Podrían ser parte de las torres de orbes de las guías: es una deducción sin confirmar.",
+   "texto": "Ludra invoca la zona 9-1 hacia el 88 % de vida y luego cada 79 segundos. Su primer impacto hace daño y el segundo, el de la zona 9-2, mata de un golpe. Entre los dos son lo que más muertes suma en nuestras noches de Ludra. Podrían ser parte de las torres de orbes de las guías: es una deducción sin confirmar. En Difícil sale al mismo % de vida, y el 18 de noviembre su impacto letal cerró 6 de los 7 intentos, matando de 6 a 10 personas de una vez (en Normal cierra 30 de 131).",
    "como": "Es lo primero que hay que aprender a evitar: en «Repaso de las muertes» se ve dónde estaba cada uno cuando cayó el impacto.",
    "ataques": [
     1803200,
@@ -131,6 +131,42 @@
    "wipe": false,
    "roles": [
     "todos"
+   ],
+   "en_datos": "visto",
+   "origen": "datos"
+  },
+  {
+   "id": "golpe-con-barra",
+   "titulo": "Golpe con barra de la fase final",
+   "texto": "Un ataque que no salía antes del 14 de noviembre: una barra de 1,8 segundos que llega unos 5 segundos después de «Golpe al tanque (fase final)». De 37 casteos en nuestros registros, solo 5 dieron a alguien, casi siempre a una persona, pero puede matar de un golpe: ha llegado a 187.000 de daño y ha matado a 3. La nota del parche del 11 de noviembre no lo menciona.",
+   "como": "Cuando veas el golpe al tanque de la fase final, cuenta 5 segundos y atento a la barra. Que casi nunca dé a nadie hace pensar que se puede esquivar, pero es una deducción.",
+   "ataques": [
+    1803300,
+    1803301
+   ],
+   "wipe": false,
+   "roles": [
+    "todos"
+   ],
+   "en_datos": "visto",
+   "origen": "datos"
+  },
+  {
+   "id": "dano-prueba-dificil",
+   "titulo": "Difícil: daño al grupo durante la Prueba",
+   "texto": "Solo en Difícil: a la vez que empieza la Prueba de Ludra, sale un daño que golpea a casi todo el grupo una y otra vez mientras dura el tablero, con golpes de 3.600 a 6.300. Lo vimos en el único intento del 18 de noviembre que llegó a la Prueba: le dio a 9 personas y mató a 2. En Normal no ha salido nunca.",
+   "como": "Si curas: entra en la Prueba con todo el grupo a vida llena y cura durante el tablero; quien vaya justo de vida no llegará a la casilla segura.",
+   "ataques": [
+    1806496,
+    1806495
+   ],
+   "wipe": false,
+   "roles": [
+    "todos",
+    "sanador"
+   ],
+   "modos": [
+    "dificil"
    ],
    "en_datos": "visto",
    "origen": "datos"
@@ -319,7 +355,7 @@
  "notas": [
   {
    "termino": "Versión",
-   "texto": "Las mecánicas de las guías son de la versión anterior (Corea y acceso anticipado). NCSOFT cambió mecánicas para la vuelta del 4 de noviembre y todavía no hay guías de la nueva: lo marcado «sin ver» puede haber cambiado. Lo «visto» sale de nuestras raids del 6 al 10 de noviembre."
+   "texto": "Las mecánicas de las guías son de la versión anterior (Corea y acceso anticipado). NCSOFT cambió mecánicas para la vuelta del 4 de noviembre y todavía no hay guías de la nueva: lo marcado «sin ver» puede haber cambiado. Lo «visto» sale de nuestras raids desde el 6 de noviembre; la nota del parche del 11 no cambia mecánicas de Ludra."
   },
   {
    "termino": "Lo que sí coincide",
@@ -327,7 +363,11 @@
   },
   {
    "termino": "Cifras",
-   "texto": "Los % de vida y los tiempos son la mediana de nuestros intentos hasta el 10 de noviembre: son orientativos."
+   "texto": "Los % de vida y los tiempos son la mediana de nuestros intentos de Normal hasta el 10 de noviembre: son orientativos. Las pestañas con datos en vivo suman las raids de Normal y de Difícil."
+  },
+  {
+   "termino": "Difícil",
+   "texto": "En Difícil Ludra tiene 342.342.000 de vida, 1,76 veces los 194.512.500 del Normal. En nuestra primera noche (18 de noviembre) lanzó los mismos ataques que en Normal, en el mismo orden y a % de vida parecidos, salvo el daño al grupo durante la Prueba. Fueron 7 intentos: el mejor llegó al 45,3 % de vida quitada, con una sola Prueba, y el grupo cayó antes de resolverla, así que no hubo rotura. De las 103 muertes, 84 fueron de jugadores que un segundo antes tenían el 90 % de vida o más."
   }
  ]
 }
