@@ -66,6 +66,16 @@ confirmar. Velocidad por defecto: 2 casillas por segundo. Todo está en `PRESETS
    salió un fallo de la fase 2: el efecto que guarda en `localStorage` corría en la misma pasada que el que carga,
    con el plan de ejemplo, y pisaba el plan guardado (sin enlace se arreglaba solo en la pasada siguiente); ahora no se
    guarda nada hasta haber cargado. Pruebas: `tests/unit/simulador-enlace.test.ts`.
+5. **Plantillas** (hecho, 19/11/2026): `lib/simulador/plantillas.ts` (puro). «Difícil: parejas desde las esquinas» (el
+   plan de ejemplo, el que usa el grupo en Difícil) y «Normal: dos filas hacia fuera» (de una imagen del grupo: marcas
+   1–4 en B4–E4, la party 1 en ellas y la 2 detrás en la fila 3, las dos filas caminan hacia fuera una casilla por rayo
+   y los sanadores salen de A6 y F1 hacia dentro; el 4.º paso, que lleva a dos de las puntas a A1/A2 y F5/F6 pasando por
+   B2 y E5, es una propuesta para cubrir las 36). `aplicarPlantilla` da a cada jugador de la lista el camino de un
+   hueco sin cambiar su nombre ni su clase: tanques (Templario, Gladiador) y sanadores (Clérigo, Cantor) a su hueco,
+   el resto por orden. Las marcas de la plantilla van en `plan.marcas` (solo se pintan; sin ellas, en las esquinas) y
+   en el enlace como `m`. Al hacerla salió un hueco del motor: quien acababa su ruta antes de la última tanda se quedaba
+   en su refugio aunque se lo marcaran otra vez; ahora sale a tiempo a la vecina libre más cerca del centro. Las dos
+   plantillas salen bien en los 36 casos de las dos Pruebas. Pruebas: `tests/unit/simulador-plantillas.test.ts`.
 
 Después, según lo que vaya viendo el grupo: anillos de la segunda Prueba, reacciones automáticas a los peligros,
 guardar planes por grupo.

@@ -11,6 +11,7 @@ import {
 } from '@/lib/simulador/ludra';
 import { ajustesDe, configDe, PLAN_EJEMPLO, type Ajustes, type Prueba } from '@/lib/simulador/ajustes';
 import { codificarPlan, leerEnlace } from '@/lib/simulador/enlace';
+import { aplicarPlantilla, PLANTILLAS, type NombrePlantilla } from '@/lib/simulador/plantillas';
 import type { Conocido } from '@/lib/simulador/captura';
 import LectorCaptura from './LectorCaptura';
 
@@ -34,6 +35,8 @@ function leerLocal(): { plan: Plan; ajustes: Ajustes } | null {
     const d = JSON.parse(localStorage.getItem(CLAVE_LOCAL) ?? 'null') as { plan: Plan; ajustes: Ajustes } | null;
     if (!d?.plan?.jugadores || !d.ajustes || !(d.ajustes.prueba in PRESETS)) return null;
     if (problemasDelPlan(PRESETS.prueba1, { jugadores: d.plan.jugadores.filter((j) => j.ruta.length) }).length) return null;
+    const m = d.plan.marcas, enTablero = (c: Celda) => Number.isInteger(c?.f) && Number.isInteger(c?.k) && c.f >= 0 && c.k >= 0 && c.f < N && c.k < N;
+    if (m !== undefined && !(Array.isArray(m) && m.length <= 4 && m.every(enTablero))) return { ...d, plan: { jugadores: d.plan.jugadores } };
     return d;
   } catch { return null; }
 }
@@ -78,6 +81,7 @@ export default function SimuladorLudra({ textos, locale, conocidos = [] }: {
   // Plan abierto desde un enlace (?plan=): no se guarda en este navegador hasta que se elija quedárselo
   const [delEnlace, setDelEnlace] = useState<{ anterior: { plan: Plan; ajustes: Ajustes } | null; invalido: boolean } | null>(null);
   const [copiado, setCopiado] = useState<'si' | 'no' | null>(null);
+  const [plantilla, setPlantilla] = useState<NombrePlantilla>('dificil');
   const svg = useRef<SVGSVGElement>(null);
   const tRef = useRef(0);
   // Ya se leyó lo guardado o el enlace: hasta entonces no se guarda nada (un ref no vale: el efecto de guardar corre en
@@ -143,14 +147,21 @@ export default function SimuladorLudra({ textos, locale, conocidos = [] }: {
   const cambiarModo = (m: Modo) => { setModo(m); setJugando(false); irA(0); };
 
   // Edición del plan
-  const cambiarJugador = (id: string, f: (j: JugadorPlan) => JugadorPlan) => setPlan((p) => ({ jugadores: p.jugadores.map((j) => (j.id === id ? f(j) : j)) }));
+  const cambiarJugador = (id: string, f: (j: JugadorPlan) => JugadorPlan) => setPlan((p) => ({ ...p, jugadores: p.jugadores.map((j) => (j.id === id ? f(j) : j)) }));
   const nuevoId = (p: Plan) => `j${Math.max(0, ...p.jugadores.map((j) => Number(j.id.slice(1)) || 0)) + 1}`;
   const anadir = () => {
     const id = nuevoId(plan);
-    setPlan((p) => ({ jugadores: [...p.jugadores, { id, nombre: String(p.jugadores.length + 1), ruta: [] }] }));
+    setPlan((p) => ({ ...p, jugadores: [...p.jugadores, { id, nombre: String(p.jugadores.length + 1), ruta: [] }] }));
     setSel(id);
   };
-  const quitar = (id: string) => { setPlan((p) => ({ jugadores: p.jugadores.filter((j) => j.id !== id) })); if (sel === id) setSel(null); };
+  const quitar = (id: string) => { setPlan((p) => ({ ...p, jugadores: p.jugadores.filter((j) => j.id !== id) })); if (sel === id) setSel(null); };
+  /** Los caminos (y las marcas) de una plantilla para los jugadores de la lista, que conservan nombre y clase */
+  const usarPlantilla = () => {
+    if (!window.confirm(tr('sim.plantilla.confirmar', { p: tr(`sim.plantilla.${plantilla}`) }))) return;
+    // La lista tiene como mucho 12 jugadores y la plantilla rellena hasta 10: nunca pasa de 12
+    setPlan((p) => aplicarPlantilla(PLANTILLAS[plantilla], p.jugadores));
+    setSel(null);
+  };
   /** Nombres (y clase, si se sabe) para la lista, en orden: sustituyen a los que hay sin tocar sus caminos y, si son
    *  más, se añaden sin colocar */
   const ponerJugadores = (lista: { nombre: string; clase?: string | null }[]) => setPlan((p) => {
@@ -158,7 +169,7 @@ export default function SimuladorLudra({ textos, locale, conocidos = [] }: {
     const js = p.jugadores.map((j, i) => (nuevos[i] ? { ...j, nombre: nuevos[i].nombre, clase: nuevos[i].clase ?? (nuevos[i].clase === null ? undefined : j.clase) } : j));
     let n = Math.max(0, ...js.map((j) => Number(j.id.slice(1)) || 0));
     for (const x of nuevos.slice(js.length)) js.push({ id: `j${++n}`, nombre: x.nombre, clase: x.clase ?? undefined, ruta: [] });
-    return { jugadores: js };
+    return { ...p, jugadores: js };
   });
   const ponerNombres = () => ponerJugadores(nombresTxt.split(/\r?\n/).map((l) => l.trim()).filter(Boolean).map((nombre) => ({ nombre })));
   const tocarCelda = (c: Celda) => {
@@ -285,8 +296,8 @@ export default function SimuladorLudra({ textos, locale, conocidos = [] }: {
                 <text x={-10} y={px(i + 0.5) + 4} textAnchor="end">{i + 1}</text>
               </g>
             ))}
-            {/* Esquinas 1–4, como las marcas del juego */}
-            {([1, 2, 3, 4] as Esquina[]).map((e) => {
+            {/* Marcas 1–4 del juego en las esquinas, si la plantilla no las pone en casillas (eso, tras las casillas) */}
+            {plan.marcas?.length ? null : ([1, 2, 3, 4] as Esquina[]).map((e) => {
               const p = puntoEsquina(e, N);
               return (
                 <g key={e} className="sim-esquina">
@@ -325,6 +336,12 @@ export default function SimuladorLudra({ textos, locale, conocidos = [] }: {
               );
             })}
             {mostrarSegura && segura ? <rect x={px(segura.k) + 3} y={px(segura.f) + 3} width={S - 6} height={S - 6} className="sim-segura-marco" /> : null}
+            {plan.marcas?.map((c, i) => (
+              <g key={i} className="sim-esquina sim-marca">
+                <circle cx={px(c.k) + 12} cy={px(c.f) + 12} r={9} />
+                <text x={px(c.k) + 12} y={px(c.f) + 15.5} textAnchor="middle">{i + 1}</text>
+              </g>
+            ))}
 
             {/* Peligros: orbes laterales y rayo de esquina a esquina */}
             {orbesActivos.map((o) => (
@@ -400,8 +417,17 @@ export default function SimuladorLudra({ textos, locale, conocidos = [] }: {
                 </ul>
                 <p className="cx-fila">
                   <button type="button" className="cx-boton cx-boton-sec" onClick={() => anadir()} disabled={plan.jugadores.length >= COLORES.length}>{tr('sim.anadir')}</button>
-                  <button type="button" className="cx-boton cx-boton-sec" onClick={() => { if (window.confirm(tr('sim.ejemplo.confirmar'))) { setPlan(PLAN_EJEMPLO); setSel(null); } }}>{tr('sim.ejemplo')}</button>
                 </p>
+                <p className="cx-fila sim-plantilla">
+                  <label className="sim-campo">
+                    <span>{tr('sim.plantilla')}</span>
+                    <select className="cx-select" value={plantilla} onChange={(e) => setPlantilla(e.target.value as NombrePlantilla)}>
+                      {(Object.keys(PLANTILLAS) as NombrePlantilla[]).map((p) => <option key={p} value={p}>{tr(`sim.plantilla.${p}`)}</option>)}
+                    </select>
+                  </label>
+                  <button type="button" className="cx-boton cx-boton-sec" onClick={usarPlantilla}>{tr('sim.plantilla.aplicar')}</button>
+                </p>
+                <p className="hm-sub">{tr(`sim.plantilla.${plantilla}.nota`)}</p>
                 <LectorCaptura conocidos={conocidos} clases={clases} tr={tr} alUsar={ponerJugadores} />
                 <details>
                   <summary className="hm-sub">{tr('sim.nombres')}</summary>

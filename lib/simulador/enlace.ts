@@ -4,8 +4,9 @@
 // tests/unit/simulador-enlace.test.ts). Como lo que llega en la URL lo puede escribir cualquiera, `leerEnlace`
 // lo valida campo a campo y devuelve null ante cualquier cosa rara.
 //
-// Formato v1: { v: 1, p: prueba, j: [[nombre, clase, camino], …], a?: ajustes que cambian, s?: semilla }
+// Formato v1: { v: 1, p: prueba, j: [[nombre, clase, camino], …], a?: ajustes que cambian, s?: semilla, m?: marcas }
 //   camino: paradas separadas por espacios, «B3» (espera el rayo), «B3p» (pasa de largo) o «B3t12.5» (sale a los 12,5 s)
+//   marcas: las casillas de las marcas 1–4 del juego, «B4 C4 D4 E4» (sin ellas, van en las esquinas)
 import { ajustesDe, type Ajustes, type Prueba } from './ajustes';
 import { PRESETS, problemasDelPlan, type Parada, type Plan } from './ludra';
 
@@ -13,7 +14,7 @@ export const MAX_JUGADORES = 12;
 const MAX_PARADAS = 40;
 const LETRAS = 'ABCDEF';
 
-type EnlaceV1 = { v: 1; p: Prueba; j: [string, string, string][]; a?: Partial<Omit<Ajustes, 'prueba'>>; s?: number };
+type EnlaceV1 = { v: 1; p: Prueba; j: [string, string, string][]; a?: Partial<Omit<Ajustes, 'prueba'>>; s?: number; m?: string };
 
 const parada = (x: Parada) => `${LETRAS[x.celda.k]}${x.celda.f + 1}${x.salida === 'rayo' ? '' : x.salida === 'pasar' ? 'p' : `t${Math.min(999, Math.round(x.salida.t * 100) / 100)}`}`;
 
@@ -39,6 +40,7 @@ export function codificarPlan(plan: Plan, ajustes: Ajustes, semilla?: number): s
   };
   if (Object.keys(a).length) d.a = a as EnlaceV1['a'];
   if (semilla !== undefined && semilla !== 1) d.s = semilla;
+  if (plan.marcas?.length) d.m = plan.marcas.slice(0, 4).map((c) => `${LETRAS[c.k]}${c.f + 1}`).join(' ');
   return aBase64url(JSON.stringify(d));
 }
 
@@ -95,7 +97,13 @@ export function leerEnlace(codigo: string): { plan: Plan; ajustes: Ajustes; semi
     if (!ruta) return null;
     jugadores.push({ id: `j${i + 1}`, nombre: nombre.trim() || String(i + 1), ...(clase ? { clase } : {}), ruta });
   }
-  const plan = { jugadores };
+  let marcas: Plan['marcas'];
+  if (e.m !== undefined) {
+    const m = typeof e.m === 'string' ? leerParadas(e.m) : null;
+    if (!m || m.length > 4 || m.some((x) => x.salida !== 'rayo')) return null;
+    marcas = m.map((x) => x.celda);
+  }
+  const plan: Plan = marcas ? { jugadores, marcas } : { jugadores };
   if (problemasDelPlan(PRESETS[ajustes.prueba], plan).length) return null;
   const semilla = e.s === undefined ? 1 : Number.isInteger(e.s) && num(e.s, 1, 1e9) ? e.s : null;
   if (semilla === null) return null;

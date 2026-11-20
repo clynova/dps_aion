@@ -19,7 +19,8 @@
 // - Cada jugador sigue su ruta de paradas. En cada parada sale según `salida`: 'pasar' (sigue sin parar), { t } (sale
 //   en ese segundo) o 'rayo' (espera a que le marquen la casilla en la siguiente tanda y sale a tiempo de estar fuera
 //   `margen` + `holgura` antes del impacto). Si la última parada es 'rayo', al salir vuelve a la parada anterior (o a la
-//   casilla vecina hacia el centro) y se queda allí.
+//   casilla vecina hacia el centro) y se queda allí; si en otra tanda le marcan esa casilla, sale igual a tiempo a la
+//   vecina sin rayo pendiente más cerca del centro.
 // El tiempo avanza en pasos de DT segundos; los segundos de cada evento se redondean al paso más cercano.
 
 export const DT = 0.05;
@@ -58,7 +59,8 @@ export type Config = {
 export type Salida = 'rayo' | 'pasar' | { t: number };
 export type Parada = { celda: Celda; salida: Salida };
 export type JugadorPlan = { id: string; nombre: string; clase?: string; ruta: Parada[] };
-export type Plan = { jugadores: JugadorPlan[] };
+/** `marcas`: dónde van las marcas 1–4 del juego (solo se pintan; sin ellas, en las esquinas) */
+export type Plan = { jugadores: JugadorPlan[]; marcas?: Celda[] };
 export type Escenario = { segura: Celda | null; esquina: Esquina };
 
 export type Causa = 'rayo' | 'final' | 'orbe' | 'rayo-esquina';
@@ -299,6 +301,15 @@ export function simular(config: Config, plan: Plan, escenario: Escenario, opcion
         if (e.idx < j.ruta.length - 1) { e.idx++; e.objetivo = centro(j.ruta[e.idx].celda); }
         else { e.objetivo = refugio(j); e.refugio = true; }
         e.fase = 'yendo';
+      }
+      // Quien ya acabó su ruta y vuelve a quedar marcado en una tanda posterior sale a tiempo, como en una parada
+      // 'rayo', a la casilla vecina sin rayo pendiente más cerca del centro, y se queda allí
+      if (!e.desvio && e.fase === 'quieto' && e.refugio && !e.aSegura) {
+        const propia = celdaDe(e.pos, n), nt = tandaPendiente(propia, it), x = config.tandas[nt];
+        if (x && it >= tick(Math.max(x.aviso + DT, x.impacto - config.margen - config.holgura - 0.5 / v))) {
+          const vecina = vecinaLibre(propia, { x: n / 2, y: n / 2 }, it);
+          if (vecina) { e.objetivo = centro(vecina); e.fase = 'yendo'; }
+        }
       }
       if (e.fase === 'yendo' && it > 0) {
         const d = dist(e.pos, e.objetivo), paso = v * DT;

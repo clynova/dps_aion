@@ -339,6 +339,9 @@ ol.rx-card.gx-mata { padding: var(--pad-lg); }
 .sim-eje text { font-size: 13px; fill: var(--fg-muted); }
 .sim-esquina circle { fill: none; stroke: var(--series-1); stroke-width: 2; }
 .sim-esquina text { font-size: 13px; font-weight: 700; fill: var(--series-1); }
+.sim-marca circle { fill: var(--bg); pointer-events: none; }
+.sim-marca text { font-size: 11px; }
+.sim-plantilla { align-items: flex-end; }
 .sim-celda { fill: var(--panel); stroke: var(--line); stroke-width: 1.5; transition: fill .15s; }
 .sim-tocable { cursor: pointer; }
 .sim-tocable:hover .sim-celda { fill: var(--line); }
