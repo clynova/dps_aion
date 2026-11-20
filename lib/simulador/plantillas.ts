@@ -9,7 +9,6 @@ export type Hueco = { nombre: string; rol?: Rol; ruta: Parada[] };
 export type Plantilla = { huecos: Hueco[]; marcas?: Celda[] };
 
 const ruta = (...cs: [number, number][]): Parada[] => cs.map(([f, k]) => ({ celda: { f, k }, salida: 'rayo' }));
-const pasa = (f: number, k: number): Parada => ({ celda: { f, k }, salida: 'pasar' });
 
 /** Clases de cada rol, por orden de preferencia: si una party trae Clérigo y Cantor, el hueco de sanador es del Clérigo */
 const CLASES: Record<Exclude<Rol, 'dps'>, string[]> = { tanque: ['templar', 'gladiator'], sanador: ['cleric', 'chanter'] };
@@ -17,22 +16,22 @@ const CLASES: Record<Exclude<Rol, 'dps'>, string[]> = { tanque: ['templar', 'gla
 export const PLANTILLAS = {
   // La del grupo en Difícil: parejas desde cada esquina recorriendo su borde y una pareja por el centro
   dificil: { huecos: PLAN_EJEMPLO.jugadores.map((j) => ({ nombre: j.nombre, ruta: j.ruta })) },
-  // La del grupo en Normal: marcas 1–4 en B4–E4, la party 1 en ellas y la 2 detrás (fila 3); las dos filas caminan hacia
-  // fuera, una casilla por tanda, y los sanadores salen de esquinas opuestas (A6 y F1) hacia dentro. El 4.º paso (los
-  // de las puntas a las casillas que quedan de A y F) es una propuesta, sin confirmar con el grupo.
+  // La del grupo en Normal (imagen del 19/11/2026): marcas 1–4 en B4–E4, la party 1 en ellas y la 2 detrás (fila 3); las
+  // dos filas caminan hacia fuera, una casilla por tanda, hasta el borde, y los sanadores recorren su columna entera
+  // desde esquinas opuestas (A6 → A1 y F1 → F6). Con 4 tandas, A1–A2 y F5–F6 no llegan a destaparse.
   normal: {
     marcas: [{ f: 3, k: 1 }, { f: 3, k: 2 }, { f: 3, k: 3 }, { f: 3, k: 4 }],
     huecos: [
       { nombre: 'T1', rol: 'tanque', ruta: ruta([3, 1], [4, 1], [5, 1]) },
       { nombre: 'D1', rol: 'dps', ruta: ruta([3, 2], [4, 2], [5, 2]) },
-      { nombre: 'D2', rol: 'dps', ruta: [...ruta([3, 3], [4, 3], [5, 3]), pasa(4, 4), ...ruta([5, 5])] },
-      { nombre: 'D3', rol: 'dps', ruta: ruta([3, 4], [4, 4], [5, 4], [4, 5]) },
-      { nombre: 'H1', rol: 'sanador', ruta: ruta([5, 0], [4, 0], [3, 0], [2, 0]) },
-      { nombre: 'T2', rol: 'tanque', ruta: ruta([2, 1], [1, 1], [0, 1], [1, 0]) },
-      { nombre: 'D4', rol: 'dps', ruta: [...ruta([2, 2], [1, 2], [0, 2]), pasa(1, 1), ...ruta([0, 0])] },
+      { nombre: 'D2', rol: 'dps', ruta: ruta([3, 3], [4, 3], [5, 3]) },
+      { nombre: 'D3', rol: 'dps', ruta: ruta([3, 4], [4, 4], [5, 4]) },
+      { nombre: 'H1', rol: 'sanador', ruta: ruta([5, 0], [4, 0], [3, 0], [2, 0], [1, 0], [0, 0]) },
+      { nombre: 'T2', rol: 'tanque', ruta: ruta([2, 1], [1, 1], [0, 1]) },
+      { nombre: 'D4', rol: 'dps', ruta: ruta([2, 2], [1, 2], [0, 2]) },
       { nombre: 'D5', rol: 'dps', ruta: ruta([2, 3], [1, 3], [0, 3]) },
       { nombre: 'D6', rol: 'dps', ruta: ruta([2, 4], [1, 4], [0, 4]) },
-      { nombre: 'H2', rol: 'sanador', ruta: ruta([0, 5], [1, 5], [2, 5], [3, 5]) },
+      { nombre: 'H2', rol: 'sanador', ruta: ruta([0, 5], [1, 5], [2, 5], [3, 5], [4, 5], [5, 5]) },
     ],
   },
 } satisfies Record<string, Plantilla>;

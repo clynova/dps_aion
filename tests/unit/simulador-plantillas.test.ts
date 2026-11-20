@@ -4,6 +4,7 @@ import { codificarPlan, leerEnlace } from '@/lib/simulador/enlace';
 import { cobertura, PRESETS, probarTodas, type JugadorPlan } from '@/lib/simulador/ludra';
 import { aplicarPlantilla, PLANTILLAS } from '@/lib/simulador/plantillas';
 
+const c = (f: number, k: number) => ({ f, k });
 const nombres = (n: number) => Array.from({ length: n }, (_, i): JugadorPlan => ({ id: `j${i + 1}`, nombre: `x${i + 1}`, ruta: [] }));
 
 describe('plantillas del simulador', () => {
@@ -11,13 +12,16 @@ describe('plantillas del simulador', () => {
     expect(aplicarPlantilla(PLANTILLAS.dificil, PLAN_EJEMPLO.jugadores)).toEqual(PLAN_EJEMPLO);
   });
 
-  it('la de Normal destapa el tablero entero y sale bien con la segura en cualquier casilla', () => {
+  it('la de Normal: con 4 tandas los sanadores no llegan a A1–A2 ni a F5–F6, y lo demás sale bien', () => {
     const plan = aplicarPlantilla(PLANTILLAS.normal, []);
     expect(plan.jugadores.map((j) => j.nombre)).toEqual(['T1', 'D1', 'D2', 'D3', 'H1', 'T2', 'D4', 'D5', 'D6', 'H2']);
     expect(plan.marcas).toHaveLength(4);
     for (const p of ['prueba1', 'prueba2'] as const) {
-      expect(cobertura(PRESETS[p], plan).huecos).toEqual([]);
-      expect(probarTodas(PRESETS[p], plan)).toMatchObject({ exitos: 36, total: 36 });
+      expect(cobertura(PRESETS[p], plan).huecos).toEqual([c(0, 0), c(1, 0), c(4, 5), c(5, 5)]);
+      // Las filas acaban en el borde tras la 3.ª tanda y en la 4.ª se apartan de su casilla marcada (si no, morirían)
+      const r = probarTodas(PRESETS[p], plan);
+      expect(r).toMatchObject({ exitos: 32, total: 36 });
+      expect(r.casillas.filter((x) => x.exitos < x.total).map((x) => x.celda)).toEqual([c(0, 0), c(1, 0), c(4, 5), c(5, 5)]);
     }
   });
 

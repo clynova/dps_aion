@@ -738,7 +738,7 @@
   "sim.plantilla.dificil": "Hard: pairs from the corners",
   "sim.plantilla.normal": "Normal: two rows walking outwards",
   "sim.plantilla.dificil.nota": "Each pair starts in a corner and walks along its edge, one cell per strike; the fifth pair goes through the middle. Players are placed in list order.",
-  "sim.plantilla.normal.nota": "Marks 1–4 on B4–E4: party 1 on them and party 2 behind, on row 3; both rows walk outwards and the healers start in opposite corners (A6 and F1). Tanks (Templar, Gladiator) and healers (Cleric, Chanter) take their slot by class. The last step, to the cells left in A and F, is a suggestion: change it if your group does it differently.",
+  "sim.plantilla.normal.nota": "Marks 1–4 on B4–E4: party 1 on them and party 2 behind, on row 3; both rows walk outwards to the edge and the healers walk their whole column from opposite corners (A6 → A1 and F1 → F6). Tanks (Templar, Gladiator) and healers (Cleric, Chanter) take their slot by class. With 4 strikes, A1–A2 and F5–F6 are never revealed: if the safe cell is there, it is only found by stepping on it.",
   "sim.nombres": "Paste the party's names",
   "sim.nombres.ph": "One name per line, in list order",
   "sim.nombres.poner": "Set names",

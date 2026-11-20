@@ -738,7 +738,7 @@
   "sim.plantilla.dificil": "Difícil: parejas desde las esquinas",
   "sim.plantilla.normal": "Normal: dos filas hacia fuera",
   "sim.plantilla.dificil.nota": "Cada pareja sale de una esquina y recorre su borde, una casilla por rayo; la quinta pareja va por el centro. Los jugadores se colocan por orden de la lista.",
-  "sim.plantilla.normal.nota": "Marcas 1–4 en B4–E4: la party 1 en ellas y la 2 detrás, en la fila 3; las dos filas caminan hacia fuera y los sanadores salen de esquinas opuestas (A6 y F1). Tanques (Templario, Gladiador) y sanadores (Clérigo, Cantor) van a su hueco según su clase. El último paso, hacia las casillas que quedan en A y F, es una propuesta: cámbialo si tu grupo lo hace distinto.",
+  "sim.plantilla.normal.nota": "Marcas 1–4 en B4–E4: la party 1 en ellas y la 2 detrás, en la fila 3; las dos filas caminan hacia fuera hasta el borde y los sanadores recorren su columna entera desde esquinas opuestas (A6 → A1 y F1 → F6). Tanques (Templario, Gladiador) y sanadores (Clérigo, Cantor) van a su hueco según su clase. Con 4 rayos, A1–A2 y F5–F6 no llegan a destaparse: si la segura está ahí, solo se encuentra pisándola.",
   "sim.nombres": "Pegar los nombres de la party",
   "sim.nombres.ph": "Un nombre por línea, en el orden de la lista",
   "sim.nombres.poner": "Poner los nombres",
